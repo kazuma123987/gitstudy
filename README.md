@@ -1,2 +1,2 @@
 # gitstudy
-初学github
+初学github与c语言
