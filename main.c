@@ -3,56 +3,37 @@
 #include"math.h"
 #include"time.h"
 #include"string.h"
-int main(void)
-{
-    int n;
-    char str_0[]="初始化";//使用strcmp一定要初始化
-    char str_1[]="y";
-    char str_2[]="n";
-    srand(time(0));
-    while(1)
-    {
-        n=abs(100*sin(rand()));
-        printf("Want to guess a number? answer y or n.\n");
-jump0:
-        scanf("%s",str_0);
-        if (!strcmp(str_0, str_1))
-        {
-            if(n<50)
-                printf("bigger than 50,n=%d\n",n);
+
+#define MAX_INPUT_SIZE 100
+
+void guessNumber() {
+    while(1) {
+        int n = abs(100 * sin(rand()));
+        printf("Want to guess a number? Answer y or n.\n");
+        char str_0[MAX_INPUT_SIZE];
+        fgets(str_0, MAX_INPUT_SIZE, stdin);
+
+        // remove newline at end, if it exists
+        char* newline = strchr(str_0, '\n');
+        if (newline) *newline = 0;
+
+        if (strcmp(str_0, "y") == 0) {
+            if(n < 50)
+                printf("Bigger than 50, n=%d\n", n);
             else
-                printf("smaller than 50,n=%d\n",n);
-            goto jump1;
+                printf("Smaller than 50, n=%d\n", n);
         }
-        else if(!strcmp(str_0, str_2)) goto jump2;
-        else
-        {
-            printf("Error,just input y or n!");
-            goto jump0;
+        else if(strcmp(str_0, "n") == 0) {
+            break;
+        }
+        else {
+            printf("Error, just input y or n!\n");
         }
     }
-jump1:
-    while(1)
-    {
-        n=abs(100*sin(rand()));
-        printf("Want to guess a number again? answer y or n.\n");
-jump2:
-        scanf("%s",str_0);
-        if (!strcmp(str_0, str_1))
-        {
-            if(n<50)
-                printf("bigger than 50,n=%d\n",n);
-            else
-                printf("smaller than 50,n=%d\n",n);
-            goto jump1;
-        }
-        else if(!strcmp(str_0, str_2)) break;
-        else
-        {
-            printf("Error,just input y or n!");
-            goto jump2;
-        }
-    }
-jump3:
+}
+
+int main(void) {
+    srand(time(0));//time函数是返回一个值，即格林尼治时间1970年1月1日00:00:00到当前时刻的时长，时长单位是秒
+    guessNumber();
     return 0;
 }
