@@ -14,6 +14,7 @@ int main(void)
     {
         n=abs(100*sin(rand()));
         printf("Want to guess a number? answer y or n.\n");
+jump0:
         scanf("%s",str_0);
         if (!strcmp(str_0, str_1))
         {
@@ -24,12 +25,18 @@ int main(void)
             goto jump1;
         }
         else if(!strcmp(str_0, str_2)) goto jump2;
+        else
+        {
+            printf("Error,just input y or n!");
+            goto jump0;
+        }
     }
-    jump1:
+jump1:
     while(1)
     {
         n=abs(100*sin(rand()));
         printf("Want to guess a number again? answer y or n.\n");
+jump2:
         scanf("%s",str_0);
         if (!strcmp(str_0, str_1))
         {
@@ -40,7 +47,12 @@ int main(void)
             goto jump1;
         }
         else if(!strcmp(str_0, str_2)) break;
+        else
+        {
+            printf("Error,just input y or n!");
+            goto jump2;
+        }
     }
-    jump2:
+jump3:
     return 0;
 }
