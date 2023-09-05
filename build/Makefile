@@ -117,78 +117,82 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named static_library
+# Target rules for targets named public1
 
 # Build rule for target.
-static_library: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 static_library
-.PHONY : static_library
+public1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 public1
+.PHONY : public1
 
 # fast build rule for target.
-static_library/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/build
-.PHONY : static_library/fast
+public1/fast:
+	$(MAKE) $(MAKESILENT) -f public/public1/CMakeFiles/public1.dir/build.make public/public1/CMakeFiles/public1.dir/build
+.PHONY : public1/fast
 
 #=============================================================================
-# Target rules for targets named hello_binary
+# Target rules for targets named public2
 
 # Build rule for target.
-hello_binary: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hello_binary
-.PHONY : hello_binary
+public2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 public2
+.PHONY : public2
 
 # fast build rule for target.
-hello_binary/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/build
-.PHONY : hello_binary/fast
+public2/fast:
+	$(MAKE) $(MAKESILENT) -f public/public2/CMakeFiles/public2.dir/build.make public/public2/CMakeFiles/public2.dir/build
+.PHONY : public2/fast
 
-src/Static.obj: src/Static.c.obj
-.PHONY : src/Static.obj
+#=============================================================================
+# Target rules for targets named app1
 
-# target to build an object file
-src/Static.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/src/Static.c.obj
-.PHONY : src/Static.c.obj
+# Build rule for target.
+app1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app1
+.PHONY : app1
 
-src/Static.i: src/Static.c.i
-.PHONY : src/Static.i
+# fast build rule for target.
+app1/fast:
+	$(MAKE) $(MAKESILENT) -f app/app1/CMakeFiles/app1.dir/build.make app/app1/CMakeFiles/app1.dir/build
+.PHONY : app1/fast
 
-# target to preprocess a source file
-src/Static.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/src/Static.c.i
-.PHONY : src/Static.c.i
+#=============================================================================
+# Target rules for targets named app2
 
-src/Static.s: src/Static.c.s
-.PHONY : src/Static.s
+# Build rule for target.
+app2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app2
+.PHONY : app2
 
-# target to generate assembly for a file
-src/Static.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/src/Static.c.s
-.PHONY : src/Static.c.s
+# fast build rule for target.
+app2/fast:
+	$(MAKE) $(MAKESILENT) -f app/app2/CMakeFiles/app2.dir/build.make app/app2/CMakeFiles/app2.dir/build
+.PHONY : app2/fast
 
-src/main.obj: src/main.c.obj
-.PHONY : src/main.obj
+#=============================================================================
+# Target rules for targets named app3
 
-# target to build an object file
-src/main.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/src/main.c.obj
-.PHONY : src/main.c.obj
+# Build rule for target.
+app3: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app3
+.PHONY : app3
 
-src/main.i: src/main.c.i
-.PHONY : src/main.i
+# fast build rule for target.
+app3/fast:
+	$(MAKE) $(MAKESILENT) -f app/app3/CMakeFiles/app3.dir/build.make app/app3/CMakeFiles/app3.dir/build
+.PHONY : app3/fast
 
-# target to preprocess a source file
-src/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/src/main.c.i
-.PHONY : src/main.c.i
+#=============================================================================
+# Target rules for targets named main
 
-src/main.s: src/main.c.s
-.PHONY : src/main.s
+# Build rule for target.
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
-# target to generate assembly for a file
-src/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/src/main.c.s
-.PHONY : src/main.c.s
+# fast build rule for target.
+main/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 # Help Target
 help:
@@ -198,14 +202,12 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... hello_binary"
-	@echo "... static_library"
-	@echo "... src/Static.obj"
-	@echo "... src/Static.i"
-	@echo "... src/Static.s"
-	@echo "... src/main.obj"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... app1"
+	@echo "... app2"
+	@echo "... app3"
+	@echo "... main"
+	@echo "... public1"
+	@echo "... public2"
 .PHONY : help
 
 

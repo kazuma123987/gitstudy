@@ -1,2 +1,0 @@
-C:/MinGW64/13.1.0/bin/ar.exe qc libstatic_library.a CMakeFiles/static_library.dir/src/Static.c.obj
-C:/MinGW64/13.1.0/bin/ranlib.exe libstatic_library.a

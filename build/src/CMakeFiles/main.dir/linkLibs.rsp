@@ -1,0 +1,1 @@
+ ../app/app1/libapp1.a ../app/app2/libapp2.a ../app/app3/libapp3.a ../public/public1/libpublic1.a ../public/public2/libpublic2.a "C:/Users/34181/Desktop/code-demo/gitstudy/lib/libstatic_library.a" -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

@@ -30,10 +30,18 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/WindowsPaths.cmake"
   "C:/Users/34181/Desktop/code-demo/gitstudy/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/app/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/app/app1/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/app/app2/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/app/app3/CMakeLists.txt"
   "CMakeFiles/3.27.4/CMakeCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeRCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeSystem.cmake"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/public/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/public/public1/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/public/public2/CMakeLists.txt"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/src/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -45,10 +53,22 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "public/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "public/public1/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "public/public2/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "app/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "app/app1/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "app/app2/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "app/app3/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/static_library.dir/DependInfo.cmake"
-  "CMakeFiles/hello_binary.dir/DependInfo.cmake"
+  "public/public1/CMakeFiles/public1.dir/DependInfo.cmake"
+  "public/public2/CMakeFiles/public2.dir/DependInfo.cmake"
+  "app/app1/CMakeFiles/app1.dir/DependInfo.cmake"
+  "app/app2/CMakeFiles/app2.dir/DependInfo.cmake"
+  "app/app3/CMakeFiles/app3.dir/DependInfo.cmake"
+  "src/CMakeFiles/main.dir/DependInfo.cmake"
   )

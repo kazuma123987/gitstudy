@@ -63,70 +63,311 @@ CMAKE_BINARY_DIR = C:/Users/34181/Desktop/code-demo/gitstudy/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/static_library.dir/all
-all: CMakeFiles/hello_binary.dir/all
+all: public/all
+all: app/all
+all: src/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: public/preinstall
+preinstall: app/preinstall
+preinstall: src/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/static_library.dir/clean
-clean: CMakeFiles/hello_binary.dir/clean
+clean: public/clean
+clean: app/clean
+clean: src/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/static_library.dir
+# Directory level rules for directory app
 
-# All Build rule for target.
-CMakeFiles/static_library.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=3,4 "Built target static_library"
-.PHONY : CMakeFiles/static_library.dir/all
+# Recursive "all" directory target.
+app/all: app/app1/all
+app/all: app/app2/all
+app/all: app/app3/all
+.PHONY : app/all
 
-# Build rule for subdir invocation for target.
-CMakeFiles/static_library.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/static_library.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
-.PHONY : CMakeFiles/static_library.dir/rule
+# Recursive "preinstall" directory target.
+app/preinstall: app/app1/preinstall
+app/preinstall: app/app2/preinstall
+app/preinstall: app/app3/preinstall
+.PHONY : app/preinstall
 
-# Convenience name for target.
-static_library: CMakeFiles/static_library.dir/rule
-.PHONY : static_library
-
-# clean rule for target.
-CMakeFiles/static_library.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/static_library.dir/build.make CMakeFiles/static_library.dir/clean
-.PHONY : CMakeFiles/static_library.dir/clean
+# Recursive "clean" directory target.
+app/clean: app/app1/clean
+app/clean: app/app2/clean
+app/clean: app/app3/clean
+.PHONY : app/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/hello_binary.dir
+# Directory level rules for directory app/app1
+
+# Recursive "all" directory target.
+app/app1/all: app/app1/CMakeFiles/app1.dir/all
+.PHONY : app/app1/all
+
+# Recursive "preinstall" directory target.
+app/app1/preinstall:
+.PHONY : app/app1/preinstall
+
+# Recursive "clean" directory target.
+app/app1/clean: app/app1/CMakeFiles/app1.dir/clean
+.PHONY : app/app1/clean
+
+#=============================================================================
+# Directory level rules for directory app/app2
+
+# Recursive "all" directory target.
+app/app2/all: app/app2/CMakeFiles/app2.dir/all
+.PHONY : app/app2/all
+
+# Recursive "preinstall" directory target.
+app/app2/preinstall:
+.PHONY : app/app2/preinstall
+
+# Recursive "clean" directory target.
+app/app2/clean: app/app2/CMakeFiles/app2.dir/clean
+.PHONY : app/app2/clean
+
+#=============================================================================
+# Directory level rules for directory app/app3
+
+# Recursive "all" directory target.
+app/app3/all: app/app3/CMakeFiles/app3.dir/all
+.PHONY : app/app3/all
+
+# Recursive "preinstall" directory target.
+app/app3/preinstall:
+.PHONY : app/app3/preinstall
+
+# Recursive "clean" directory target.
+app/app3/clean: app/app3/CMakeFiles/app3.dir/clean
+.PHONY : app/app3/clean
+
+#=============================================================================
+# Directory level rules for directory public
+
+# Recursive "all" directory target.
+public/all: public/public1/all
+public/all: public/public2/all
+.PHONY : public/all
+
+# Recursive "preinstall" directory target.
+public/preinstall: public/public1/preinstall
+public/preinstall: public/public2/preinstall
+.PHONY : public/preinstall
+
+# Recursive "clean" directory target.
+public/clean: public/public1/clean
+public/clean: public/public2/clean
+.PHONY : public/clean
+
+#=============================================================================
+# Directory level rules for directory public/public1
+
+# Recursive "all" directory target.
+public/public1/all: public/public1/CMakeFiles/public1.dir/all
+.PHONY : public/public1/all
+
+# Recursive "preinstall" directory target.
+public/public1/preinstall:
+.PHONY : public/public1/preinstall
+
+# Recursive "clean" directory target.
+public/public1/clean: public/public1/CMakeFiles/public1.dir/clean
+.PHONY : public/public1/clean
+
+#=============================================================================
+# Directory level rules for directory public/public2
+
+# Recursive "all" directory target.
+public/public2/all: public/public2/CMakeFiles/public2.dir/all
+.PHONY : public/public2/all
+
+# Recursive "preinstall" directory target.
+public/public2/preinstall:
+.PHONY : public/public2/preinstall
+
+# Recursive "clean" directory target.
+public/public2/clean: public/public2/CMakeFiles/public2.dir/clean
+.PHONY : public/public2/clean
+
+#=============================================================================
+# Directory level rules for directory src
+
+# Recursive "all" directory target.
+src/all: src/CMakeFiles/main.dir/all
+.PHONY : src/all
+
+# Recursive "preinstall" directory target.
+src/preinstall:
+.PHONY : src/preinstall
+
+# Recursive "clean" directory target.
+src/clean: src/CMakeFiles/main.dir/clean
+.PHONY : src/clean
+
+#=============================================================================
+# Target rules for target public/public1/CMakeFiles/public1.dir
 
 # All Build rule for target.
-CMakeFiles/hello_binary.dir/all: CMakeFiles/static_library.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=1,2 "Built target hello_binary"
-.PHONY : CMakeFiles/hello_binary.dir/all
+public/public1/CMakeFiles/public1.dir/all:
+	$(MAKE) $(MAKESILENT) -f public/public1/CMakeFiles/public1.dir/build.make public/public1/CMakeFiles/public1.dir/depend
+	$(MAKE) $(MAKESILENT) -f public/public1/CMakeFiles/public1.dir/build.make public/public1/CMakeFiles/public1.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=9,10 "Built target public1"
+.PHONY : public/public1/CMakeFiles/public1.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/hello_binary.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/hello_binary.dir/all
+public/public1/CMakeFiles/public1.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 public/public1/CMakeFiles/public1.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
-.PHONY : CMakeFiles/hello_binary.dir/rule
+.PHONY : public/public1/CMakeFiles/public1.dir/rule
 
 # Convenience name for target.
-hello_binary: CMakeFiles/hello_binary.dir/rule
-.PHONY : hello_binary
+public1: public/public1/CMakeFiles/public1.dir/rule
+.PHONY : public1
 
 # clean rule for target.
-CMakeFiles/hello_binary.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_binary.dir/build.make CMakeFiles/hello_binary.dir/clean
-.PHONY : CMakeFiles/hello_binary.dir/clean
+public/public1/CMakeFiles/public1.dir/clean:
+	$(MAKE) $(MAKESILENT) -f public/public1/CMakeFiles/public1.dir/build.make public/public1/CMakeFiles/public1.dir/clean
+.PHONY : public/public1/CMakeFiles/public1.dir/clean
+
+#=============================================================================
+# Target rules for target public/public2/CMakeFiles/public2.dir
+
+# All Build rule for target.
+public/public2/CMakeFiles/public2.dir/all:
+	$(MAKE) $(MAKESILENT) -f public/public2/CMakeFiles/public2.dir/build.make public/public2/CMakeFiles/public2.dir/depend
+	$(MAKE) $(MAKESILENT) -f public/public2/CMakeFiles/public2.dir/build.make public/public2/CMakeFiles/public2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=11,12 "Built target public2"
+.PHONY : public/public2/CMakeFiles/public2.dir/all
+
+# Build rule for subdir invocation for target.
+public/public2/CMakeFiles/public2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 public/public2/CMakeFiles/public2.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
+.PHONY : public/public2/CMakeFiles/public2.dir/rule
+
+# Convenience name for target.
+public2: public/public2/CMakeFiles/public2.dir/rule
+.PHONY : public2
+
+# clean rule for target.
+public/public2/CMakeFiles/public2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f public/public2/CMakeFiles/public2.dir/build.make public/public2/CMakeFiles/public2.dir/clean
+.PHONY : public/public2/CMakeFiles/public2.dir/clean
+
+#=============================================================================
+# Target rules for target app/app1/CMakeFiles/app1.dir
+
+# All Build rule for target.
+app/app1/CMakeFiles/app1.dir/all:
+	$(MAKE) $(MAKESILENT) -f app/app1/CMakeFiles/app1.dir/build.make app/app1/CMakeFiles/app1.dir/depend
+	$(MAKE) $(MAKESILENT) -f app/app1/CMakeFiles/app1.dir/build.make app/app1/CMakeFiles/app1.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=1,2 "Built target app1"
+.PHONY : app/app1/CMakeFiles/app1.dir/all
+
+# Build rule for subdir invocation for target.
+app/app1/CMakeFiles/app1.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/app1/CMakeFiles/app1.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
+.PHONY : app/app1/CMakeFiles/app1.dir/rule
+
+# Convenience name for target.
+app1: app/app1/CMakeFiles/app1.dir/rule
+.PHONY : app1
+
+# clean rule for target.
+app/app1/CMakeFiles/app1.dir/clean:
+	$(MAKE) $(MAKESILENT) -f app/app1/CMakeFiles/app1.dir/build.make app/app1/CMakeFiles/app1.dir/clean
+.PHONY : app/app1/CMakeFiles/app1.dir/clean
+
+#=============================================================================
+# Target rules for target app/app2/CMakeFiles/app2.dir
+
+# All Build rule for target.
+app/app2/CMakeFiles/app2.dir/all: public/public2/CMakeFiles/public2.dir/all
+	$(MAKE) $(MAKESILENT) -f app/app2/CMakeFiles/app2.dir/build.make app/app2/CMakeFiles/app2.dir/depend
+	$(MAKE) $(MAKESILENT) -f app/app2/CMakeFiles/app2.dir/build.make app/app2/CMakeFiles/app2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=3,4 "Built target app2"
+.PHONY : app/app2/CMakeFiles/app2.dir/all
+
+# Build rule for subdir invocation for target.
+app/app2/CMakeFiles/app2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/app2/CMakeFiles/app2.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
+.PHONY : app/app2/CMakeFiles/app2.dir/rule
+
+# Convenience name for target.
+app2: app/app2/CMakeFiles/app2.dir/rule
+.PHONY : app2
+
+# clean rule for target.
+app/app2/CMakeFiles/app2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f app/app2/CMakeFiles/app2.dir/build.make app/app2/CMakeFiles/app2.dir/clean
+.PHONY : app/app2/CMakeFiles/app2.dir/clean
+
+#=============================================================================
+# Target rules for target app/app3/CMakeFiles/app3.dir
+
+# All Build rule for target.
+app/app3/CMakeFiles/app3.dir/all:
+	$(MAKE) $(MAKESILENT) -f app/app3/CMakeFiles/app3.dir/build.make app/app3/CMakeFiles/app3.dir/depend
+	$(MAKE) $(MAKESILENT) -f app/app3/CMakeFiles/app3.dir/build.make app/app3/CMakeFiles/app3.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=5,6 "Built target app3"
+.PHONY : app/app3/CMakeFiles/app3.dir/all
+
+# Build rule for subdir invocation for target.
+app/app3/CMakeFiles/app3.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/app3/CMakeFiles/app3.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
+.PHONY : app/app3/CMakeFiles/app3.dir/rule
+
+# Convenience name for target.
+app3: app/app3/CMakeFiles/app3.dir/rule
+.PHONY : app3
+
+# clean rule for target.
+app/app3/CMakeFiles/app3.dir/clean:
+	$(MAKE) $(MAKESILENT) -f app/app3/CMakeFiles/app3.dir/build.make app/app3/CMakeFiles/app3.dir/clean
+.PHONY : app/app3/CMakeFiles/app3.dir/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/main.dir
+
+# All Build rule for target.
+src/CMakeFiles/main.dir/all: public/public1/CMakeFiles/public1.dir/all
+src/CMakeFiles/main.dir/all: public/public2/CMakeFiles/public2.dir/all
+src/CMakeFiles/main.dir/all: app/app1/CMakeFiles/app1.dir/all
+src/CMakeFiles/main.dir/all: app/app2/CMakeFiles/app2.dir/all
+src/CMakeFiles/main.dir/all: app/app3/CMakeFiles/app3.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles --progress-num=7,8 "Built target main"
+.PHONY : src/CMakeFiles/main.dir/all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 12
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/Users/34181/Desktop/code-demo/gitstudy/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/main.dir/rule
+
+# Convenience name for target.
+main: src/CMakeFiles/main.dir/rule
+.PHONY : main
+
+# clean rule for target.
+src/CMakeFiles/main.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/clean
+.PHONY : src/CMakeFiles/main.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

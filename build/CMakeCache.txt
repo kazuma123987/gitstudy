@@ -112,7 +112,7 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstud
 CMAKE_GNUtoMS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/static_library
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/subprojects
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=C:/MinGW64/13.1.0/bin/ld.exe
@@ -156,7 +156,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=static_library
+CMAKE_PROJECT_NAME:STATIC=subprojects
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=C:/MinGW64/13.1.0/bin/ranlib.exe
@@ -242,13 +242,73 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-static_library_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build
+app1_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/app/app1
 
 //Value Computed by CMake
-static_library_IS_TOP_LEVEL:STATIC=ON
+app1_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-static_library_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy
+app1_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/app/app1
+
+//Value Computed by CMake
+app2_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/app/app2
+
+//Value Computed by CMake
+app2_IS_TOP_LEVEL:STATIC=OFF
+
+//Dependencies for the target
+app2_LIB_DEPENDS:STATIC=general;lib::public2;
+
+//Value Computed by CMake
+app2_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/app/app2
+
+//Value Computed by CMake
+app3_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/app/app3
+
+//Value Computed by CMake
+app3_IS_TOP_LEVEL:STATIC=OFF
+
+//Dependencies for the target
+app3_LIB_DEPENDS:STATIC=general;C:/Users/34181/Desktop/code-demo/gitstudy/lib/libstatic_library.a;
+
+//Value Computed by CMake
+app3_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/app/app3
+
+//Value Computed by CMake
+main_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/src
+
+//Value Computed by CMake
+main_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+main_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/src
+
+//Value Computed by CMake
+public1_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/public/public1
+
+//Value Computed by CMake
+public1_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+public1_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/public/public1
+
+//Value Computed by CMake
+public2_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build/public/public2
+
+//Value Computed by CMake
+public2_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+public2_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/public/public2
+
+//Value Computed by CMake
+subprojects_BINARY_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy/build
+
+//Value Computed by CMake
+subprojects_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+subprojects_SOURCE_DIR:STATIC=C:/Users/34181/Desktop/code-demo/gitstudy
 
 
 ########################
@@ -357,7 +417,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

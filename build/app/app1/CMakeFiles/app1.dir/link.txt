@@ -1,0 +1,2 @@
+C:/MinGW64/13.1.0/bin/ar.exe qc libapp1.a CMakeFiles/app1.dir/app1.c.obj
+C:/MinGW64/13.1.0/bin/ranlib.exe libapp1.a
