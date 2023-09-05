@@ -1,4 +1,5 @@
-project(code-demo);
-aux_source_directory(src SRC_SUB);
-add_executable(demo ${SRC_SUB});
-include_directories(include);
+project(code-demo)
+aux_source_directory(src SRC_SUB)
+aux_source_directory(lib SRC_LIB)
+add_executable(demo ${SRC_SUB} ${SRC_LIB})
+include_directories(lib)
