@@ -1,0 +1,14 @@
+[
+{
+  "directory": "C:/Users/34181/Desktop/code-demo/gitstudy/build",
+  "command": "C:/MinGW64/13.1.0/bin/gcc.exe  @CMakeFiles/static_library.dir/includes_C.rsp -g -o CMakeFiles/static_library.dir/src/Static.c.obj -c C:/Users/34181/Desktop/code-demo/gitstudy/src/Static.c",
+  "file": "C:/Users/34181/Desktop/code-demo/gitstudy/src/Static.c",
+  "output": "CMakeFiles/static_library.dir/src/Static.c.obj"
+},
+{
+  "directory": "C:/Users/34181/Desktop/code-demo/gitstudy/build",
+  "command": "C:/MinGW64/13.1.0/bin/gcc.exe  @CMakeFiles/hello_binary.dir/includes_C.rsp -g -o CMakeFiles/hello_binary.dir/src/main.c.obj -c C:/Users/34181/Desktop/code-demo/gitstudy/src/main.c",
+  "file": "C:/Users/34181/Desktop/code-demo/gitstudy/src/main.c",
+  "output": "CMakeFiles/hello_binary.dir/src/main.c.obj"
+}
+]
