@@ -5,6 +5,4 @@ project (public2)
 add_library(${PROJECT_NAME} public2.c)
 add_library(lib::public2 ALIAS ${PROJECT_NAME})
 
-target_include_directories( ${PROJECT_NAME}
-    PUBLIC ${PROJECT_SOURCE_DIR}
-)
+target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})

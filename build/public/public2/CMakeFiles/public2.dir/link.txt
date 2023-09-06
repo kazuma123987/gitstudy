@@ -1,2 +1,0 @@
-C:/MinGW64/13.1.0/bin/ar.exe qc libpublic2.a CMakeFiles/public2.dir/public2.c.obj
-C:/MinGW64/13.1.0/bin/ranlib.exe libpublic2.a
