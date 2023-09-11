@@ -1,17 +1,23 @@
 #include <stdio.h>
-#include <string.h>
-int main(void)
-{
-    char str_1[] = "abc"; 
-    char str_2[] = "abc";
-    char str_3[] = "ABC";
-    if (strcmp(str_1, str_2) == 0)
-        printf("str_1 is equal to str_2. \n");
-    else
-        printf("str_1 is not equal to str_2. \n");
-    if (strcmp(str_1, str_3) == 0)
-        printf("str_1 is equal to str_3．\n");
-    else
-        printf("str_1 is not equal to str_3．\n");
+
+void printDigits(long long int num) {
+    if (num < 10) {
+        printf("%d ", num);
+        return;
+    }
+
+    printDigits(num / 10);
+    printf("%d ", num % 10);
+}
+
+int main() {
+    long long int num;
+    printf("请输入一个数字: ");
+    scanf("%lld", &num);
+
+    printf("分解后的数字为: ");
+    printDigits(num);
+    printf("\n");
+
     return 0;
 }
