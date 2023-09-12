@@ -7,6 +7,7 @@ void printnum()
     printf("请输入水仙花数的位数(3到7之间)：\n");
     scanf("%d", &N);
     num = pow(10, N - 1);
+    //用数组简化n次幂运算步骤
     int power_of_digits[10];
     for (i = 0; i < 10; i++)
     {
