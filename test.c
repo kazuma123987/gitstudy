@@ -1,23 +1,26 @@
 #include <stdio.h>
+#include <math.h>
 
-void printDigits(long long int num) {
-    if (num < 10) {
-        printf("%d ", num);
-        return;
+void printPrime(int num) {
+    int count = 1;
+    int limit = sqrt(num);
+    for (int i = 2; i <= limit; i++) {
+        if (num % i == 0) {
+            count++;
+            break;
+        }
     }
-
-    printDigits(num / 10);
-    printf("%d ", num % 10);
+    if (count == 1) {
+        printf("%d, ", num);
+    }
 }
 
+#define LIMIT 100
+
 int main() {
-    long long int num;
-    printf("请输入一个数字: ");
-    scanf("%lld", &num);
-
-    printf("分解后的数字为: ");
-    printDigits(num);
-    printf("\n");
-
+    for (int i = 2; i <= LIMIT; i++) {
+        printPrime(i);
+    }
+    printf("是素数\n");
     return 0;
 }
