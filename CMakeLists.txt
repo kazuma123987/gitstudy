@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.10)
 project(code-demo)
 aux_source_directory(src SRC_SUB)
 aux_source_directory(lib SRC_LIB)
