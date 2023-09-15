@@ -1,23 +1,25 @@
 #include <stdio.h>
 
-void frac_sum()
+void frac_simplify()
 {
-    int N,t=0,num1=2,num2=1;
-    double sum=0;
-    printf("输入N的值：");
-    scanf("%d",&N);
-    for(int i=1;i<=N;i++)
+    int remainder,numerator,denominator;
+    printf("请输入分子和分母的值：\n");
+    scanf("%d/%d",&numerator,&denominator);
+    int num=numerator,den=denominator;
+    while(denominator!=0)
     {
-        sum+=num1*1.0/num2;
-        t=num2;
-        num2=num1;
-        num1+=t;
+        remainder=numerator%denominator;
+        numerator=denominator;
+        denominator=remainder;
     }
-    printf("2/1+3/2+5/3+8/5...的前%d项和为：%.2lf\n",N,sum);
+    num/=numerator;
+    den/=numerator;
+    if(num%den==0)printf("%d",num/den);
+    else printf("%d/%d\n",num,den);
 }
 
 int main()
 {
-    frac_sum();
+    frac_simplify();
     return 0;
 }
