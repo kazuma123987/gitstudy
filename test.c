@@ -1,25 +1,40 @@
 #include <stdio.h>
 
-void frac_simplify()
+void print_pinyin(int n)
 {
-    int remainder,numerator,denominator;
-    printf("请输入分子和分母的值：\n");
-    scanf("%d/%d",&numerator,&denominator);
-    int num=numerator,den=denominator;
-    while(denominator!=0)
+    static const char *pinyin[] = {"ling", "yi", "er", "san", "si", "wu", "liu", "qi", "ba", "jiu"};
+
+    if (n >= 10)
     {
-        remainder=numerator%denominator;
-        numerator=denominator;
-        denominator=remainder;
+        print_pinyin(n / 10);
+        printf(" ");
     }
-    num/=numerator;
-    den/=numerator;
-    if(num%den==0)printf("%d",num/den);
-    else printf("%d/%d\n",num,den);
+
+    printf("%s", pinyin[n % 10]);
+}
+
+void num_pinyin(int n)
+{
+    if (n == 0)
+    {
+        printf("ling");
+        return;
+    }
+
+    if (n < 0)
+    {
+        printf("fu ");
+        n = -n;
+    }
+
+    print_pinyin(n);
 }
 
 int main()
 {
-    frac_simplify();
+    int n;
+    printf("请输入一个数字：\n");
+    scanf("%d", &n);
+    num_pinyin(n);
     return 0;
 }
