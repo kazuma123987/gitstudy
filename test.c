@@ -1,27 +1,37 @@
 #include <stdio.h>
-void fun()
+
+void findNumber(int number, int array[], int size)
 {
-    int n = 0;
-    int count[10];
-    for(int i=0;i<10;i++)count[i]=0;
-    printf("input a number(0-9),the program will stop when you input '-1'\n");
-    scanf("%d", &n);
-    while (n != -1)
+    int count=0;
+    int pos[size];
+    for(int i=0;i<size;i++)
     {
-        if (n > 9 || n < 0)
+        if(array[i]==number)
         {
-            printf("input 0-9 or -1!!!\n");
+            pos[count]=i;
+            count++;
         }
-        else count[n]++;
-        scanf("%d", &n);
     }
-    for(int i=0;i<10;i++)
+    if(count==0)printf("数字不存在于此数组！");
+    else
     {
-        printf("输入%d的个数:\t%d\n",i,count[i]);
+        printf("数字%d在数组的第",number);
+        for(int i=0;i<count;i++)
+        {
+            printf("%d",pos[i]+1);
+            if(i<count-1)printf(", ");
+        }
+        printf("个位置处\n");
     }
 }
+
 int main()
 {
-    fun();
+    int array[] = {13, 13, 445, 66, 7, 7, 5, 3, 1, 9, 76, 13, 144, 245, 4, 7};
+    int size = sizeof(array) / sizeof(array[0]);
+    int number;
+    printf("请输入一个数字: ");
+    scanf("%d", &number);
+    findNumber(number, array, size); 
     return 0;
 }
