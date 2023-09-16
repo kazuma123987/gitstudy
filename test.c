@@ -1,37 +1,38 @@
 #include <stdio.h>
 
-void findNumber(int number, int array[], int size)
+int isPrime(int number, int prime[], int count)
 {
-    int count=0;
-    int pos[size];
-    for(int i=0;i<size;i++)
+    int ret = 1;
+    for (int i = 0; i < count; i++)
     {
-        if(array[i]==number)
+        if (number % prime[i] == 0)
         {
-            pos[count]=i;
-            count++;
+            ret = 0;
+            break;
         }
     }
-    if(count==0)printf("数字不存在于此数组！");
-    else
-    {
-        printf("数字%d在数组的第",number);
-        for(int i=0;i<count;i++)
-        {
-            printf("%d",pos[i]+1);
-            if(i<count-1)printf(", ");
-        }
-        printf("个位置处\n");
-    }
+    return ret;
 }
 
 int main()
 {
-    int array[] = {13, 13, 445, 66, 7, 7, 5, 3, 1, 9, 76, 13, 144, 245, 4, 7};
-    int size = sizeof(array) / sizeof(array[0]);
-    int number;
-    printf("请输入一个数字: ");
-    scanf("%d", &number);
-    findNumber(number, array, size); 
+    const int maxsize = 100;
+    int prime[maxsize];
+    prime[0]=2;
+    int count = 1, i = 3;
+    while (count != maxsize)
+    {
+        if (isPrime(i, prime, count))
+        {
+            prime[count++] = i;
+        }
+        i++;
+    }
+    printf("连续的%d个素数:\n",maxsize);
+    for(int i=0;i<maxsize;i++)
+    {
+    printf("%d",prime[i]);
+    if(i<maxsize-1)printf(", ");
+    }
     return 0;
 }
