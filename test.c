@@ -1,40 +1,15 @@
 #include <stdio.h>
-
-void print_pinyin(int n)
+void num()
 {
-    static const char *pinyin[] = {"ling", "yi", "er", "san", "si", "wu", "liu", "qi", "ba", "jiu"};
-
-    if (n >= 10)
-    {
-        print_pinyin(n / 10);
-        printf(" ");
-    }
-
-    printf("%s", pinyin[n % 10]);
-}
-
-void num_pinyin(int n)
-{
-    if (n == 0)
-    {
-        printf("ling");
-        return;
-    }
-
-    if (n < 0)
-    {
-        printf("fu ");
-        n = -n;
-    }
-
-    print_pinyin(n);
+    char a=127;//char可表示整数，其范围为-128~127
+    unsigned char b=127;//unsigned char范围为0~255
+    a++;
+    b++;
+    printf("a=%d,b=%d\n", a,b);//对于char类型，127+1=-128（越界），-128-1=127
 }
 
 int main()
 {
-    int n;
-    printf("请输入一个数字：\n");
-    scanf("%d", &n);
-    num_pinyin(n);
+    num();
     return 0;
 }
