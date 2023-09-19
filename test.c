@@ -4,14 +4,12 @@
 
 int main(void) 
 {
-    char *str1="Hello,World!";
-    char *str2="Hello,World!";
-    str1[0]='B';                //使用指针初始化字符串时不能给字符串赋值，相当于const char *str1
-    //两个不同的指针指向同一个地址
+    char str1[4];
+    char str2[4];
+    scanf("%s",str1);
+    scanf("%s",str2);
     printf("%p\n",str1);
     printf("%p\n",str2);
-
-    char str[]="Hello,World!";
-    str[0]='B';                 //使用数组初始化的字符串能赋值
-    printf("%p\n",str);         //数组初始化字符串的地址和指针初始化字符串地址不同，且长度不同
+    printf("%p\n",&str2[1]);
+    printf("%s##%s##",str1,str2);//字符串越界后若后面有要使用的地址则会输出长度为sizeof(input_str)-sizeof(str)的字符串
 }
