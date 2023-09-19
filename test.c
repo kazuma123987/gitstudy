@@ -2,25 +2,16 @@
 #include <stdlib.h>
 #include<string.h>
 
-int main(void) {
-    //一般在C99之前定义数组时不能写为int array[N],数组括号内只能是常数，此时只能通过int *arrey=(int *)malloc(N*sizeof(int))来定义数组
-    size_t numBytes = 10;  // 分配的字节数
-    int* array = (int*)malloc(numBytes);
-    void *p=malloc(1024*1024);//这里malloc(1)表示申请1Byte的数据给p存储，1024*1024则是1MByte的数据，p可以表示大小为1024*1024/sizeof(p)的数组
-    if (array == NULL) {
-        printf("内存分配失败\n");
-        return 1;
-    }
-    // 释放内存
-    free(array);
-    free(p);
-    //字符数组与字符串
-    char str[]="abc!";            //字符串的最简定义方式
-    char str1[]={'a','b','c','!'};//数组最后一个元素不是0或者'\0',这个是字符数组，不能做字符串的运算
-    /*注意'\0',0,'0'三者是不一样的，其中'\0'和0都是在字符串中看不见的，标志字符串结束，而'0'是字符串中可见的*/
-    char str2[]={'a','b','c','!','\0'};//数组最后一个元素是0或者'\0',这个是字符串
-    printf("strlen(str)=%d\n",strlen(str));
-    printf("strlen(str1)=%d\n",strlen(str1));
-    printf("sizeof(str)=%d,sizeof(str1)=%d,sizeof(str2)=%d,\n",sizeof(str),sizeof(str1),sizeof(str2));
-    return 0;
+int main(void) 
+{
+    char *str1="Hello,World!";
+    char *str2="Hello,World!";
+    str1[0]='B';                //使用指针初始化字符串时不能给字符串赋值，相当于const char *str1
+    //两个不同的指针指向同一个地址
+    printf("%p\n",str1);
+    printf("%p\n",str2);
+
+    char str[]="Hello,World!";
+    str[0]='B';                 //使用数组初始化的字符串能赋值
+    printf("%p\n",str);         //数组初始化字符串的地址和指针初始化字符串地址不同，且长度不同
 }
