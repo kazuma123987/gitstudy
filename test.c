@@ -17,7 +17,8 @@ int main(void) {
     //字符数组与字符串
     char str[]="abc!";            //字符串的最简定义方式
     char str1[]={'a','b','c','!'};//数组最后一个元素不是0或者'\0',这个是字符数组，不能做字符串的运算
-    char str2[]={'a','b','c','!',0};//数组最后一个元素是0或者'\0',这个是字符串
+    /*注意'\0',0,'0'三者是不一样的，其中'\0'和0都是在字符串中看不见的，标志字符串结束，而'0'是字符串中可见的*/
+    char str2[]={'a','b','c','!','\0'};//数组最后一个元素是0或者'\0',这个是字符串
     printf("strlen(str)=%d\n",strlen(str));
     printf("strlen(str1)=%d\n",strlen(str1));
     printf("sizeof(str)=%d,sizeof(str1)=%d,sizeof(str2)=%d,\n",sizeof(str),sizeof(str1),sizeof(str2));
