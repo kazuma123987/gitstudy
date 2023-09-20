@@ -1,15 +1,30 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include<string.h>
+#include <string.h>
 
-int main(void) 
+void fgets_check(char *str, size_t size)
 {
-    char str1[4];
-    char str2[4];
-    scanf("%s",str1);
-    scanf("%s",str2);
-    printf("%p\n",str1);
-    printf("%p\n",str2);
-    printf("%p\n",&str2[1]);
-    printf("%s##%s##",str1,str2);//字符串越界后若后面有要使用的地址则会输出长度为sizeof(input_str)-sizeof(str)的字符串
+    // 检查是否输入的字符串超过了最大长度
+    if (strlen(str) == size - 1 && str[size - 2] != '\n')
+    {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF)
+        {
+            // 丢弃剩余的字符
+        }
+    }
+}
+int main()
+{
+    const int maxsize = 4;
+    char str1[maxsize]; // 用于存储输入的字符串的字符数组
+    char str2[maxsize];
+    printf("请输入字符串：");
+    fgets(str1, maxsize, stdin); // 从标准输入读取字符串
+    fgets_check(str1, sizeof(str1));
+
+    fgets(str2, maxsize, stdin);
+    fgets_check(str2, sizeof(str2));
+    printf("%s##%s##\n", str1, str2);
+
+    return 0;
 }
