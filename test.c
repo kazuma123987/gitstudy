@@ -15,16 +15,11 @@ void fgets_check(char *str, size_t size)
 }
 int main()
 {
-    const int maxsize = 4;
-    char str1[maxsize]; // 用于存储输入的字符串的字符数组
-    char str2[maxsize];
-    printf("请输入字符串：");
-    fgets(str1, maxsize, stdin); // 从标准输入读取字符串
-    fgets_check(str1, sizeof(str1));
-
-    fgets(str2, maxsize, stdin);
-    fgets_check(str2, sizeof(str2));
-    printf("%s##%s##\n", str1, str2);
-
+    char str2[]="Abcd";//9-13
+    char str1[2];//11-12
+    printf("%p\n",str1);
+    printf("%p\n",str2);
+    printf("%s\n",strcpy(str1,str2));//注意定义时先定义str1,或者str1长度大于str2,否则会出现重合
+    printf("%s\n",str2);//重合后影响str2的值
     return 0;
 }
