@@ -1,48 +1,48 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "student.h"
-void write(FILE *fp,int num);
-int myscanf(void *p,int size,int mode);//sizeä»£è¡¨è¾“å…¥æ•°å­—çš„å­—èŠ‚æ•°,modeä¸º1æ˜¯boolç±»å‹è¾“å…¥,modeä¸º2æ˜¯æ•´æ•°ç±»å‹è¾“å…¥,modeä¸º3æ˜¯å­—ç¬¦ä¸²è¾“å…¥
-int main(void) {
-    FILE *fp=NULL;
-    fp=fopen("./student.data","r+");
-    if(fp)
+#include <stdint.h>
+#define ADRESS_LENTH 100
+int main(void)
+{
+    FILE *fp = NULL;
+    char addr_str[ADRESS_LENTH];
+    printf("ÇëÊäÈëÊı¾İÎÄ¼şËùÔÚµØÖ·:");
+    myscanf_char(addr_str, sizeof(addr_str));
+    fp = fopen(addr_str, "r+");
+    if (fp)
     {
-        int student_num=0;
-        printf("è¯·è¾“å…¥æƒ³è¦å½•å…¥çš„å­¦ç”Ÿæ•°æ®ä¸ªæ•°\n");
-        while(myscanf(&student_num,1,2));
-        write(fp,student_num);
+        printf("ÎÄ¼ş´ò¿ª³É¹¦£¡\n");
+        int8_t student_operand;
+        while (1)
+        {
+            printf("»¶Ó­½øÈëÑ§ÉúÊı¾İ¹ÜÀíÏµÍ³,ÇëÊäÈëÄãÏë½øĞĞµÄ²Ù×÷:\n1.Ğ´ÈëĞÅÏ¢ 2.²éÕÒĞÅÏ¢ 3.ÍË³öÏµÍ³\n");
+            myscanf_int(&student_operand, 1);
+            if (student_operand == 1)
+            {
+                if (student_write(&fp) == 0)
+                    printf("ÎÄ¼şĞ´Èë³É¹¦!\n");
+                else
+                    printf("ÎÄ¼şĞ´ÈëÊ§°Ü£¡\n");
+            }
+            else if (student_operand == 2)
+            {
+                if (student_read(&fp) == 0)
+                    printf("ÎÄ¼ş¶ÁÈ¡³É¹¦!\n");
+                else
+                    printf("ÎÄ¼ş¶ÁÈ¡Ê§°Ü£¡\n");
+            }
+            else if (student_operand == 3)
+            {
+                printf("ÏµÍ³ÍË³ö³É¹¦!\n");
+                break;
+            }
+            else
+                printf("ÊäÈëµÄÊı×ÖÎŞĞ§,ÇëÖØĞÂÊäÈë£¡\n");
+        }
         fclose(fp);
     }
-    else printf("æ–‡ä»¶æ‰“å¼€é”™è¯¯ï¼\n");
-    return 0;
-}
-void write(FILE *fp,int num)
-{
-    student std[num];
-    for(int i=0;i<num;i++)
-    {
-        printf("è¯·è¾“å…¥å­¦ç”Ÿå§“å:\n");
-        
-        printf("è¯·è¾“å…¥å­¦ç”Ÿæ€§åˆ«(0->ç”·,1->å¥³):\n");
-        
-        printf("è¯·è¾“å…¥å­¦ç”Ÿå¹´é¾„:\n");
-        myscanf(&std[i].age,1);
-    }
-}
-int myscanf(void *p,int size,int mode)
-{
-    if(size<=4&&size>0)size++;
     else
-    {
-        printf("sizeåº”åœ¨åŒºé—´(0,4]\n");
-        return 1;
-    }
-    char str[size];
-    fgets(str,sizeof(str),stdin);
-    while(getchar()!='\n');
-    str[strcspn(str,"\n")]='\0';
-    *p=atoi(str);
+        printf("ÎÄ¼ş´ò¿ª´íÎó£¡\n");
+    getchar();
     return 0;
 }
