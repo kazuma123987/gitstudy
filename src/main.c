@@ -1,6 +1,7 @@
-#include"stdio.h"
-#include "guessNumber.h"
+#include <stdio.h>
+#include "student.h"
+
 int main(void) {
-    guessNumber();
+    printf("%d",sizeof(student));
     return 0;
 }
