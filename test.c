@@ -8,16 +8,12 @@
 反之则为大端序，一般计算机采用小端序这样更容易处理符号位（补码），而网络序一般
 为大端序，这样更如何人的自然阅读顺序
 ---------------------------------------------------------------*/
+void f(void *a)
+{
+   printf("%d",sizeof(*a));
+}
 int main()
 {
-   int a=0x12345678;
-   char *c=(char *)&a;
-   printf("%p: ",c);
-   printf("%hhx\n",*c);
-   printf("%p: ",c+1);
-   printf("%hhx\n",*(c+1));
-   printf("%p: ",c+2);
-   printf("%hhx\n",*(c+2));
-   printf("%p: ",c+3);
-   printf("%hhx\n",*(c+3));
+   int *a;
+   f(a);
 }
