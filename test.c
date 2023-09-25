@@ -102,7 +102,7 @@ void add_terms(int coef, int expon, List *list)
                q->next = newNode;
                newNode->next = p;
             }
-            break;
+            break;//添加完节点退出循环
          }
          else if (p->expon == expon)//如果遍历到了和新节点指数相等的节点
          {
@@ -125,6 +125,7 @@ void add_terms(int coef, int expon, List *list)
                   free(p1);
                }
             }
+            break;//添加完节点退出循环
          }
       }
    }
