@@ -4,73 +4,88 @@
 #include "stdint.h"
 #include "stdbool.h"
 #include "conio.h"
-#define stack_size 2000
-typedef struct{
+#include <assert.h>
+// 节点
+typedef struct _node
+{
+   int data;
+   struct _node *next;
+} Node;
+// 栈
+typedef struct _stack
+{
    int size;
-   int16_t data[0];//可变长度的数组
-}arrey_stack;
-//创建新栈
-void create_stack(arrey_stack **s)
+   Node *top;
+} linkedlist_stack;
+// 创建新栈
+linkedlist_stack *create_stack()
 {
-   *s=malloc(sizeof(arrey_stack)+stack_size);
-   (*s)->size=0;
+   linkedlist_stack *s = malloc(sizeof(linkedlist_stack));
+   s->top = malloc(sizeof(Node));
+   s->top->next = NULL;
+   s->top->data = EOF; // 头节点不存放数据
+   s->size = 0;
+   return s;
 }
-//清除栈
-void free_stack(arrey_stack **s)
+// 清理栈
+void free_stack(linkedlist_stack **s)
 {
-   free(*s);
-   *s=NULL;
+   while ((*s)->top)//清理节点
+   {
+      Node *n = (*s)->top->next;
+      free((*s)->top);
+      (*s)->top = n;
+   }
+   free(*s);//清理栈
+   *s = NULL;
 }
-//入栈
-void push_stack(arrey_stack *s,int16_t data)
+// 入栈
+void push_stack(linkedlist_stack *s, int data)
 {
-   if(s->size<stack_size) s->data[s->size++]=data;
-   else printf("栈已满\n");
+   Node *newNode = malloc(sizeof(Node));
+   newNode->data = data;
+   if (s->top->next == NULL)
+   {
+      newNode->next = NULL;
+      s->top->next = newNode;
+      s->size++;
+      return;
+   }
+   newNode->next = s->top->next;
+   s->top->next = newNode;
+   s->size++;
 }
-//查看栈顶元素
-int16_t peek_stack(arrey_stack *s)
+// 出栈
+int pop_stack(linkedlist_stack *s)
 {
-   if(s->size!=0)
-   return s->data[s->size-1];
+   int ret = 0;
+   if (s->size > 0)
+   {
+      Node *n = s->top->next;
+      ret = n->data;
+      s->top->next = s->top->next->next;
+      free(n);
+      s->size--;
+   }
    else
    {
       printf("栈已空\n");
-      return EOF;
+      ret = EOF;
    }
+   return ret;
 }
-//出栈
-int16_t pop_stack(arrey_stack *s)
-{
-   if(s->size>0)
-   {
-      return s->data[--s->size];
-   }
-   else
-   {
-      printf("栈已空\n");
-      return EOF;
-   }
-}
-//判断栈是否为空
-bool isEmpty(arrey_stack *s)
-{
-   return s->size==0;
-}
-//返回栈的长度
-int size(arrey_stack *s)
+// 返回栈的长度
+int size_stack(linkedlist_stack *s)
 {
    return s->size;
 }
 int main()
 {
-   int a=0;
-   arrey_stack *S1=NULL;
-   create_stack(&S1);
-   push_stack(S1,1);
-   push_stack(S1,2);
-   while(S1->size)
-   {
-   printf("%d ",pop_stack(S1));
-   }
-   free_stack(&S1);
+   linkedlist_stack *s1 = create_stack();
+   push_stack(s1, 1);
+   push_stack(s1, 2);
+   push_stack(s1, 3);
+   push_stack(s1, 4);
+   push_stack(s1, 5);
+   free_stack(&s1);
 }
