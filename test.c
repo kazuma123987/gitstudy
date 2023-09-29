@@ -2,35 +2,75 @@
 #include "stdlib.h"
 #include "string.h"
 #include "stdint.h"
+#include "stdbool.h"
 #include "conio.h"
-#define password_size 20
-void input_key(char key[])
+#define stack_size 2000
+typedef struct{
+   int size;
+   int16_t data[0];//可变长度的数组
+}arrey_stack;
+//创建新栈
+void create_stack(arrey_stack **s)
 {
-   char ch=0;
-   unsigned int i=0;
-   while((ch=_getch())!='\r')//_getch是windows API中conio.h中的函数，是getch的优化(优化后支持更多编译器)
-   //相比于getchar,_getch不会在屏幕上显示stdin流的信息，称为无回显输入,注意只有windows平台上能使用
+   *s=malloc(sizeof(arrey_stack)+stack_size);
+   (*s)->size=0;
+}
+//清除栈
+void free_stack(arrey_stack **s)
+{
+   free(*s);
+   *s=NULL;
+}
+//入栈
+void push_stack(arrey_stack *s,int16_t data)
+{
+   if(s->size<stack_size) s->data[s->size++]=data;
+   else printf("栈已满\n");
+}
+//查看栈顶元素
+int16_t peek_stack(arrey_stack *s)
+{
+   if(s->size!=0)
+   return s->data[s->size-1];
+   else
    {
-      if(ch=='\b'&&i>0)
-      {
-         key[--i]='\0';//删除上一次输入的信息
-         putchar('\b');//光标退格
-         putchar(' ');//空格删除上一次输出的信息，之后光标到下一格
-         putchar('\b');//光标退格
-      }
-      else if(ch>='0'&&ch<='9'&&i<password_size)//仅允许输入0-9或回车键，且密码长度满了后无法输入
-      {
-         key[i++]=ch;
-         putchar('*');
-      }
+      printf("栈已空\n");
+      return EOF;
    }
-   key[i]='\0';
+}
+//出栈
+int16_t pop_stack(arrey_stack *s)
+{
+   if(s->size>0)
+   {
+      return s->data[--s->size];
+   }
+   else
+   {
+      printf("栈已空\n");
+      return EOF;
+   }
+}
+//判断栈是否为空
+bool isEmpty(arrey_stack *s)
+{
+   return s->size==0;
+}
+//返回栈的长度
+int size(arrey_stack *s)
+{
+   return s->size;
 }
 int main()
 {
-   char key[password_size+1];//保证密码长度能达到20
-   printf("input the key,press 'enter' to exit\npassword:");
-   input_key(key);
-   printf("\npassword:%s",key);
-   return 0;
+   int a=0;
+   arrey_stack *S1=NULL;
+   create_stack(&S1);
+   push_stack(S1,1);
+   push_stack(S1,2);
+   while(S1->size)
+   {
+   printf("%d ",pop_stack(S1));
+   }
+   free_stack(&S1);
 }
