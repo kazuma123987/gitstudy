@@ -23,7 +23,7 @@ linkedlist_stack *create_stack()
    linkedlist_stack *s = malloc(sizeof(linkedlist_stack));
    s->top = malloc(sizeof(Node));
    s->top->next = NULL;
-   s->top->data = EOF; // 头节点不存放数据
+   s->top->data = EOF; // 栈底不存放数据
    s->size = 0;
    return s;
 }
@@ -44,15 +44,8 @@ void push_stack(linkedlist_stack *s, int data)
 {
    Node *newNode = malloc(sizeof(Node));
    newNode->data = data;
-   if (s->top->next == NULL)
-   {
-      newNode->next = NULL;
-      s->top->next = newNode;
-      s->size++;
-      return;
-   }
-   newNode->next = s->top->next;
-   s->top->next = newNode;
+   newNode->next = s->top;
+   s->top = newNode;
    s->size++;
 }
 // 出栈
@@ -61,9 +54,9 @@ int pop_stack(linkedlist_stack *s)
    int ret = 0;
    if (s->size > 0)
    {
-      Node *n = s->top->next;
+      Node *n = s->top;
       ret = n->data;
-      s->top->next = s->top->next->next;
+      s->top = n->next;
       free(n);
       s->size--;
    }
@@ -79,6 +72,11 @@ int size_stack(linkedlist_stack *s)
 {
    return s->size;
 }
+//返回栈顶数据
+int peek_stack(linkedlist_stack *s)
+{
+   return s->top->data;
+}
 int main()
 {
    linkedlist_stack *s1 = create_stack();
@@ -87,5 +85,10 @@ int main()
    push_stack(s1, 3);
    push_stack(s1, 4);
    push_stack(s1, 5);
+   printf("%d\n",peek_stack(s1));
+   while(s1->size)
+   {
+      printf("%d ",pop_stack(s1));
+   }
    free_stack(&s1);
 }
