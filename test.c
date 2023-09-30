@@ -1,94 +1,72 @@
 #include <stdio.h>
-#include "stdlib.h"
-#include "string.h"
-#include "stdint.h"
-#include "stdbool.h"
-#include "conio.h"
-#include <assert.h>
-// 节点
-typedef struct _node
+#include <stdlib.h>
+#include <stdbool.h>
+#include <limits.h>
+//默认为顺环队列
+typedef struct _quene
 {
-   int data;
-   struct _node *next;
-} Node;
-// 栈
-typedef struct _stack
+   int front;//队首
+   int rear;//队尾+1，无数据
+   int queCapacity;//队列大小，实际能放的元素为大小-1
+   int data[0];//队列元素
+}arrey_quene;
+//创造队列
+arrey_quene *create_quene(int capacity)
 {
-   int size;
-   Node *top;
-} linkedlist_stack;
-// 创建新栈
-linkedlist_stack *create_stack()
-{
-   linkedlist_stack *s = malloc(sizeof(linkedlist_stack));
-   s->top = malloc(sizeof(Node));
-   s->top->next = NULL;
-   s->top->data = EOF; // 栈底不存放数据
-   s->size = 0;
-   return s;
+   arrey_quene *q=malloc(sizeof(arrey_quene)+capacity);//实际能放的元素为大小-1
+   q->front=q->rear=0;
+   q->queCapacity=capacity;
+   return q;
 }
-// 清理栈
-void free_stack(linkedlist_stack **s)
+//删除队列
+void free_quene(arrey_quene **q)
 {
-   while ((*s)->top)//清理节点
+   free(*q);
+   *q=NULL;
+}
+//入队
+void push_quene(arrey_quene *q,int data)
+{
+   if((q->rear+1)%(q->queCapacity)==q->front)printf("队列已满\n");
+   else 
    {
-      Node *n = (*s)->top->next;
-      free((*s)->top);
-      (*s)->top = n;
+      q->data[q->rear]=data;
+      q->rear=(q->rear+1)%q->queCapacity;
    }
-   free(*s);//清理栈
-   *s = NULL;
 }
-// 入栈
-void push_stack(linkedlist_stack *s, int data)
+//出队
+int pop_quene(arrey_quene *q)
 {
-   Node *newNode = malloc(sizeof(Node));
-   newNode->data = data;
-   newNode->next = s->top;
-   s->top = newNode;
-   s->size++;
-}
-// 出栈
-int pop_stack(linkedlist_stack *s)
-{
-   int ret = 0;
-   if (s->size > 0)
+   if(q->rear==q->front)
    {
-      Node *n = s->top;
-      ret = n->data;
-      s->top = n->next;
-      free(n);
-      s->size--;
+      printf("队列已空");
+      return INT_MAX;
    }
-   else
+   else 
    {
-      printf("栈已空\n");
-      ret = EOF;
+      int ret=q->data[q->front];
+      q->front=(q->front+1)%q->queCapacity;
+      return ret;
    }
-   return ret;
 }
-// 返回栈的长度
-int size_stack(linkedlist_stack *s)
+//判断队列是否为空
+bool isEmpty(arrey_quene *q)
 {
-   return s->size;
+   return q->front==q->rear;
 }
-//返回栈顶数据
-int peek_stack(linkedlist_stack *s)
+//返回队列最大容量
+int quene_cap(arrey_quene *q)
 {
-   return s->top->data;
+   return (q->queCapacity-1);
 }
-int main()
+int main(int argc,char *args[])
 {
-   linkedlist_stack *s1 = create_stack();
-   push_stack(s1, 1);
-   push_stack(s1, 2);
-   push_stack(s1, 3);
-   push_stack(s1, 4);
-   push_stack(s1, 5);
-   printf("%d\n",peek_stack(s1));
-   while(s1->size)
-   {
-      printf("%d ",pop_stack(s1));
-   }
-   free_stack(&s1);
+   arrey_quene *q=create_quene(4);
+   push_quene(q,1);
+   push_quene(q,2);
+   push_quene(q,3);
+   push_quene(q,4);
+   while(!isEmpty(q))printf("%d ",pop_quene(q));
+   free_quene(&q);
+   return 0;
 }
