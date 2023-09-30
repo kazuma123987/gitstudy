@@ -3,101 +3,147 @@
 #include <stdbool.h>//bool,true,false
 #include <limits.h>//INT_MAX
 #include <string.h>//memcpy,strcat...
-#define data_size 4
-//定义存放数据的结构体
-typedef struct{
-   int num;
-   char data[data_size];
-}Data;
-//定义双向队列(double-ended quene)
+//定义节点
+typedef struct _node
+{
+   int data;
+   struct _node *pre;//前一个节点
+   struct _node *next;//后一个节点
+}Node;
+//定义双向队列
 typedef struct _deque
 {
-   int front;//指向头节点
-   int rear;//指向没有数据的尾节点
-   int captacity;//双向队列容量
-   Data data[0];//数据存放区
+   int size;
+   Node *front;
+   Node *rear;
 }deque;
-//创造新的双向队列
-deque *create_deque(int captacity)
+//创建双向队列
+deque *create_deque()
 {
-   deque *q=malloc(sizeof(deque)+sizeof(Data)*captacity);//只能存放captacity-1个数据
-   q->front=q->rear=0;
-   q->captacity=captacity;
-   return q;
+   deque *q=malloc(sizeof(deque));
+   q->front=q->rear=NULL;
+   q->size=0;
+}
+//清除双向队列空间
+void free_deque(deque **q)
+{
+   for(Node *cur=(*q)->front,*del=NULL;cur;del=cur,cur=cur->next)
+      free(del);
+   free(*q);
+   *q=NULL;
 }
 //队首入队
-void push_front(deque *q,char *data,int num)
+void push_front(deque *q,int data)
 {
-   if((q->rear+1)%q->captacity==q->front)
+   //创建新节点
+   Node *newNode=malloc(sizeof(Node));
+   newNode->data=data;
+   newNode->pre=NULL;
+   //连接节点
+   if(q->front==NULL)
    {
-      printf("双向队列已满\n");
+      newNode->next=NULL;
+      q->front=q->rear=newNode;
+      q->size++;
       return;
    }
-   q->front=(q->front+q->captacity-1)%q->captacity;
-   memcpy(q->data[q->front].data,data,data_size-1);
-   q->data[q->front].data[data_size-1]='\0';
-   q->data[q->front].num=num;
+   q->front->pre=newNode;
+   newNode->next=q->front;
+   q->front=newNode;
+   //更新队列长度
+   q->size++;
 }
 //队尾入队
-void push_rear(deque *q,char *data,int num)
+void push_rear(deque *q,int data)
 {
-   if((q->rear+1)%q->captacity==q->front)
+   //创建新节点
+   Node *newNode=malloc(sizeof(Node));
+   newNode->data=data;
+   newNode->next=NULL;
+   //连接节点
+   if(q->front==NULL)
    {
-      printf("双向队列已满\n");
+      newNode->next=NULL;
+      q->front=q->rear=newNode;
+      q->size++;
       return;
    }
-   memcpy(q->data[q->rear].data,data,data_size-1);
-   q->data[q->rear].data[data_size-1]='\0';
-   q->data[q->rear].num=num;
-   q->rear=(q->rear+1)%q->captacity;
+   q->rear->next=newNode;
+   newNode->pre=q->rear;
+   q->rear=newNode;
+   //更新队列长度
+   q->size++;
 }
 //队首出队
-void pop_front(deque *q,char *data,int *num)
+int pop_front(deque *q)
 {
-   if(q->front==q->rear)
+   int ret=-1;
+   Node *del=q->front;
+   if(q->size==0)
    {
       printf("双向队列已空\n");
-      return;
+      return INT_MAX;//直接退出，防止对q->size造成干扰
    }
-   memcpy(data,q->data[q->front].data,data_size);
-   *num=q->data[q->front].num;
-   q->front=(q->front+1)%q->captacity;
+   else if(q->size==1)
+   {
+      ret=q->front->data;
+      q->front=q->rear=NULL;
+   }
+   else
+   {
+   ret=q->front->data;
+   q->front=q->front->next;
+   q->front->pre=NULL;
+   }
+   free(del);
+   q->size--;//别忘记更新队列长度
+   return ret;
 }
 //队尾出队
-void pop_rear(deque *q,char *data,int *num)
+int pop_rear(deque *q)
 {
-   if(q->front==q->rear)
+   int ret=-1;
+   Node *del=q->rear;
+   if(q->size==0)
    {
       printf("双向队列已空\n");
-      return;
+      return INT_MAX;//直接退出，防止对q->size造成干扰
    }
-   memcpy(data,q->data[(q->captacity+q->rear-1)%q->captacity].data,data_size);
-   *num=q->data[(q->captacity+q->rear-1)%q->captacity].num;
-   q->rear--;
+   else if(q->size==1)
+   {
+      ret=q->rear->data;
+      q->front=q->rear=NULL;
+   }
+   else
+   {
+      ret=q->rear->data;
+      q->rear=q->rear->pre;
+      q->rear->next=NULL;
+   }
+   free(del);
+   q->size--;//别忘记更新队列长度
+   return ret;
 }
-//返回双向队列长度
+//返回双向队列尺寸
 int size_deque(deque *q)
 {
-   return (q->rear+q->captacity-q->front)%q->captacity;
+   return q->size;
 }
 //判断双向队列是否为空
 bool isEmpty(deque *q)
 {
-   return q->rear==q->front;
+   return q->size==0;
 }
 int main()
 {
-   int cap=5;
-   deque *q=create_deque(cap);//创建一个最大容量为4的双向队列
-   Data data[cap];
-   push_front(q,"12345",6);
-   push_front(q,"23456",7);
-   push_rear(q,"hello",9174);
-   push_rear(q,"world",1357);
-   push_rear(q,"world",1357);
-   int size=size_deque(q);
-   for(int i=0;i<size;i++)
-      pop_front(q,data[i].data,&data[i].num);
-   for(int i=0;i<size;i++)
-      printf("str%d=%s,num%d=%d\n",i,data[i].data,i,data[i].num);
+   deque *q=create_deque();
+   push_front(q,1);
+   push_front(q,2);
+   push_rear(q,3);
+   printf("%d ",pop_rear(q));
+   printf("%d ",pop_rear(q));
+   printf("%d ",pop_rear(q));
+   push_rear(q,4);
+   printf("%d ",pop_front(q));
+   free_deque(&q);
 }
