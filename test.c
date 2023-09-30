@@ -4,91 +4,100 @@
 #include <limits.h>//INT_MAX
 #include <string.h>//memcpy,strcat...
 #define data_size 4
-//定义链表节点
-typedef struct _node
-{
+//定义存放数据的结构体
+typedef struct{
+   int num;
    char data[data_size];
-   struct _node *next; 
-}Node;
-//定义队列
-typedef struct _quene
+}Data;
+//定义双向队列(double-ended quene)
+typedef struct _deque
 {
-   int size;
-   Node *front;
-   Node *rear;
-}linkedlist_quene;
-//创建新队列
-linkedlist_quene *create_quene()
+   int front;//指向头节点
+   int rear;//指向没有数据的尾节点
+   int captacity;//双向队列容量
+   Data data[0];//数据存放区
+}deque;
+//创造新的双向队列
+deque *create_deque(int captacity)
 {
-   linkedlist_quene *q=malloc(sizeof(linkedlist_quene));
-   q->front=q->rear=NULL;
-   q->size=0;
+   deque *q=malloc(sizeof(deque)+sizeof(Data)*captacity);//只能存放captacity-1个数据
+   q->front=q->rear=0;
+   q->captacity=captacity;
    return q;
 }
-//清除队列
-void free_quene(linkedlist_quene **q)
+//队首入队
+void push_front(deque *q,char *data,int num)
 {
-   for(Node *cur=(*q)->front,*del=NULL;cur;del=cur,cur=cur->next)
+   if((q->rear+1)%q->captacity==q->front)
    {
-      free(del);
+      printf("双向队列已满\n");
+      return;
    }
-   free(*q);
-   *q=NULL;
+   q->front=(q->front+q->captacity-1)%q->captacity;
+   memcpy(q->data[q->front].data,data,data_size-1);
+   q->data[q->front].data[data_size-1]='\0';
+   q->data[q->front].num=num;
 }
-//入队
-void push_quene(linkedlist_quene *q,char *data)
+//队尾入队
+void push_rear(deque *q,char *data,int num)
 {
-   Node *newNode=malloc(sizeof(Node));
-   memcpy(newNode->data,data,data_size-1);
-   newNode->data[data_size-1]='\0';
-   newNode->next=NULL;
-   if(q->front==NULL)q->front=q->rear=newNode;
-   else
+   if((q->rear+1)%q->captacity==q->front)
    {
-      q->rear->next=newNode;
-      q->rear=newNode;
+      printf("双向队列已满\n");
+      return;
    }
-   q->size++;
+   memcpy(q->data[q->rear].data,data,data_size-1);
+   q->data[q->rear].data[data_size-1]='\0';
+   q->data[q->rear].num=num;
+   q->rear=(q->rear+1)%q->captacity;
 }
-//出队
-char *pop_quene(linkedlist_quene *q)
+//队首出队
+void pop_front(deque *q,char *data,int *num)
 {
-   static char ret[data_size]={0};//static调用的变量全局存在
-   Node *node=q->front;
-   if(q->front==NULL)//队列为空
+   if(q->front==q->rear)
    {
-      printf("队列已空\n");
-      return NULL;
+      printf("双向队列已空\n");
+      return;
    }
-   else if(q->front==q->rear)//队列只有一个节点
-   {
-      memcpy(ret,node->data,data_size-1);
-      q->front=q->rear=NULL;
-   }
-   else//队列不只有一个节点
-   {
-      memcpy(ret,node->data,data_size-1);
-      q->front=q->front->next;
-   }
-   q->size--;//出队后队列长度-1
-   free(node);//清除出队的节点
-   return ret;//返回静态局部变量的地址
+   memcpy(data,q->data[q->front].data,data_size);
+   *num=q->data[q->front].num;
+   q->front=(q->front+1)%q->captacity;
 }
-//返回队列的长度
-int size_quene(linkedlist_quene *s)
+//队尾出队
+void pop_rear(deque *q,char *data,int *num)
 {
-   return s->size;
+   if(q->front==q->rear)
+   {
+      printf("双向队列已空\n");
+      return;
+   }
+   memcpy(data,q->data[(q->captacity+q->rear-1)%q->captacity].data,data_size);
+   *num=q->data[(q->captacity+q->rear-1)%q->captacity].num;
+   q->rear--;
+}
+//返回双向队列长度
+int size_deque(deque *q)
+{
+   return (q->rear+q->captacity-q->front)%q->captacity;
+}
+//判断双向队列是否为空
+bool isEmpty(deque *q)
+{
+   return q->rear==q->front;
 }
 int main()
 {
-   linkedlist_quene *q=create_quene();
-   push_quene(q,"12345");
-   push_quene(q,"23456");
-   push_quene(q,"34567");
-   printf("%s\n",pop_quene(q));
-   printf("%s\n",pop_quene(q));
-   printf("%s\n",pop_quene(q));
-   printf("%s\n",pop_quene(q));
-   free_quene(&q);
+   int cap=5;
+   deque *q=create_deque(cap);//创建一个最大容量为4的双向队列
+   Data data[cap];
+   push_front(q,"12345",6);
+   push_front(q,"23456",7);
+   push_rear(q,"hello",9174);
+   push_rear(q,"world",1357);
+   push_rear(q,"world",1357);
+   int size=size_deque(q);
+   for(int i=0;i<size;i++)
+      pop_front(q,data[i].data,&data[i].num);
+   for(int i=0;i<size;i++)
+      printf("str%d=%s,num%d=%d\n",i,data[i].data,i,data[i].num);
 }
-
