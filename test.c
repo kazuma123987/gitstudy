@@ -96,7 +96,7 @@ double loadFactor(const hashMap *m)
 void extend_hash(hashMap *m)
 {
     int old_size = m->capacity;                        // ！！！注意这里的赋值很重要，决定下面给新表赋值的循环次数，如果按新版容量的次数进行赋值会导致指针出错，因为旧表后面部分没初始化
-    m->capacity *= m->extendRadio;                     // 按照扩容倍率把容量扩大
+    m->capacity *= m->extendRadio;                     // 按照扩容倍率把容量扩大(实际上容量应该尽可能是质数，减少周期分布，比如9会出现0，3，6的周期分布)
     List *oldbuckets = m->buckets;                     // 将旧桶数组保存在oldbuckets里
     m->buckets = malloc(sizeof(List) * m->capacity);   // 分配新桶数组
     memset(m->buckets, 0, sizeof(List) * m->capacity); // 初始化head值，详见前面创建哈希表的分析
