@@ -12,7 +12,7 @@ int main()
     /*分析，a左移4位后后四位填0，右移28位后左边28位为0，与0相异或就是本身，最终实现了位的左旋转操作*/
     unsigned int b=(a<<4)^(a>>(sizeof(int)*8-4));//二进制左移四位就是十六进制左移1位
     unsigned char t=0x01;//这里t可代表8位led灯
-    while(1&&!kbhit())//如果没有按键输入则一直循环
+    while(!kbhit())//如果没有按键输入则一直循环
     {
         t=(t<<1)^(t>>7);//每隔1000ms把t左移一位
         for(unsigned char mask=1<<7;mask;mask>>=1)
