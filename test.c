@@ -77,19 +77,26 @@ void free_tree(Tree **t)
 // 查看树的高度
 int tree_height(Tree *t)
 {
-    if(t==NULL)return -1;
+    if (t == NULL)
+        return -1;
     return t->height;
 }
-//更新树的结点高度
+// 更新树的结点高度
 int height_update(Tree *t)
 {
-    int ret=0;
-    if(t->left==NULL&&t->right==NULL)return 1;
-    int lh=height_update(t->left)+1;
-    int rh=height_update(t->right)+1;
-    if(lh>rh)ret=lh;
-    else ret=rh;
-    t->height=ret;
+    int ret = 0;//定义返回值
+    if (t->left == NULL && t->right == NULL)//如果是叶节点直接返回1
+        ret = 1;
+    else//如果不是叶结点则返回左子树和右子树中高度最大者，返回的值+1就是当前父节点的高度
+    {
+        int lh = height_update(t->left) + 1;
+        int rh = height_update(t->right) + 1;
+        if (lh > rh)
+            ret = lh;
+        else
+            ret = rh;
+    }
+    t->height = ret;//更新当前节点高度
     return ret;
 }
 //  层序遍历
@@ -136,7 +143,7 @@ Tree *ArrToTree(int *arr, size_t size)
             quene_push(q, node->right);
         }
     }
-    //更新树的高度
+    // 更新树的高度
     height_update(root);
     // 临时队列清理
     free(q->pNode);
