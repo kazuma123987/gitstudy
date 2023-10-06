@@ -5,159 +5,206 @@
 #include <string.h>  //memcpy,strcat...
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
-#define QUENE_SIZE 100
+#define QUEUE_SIZE (100)//宏定义加括号避免出现其他问题
+// 树节点
 typedef struct _tree
 {
-    int value;
+    int val;
     int height;
     struct _tree *left;
     struct _tree *right;
 } Tree;
+// 队列节点
 typedef struct
 {
+    int capacity;
     int front;
     int rear;
-    int capacity;
-    Tree **pNode; // 要存放的是指针，所以用指针数组
-} quene;
+    Tree **pTree;
+} queue;
 /*--------------队列基本操作--------------*/
-// 创建队列
-quene *create_quene()
+// 创建新队列
+queue *create_queue(int cap)
 {
-    quene *q = malloc(sizeof(quene));
+    queue *q = malloc(sizeof(queue));
+    q->capacity = cap;
     q->front = q->rear = 0;
-    q->capacity = QUENE_SIZE;
-    q->pNode = malloc(sizeof(Tree *) * q->capacity);
+    q->pTree = malloc(sizeof(Tree *) * q->capacity);
     return q;
 }
+// 清除队列
+void queue_free(queue **q)
+{
+    free((*q)->pTree);
+    free((*q));
+    *q = NULL;
+}
 // 入队
-void quene_push(quene *q, Tree *node)
+void enqueue(queue *q, Tree *t)
 {
     if ((q->rear + 1) % q->capacity == q->front)
     {
-        printf("队列已满");
+        printf("队列已满,请扩大队列容量");
         return;
     }
-    q->pNode[(q->rear++) % q->capacity] = node;
+    q->pTree[q->rear = (q->rear + 1) % q->capacity] = t;
 }
 // 出队
-Tree *quene_pop(quene *q)
+Tree *dequeue(queue *q)
 {
     if (q->front == q->rear)
     {
         printf("队列已空");
         return NULL;
     }
-    return q->pNode[(q->front++) % q->capacity];
+    return q->pTree[q->front = (q->front + 1) % q->capacity];
 }
 // 判断队列是否为空
-bool isEmpty_quene(quene *q)
+bool isEmpty_queue(queue *q)
 {
     return q->front == q->rear;
 }
 /*--------------树基本操作--------------*/
-// 创建树
-Tree *create_tree(int val)
+// 创建新树
+Tree *create_tree(const int val)
 {
-    Tree *node = malloc(sizeof(Tree));
-    node->height = 1;
-    node->left = node->right = NULL;
-    node->value = val;
-    return node;
+    Tree *t = malloc(sizeof(Tree));
+    t->val = val;
+    t->height = 1;
+    t->left = t->right = NULL;
+    return t;
 }
 // 清除树
-void free_tree(Tree **t)
+void free_tree(Tree **root)
 {
-    if (*t == NULL)
+    if (*root == NULL)
         return;
-    free_tree(&(*t)->left);
-    free_tree(&(*t)->right);
-    free(*t);
+    free_tree(&(*root)->left);
+    free_tree(&(*root)->right);
+    free(*root);
 }
-// 查看树的高度
-int tree_height(Tree *t)
+//树高查询
+int height_tree(Tree *t)
 {
-    if (t == NULL)
-        return -1;
+    if(t==NULL)return -1;
     return t->height;
 }
-// 更新树的结点高度
+//后序遍历更新树高
 int height_update(Tree *t)
 {
-    int ret = 0;//定义返回值
-    if (t->left == NULL && t->right == NULL)//如果是叶节点直接返回1
-        ret = 1;
-    else//如果不是叶结点则返回左子树和右子树中高度最大者，返回的值+1就是当前父节点的高度
+    int ret=0;
+    if(t==NULL)return 0;//如果是空树直接返回0(不赋值)
+    else if(t->left==NULL&&t->right==NULL)ret=1;//如果是叶节点赋值为1
+    else//如果是父节点赋值为左右子树高度大者+1
     {
-        int lh = height_update(t->left) + 1;
-        int rh = height_update(t->right) + 1;
-        if (lh > rh)
-            ret = lh;
-        else
-            ret = rh;
+        int lh=height_update(t->left)+1;
+        int rh=height_update(t->right)+1;
+        if(lh>rh)ret=lh;
+        else ret=rh;
     }
-    t->height = ret;//更新当前节点高度
+    t->height=ret;//赋值
     return ret;
 }
-//  层序遍历
-void getArray_levelOrder(Tree *t, int **new_arr, int *size)
-{
-    *size = 0;
-    quene *temp_quene = create_quene();
-    quene_push(temp_quene, t);
-    int *arr = malloc(sizeof(int) * temp_quene->capacity);
-    int index = 0;
-    for (Tree *node; !isEmpty_quene(temp_quene);)
-    {
-        node = quene_pop(temp_quene);
-        arr[index++] = node->value;
-        if (node->left != NULL)
-            quene_push(temp_quene, node->left);
-        if (node->right != NULL)
-            quene_push(temp_quene, node->right);
-    }
-    arr = realloc(arr, sizeof(int) * index);
-    free(temp_quene->pNode);
-    free(temp_quene);
-    *size = index;
-    *new_arr = arr;
-}
 // 数组转树
-Tree *ArrToTree(int *arr, size_t size)
+Tree *ArrToTree(int *arr, int size)
 {
-    int index = 0;                          // 数组下标
-    quene *q = create_quene();              // 创建临时队列装树节点
-    Tree *root = create_tree(arr[index++]); // 根节点
-    quene_push(q, root);                    // 根节点入队
-    while (q->front != q->rear)             // 层序遍历创建二叉树
+    int index = 0;
+    Tree *root = create_tree(arr[index++]);
+    queue *q = create_queue(QUEUE_SIZE);
+    enqueue(q, root);
+    while (!isEmpty_queue(q))
     {
-        Tree *node = quene_pop(q); // 队列的节点出队(按照层序遍历)
-        if (index < size)          // 只要数组还没遍历完就继续
+        Tree *node = dequeue(q);
+        if (index < size && arr[index] != INT_MAX) // 这里INT_MAX是提前对数组做好的标记，防止越界
         {
             node->left = create_tree(arr[index++]);
-            quene_push(q, node->left);
+            enqueue(q, node->left);
         }
-        if (index < size) // 只要数组还没遍历完就继续
+        if (index < size && arr[index] != INT_MAX) // 这里INT_MAX是提前对数组做好的标记，防止越界
         {
             node->right = create_tree(arr[index++]);
-            quene_push(q, node->right);
+            enqueue(q, node->right);
         }
     }
-    // 更新树的高度
     height_update(root);
-    // 临时队列清理
-    free(q->pNode);
-    free(q);
+    queue_free(&q);
     return root;
+}
+// 层序遍历
+void levelOrder(Tree *root, int *arr)
+{
+    queue *q = create_queue(QUEUE_SIZE);
+    enqueue(q, root);
+    int index = 0;
+    while (!isEmpty_queue(q))
+    {
+        Tree *node = dequeue(q);
+        arr[index++] = node->val;
+        if (node->left != NULL)
+            enqueue(q, node->left);
+        if (node->right != NULL)
+            enqueue(q, node->right);
+    }
+    queue_free(&q);
+}
+// 先序遍历
+void preOrder(Tree *root, int *arr, int *index)
+{
+    if (root == NULL)
+        return;
+    arr[(*index)++] = root->val;
+    preOrder(root->left, arr, index);
+    preOrder(root->right, arr, index);
+}
+// 中序遍历
+void inOrder(Tree *root, int *arr, int *index)
+{
+    if (root == NULL)
+        return;
+    inOrder(root->left, arr, index);
+    arr[(*index)++] = root->val;
+    inOrder(root->right, arr, index);
+}
+// 后序遍历
+void postOrder(Tree *root, int *arr, int *index)
+{
+    if (root == NULL)
+        return;
+    postOrder(root->left, arr, index);
+    postOrder(root->right, arr, index);
+    arr[(*index)++] = root->val;
+}
+/*--------------------其他调试--------------------*/
+// 打印数组
+void printArray(int *arr, int size)
+{
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
 }
 int main()
 {
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int size, *arr;
-    Tree *t = ArrToTree(a, sizeof(a) / sizeof(int));
-    getArray_levelOrder(t, &arr, &size);
-    for (int i = 0; i < size; i++)
-        printf("%d ", arr[i]);
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0,INT_MAX};              // 打上标记INT_MAX
+    Tree *t = ArrToTree(arr, sizeof(arr) / sizeof(int) + 3); // 尝试写入超过数组大小的额外3个元素
+    int a[20];
+    memset(a + sizeof(arr) / sizeof(*arr)-1, 0xff, sizeof(*a) * (20 - sizeof(arr) / sizeof(*arr)+1)); // ！！记住memset不要超越malloc的个数，
+    // ！！即malloc以后，从地址a开始最多写20个，地址a+10开始最多写入10个
+    //层序遍历
+    levelOrder(t, a);
+    printArray(a, sizeof(a) / sizeof(int));
+    //先序遍历
+    int index = 0;
+    preOrder(t, a, &index);
+    printArray(a, sizeof(a) / sizeof(int));
+    //中序遍历
+    index = 0;
+    inOrder(t, a, &index);
+    printArray(a, sizeof(a) / sizeof(int));
+    //后序遍历
+    index = 0;
+    postOrder(t, a, &index);
+    printArray(a, sizeof(a) / sizeof(int));
+    //清理树
     free_tree(&t);
-    free(arr);
+    return 0;
 }
