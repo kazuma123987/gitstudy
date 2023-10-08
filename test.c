@@ -5,217 +5,173 @@
 #include <string.h>  //memcpy,strcat...
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
-// 定义向量
-typedef struct
+typedef struct _tree
 {
-    int size;    // 当前数组的元素个数
-    int cap;     // 向量的容量
-    int depth;   // 向量的维度，维度为1时data是一维指针数组(element type*)data[cap]，维度为2为二维指针数组（vector *）data[cap]
-    void **data; // 指针数组
-} vector;
-// 数组二叉树的封装
-typedef struct
-{
-    vector *tree;
+    int val;
+    int height;
+    struct _tree *left;
+    struct _tree *right;
 } Tree;
-/*----------------向量基本操作----------------*/
-// 创建向量
-vector *create_vector()
-{
-    vector *v = malloc(sizeof(vector));
-    v->cap = 4;
-    v->size = 0;
-    v->depth = 1;
-    v->data = malloc(sizeof(void *) * v->cap);
-    memset(v->data, 0, sizeof(void *) * v->cap);
-    return v;
-}
-// 清除向量空间
-void free_vector(vector *v)
-{
-    if (v)
-    {
-        if (v->depth == 0)
-            return;
-        if (v->depth == 1)
-        {
-            for (int i = 0; i < v->cap; i++)
-                free(v->data[i]);//free掉v->data[v->cap]里的所有指针
-            free(v->data);//！！！free掉v->data这个指针数组(指针数组要free掉装载的元素和自身)
-            free(v);//free掉v这个向量
-        }
-        else
-        {
-            for (int i = 0; i < v->cap; i++)
-                free_vector(v->data[i]);
-            free(v->data);
-            free(v);
-        }
-    }
-}
-// 向量尾部添加新值
-void addItem_vector(vector *v, void *element, int element_size)
-{
-    if (v->size == v->cap)
-    {
-        v->cap *= 2;
-        v->data = realloc(v->data, sizeof(void *) * v->cap);
-        memset(v->data+v->size,0,sizeof(void*)*(v->cap-v->size));
-    }
-    void *tmp = malloc(element_size);
-    memcpy(tmp, element, element_size);
-    v->data[v->size++] = tmp;
-}
-// 向量尾部删除元素
-void deleteItem_vector(vector *v)
-{
-    if (v->size != 0)
-        free(v->data[--v->size]);
-}
-// 获取索引index处的int类型的值
-int val_int_vector(vector *v, int index)
-{
-    if (index >= 0 && index < v->size)
-        return *(int *)v->data[index];
-    else
-        return INT_MAX;
-}
-// 获取索引index处的char类型的字符串
-char *val_char_vector(vector *v, int index)
-{
-    if (index >= 0 && index < v->size)
-        return (char *)v->data[index];
-    else
-        return NULL;
-}
-//打印整形向量
-void print_int_vector(vector *v)
-{
-    for(int i=0;i<v->size;i++)
-    printf("%d ",*(int *)v->data[i]);
-    printf("\n");
-}
-void print_char_vector(vector *v)
-{
-    for(int i=0;i<v->size;i++)
-    printf("%s ",(char *)v->data[i]);
-    printf("\n");
-}
-/*----------------树基本操作----------------*/
-// 创建新树
-Tree *create_tree(vector *v)
+// 创建树
+Tree *create_tree(int val)
 {
     Tree *t = malloc(sizeof(Tree));
-    t->tree = v;
+    t->val = val;
+    t->height = 1;
+    t->left = t->right = NULL;
     return t;
 }
 // 清除树
 void free_tree(Tree *t)
 {
-    if (t)
-    {
-        free_vector(t->tree);
-        free(t);
-    }
-}
-// 左子树索引
-int left(int index)
-{
-    return index * 2 + 1;
-}
-// 右子树索引
-int right(int index)
-{
-    return index * 2 + 2;
-}
-// 父节点索引
-int parent(int index)
-{
-    return (index - 1) / 2;
-}
-// 深度优先遍历
-void DeepFirstSearch(Tree *t, int index, char *order, vector *arr)
-{
-    // 返回触发点
-    if (val_int_vector(t->tree, index) == INT_MAX)
+    if (t == NULL)
         return;
-    if (strcmp(order, "pre") == 0) // 前序遍历
-    {
-        int temp = val_int_vector(t->tree, index);
-        addItem_vector(arr, &temp, sizeof(int));
-    }
-    DeepFirstSearch(t, left(index), order, arr); // 左节点递归
-    if (strcmp(order, "in") == 0)                // 中序遍历
-    {
-        int temp = val_int_vector(t->tree, index);
-        addItem_vector(arr, &temp, sizeof(int));
-    }
-    DeepFirstSearch(t, right(index), order, arr); // 右节点递归
-    if (strcmp(order, "post") == 0)               // 后序遍历
-    {
-        int temp = val_int_vector(t->tree, index);
-        addItem_vector(arr, &temp, sizeof(int));
-    }
+    free_tree(t->left);
+    free_tree(t->right);
+    free(t);
 }
-// 层序遍历
-vector *levelOrder(Tree *t)
+// 搜索节点
+Tree *search_tree(Tree *root, int val)
 {
-    vector *res = create_vector();
-    for (int i = 0; i < t->tree->size; i++)
+    Tree *t = root;
+    while (t != NULL)
     {
-        int temp = val_int_vector(t->tree, i);
-        if (temp != INT_MAX)
-            addItem_vector(res, &temp, sizeof(int));
+        if (t->val > val)
+            t = t->left;
+        else if (t->val < val)
+            t->right;
+        else
+            return t;
     }
-    return res;
+    printf("没找到节点！");
+    return NULL;
 }
-// 前序遍历
-vector *preOrder(Tree *t)
+// 插入节点
+void insert_tree(Tree *root, int val)
 {
-    vector *res=create_vector();
-    DeepFirstSearch(t,0,"pre",res);
-    return res;
+    if (root == NULL)return;//如果根节点为NULL则直接返回
+    Tree *node = root;//创建一个指针指向根节点
+    while (node->left != NULL || node->right != NULL)//如果有左节点或者右节点就要循环
+    {
+        if (node->val > val)//如果要插入的值大于当前节点则往左子树找，如果左子树是空则直接跳出循环
+        {
+            if(node->left)node = node->left;
+            else break;
+        }
+        else if (node->val < val)//如果要插入的值小于当前节点则往右子树找，如果右子树是空则直接跳出循环
+        {
+            if(node->right)node = node->right;
+            else break;
+        }
+        else if (node->val == val)//如果要插入的值和当前节点相同则跳出函数
+            return;
+    }
+    if (node->val > val)//插入左节点
+        node->left = create_tree(val);
+    else if (node->val < val)//插入右节点
+        node->right = create_tree(val);
 }
-//中序遍历
-vector *inOrder(Tree *t)
+// 删除节点
+void delete_tree(Tree *root, int val)
 {
-    vector *res=create_vector();
-    DeepFirstSearch(t,0,"in",res);
-    return res;
+    int flag = -1;//建立一个标志，flag为0表示删除节点在父节点的左子节点，为1则反之
+    Tree *cur = root, *pre = NULL;//定义一个cur和pre，cur代表待删除节点，pre代表待删除节点的父节点
+    while (cur && cur->val != val)//通过循环找到待删除节点，将cur和pre指向它们代表的节点，并更新flag的值
+    {
+        if (cur->val > val)//如果val值大于当前节点，则往右子树找
+        {
+            pre = cur;
+            cur = cur->left;
+            flag = 0;
+        }
+        else//如果val值小于当前节点，则往左子树找
+        {
+            pre = cur;
+            cur = cur->right;
+            flag = 1;
+        }
+    }
+    if (cur != NULL)//如果cur不为NULL(找到了要删除的节点)
+    {
+        if (root->val == val)//如果要删根节点，直接free掉
+            free(root);
+        else if (cur->left == NULL && cur->right == NULL)//如果要删叶节点，直接free掉并使父节点指向叶节点改为指向NULL
+        {
+            free(cur);
+            if (flag)
+                pre->right = NULL;
+            else
+                pre->left = NULL;
+        }
+        else if (cur->left && !cur->right)//如果要删节点只有一个左子树，将父节点指向左子树后free掉待删除节点
+        {
+            if (flag)
+                pre->right = cur->left;
+            else
+                pre->left = cur->left;
+            free(cur);
+        }
+        else if (!cur->left && cur->right)//如果要删节点只有一个右子树，将父节点指向右子树后free掉待删除节点
+        {
+            if (flag)
+                pre->right = cur->right;
+            else
+                pre->left = cur->right;
+            free(cur);
+        }
+        else//如果要删节点又有左子树又有右子树，那么将右子树最小节点代替待删除节点后删除节点
+        {
+            Tree *t = cur->right, *p = NULL;//先用t指向右子树根节点，t之后代表右子树最小节点，p之后代表t的父节点
+            while (t->left)//通过循环使t和p符合其定位
+            {
+                p = t;
+                t = t->left;
+                if (t->left == NULL)//循环结束时t指向最小节点
+                    break;
+            }
+            if (flag)//父节点先指向待删节点右子树最小节点
+                pre->right = t;
+            else
+                pre->left = t;
+            t->left = cur->left;//最小节点左边指向待删节点左子树
+            if (p)//如果p不是NULL(最小节点不是右子树根节点),则把最小节点右边再指向待删节点右边(右子树根节点)，并把原父节点的左边指向NULL
+            {
+                t->right = cur->right;
+                p->left = NULL;
+            }
+            free(cur);//删除待删节点
+        }
+    }
+    else printf("未找到要删除节点");
 }
-//后序遍历
-vector *postOrder(Tree *t)
+Tree *arrTotree(int *arr, int size)
 {
-    vector *res=create_vector();
-    DeepFirstSearch(t,0,"post",res);
-    return res;
+    if (size <= 0)
+        return NULL;
+    Tree *t = create_tree(arr[0]);
+    t->left = t->right = NULL;
+    t->height = 1;
+    for (int i = 1; i < size; i++)
+        insert_tree(t, arr[i]);
+    return t;
+}
+void inPrint(Tree *t)
+{
+    if(t==NULL)return;
+    inPrint(t->left);
+    printf("%d ",t->val);
+    inPrint(t->right);
 }
 int main()
 {
-    int arr[] = {1, 2, 3, 4, INT_MAX, 6, 7, 8, 9, INT_MAX, INT_MAX, 12, INT_MAX, INT_MAX, 15};
-    Tree *t=create_tree(create_vector());
-    for(int i=0;i<sizeof(arr)/sizeof(int);i++)
-        addItem_vector(t->tree,&arr[i],sizeof(int));
-    //层序遍历
-    printf("level:\n");
-    vector *level_arr=levelOrder(t);
-    print_int_vector(level_arr);
-    //前序遍历
-    printf("pre:\n");
-    vector *pre_arr=preOrder(t);
-    print_int_vector(pre_arr);
-    //中序遍历
-    printf("in:\n");
-    vector *in_arr=inOrder(t);
-    print_int_vector(in_arr);
-    //后序遍历
-    printf("post:\n");
-    vector *post_arr=postOrder(t);
-    print_int_vector(post_arr);
-    //清理堆内存
-    free_vector(level_arr);
-    free_vector(pre_arr);
-    free_vector(in_arr);
-    free_vector(post_arr);
+    int arr[]={0,1,3,4,14,12,5,2,7,8,10};
+    Tree *t=arrTotree(arr,sizeof(arr)/sizeof(int));
+    inPrint(t);
+    delete_tree(t,33);
+    delete_tree(t,12);
+    delete_tree(t,14);
+    printf("\n");
+    inPrint(t);
     free_tree(t);
+    return 0;
 }
