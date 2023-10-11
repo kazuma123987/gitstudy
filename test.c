@@ -3,203 +3,153 @@
 #include <stdbool.h> //bool,true,false
 #include <limits.h>  //INT_MAX
 #include <string.h>  //memcpy,strcat...
+#include <stdint.h>  //uint16_t,int8_t...
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
-// 树节点
-typedef struct _tree
-{
-    int val;
-    int height;
-    struct _tree *left;
-    struct _tree *right;
-} TreeNode;
-// AVL树封装
+#define NAME_SIZE 20
+//栈结构
 typedef struct
 {
-    TreeNode *root;
-} AVL_Tree;
-// 创建新节点
-TreeNode *newnode(int val)
+    int stack_cap;                // 栈容量
+    int ele_num;                  // 目前栈的元素个数
+    void* stack_top;              // 栈顶，在地址最低位
+    void* p;                      // 栈指针，指向下一个要出栈的元素的地址，地址比栈顶大
+    void (*destroy_func)(void*); // 回调函数，用于调用解析函数
+} stack;
+//简单结构体示例
+typedef struct
 {
-    TreeNode *node = malloc(sizeof(TreeNode));
-    node->val = val;
-    node->left = node->right =NULL;
-    node->height = 1;
-    return node;
+    char* name;
+    int age;
+}student;
+//初始化栈
+stack* stack_init(void (*destroy_func)(void*))
+{
+    stack* s = malloc(sizeof(stack));
+    s->ele_num = 0;
+    s->stack_cap = 2;
+    s->stack_top = malloc(sizeof(uint64_t*) * s->stack_cap);       // 分配栈容量个指针，并使指向栈空间最顶部
+    s->p = (uint64_t*)s->stack_top + s->stack_cap;             // 栈指针指向栈底
+    s->destroy_func = destroy_func;                            // 传入解析函数
+    return s;
 }
-// 创建新树
-AVL_Tree *newAVL()
+//栈的清除
+void stack_des(stack* s)
 {
-    AVL_Tree *avl = malloc(sizeof(AVL_Tree));
-    avl->root = NULL;
-    return avl;
+    int size = s->ele_num;
+    for (int i = 0; i < size; i++)
+    {
+        s->destroy_func((void*)(*(uint64_t*)s->p));
+        s->p = (uint64_t*)s->p + 1;
+    }
+    free(s->stack_top);
+    free(s);
 }
-// 返回节点高度
-int height(TreeNode *t)
+//进栈
+void stack_push(stack* s, void* p)
 {
-    if (t != NULL)
-        return t->height;
-    return 0;
+    if (s->ele_num == s->stack_cap)
+    {
+        s->stack_cap *= 2;
+        uint64_t *temp=s->stack_top;
+        s->stack_top = (uint64_t*)realloc(s->stack_top, sizeof(uint64_t*) * s->stack_cap);
+        memcpy((uint64_t*)s->stack_top+s->ele_num,s->stack_top,sizeof(void*)*s->ele_num);
+        s->p = (uint64_t*)s->stack_top + s->ele_num;
+    }
+    s->p = (uint64_t*)s->p - 1;//注意这里栈底是栈分配的最高地址，最高地址不能再存放任何指针，所以先移动再赋值
+    *((uint64_t*)s->p) = (uint64_t)p;//不改变指针p的值，不用加*    
+    s->ele_num++;
 }
-// 更新节点高度
-void height_update(TreeNode *t)
+//出栈
+void stack_pop(stack* s, void* p)
 {
-    if (t == NULL)
+    if (s->ele_num == 0)
+    {
+        printf("栈已空");
+        *(uint64_t*)p=NULL;
         return;
-    int lh = height(t->left);
-    int rh = height(t->right);
-    if (lh >= rh)
-        t->height=lh + 1;
-    else
-        t->height=rh + 1;
-}
-// 平衡因子
-int balanceFactor(TreeNode *t)
-{
-    if (t == NULL)
-        return 0;
-    return height(t->left) - height(t->right);
-}
-// 左旋转(只会在旋转操作函数失衡下调用，所以不用考虑其他情况)
-TreeNode *lRotate(TreeNode *t)//左旋一般以child节点为中心，对节点t逆时针旋转到child的left端，
-//但如果child的left端有节点grandchild，则将grandchild放在t的右端（因为child和grandchild都在t的右边，比t大）
-{
-    TreeNode *child = t->right;//左旋说明右方倾斜，则子节点朝右
-    TreeNode *grandchild = child->left;
-    child->left = t;
-    t->right = grandchild;
-    height_update(t);
-    height_update(child);
-    return child;
-}
-// 右旋转(同上，不会出现错误调用情况)
-TreeNode *rRotate(TreeNode *t)
-{
-    TreeNode *child = t->left;
-    TreeNode *grandchild = child->right;
-    child->right = t;
-    t->left = grandchild;
-    height_update(t);
-    height_update(child);
-    return child;
-}
-// 旋转操作
-TreeNode *rotate(TreeNode *t)
-{
-    int factor = balanceFactor(t);
-    if (factor > 1)//左偏
-    {
-        if (balanceFactor(t->left) >= 0)//子节点也左偏，右转
-            return rRotate(t);
-        else//子节点右偏，左右旋转（先子节点左转，再父节点右转）
-        {
-            t->left = lRotate(t->left);
-            return rRotate(t);
-        }
     }
-    else if (factor < -1)//右偏
-    {
-        if (balanceFactor(t->right) <= 0)//子节点也右偏，左转
-            return lRotate(t);
-        else//子节点左偏，右左旋转（先子节点右转，再父节点左转）
-        {
-            t->right = rRotate(t->right);
-            return lRotate(t);
-        }
-    }
-    else//不偏则直接返回原值
-        return t;
+    *(uint64_t*)p = *(uint64_t*)s->p;//改变指针p的值，p要加*，此时*p内容是地址
+    s->p = (uint64_t*)s->p + 1;//注意入栈是先移动指针再赋值，所以指针最后指向不为空，应先赋值再移动指针
+    s->ele_num--;
 }
-//递归插入操作
-TreeNode *insert(TreeNode *t, int val)
+//结构体的析构
+void stu_des(student* stu)
 {
-    if (t == NULL)//如果找到了尽头，则给父节点连接新的子节点
-        return newnode(val);
-    if (t->val > val)//要插入的值更小，则往左边插入
-        t->left = insert(t->left, val);
-    else if (t->val < val)//要插入的值更大，则往右边插入
-        t->right = insert(t->right, val);
-    else//如果有值和插入的值相等，则不插入，直接返回原值
-        return t;
-    t = rotate(t);//旋转操作
-    height_update(t);//因为当插入后如果没偏那rotate会直接返回，不会更新高度，所以在这里要更新高度
-    return t;
+    free(stu->name);
+    free(stu);
 }
-//递归删除操作
-TreeNode *removeItem(TreeNode *t, int val)//递归删除时一条路径上的节点都应旋转并更新高度
+//一般指针的free
+void normal_des(void* p)
 {
-    if (t == NULL)
-        return t;
-    if (t->val > val)
-        t->left = removeItem(t->left, val);//传递旋转及更新后的左节点
-    else if (t->val < val)
-        t->right = removeItem(t->right, val);//传递旋转及更新后的右节点
-    else//找到了要删除的节点
-    {
-        if (t->left == NULL || t->right == NULL)
-        {
-            TreeNode *node = t->left;
-            if (t->right != NULL)
-                node = t->right;
-            free(t);
-            if (node == NULL)//如果t是叶节点，则删除后直接返回NULL传递给父节点
-                return NULL;
-            else//如果t有一个子节点（但子节点可能还有子节点），所以删除后赋值node给t，
-            //旋转并更新t的高度后把t传递给父节点（如果没错误操作其实可以直接return node）
-                t = node;
-        }
-        else//如果待删除的节点t有两个子节点
-        {
-            TreeNode *cur;
-            for (cur=t->right;cur->left;cur = cur->left);//找到t的右子树的最小节点，赋值给cur
-            int cur_val=cur->val;//暂存cur的值
-            t->right=removeItem(t->right,cur_val);//删除t的右子树的最小节点后把根节点传递给t的右指针
-            t->val=cur_val;//把t的值替换为最小节点的值（这个操作相当于删除了t，并把右子树最小节点替换t的位置）
-        }
-    }
-    t=rotate(t);//在路径上递归旋转节点的值
-    height_update(t);//更新高度，防止rotate直接返回时未更新
-    return t;//传递更新后的值给路径上的父节点
+    free(p);
 }
-//查找操作
-TreeNode *find(TreeNode *t,int val)
+//函数进栈测试函数
+void *my_print1()
 {
-    if(t==NULL)return NULL;
-    if(t->val>val)return find(t->left,val);
-    else if(t->val<val)return find(t->right,val);
-    else return t;
+    printf("this is my_print1\n");
 }
-//中序遍历打印树
-void printAVL(TreeNode *root)
+void *my_print2()
 {
-    if(root==NULL)return;
-    printAVL(root->left);
-    printf("%d ",root->val);
-    printAVL(root->right);
+    printf("this is my_print2\n");
 }
-//递归清除树
-void freeTree(TreeNode *t)
+void *my_print3()
 {
-    if(t==NULL)return;
-    freeTree(t->left);
-    freeTree(t->right);
-    free(t);
-}
-//清除AVL树
-void freeAVL(AVL_Tree *avl)
-{
-    freeTree(avl->root);
-    free(avl);
+    printf("this is my_print3\n");
 }
 int main()
 {
-    AVL_Tree *avl=newAVL();
-    for(int i=1;i<11;i++)
-    avl->root=insert(avl->root,i);
-    printAVL(avl->root);
-    avl->root=removeItem(avl->root,6);
-    TreeNode *a=find(avl->root,8);
+    //整数进栈
+    stack *s_int=stack_init(normal_des);
+    for(int i=0;i<10;i++)
+    {
+        int *val=malloc(sizeof(int));
+        *val=i+1;
+        stack_push(s_int,val);
+    }
+    for(int i=0;i<8;i++)
+    {
+        int *val;
+        stack_pop(s_int,&val);
+        printf("%d ",*val);
+        free(val);
+    }
     printf("\n");
-    printAVL(avl->root);
-    freeAVL(avl);
+    stack_des(s_int);
+    //结构体进栈
+    stack *s_struct=stack_init((void *)stu_des);
+    for(int i=0;i<3;i++)
+    {
+        student *stu=malloc(sizeof(student));
+        printf("input student%d's name:\n",i+1);
+        stu->name=malloc(sizeof(char)*NAME_SIZE);
+        fgets(stu->name,NAME_SIZE,stdin);
+        if(stu->name[strcspn(stu->name,"\n")]=='\n')stu->name[strcspn(stu->name,"\n")]='\0';
+        else while(getchar()!='\n');
+        stu->name=realloc(stu->name,strlen(stu->name)+1);
+        printf("input student%d's age:\n",i+1);
+        scanf("%d",&stu->age);
+        getchar();
+        stack_push(s_struct,stu);
+    }
+    for(int i=0;i<3;i++)
+    {
+        student *st;
+        stack_pop(s_struct,&st);
+        printf("name:%s,age:%d",st->name,st->age);
+        printf("\n");
+    }
+    stack_des(s_struct);
+    //函数进栈
+    stack* s = stack_init(normal_des);
+    stack_push(s, my_print1);
+    stack_push(s, my_print2);
+    stack_push(s, my_print3);
+    for (int i = 1; i < 10; i++)
+    {   
+        void (*p)();
+        stack_pop(s, &p);
+        if(p)p();
+    }
+    stack_des(s);
 }
