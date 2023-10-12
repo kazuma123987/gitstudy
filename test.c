@@ -6,165 +6,121 @@
 #include <stdint.h>  //uint16_t,int8_t...
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
-#ifdef _WIN64//visual studio的x64编译器会定义宏定义_WIN64,x86则是_WIN32
-#define myint uint64_t
-#else
-#define myint uint32_t
-#endif
-#define NAME_SIZE 20
-//栈结构
 typedef struct
 {
-    int stack_cap;                // 栈容量
-    int ele_num;                  // 目前栈的元素个数
-    void* stack_top;              // 栈顶，在地址最低位
-    void* p;                      // 栈指针，指向下一个要出栈的元素的地址，地址比栈顶大
-    void (*destroy_func)(void*); // 回调函数，用于调用解析函数
-} stack;
-//简单结构体示例
-typedef struct
+    int size;
+    int cap;
+    int *arr;
+}maxHeap;
+//创建大顶堆
+maxHeap *newheap()
 {
-    char* name;
-    int age;
-}student;
-//初始化栈
-stack* stack_init(void (*destroy_func)(void*))
-{
-    stack* s = malloc(sizeof(stack));
-    s->ele_num = 0;
-    s->stack_cap = 2;
-    s->stack_top = malloc(sizeof(myint*) * s->stack_cap);       // 分配栈容量个指针，并使指向栈空间最顶部
-    s->p = (myint*)s->stack_top + s->stack_cap;             // 栈指针指向栈底
-    s->destroy_func = destroy_func;                            // 传入解析函数
-    return s;
+    maxHeap *h=malloc(sizeof(maxHeap));
+    h->cap=2;
+    h->size=0;
+    h->arr=malloc(sizeof(int)*h->cap);
+    return h;
 }
-//栈的清除
-void stack_des(stack* s)
+//析构函数
+void heap_free(maxHeap *h)
 {
-    int size = s->ele_num;
-    for (int i = 0; i < size; i++)
+    free(h->arr);
+    free(h);
+}
+//左节点索引
+int left_index(int index)
+{
+    return index*2+1;
+}
+//右节点索引
+int right_index(int index)
+{
+    return index*2+2;
+}
+//父节点索引
+int parent_index(int index)
+{
+    return (index-1)/2;
+}
+//交换函数
+static void swap(maxHeap *h,int index1,int index2)
+{
+    int temp=h->arr[index1];
+    h->arr[index1]=h->arr[index2];
+    h->arr[index2]=temp;
+}
+//沿index所在路径向上堆化
+void siftUp(maxHeap *h,int index)
+{
+    while(1)
     {
-        s->destroy_func((void*)(*(myint*)s->p));
-        s->p = (myint*)s->p + 1;
+        int par=parent_index(index);
+        if(h->arr[index]<=h->arr[par]||par<0)break;
+        swap(h,index,par);
+        index=par;
     }
-    free(s->stack_top);
-    free(s);
 }
-//进栈
-void stack_push(stack* s, void* p)
+//出堆的辅助堆化函数,从index所在节点沿着交换的路径向下堆化
+void pop_sift(maxHeap *h,int index)
 {
-    if (s->ele_num == s->stack_cap)
+    int max=index;
+    while(1)
     {
-        s->stack_cap *= 2;
-        //！！！notice：--这里realloc之后s->stack_top到（s->stack_top+s->elenum）的空间存放了数据，而数据应该
-        //在（s->stack_top+s->elenum）到（s->stack_top+s->stack_cap）的空间内，所以之后要拷贝数据，这里分清栈底在何处
-        s->stack_top = (myint*)realloc(s->stack_top, sizeof(myint*) * s->stack_cap);
-        memcpy((myint*)s->stack_top + s->ele_num, s->stack_top, sizeof(void*) * s->ele_num);
-        s->p = (myint*)s->stack_top + s->ele_num;
+        int l=left_index(index);
+        int r=right_index(index);
+        if(h->arr[max]<h->arr[l]&&l<h->size)max=l;
+        if(h->arr[max]<h->arr[r]&&r<h->size)max=r;//注意若左节点没越界但右节点越界了不能进行比较
+        if(max==index)break;//如果索引越界或index所在处最大则跳出循环
+        swap(h,index,max);
+        index=max;
     }
-    s->p = (myint*)s->p - 1;//注意这里栈底是栈分配的最高地址，最高地址不能再存放任何指针，所以先移动再赋值
-    *((myint*)s->p) = (myint)p;//不改变指针p的值，不用加*    
-    s->ele_num++;
 }
-//出栈
-void stack_pop(stack* s, void* p)
+//入堆
+void push_heap(maxHeap *h,int val)
 {
-    if (s->ele_num == 0)
+    if(h->size==h->cap)
     {
-        printf("栈已空");
-        *(myint*)p = NULL;
-        return;
+        h->cap*=2;
+        h->arr=realloc(h->arr,sizeof(int)*h->cap);
     }
-    *(myint*)p = *(myint*)s->p;//改变指针p的值，p要加*，此时*p内容是地址
-    s->p = (myint*)s->p + 1;//注意入栈是先移动指针再赋值，所以指针最后指向不为空，应先赋值再移动指针
-    s->ele_num--;
+    h->arr[h->size++]=val;
+    siftUp(h,h->size-1);
 }
-//结构体的析构
-void stu_des(student* stu)
+//出堆
+int pop_heap(maxHeap *h)
 {
-    free(stu->name);
-    free(stu);
+    if(h->size==0)
+    {
+        printf("堆已空");
+        return INT_MAX;
+    }
+    swap(h,0,h->size-1);
+    int temp=h->arr[--h->size];
+    pop_sift(h,0);
+    return temp;
 }
-//一般指针的free
-void normal_des(void* p)
+//无序列表转大顶堆
+maxHeap *arrtoHeap(int *arr,int size)
 {
-    free(p);
-}
-//函数进栈测试函数
-void* my_print1()
-{
-    printf("this is my_print1\n");
-}
-void* my_print2()
-{
-    printf("this is my_print2\n");
-}
-void* my_print3()
-{
-    printf("this is my_print3\n");
-}
-//scanf的安全替换
-void myscanf(int* num)
-{
-    char input[10];
-    fgets(input, sizeof(input), stdin);
-    if (input[strcspn(input, "\n")] == '\n')input[strcspn(input, "\n")] = '\0';
-    else while (getchar() != '\n');
-    *num = atoi(input);
+    //创建无序堆
+    maxHeap *h=malloc(sizeof(maxHeap));
+    h->cap=size*2;
+    h->size=size;
+    h->arr=malloc(sizeof(int)*h->cap);
+    memcpy(h->arr,arr,sizeof(int)*size);
+    //无序堆有序化
+    for(int i=parent_index(h->size-1);i>=0;i--)pop_sift(h,i);
+    return h;
 }
 int main()
 {
-    //整数进栈
-    stack* s_int = stack_init(normal_des);
-    for (int i = 0; i < 10; i++)
+    int a[10]={7,3,2,8,9,0,1,5,4,6};
+    maxHeap *h=arrtoHeap(a,sizeof(a)/sizeof(int));
+    int size=h->size;
+    for(int i=0;i<size;i++)
     {
-        int* val = malloc(sizeof(int));
-        *val = i + 1;
-        stack_push(s_int, val);
+        int val=pop_heap(h);
+        printf("%d ",val);
     }
-    for (int i = 0; i < 8; i++)
-    {
-        int* val;
-        stack_pop(s_int, &val);
-        printf("%d ", *val);
-        free(val);
-    }
-    printf("\n");
-    stack_des(s_int);
-    //结构体进栈
-    stack* s_struct = stack_init((void*)stu_des);
-    for (int i = 0; i < 3; i++)
-    {
-        student* stu = malloc(sizeof(student));
-        printf("input student%d's name:\n", i + 1);
-        stu->name = malloc(sizeof(char) * NAME_SIZE);
-        fgets(stu->name, NAME_SIZE, stdin);
-        if (stu->name[strcspn(stu->name, "\n")] == '\n')stu->name[strcspn(stu->name, "\n")] = '\0';
-        else while (getchar() != '\n');
-        stu->name = realloc(stu->name, strlen(stu->name) + 1);
-        printf("input student%d's age:\n", i + 1);
-        myscanf(&stu->age);
-        stack_push(s_struct, stu);
-    }
-    for (int i = 0; i < 3; i++)
-    {
-        student* st;
-        stack_pop(s_struct, &st);
-        printf("name:%s,age:%d", st->name, st->age);
-        printf("\n");
-        stu_des(st);
-    }
-    stack_des(s_struct);
-    //函数进栈
-    stack* s = stack_init(normal_des);
-    stack_push(s, my_print1);
-    stack_push(s, my_print2);
-    stack_push(s, my_print3);
-    for (int i = 1; i < 10; i++)
-    {
-        void (*p)();
-        stack_pop(s, &p);
-        if (p)p();
-    }
-    stack_des(s);
+    heap_free(h);
 }
