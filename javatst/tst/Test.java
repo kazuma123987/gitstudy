@@ -2,7 +2,7 @@ package javatst.tst;
 
 public class Test {
     private transient String key;//在写入文件或网络传输过程中会变成NULL或0丢失掉，保证安全性
-    private final int Ten=10;
+    //private final int Ten=10;
     protected String account;
     static int count=0;
     public volatile boolean myflag=true;
