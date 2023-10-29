@@ -3,159 +3,157 @@
 #include "mmsystem.h"
 #include "glad/glad.h"  //glad.h必须放在glfw3.h前面，glad可以查找gl、glu、glex、wgl、glx的函数指针以方便调用其函数
 #include "GLFW/glfw3.h" //轻量级跨平台工具库，提供渲染物体最低限度的API（管理窗口、读取输入、处理事件）
-#pragma comment(lib, "winmm.lib")
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-void exit_Input(GLFWwindow *window)
-{
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-int playmusic(FMOD_SYSTEM **system, FMOD_SOUND **sound, FMOD_CHANNEL **channel, const char *bgm)
-{
-    FMOD_RESULT result = FMOD_System_Create(system, FMOD_VERSION);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to create system", stderr);
-        return 1;
-    }
-    result = FMOD_System_Init(*system, 32, FMOD_INIT_NORMAL, NULL);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to init system", stderr);
-        return 1;
-    }
-    result = FMOD_System_CreateSound(*system, bgm, FMOD_LOOP_NORMAL | FMOD_3D, NULL, sound);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to create sound", stderr);
-        return 1;
-    }
-    result = FMOD_System_PlaySound(*system, *sound, NULL, FMOD_OK, channel);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to play sound", stderr);
-        return 1;
-    }
-    return 0;
-}
-int playmusic_once(FMOD_SYSTEM **system, FMOD_SOUND **sound, FMOD_CHANNEL **channel, const char *bgm)
-{
-    FMOD_RESULT result = FMOD_System_CreateSound(*system, bgm, FMOD_LOOP_OFF | FMOD_3D, NULL, sound);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to create sound", stderr);
-        return 1;
-    }
-    result = FMOD_System_PlaySound(*system, *sound, NULL, FMOD_OK, channel);
-    if (result != FMOD_OK)
-    {
-        fputs("\nfailed to play sound", stderr);
-        return 1;
-    }
-    return 0;
-}
-void press_choose_input(GLFWwindow *window, FMOD_SYSTEM **system, FMOD_SOUND **sound, FMOD_CHANNEL **channel,clock_t *pre)
-{
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        FMOD_Sound_Release(*sound);
-        playmusic_once(system, sound, channel, "music/choose.wav");
-        *pre=clock();
-    }
-}
-void press_3D_input(GLFWwindow *window, bool *flag_3D, clock_t *dst)
-{
-    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
-    {
-        *flag_3D = !(*flag_3D);
-        *dst = clock();
-    }
-}
+//VAO:乘坐高铁的人们 VBO:高铁 显存：高铁的终点站
+//VAO会存储顶点属性的更改和对应的缓存对象
+const char *vsh="#version 330 core\n"
+"layout (location=0) in vec3 pos;\n"
+"void main()\n"
+"{\n"
+"gl_Position=vec4(pos.x,pos.y,pos.z,1);\n"
+"}";
+const char *fsh="#version 330 core\n"
+"out vec4 fcolor;\n"
+"void main()\n"
+"{\n"
+"fcolor=vec4(0.5,0.5,0,1);\n"
+"}";
+void frame_size_callback(GLFWwindow *window,int width,int height);
+void press_close_window(GLFWwindow *window);
 int main()
 {
-    FMOD_SYSTEM *system = NULL;
-    FMOD_SOUND *sound1 = NULL;
-    FMOD_SOUND *sound2 = NULL;
-    FMOD_CHANNEL *channel1 = NULL;
-    FMOD_CHANNEL *channel2 = NULL;
-    glfwInit();                                                    // glfw的初始化
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                 // 设置主版本为3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);                 // 设置次版本为3
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 设置核心模式，只能使用OpenGL功能的一个子集（这个子集足够用了）
-#ifndef WIN32
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // 如果不是windows系统要设置这个
-#endif
-    GLFWwindow *window = glfwCreateWindow(800, 600, "game", NULL, NULL); // 创建窗口
-    if (!window)
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);//注意设置的glfw上下文版本
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+    #ifdef _APPLE_
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_TRUE);
+    #endif
+    GLFWwindow *window=glfwCreateWindow(800,600,"game",NULL,NULL);
+    if(window==NULL)
     {
-        fputs("failed to create a window\n", stderr); // 创建窗口错误检查
+        fputs("\nfailed to create window",stderr);
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);                          // 通知GLFW将窗口的上下文设置为当前线程的主上下文
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) // glad加载函数指针且初始化
+    glfwMakeContextCurrent(window);//设置window为gl要处理的窗口环境
+    glfwSetFramebufferSizeCallback(window,frame_size_callback);
+    //使用glad加载opengl库
+    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        fputs("failed to init glad\n", stderr);
+        fputs("\nfailed to init glad",stderr);
         glfwTerminate();
         return -1;
     }
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); // 注册窗口大小改变时触发的回调函数
-    playmusic(&system, &sound1, &channel1, "music/start.mp3");
-    // 参数部分
-    FMOD_VECTOR pos;
-    pos.x = 0;
-    pos.y = 0;
-    pos.z = 2;
-    unsigned int msec = 0;
-    clock_t cur_t = 0;
-    clock_t pre_3D_t=0;
-    clock_t pre_choost_t;
-    while (!glfwWindowShouldClose(window)) // 渲染循环
+    //顶点着色器vertexShader
+    GLuint vertexShader=glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader,1,&vsh,NULL);
+    glCompileShader(vertexShader);
+    int flag_v=1;
+    char info_v[512];
+    glGetShaderiv(vertexShader,GL_COMPILE_STATUS,&flag_v);
+    if(!flag_v)
     {
-        cur_t=clock();
-        /*输入与判断部分*/
-        exit_Input(window); // 自定义的函数，当按下空格键时设置glfwWindowShouldClose为true
-        FMOD_BOOL isplaying = FALSE;  
-        if (cur_t-pre_choost_t>200)
-        {
-            press_choose_input(window, &system, &sound2, &channel2,&pre_choost_t);
-        }
-        bool flag_3D, pre;
-        pre = flag_3D;
-        if (cur_t - pre_3D_t > 500)
-        {
-            press_3D_input(window, &flag_3D, &pre_3D_t);
-        }
-        if (pre != flag_3D && !flag_3D)
-        {
-            FMOD_VECTOR pos1;
-            pos1.x = 0;
-            pos1.y = 0;
-            pos1.z = 0;
-            FMOD_Channel_Set3DAttributes(channel1, &pos1, NULL);
-            FMOD_System_Update(system);
-        }
-        if (flag_3D)
-        {
-            FMOD_Channel_GetPosition(channel1, &msec, FMOD_TIMEUNIT_MS);
-            double angle = 3.1415926536 * msec / 4000;
-            pos.x = 2 * sin(angle);
-            pos.z = 2 * cos(angle);
-            FMOD_Channel_Set3DAttributes(channel1, &pos, NULL);
-            FMOD_System_Update(system);
-        }
-        /*渲染部分*/
-        glClearColor(0.1, 0.2, 0.3, 0.4); // 设置运行glclear时的颜色，这是状态参数
-        glClear(GL_COLOR_BUFFER_BIT);     // 采用设置的颜色清屏
-        /*输出部分*/
-        glfwSwapBuffers(window); // 交换两个缓冲区的数据，以实现实时渲染
-        glfwPollEvents();        // 监听事件
+        glGetShaderInfoLog(vertexShader,512,NULL,info_v);
+        fputs(info_v,stderr);
     }
-    glfwTerminate(); // 渲染完成，释放所有资源
-    FMOD_Sound_Release(sound1);
-    FMOD_System_Release(system);
+    //片段着色器fragmentShader
+    GLuint fragmentShader=glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader,1,&fsh,NULL);
+    glCompileShader(fragmentShader);
+    int flag_f=1;
+    char info_f[512];
+    glGetShaderiv(fragmentShader,GL_COMPILE_STATUS,&flag_f);
+    if(!flag_f)
+    {
+        glGetShaderInfoLog(fragmentShader,512,NULL,info_f);
+        fputs(info_f,stderr);
+    }
+    //着色器程序shaderProgram
+    GLuint shaderProgram=glCreateProgram();
+    glAttachShader(shaderProgram,vertexShader);
+    glAttachShader(shaderProgram,fragmentShader);
+    glLinkProgram(shaderProgram);
+    int flag_p=1;
+    char info_p[512];
+    glGetProgramiv(shaderProgram,GL_LINK_STATUS,&flag_p);
+    if(!flag_p)
+    {
+        glGetProgramInfoLog(shaderProgram,512,NULL,info_p);
+        fputs(info_p,stderr);
+    }
+    //已经创建完着色器程序，删除不需要的着色器
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    //顶点数组和索引
+    float arr_vertex[]=
+    {
+        0,0,0,
+        0.5f,0.5f,0,
+        -0.5f,0.5f,0,
+        0,0,0,
+        -0.5f,-0.5f,0,
+        0.5f,-0.5f,0
+    };
+    unsigned int arr_index[]=
+    {
+        0,1,3,
+        1,2,3,
+    };
+    //通过glGen创建顶点数组对象VAO，顶点缓冲对象VBO，元素（索引）缓冲对象EBO名称；
+    //通过glBind创建VAO、VBO、EBO对象（再次使用glBind会激活对象）
+    GLuint VAO,VBO,EBO;
+    glGenVertexArrays(1,&VAO);//生成1个VAO"名称"并存放在变量中,可以GLuint VAO[5];glGenVertexArrays(5,VAO)这样创建5个VAO名称到数组中
+    glGenBuffers(1,&VBO);//生成1个缓存对象"名称"并存于变量中，也可以用数组方式存储，同上
+    glGenBuffers(1,&EBO);//生成1个缓存对象"名称"并存于变量中，也可以用数组方式存储，同上
+    glBindVertexArray(VAO);//为当前VAO名称创建一个顶点数组对象，并将VAO名称与VAO对象关联起来，
+    //通常glBindVertexArray(Name)有三个作用：
+    //1.如果Name没绑定顶点数组对象，则为其创建并绑定该VAO对象
+    //2.如果Name已经绑定过VAO对象，则将其绑定的对象设置为当前活动的VAO对象（激活Name关联的VAO对象）
+    //3.如果Name是0，则激活默认VAO对象
+    glBindBuffer(GL_ARRAY_BUFFER,VBO);//为当前缓存对象名称创建一个VBO对象（利用GL_ARRAY_BUFFER选项）并将名称与对象关联起来
+    //glBindBuffer(target,Buffer_Name)三个作用:
+    //1.若名称未绑定缓存对象，创建并绑定新的缓存对象，缓存对象类型按target决定,如target为时GL_ARRAY_BUFFER创建并绑定新的数组缓存对象
+    //2.若名称已绑定缓存对象，激活该名称绑定的缓存对象为当前活动缓存对象
+    //3.如果名称为0，则还原当前活动缓存对象为默认状态
+    glBufferData(GL_ARRAY_BUFFER,sizeof(arr_vertex),arr_vertex,GL_STATIC_DRAW);//拷贝数组数据到缓存对象内存中（显存）
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);//创建并关联新的EBO对象
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(arr_index),arr_index,GL_STATIC_DRAW);//拷贝数组数据到显存
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),(void*)0);//设置顶点属性（VertexAttribute)
+    glEnableVertexAttribArray(0);//使顶点属性指针对应的顶点属性起作用
+    glBindBuffer(GL_ARRAY_BUFFER,0);//解除绑定的VBO对象
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);//不要解绑EBO对象，因为VAO会使用EBO的数据
+    glBindVertexArray(0);//解绑VAO对象
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);//线框模式绘图
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
+
+    while(!glfwWindowShouldClose(window))
+    {
+        //inputs
+        press_close_window(window);
+        //shader
+        glClearColor(0.1,0.2,0.3,1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(shaderProgram);//使用着色器程序
+        glBindVertexArray(VAO);//绑定VAO对象
+        //glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);//利用索引缓存对象画三角形
+        glDrawArrays(GL_TRIANGLES,0,3);
+        //output
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    glDeleteVertexArrays(1,&VAO);//删除VAO绑定的一个VAO对象
+    glDeleteBuffers(1,&VBO);//删除VBO绑定的一个缓存对象
+    glDeleteBuffers(1,&EBO);//删除EBO绑定的一个缓存对象
+    glDeleteProgram(shaderProgram);//删除着色器程序
+    glfwTerminate();//不要忘记释放glfw资源
     return 0;
+}
+void frame_size_callback(GLFWwindow *window,int width,int height)
+{
+    glViewport(0,0,width,height);
+}
+void press_close_window(GLFWwindow *window)
+{
+    if(glfwGetKey(window,GLFW_KEY_SPACE)==GLFW_PRESS)
+        glfwSetWindowShouldClose(window,TRUE);
 }
