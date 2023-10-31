@@ -6,9 +6,9 @@
 #include <limits.h>  //INT_MAX
 #include <string.h>  //memcpy,strcat...
 #include <stdint.h>  //uint16_t,int8_t..B.
-#include <windows.h> //Sleep()
-#include <conio.h>   //kbhit(),_getch()
 #include <time.h>    //time(),time_t,ctime
 #include <stdint.h>
 #include <math.h>
+#include <windows.h> //Sleep()
+#include <conio.h>   //kbhit(),_getch()
 #endif
