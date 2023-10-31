@@ -1,22 +1,22 @@
-#include "test.h"
+#include "tool.h"
+#include "sound.h"
+#include "shader.h"
 // N卡使用独显运行
-//extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+// extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // VAO:乘坐高铁的人们 VBO:高铁 显存：高铁的终点站
 // VAO会存储顶点属性的更改和对应的缓存对象
+// 函数声明
 void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
-void press_position_control(GLFWwindow *window, Shader *shader,clock_t *pre);
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-FMODSOUND* InitSound();
-void deleteSound(FMODSOUND *s);
-//全局变量
+void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre);
+void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+// 全局变量
 static float xoffset = 0;
 static float yoffset = 0;
-static FMODMUSIC music;
-FMODSOUND* s1=InitSound();
+FMODSOUND *s1 = InitSound();
 int main()
 {
-    // 初始化
+    // glfw初始化
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 注意设置的glfw上下文版本
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -24,9 +24,7 @@ int main()
 #ifdef _APPLE_
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-    music.init();
-    music.loadMusic(s1,"music/start.mp3");
-    // 创建窗口
+    // 创建glfw窗口
     GLFWwindow *window = glfwCreateWindow(800, 600, "game", NULL, NULL);
     if (window == NULL)
     {
@@ -69,15 +67,18 @@ int main()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-    // 解绑
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // VAO或VBO解绑(VEO不建议解绑)
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);//线框模式绘图
-    // glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
+    // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);//线框模式绘图
+    //  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
     clock_t cur = 0;
     clock_t pre_control = 0;
-    glfwSetKeyCallback(window,keyCallback);
+    glfwSetKeyCallback(window, keyCallback);
+    static FMODMUSIC music;
+    music.init();
+    music.loadMusic(s1, "music/start.mp3");
     music.playMusic(s1);
     while (!glfwWindowShouldClose(window))
     {
@@ -88,20 +89,20 @@ int main()
         glClearColor(0.1, 0.2, 0.3, 1);
         glClear(GL_COLOR_BUFFER_BIT);
         shader1.use();
-        float t=2*glfwGetTime();
-        float r=cos(t)*0.5+0.5;
-        float g=cos(t-PI*2/3)*0.5+0.5;
-        float b=cos(t-PI*4/3)*0.5+0.5;
-        arr_vertex[3]=arr_vertex[11]=arr_vertex[16]=r;
-        arr_vertex[4]=arr_vertex[9]=arr_vertex[17]=g;
-        arr_vertex[5]=arr_vertex[10]=arr_vertex[15]=b;
+        float t = 2 * glfwGetTime();
+        float r = cos(t) * 0.5 + 0.5;
+        float g = cos(t - PI * 2 / 3) * 0.5 + 0.5;
+        float b = cos(t - PI * 4 / 3) * 0.5 + 0.5;
+        arr_vertex[3] = arr_vertex[11] = arr_vertex[16] = r;
+        arr_vertex[4] = arr_vertex[9] = arr_vertex[17] = g;
+        arr_vertex[5] = arr_vertex[10] = arr_vertex[15] = b;
         glBufferData(GL_ARRAY_BUFFER, sizeof(arr_vertex), arr_vertex, GL_DYNAMIC_DRAW);
         if (cur - pre_control > 10)
             press_position_control(window, &shader1, &pre_control);
         glBindVertexArray(VA_NAME);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        //sound
-        music.set3DPosition(s1,sin(t),cos(t),0);
+        // sound
+        music.set3DPosition(s1, sin(t), cos(t), 0);
         music.updateSystem();
         // glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);//利用索引缓存对象画三角形
         // output
@@ -115,10 +116,24 @@ int main()
     music.systemFree();
     return 0;
 }
+// 回调函数
 void frame_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    if (key == (GLFW_KEY_P) && action == GLFW_PRESS)
+    {
+        static bool f = FALSE;
+        FMOD_Channel_SetPaused(s1->channel, (f = !f));
+    }
+    else if (key == GLFW_KEY_N && action == GLFW_PRESS)
+    {
+        FMOD_Channel_Stop(s1->channel);
+    }
+}
+// 普通函数
 void press_close_window(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
@@ -129,45 +144,21 @@ void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         shader->unfm1f("y", (yoffset += 0.015));
-        *pre=clock();
+        *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
         shader->unfm1f("y", (yoffset -= 0.015));
-        *pre=clock();
+        *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
         shader->unfm1f("x", (xoffset -= 0.015));
-        *pre=clock();
+        *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
         shader->unfm1f("x", (xoffset += 0.015));
-        *pre=clock();
+        *pre = clock();
     }
-}
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key==(GLFW_KEY_P)&&action==GLFW_PRESS)
-    {
-        static bool f=FALSE;
-        FMOD_Channel_SetPaused(s1->channel,(f=!f));
-    }
-    else if(key==GLFW_KEY_N&&action==GLFW_PRESS)
-    {
-        FMOD_Channel_Stop(s1->channel);
-    }
-}
-FMODSOUND* InitSound()
-{
-    FMODSOUND *s=(FMODSOUND*)malloc(sizeof(FMODSOUND));
-    s->channel=NULL;
-    s->sound=NULL;
-    return s;
-}
-void deleteSound(FMODSOUND *s)
-{
-    FMOD_Sound_Release(s->sound);
-    free(s);
 }
