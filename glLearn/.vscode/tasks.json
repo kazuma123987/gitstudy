@@ -2,7 +2,7 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "cmake",
+            "label": "cmake_debug",
             "command": [
                 "clear;",
                 "del 'build/*' -recurse;",
@@ -23,6 +23,27 @@
         },
         {
             "type": "shell",
+            "label": "cmake_Release",
+            "command": [
+                "clear;",
+                "del 'build/*' -recurse;",
+                "cd build;",
+                "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Release ..;",
+                "make -j;"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
             "label": "run",
             "command": "./main",
             "options": {
@@ -32,7 +53,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "cmake"
+            "dependsOn": "cmake_debug"
         },
     ],
     "version": "2.0.0"

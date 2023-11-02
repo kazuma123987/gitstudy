@@ -1,9 +1,8 @@
 #include "tool.h"
-#include "../include/shader.h"
+#include "shader.h"
 Shader::Shader(const char *vpath, const char *fpath)
 {
     // 文件操作
-    const int FileName_Size = 128;
     FILE *fp1 = fopen(vpath, "rb");
     if (!fp1)
         fputs("\nfailed to open the path of vertexShader", stderr);

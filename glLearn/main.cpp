@@ -2,20 +2,24 @@
 #include "sound.h"
 #include "shader.h"
 // N卡使用独显运行
-// extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-// VAO:乘坐高铁的人们 VBO:高铁 显存：高铁的终点站
-// VAO会存储顶点属性的更改和对应的缓存对象
+//xtern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
 void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+void OpenName_Init(OPENFILENAMEA *ofn, char szFile[]);
 // 全局变量
 static float xoffset = 0;
 static float yoffset = 0;
-FMODSOUND *s1 = InitSound();
-int main()
+int main(int argc, char *argv[])
 {
+    // 获取文件当前路径
+    GetModuleFileNameA(NULL, filePath, PATH_MAX);
+    char *c = strrchr(filePath, '\\');
+    if (c != NULL)*(c + 1) = '\0';
+    //fmod初始化
+    s1 = InitSound();
     // glfw初始化
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 注意设置的glfw上下文版本
@@ -43,7 +47,8 @@ int main()
     }
 
     // 创建着色器程序
-    Shader shader1("shader/shader.vsh", "shader/shader.fsh");
+    SetCurrentDirectoryA(filePath);
+    Shader shader1("./shader\\shader.vsh", "./shader\\shader.fsh");
 
     // 顶点数组和索引
     float arr_vertex[] =
@@ -75,6 +80,7 @@ int main()
     //  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
     clock_t cur = 0;
     clock_t pre_control = 0;
+    clock_t onesec=0;
     glfwSetKeyCallback(window, keyCallback);
     static FMODMUSIC music;
     music.init();
@@ -82,6 +88,7 @@ int main()
     music.playMusic(s1);
     while (!glfwWindowShouldClose(window))
     {
+        static uint16_t count=0;
         cur = clock();
         // inputs
         press_close_window(window);
@@ -161,4 +168,20 @@ void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
         shader->unfm1f("x", (xoffset += 0.015));
         *pre = clock();
     }
+}
+void OpenName_Init(OPENFILENAMEA *ofn, char szFile[])
+{
+    // 初始化OPENFILENAME
+    memset(ofn, 0, sizeof(OPENFILENAMEA));
+    ofn->lStructSize = sizeof(OPENFILENAMEA);
+    ofn->lpstrFile = szFile; // 文件路径
+    // 把lpstrFile[0]赋值为'\0'这样GetOpenFileName不会用szFile的内容初始化它自己
+    ofn->lpstrFile[0] = '\0';
+    ofn->nMaxFile = PATH_MAX;                     // 文件路径长度
+    ofn->lpstrFilter = "All\0*.*\0Text\0*.TXT\0"; // 定义了两个筛选器ALL(*.*),Text(*.TXT),索引值分别为1，2
+    ofn->nFilterIndex = 1;                        // 默认筛选器索引
+    ofn->lpstrFileTitle = NULL;                   // 文件名，如果需要获取文件名，ofn.Flags需要开启OFN_EXPLORER
+    ofn->nMaxFileTitle = 0;                       // 文件名长度
+    ofn->lpstrInitialDir = NULL;
+    ofn->Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST; // 禁止用户使用不存在的路径和文件名
 }

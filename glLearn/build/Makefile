@@ -152,6 +152,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/global.obj: src/global.cpp.obj
+.PHONY : src/global.obj
+
+# target to build an object file
+src/global.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/global.cpp.obj
+.PHONY : src/global.cpp.obj
+
+src/global.i: src/global.cpp.i
+.PHONY : src/global.i
+
+# target to preprocess a source file
+src/global.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/global.cpp.i
+.PHONY : src/global.cpp.i
+
+src/global.s: src/global.cpp.s
+.PHONY : src/global.s
+
+# target to generate assembly for a file
+src/global.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/global.cpp.s
+.PHONY : src/global.cpp.s
+
 src/shader.obj: src/shader.cpp.obj
 .PHONY : src/shader.obj
 
@@ -200,6 +224,14 @@ src/sound.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/sound.cpp.s
 .PHONY : src/sound.cpp.s
 
+version.obj: version.rc.obj
+.PHONY : version.obj
+
+# target to build an object file
+version.rc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/version.rc.obj
+.PHONY : version.rc.obj
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -212,12 +244,16 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/global.obj
+	@echo ... src/global.i
+	@echo ... src/global.s
 	@echo ... src/shader.obj
 	@echo ... src/shader.i
 	@echo ... src/shader.s
 	@echo ... src/sound.obj
 	@echo ... src/sound.i
 	@echo ... src/sound.s
+	@echo ... version.obj
 .PHONY : help
 
 
