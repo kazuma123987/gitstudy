@@ -1,6 +1,6 @@
 #ifndef _TOOL_H_
 #define _TOOL_H_
-//不需要链接库的头文件
+// 不需要链接库的头文件
 #include <stdio.h>
 #include <stdlib.h>  //malloc,free,rand,srand,system,exit,atoi,itoa,abs,labs,qsort
 #include <stdbool.h> //bool,true,false
@@ -12,7 +12,12 @@
 #include <math.h>
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
-//需要链接库的头文件
+
+#include "stb_image.h" //图像加载库(不能写入)
+#include "glm/glm.hpp" //后面均为opengl提供的数学库,可以用于opengl之外的数学运算
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+// 需要链接库的头文件
 #include <mmsystem.h>
 #include "fmod/fmod.h"
 #include "glad/glad.h"  //glad.h必须放在glfw3.h前面，glad可以查找gl、glu、glex、wgl、glx的函数指针以方便调用其函数
