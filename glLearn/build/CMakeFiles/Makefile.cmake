@@ -89,7 +89,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.27.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeRCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeSystem.cmake"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/version.rc.in"
   )
 
 # The corresponding makefile is:
@@ -100,7 +99,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "version.rc"
   "CMakeFiles/3.27.4/CMakeSystem.cmake"
   "CMakeFiles/3.27.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeRCCompiler.cmake"

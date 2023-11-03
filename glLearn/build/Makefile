@@ -224,13 +224,29 @@ src/sound.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/sound.cpp.s
 .PHONY : src/sound.cpp.s
 
-version.obj: version.rc.obj
-.PHONY : version.obj
+src/stb_image.obj: src/stb_image.cpp.obj
+.PHONY : src/stb_image.obj
 
 # target to build an object file
-version.rc.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/version.rc.obj
-.PHONY : version.rc.obj
+src/stb_image.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.obj
+.PHONY : src/stb_image.cpp.obj
+
+src/stb_image.i: src/stb_image.cpp.i
+.PHONY : src/stb_image.i
+
+# target to preprocess a source file
+src/stb_image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.i
+.PHONY : src/stb_image.cpp.i
+
+src/stb_image.s: src/stb_image.cpp.s
+.PHONY : src/stb_image.s
+
+# target to generate assembly for a file
+src/stb_image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.s
+.PHONY : src/stb_image.cpp.s
 
 # Help Target
 help:
@@ -253,7 +269,9 @@ help:
 	@echo ... src/sound.obj
 	@echo ... src/sound.i
 	@echo ... src/sound.s
-	@echo ... version.obj
+	@echo ... src/stb_image.obj
+	@echo ... src/stb_image.i
+	@echo ... src/stb_image.s
 .PHONY : help
 
 

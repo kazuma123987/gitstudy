@@ -5,4 +5,6 @@
 #include "sound.h"
 extern char filePath[PATH_MAX];
 extern FMODSOUND *s1;
+extern FMODSOUND *s2;
+extern FMODMUSIC music;
 #endif
