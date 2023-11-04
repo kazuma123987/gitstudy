@@ -2,7 +2,7 @@
 #include "sound.h"
 #include "shader.h"
 // N卡使用独显运行
-//extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
@@ -10,8 +10,7 @@ void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[]);
 // 全局变量
-static float xoffset = 0;
-static float yoffset = 0;
+static glm::mat4 trans = glm::mat4(1.0f);                          // 创建变换矩阵并初始化为单位矩阵
 int main(int argc, char *argv[])
 {
     // 获取文件当前路径
@@ -88,13 +87,13 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR); // 只有缩小能开启多级渐远纹理
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);//像素清晰,图像柔和
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);               // 像素清晰,图像柔和
     // 加载并发送纹理
     int width[4], height[4], nColorChannels[4];
     unsigned char *imageData = stbi_load("res/texture/metal1.jpg", &width[0], &height[0], &nColorChannels[0], 0);
     if (imageData)
     {
-        //注意如果是png需要把两个GL_RGB都换成GL_RGBA
+        // 注意如果是png需要把两个GL_RGB都换成GL_RGBA
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width[0], height[0], 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
@@ -105,24 +104,24 @@ int main(int argc, char *argv[])
     glBindTexture(GL_TEXTURE_2D, texture[1]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);//像素清晰,图像整体偏像素风
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // 像素清晰,图像整体偏像素风
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     stbi_set_flip_vertically_on_load(TRUE);
     imageData = stbi_load("res/texture/qln.jpg", &width[1], &height[1], &nColorChannels[1], 0);
     if (imageData)
     {
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);//按每行单字节处理图片传输(纹理宽度乘以颜色通道数不是4的整数倍时需要使用,高度不影响)
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // 按每行单字节处理图片传输(纹理宽度乘以颜色通道数不是4的整数倍时需要使用,高度不影响)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width[1], height[1], 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
         glGenerateMipmap(GL_TEXTURE_2D);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);//恢复默认状态(每行四字节传输)
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // 恢复默认状态(每行四字节传输)
     }
     else
         fputs("\nfailed to load the image2", stderr);
     stbi_image_free(imageData);
     // 指定纹理单元传入的位置(注意这里不要把第二个参数设置成GL_TEXTURE0等)
     shader1.use();
-    shader1.unfm1i("ourTexture1",0);
-    shader1.unfm1i("ourTexture2",1);
+    shader1.unfm1i("ourTexture1", 0);
+    shader1.unfm1i("ourTexture2", 1);
 
     // 顶点指针设置
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0); // 顶点坐标
@@ -151,9 +150,6 @@ int main(int argc, char *argv[])
     FMOD_Sound_SetMode(s1->sound, FMOD_LOOP_NORMAL);
     music.loadMusic(s2, "res/music/choose.wav");
     music.playMusic(s1);
-    //test
-    glm::vec4 vec(1.0f,0.0f,0.0f,1.0f); //创建(x,y,z,w)坐标系并初始化
-    glm::mat4 trans=glm::mat4(1.0f);    //创建变换矩阵并初始化为单位矩阵
     while (!glfwWindowShouldClose(window))
     {
         cur = clock();
@@ -166,7 +162,8 @@ int main(int argc, char *argv[])
         float t = 2 * glfwGetTime();
         if (cur - pre_control > 10)
             press_position_control(window, &shader1, &pre_control);
-        shader1.unfm1f("mixVector",(sin(t)+1)*0.5);
+        shader1.unfm1f("mixVector", (sin(t) + 1) * 0.5);
+        shader1.unfmat4fv("trans",trans);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture[0]);
         glActiveTexture(GL_TEXTURE1);
@@ -217,25 +214,37 @@ void press_close_window(GLFWwindow *window)
 }
 void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
 {
+    //位移控制
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        shader->unfm1f("y", (yoffset += 0.015));
+        trans=glm::translate(trans,glm::vec3(0.0f,0.015f,0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        shader->unfm1f("y", (yoffset -= 0.015));
+        trans=glm::translate(trans,glm::vec3(0.0f,-0.015f,0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        shader->unfm1f("x", (xoffset -= 0.015));
+        trans=glm::translate(trans,glm::vec3(-0.015f,0.0f,0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        shader->unfm1f("x", (xoffset += 0.015));
+        trans=glm::translate(trans,glm::vec3(0.015f,0.0f,0.0f));
         *pre = clock();
+    }
+    //旋转控制
+    if(glfwGetKey(window,GLFW_KEY_Q)==GLFW_PRESS)
+    {
+        trans=glm::rotate(trans,glm::radians(1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴左旋1°
+        *pre=clock();
+    }
+    else if(glfwGetKey(window,GLFW_KEY_R)==GLFW_PRESS)
+    {
+        trans=glm::rotate(trans,glm::radians(-1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴右旋1°
+        *pre=clock();
     }
 }
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[])

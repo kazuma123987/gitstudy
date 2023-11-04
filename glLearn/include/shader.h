@@ -9,5 +9,6 @@ public:
     void unfm1f(const char *str, float value) const;
     void unfm1i(const char *str, float value) const;
     void unfm3f(const char *str, float a, float b, float c);
+    void unfmat4fv(const char *str,glm::mat4 matrix);
 };
 #endif
