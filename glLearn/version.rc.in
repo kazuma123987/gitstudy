@@ -1,4 +1,4 @@
-IDI_ICON1 ICON "./favicon.ico" //图标信息
+IDI_ICON1 ICON "../favicon.ico" //图标信息
 #define VER_FILEVERSION             @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,@VERSION_BUILD@ //文件版本
 #define VER_FILEVERSION_STR         "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@.@VERSION_BUILD@" //文件版本字符串
 
