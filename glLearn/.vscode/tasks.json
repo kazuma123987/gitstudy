@@ -2,37 +2,86 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "cmake_debug",
+            "label": "clean",
             "command": [
                 "clear;",
-                "del 'build/*' -recurse;",
-                "cd build;",
-                "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Debug ..;",
-                "make -j;"
+                "del 'build/*' -recurse;"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Debug",
+            "command": [
+                "clear;",
+                "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Debug ..;",
+                "cmake --build . -j --target all;"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
             },
             "problemMatcher": [
                 "$gcc"
             ],
             "group": {
                 "kind": "build",
-                "isDefault": false
+                "isDefault": true
             }
         },
         {
             "type": "shell",
-            "label": "cmake_Release",
+            "label": "Release",
             "command": [
                 "clear;",
-                "del 'build/*' -recurse;",
-                "cd build;",
                 "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Release ..;",
                 "make -j;"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "MinSizeRel",
+            "command": [
+                "clear;",
+                "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=MinSizeRel ..;",
+                "make -j;"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "RelWithDebInfo",
+            "command": [
+                "clear;",
+                "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=RelWithDebInfo ..;",
+                "make -j;"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
             },
             "problemMatcher": [
                 "$gcc"
@@ -45,16 +94,15 @@
         {
             "type": "shell",
             "label": "run",
-            "command": "./main",
+            "command": "./main;",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "dependsOn": "cmake_debug"
-        },
+            }
+        }
     ],
     "version": "2.0.0"
 }

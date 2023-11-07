@@ -2,7 +2,7 @@
 #include "sound.h"
 #include "shader.h"
 // N卡使用独显运行
-extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+//extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
@@ -235,7 +235,8 @@ void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
         trans=glm::translate(trans,glm::vec3(0.015f,0.0f,0.0f));
         *pre = clock();
     }
-    //旋转控制
+    //旋转控制(这里旋转矩阵和缩放矩阵都要放在位移矩阵之后,因为根据矩阵乘法的结合律,trans(位移)*trans(旋转)*trans(缩放)*mat(位置)是从右向左
+    //改变位置坐标的,如果先位移的话,基准点的改变会存放在矩阵中,从而旋转和缩放都会以这个基准点进行变换)
     if(glfwGetKey(window,GLFW_KEY_Q)==GLFW_PRESS)
     {
         trans=glm::rotate(trans,glm::radians(1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴左旋1°
@@ -244,6 +245,17 @@ void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
     else if(glfwGetKey(window,GLFW_KEY_R)==GLFW_PRESS)
     {
         trans=glm::rotate(trans,glm::radians(-1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴右旋1°
+        *pre=clock();
+    }
+    //缩放控制
+    if(glfwGetKey(window,GLFW_KEY_UP)==GLFW_PRESS)
+    {
+        trans=glm::scale(trans,glm::vec3(1.01,1.01,1.01));
+        *pre=clock();
+    }
+    else if(glfwGetKey(window,GLFW_KEY_DOWN)==GLFW_PRESS)
+    {
+        trans=glm::scale(trans,glm::vec3(0.99,0.99,0.99));
         *pre=clock();
     }
 }
