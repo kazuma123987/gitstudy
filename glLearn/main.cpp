@@ -2,15 +2,13 @@
 #include "sound.h"
 #include "shader.h"
 // N卡使用独显运行
-//extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+// extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
 void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[]);
-// 全局变量
-static glm::mat4 trans = glm::mat4(1.0f);                          // 创建变换矩阵并初始化为单位矩阵
 int main(int argc, char *argv[])
 {
     // 获取文件当前路径
@@ -27,7 +25,7 @@ int main(int argc, char *argv[])
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // 创建glfw窗口
-    GLFWwindow *window = glfwCreateWindow(800, 600, "game", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(700, 700, "game", NULL, NULL);
     if (window == NULL)
     {
         fputs("\nfailed to create window", stderr);
@@ -43,7 +41,7 @@ int main(int argc, char *argv[])
         glfwTerminate();
         return -1;
     }
-
+    /*-----------first box-----------*/
     // 创建着色器程序
     SetCurrentDirectoryA(filePath);
     Shader shader1("res\\shader\\shader.vsh", "res\\shader\\shader.fsh");
@@ -63,9 +61,9 @@ int main(int argc, char *argv[])
         };
 
     // VAO
-    GLuint VA_NAME;
-    glGenVertexArrays(1, &VA_NAME);
-    glBindVertexArray(VA_NAME);
+    GLuint VA_NAME[2];
+    glGenVertexArrays(2, VA_NAME);
+    glBindVertexArray(VA_NAME[0]);
 
     // VBO
     GLuint VB_NAME;
@@ -74,9 +72,9 @@ int main(int argc, char *argv[])
     glBufferData(GL_ARRAY_BUFFER, sizeof(arr_vertex), arr_vertex, GL_STATIC_DRAW);
 
     // EBO
-    GLuint EB_NAME;
-    glGenBuffers(1, &EB_NAME);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EB_NAME);
+    GLuint EB_NAME[2];
+    glGenBuffers(2, EB_NAME);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EB_NAME[0]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(arr_index), arr_index, GL_STATIC_DRAW);
 
     // TEXTURE
@@ -90,6 +88,7 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);               // 像素清晰,图像柔和
     // 加载并发送纹理
     int width[4], height[4], nColorChannels[4];
+    stbi_set_flip_vertically_on_load(TRUE);
     unsigned char *imageData = stbi_load("res/texture/metal1.jpg", &width[0], &height[0], &nColorChannels[0], 0);
     if (imageData)
     {
@@ -106,7 +105,6 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // 像素清晰,图像整体偏像素风
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    stbi_set_flip_vertically_on_load(TRUE);
     imageData = stbi_load("res/texture/qln.jpg", &width[1], &height[1], &nColorChannels[1], 0);
     if (imageData)
     {
@@ -118,10 +116,26 @@ int main(int argc, char *argv[])
     else
         fputs("\nfailed to load the image2", stderr);
     stbi_image_free(imageData);
+
+    glBindTexture(GL_TEXTURE_2D, texture[2]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // 像素清晰,图像整体偏像素风
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    imageData = stbi_load("res/texture/a.jpg", &width[2], &height[2], &nColorChannels[2], NULL);
+    if (imageData)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width[2], height[2], 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+        fputs("\nfailed to load the image3", stderr);
+    stbi_image_free(imageData);
     // 指定纹理单元传入的位置(注意这里不要把第二个参数设置成GL_TEXTURE0等)
     shader1.use();
     shader1.unfm1i("ourTexture1", 0);
     shader1.unfm1i("ourTexture2", 1);
+    shader1.unfm1i("ourTexture",2);
 
     // 顶点指针设置
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0); // 顶点坐标
@@ -140,7 +154,6 @@ int main(int argc, char *argv[])
     // glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
     clock_t cur = 0;
     clock_t pre_control = 0;
-    clock_t onesec = 0;
     glfwSetKeyCallback(window, keyCallback);
     // fmod
     s1 = InitSound();
@@ -158,17 +171,29 @@ int main(int argc, char *argv[])
         // shader
         glClearColor(0.1, 0.2, 0.3, 1);
         glClear(GL_COLOR_BUFFER_BIT);
+
         shader1.use();
         float t = 2 * glfwGetTime();
         if (cur - pre_control > 10)
             press_position_control(window, &shader1, &pre_control);
-        shader1.unfm1f("mixVector", (sin(t) + 1) * 0.5);
-        shader1.unfmat4fv("trans",trans);
+        float scale = (sin(t) + 1) * 0.5;
+        shader1.unfm1f("mixVector", scale);
+        shader1.unfm1f("mix2",0);
+        shader1.unfmat4fv("trans", trans);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture[0]);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture[1]);
-        glBindVertexArray(VA_NAME);
+        glBindVertexArray(VA_NAME[0]);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        static glm::mat4 transBase = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5, 0.5, 0));
+        trans1 = glm::scale(transBase, glm::vec3(scale));
+        shader1.unfmat4fv("trans", trans1);
+        shader1.unfm1f("mix2",1);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, texture[2]);
+        glBindVertexArray(VA_NAME[0]);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         // sound
         music.set3DPosition(s1, sin(t), cos(t), 0);
@@ -177,9 +202,9 @@ int main(int argc, char *argv[])
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    glDeleteVertexArrays(1, &VA_NAME); // 删除VAO绑定的一个VAO对象
-    glDeleteBuffers(1, &VB_NAME);      // 删除VBO绑定的一个缓存对象
-    glDeleteBuffers(1, &EB_NAME);
+    glDeleteVertexArrays(2, VA_NAME); // 删除VAO绑定的一个VAO对象
+    glDeleteBuffers(1, &VB_NAME);     // 删除VBO绑定的一个缓存对象
+    glDeleteBuffers(2, EB_NAME);
     glDeleteTextures(4, texture);
     glfwTerminate(); // 不要忘记释放glfw资源
     deleteSound(s1);
@@ -214,49 +239,49 @@ void press_close_window(GLFWwindow *window)
 }
 void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
 {
-    //位移控制
+    // 位移控制
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        trans=glm::translate(trans,glm::vec3(0.0f,0.015f,0.0f));
+        trans = glm::translate(trans, glm::vec3(0.0f, 0.015f, 0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        trans=glm::translate(trans,glm::vec3(0.0f,-0.015f,0.0f));
+        trans = glm::translate(trans, glm::vec3(0.0f, -0.015f, 0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        trans=glm::translate(trans,glm::vec3(-0.015f,0.0f,0.0f));
+        trans = glm::translate(trans, glm::vec3(-0.015f, 0.0f, 0.0f));
         *pre = clock();
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        trans=glm::translate(trans,glm::vec3(0.015f,0.0f,0.0f));
+        trans = glm::translate(trans, glm::vec3(0.015f, 0.0f, 0.0f));
         *pre = clock();
     }
-    //旋转控制(这里旋转矩阵和缩放矩阵都要放在位移矩阵之后,因为根据矩阵乘法的结合律,trans(位移)*trans(旋转)*trans(缩放)*mat(位置)是从右向左
-    //改变位置坐标的,如果先位移的话,基准点的改变会存放在矩阵中,从而旋转和缩放都会以这个基准点进行变换)
-    if(glfwGetKey(window,GLFW_KEY_Q)==GLFW_PRESS)
+    // 旋转控制(这里旋转矩阵和缩放矩阵都要放在位移矩阵之后,因为根据矩阵乘法的结合律,trans(位移)*trans(旋转)*trans(缩放)*mat(位置)是从右向左
+    // 改变位置坐标的,如果先位移的话,基准点的改变会存放在矩阵中,从而旋转和缩放都会以这个基准点进行变换)
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        trans=glm::rotate(trans,glm::radians(1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴左旋1°
-        *pre=clock();
+        trans = glm::rotate(trans, glm::radians(1.0f), glm::vec3(0.0, 0.0, 1.0)); // 绕z轴左旋1°
+        *pre = clock();
     }
-    else if(glfwGetKey(window,GLFW_KEY_R)==GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
     {
-        trans=glm::rotate(trans,glm::radians(-1.0f),glm::vec3(0.0,0.0,1.0));//绕z轴右旋1°
-        *pre=clock();
+        trans = glm::rotate(trans, glm::radians(-1.0f), glm::vec3(0.0, 0.0, 1.0)); // 绕z轴右旋1°
+        *pre = clock();
     }
-    //缩放控制
-    if(glfwGetKey(window,GLFW_KEY_UP)==GLFW_PRESS)
+    // 缩放控制
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
-        trans=glm::scale(trans,glm::vec3(1.01,1.01,1.01));
-        *pre=clock();
+        trans = glm::scale(trans, glm::vec3(1.01, 1.01, 1.01));
+        *pre = clock();
     }
-    else if(glfwGetKey(window,GLFW_KEY_DOWN)==GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        trans=glm::scale(trans,glm::vec3(0.99,0.99,0.99));
-        *pre=clock();
+        trans = glm::scale(trans, glm::vec3(0.99, 0.99, 0.99));
+        *pre = clock();
     }
 }
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[])

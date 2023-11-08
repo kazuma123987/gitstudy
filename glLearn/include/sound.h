@@ -1,6 +1,6 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
-static FMOD_CHANNEL *sharedChannel;
+static FMOD_CHANNEL *sharedChannel=NULL;
 typedef struct FMODSOUND
 {
     FMOD_SOUND *sound;

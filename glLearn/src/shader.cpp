@@ -10,9 +10,9 @@ Shader::Shader(const char *vpath, const char *fpath)
     if (!fp1)
         fputs("\nfailed to open the path of fragmentShader", stderr);
     fseek(fp1, 0, SEEK_END);
-    long size1 = ftell(fp1);
+    size_t size1 = ftell(fp1);
     fseek(fp2, 0, SEEK_END);
-    long size2 = ftell(fp2);
+    size_t size2 = ftell(fp2);
     char *code1 = (char *)malloc(size1 + 1);
     char *code2 = (char *)malloc(size2 + 1);
     rewind(fp1);
