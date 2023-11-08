@@ -2,24 +2,10 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "clean",
-            "command": [
-                "clear;",
-                "del 'build/*' -recurse;"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "type": "shell",
             "label": "Debug",
             "command": [
                 "clear;",
+                "del './*' -recurse;",
                 "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Debug ..;",
                 "cmake --build . -j --target all;"
             ],
@@ -39,6 +25,7 @@
             "label": "Release",
             "command": [
                 "clear;",
+                "del './*' -recurse;",
                 "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=Release ..;",
                 "make -j;"
             ],
@@ -58,6 +45,7 @@
             "label": "MinSizeRel",
             "command": [
                 "clear;",
+                "del './*' -recurse;",
                 "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=MinSizeRel ..;",
                 "make -j;"
             ],
@@ -77,6 +65,7 @@
             "label": "RelWithDebInfo",
             "command": [
                 "clear;",
+                "del './*' -recurse;",
                 "cmake -G 'MinGW Makefiles' -DCMAKE_BUILD_TYPE=RelWithDebInfo ..;",
                 "make -j;"
             ],

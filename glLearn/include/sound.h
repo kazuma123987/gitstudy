@@ -1,5 +1,6 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
+#include "tool.h"
 static FMOD_CHANNEL *sharedChannel=NULL;
 typedef struct FMODSOUND
 {

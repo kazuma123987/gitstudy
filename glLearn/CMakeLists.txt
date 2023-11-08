@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 #设置编译器路径
 set(CMAKE_C_COMPILER C:/MinGW64/13.2.0/bin/gcc.exe)
+#set(CMAKE_C_COMPILER D:/LLVM/bin/clang.exe)
 set(CMAKE_CXX_COMPILER C:/MinGW64/13.2.0/bin/g++.exe)
+#set(CMAKE_CXX_COMPILER D:/LLVM/bin/clang++.exe)
 #设置编译器版本
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)

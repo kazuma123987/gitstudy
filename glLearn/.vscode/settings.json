@@ -6,6 +6,5 @@
         "array": "cpp",
         "string": "cpp",
         "string_view": "cpp"
-    },
-    "C_Cpp.default.compilerPath": "C:/MinGW64/13.2.0/bin/g++.exe"
+    }
 }

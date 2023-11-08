@@ -17,6 +17,7 @@
 #include "glm/glm.hpp" //后面均为opengl提供的数学库,可以用于opengl之外的数学运算
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/string_cast.hpp"
 // 需要链接库的头文件
 #include <mmsystem.h>
 #include "fmod/fmod.h"
