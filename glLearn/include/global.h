@@ -7,4 +7,6 @@ extern char filePath[PATH_MAX];
 extern FMODSOUND *s1;
 extern FMODSOUND *s2;
 extern FMODMUSIC music;
+extern glm::mat4 trans;
+extern glm::mat4 trans1;
 #endif
