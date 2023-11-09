@@ -1,13 +1,15 @@
+#include "tool.h"
+#include "camera.h"
 #include "shader.h"
 #include "sound.h"
-#include "tool.h"
+#include "global.h"
 // N卡使用独显运行
-// extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void error_callback(int error, const char *description);
 void frame_size_callback(GLFWwindow *window, int width, int height);
+void scrollCallBack(GLFWwindow *window, double xoffset, double yoffset);
 void press_close_window(GLFWwindow *window);
-void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mods);
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[]);
@@ -28,7 +30,7 @@ int main(int argc, char *argv[])
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // 创建glfw窗口
-    GLFWwindow *window = glfwCreateWindow(700, 700, "game", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "game", NULL, NULL);
     if (window == NULL)
     {
         fputs("\nfailed to create window", stderr);
@@ -50,48 +52,55 @@ int main(int argc, char *argv[])
     Shader shader1("res\\shader\\shader.vs", "res\\shader\\shader.fs");
 
     // 顶点数组和索引
-    float arr_vertex[] =
-        {-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+    float arr_vertex[] = {
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-         -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
+        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
+
+        -500.0f, -5.0f, -500.0f, 0.0f, 0.0f,
+        500.0f, -5.0f, -500.0f, 1.0f, 0.0f,
+        500.0f, -5.0f, 500.0f, 1.0f, 1.0f,
+        500.0f, -5.0f, 500.0f, 1.0f, 1.0f,
+        -500.0f, -5.0f, 500.0f, 0.0f, 1.0f,
+        -500.0f, -5.0f, -500.0f, 0.0f, 0.0f};
     unsigned int arr_index[] = {
         0, 1, 3, 1, 2, 3, // front
         4, 5, 7, 5, 7, 6, // behind
@@ -191,9 +200,6 @@ int main(int argc, char *argv[])
 
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);//线框模式绘图
     // glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);//填充模式绘图（默认）
-    clock_t cur = 0;
-    clock_t pre_control = 0;
-    glfwSetKeyCallback(window, keyCallback);
     // fmod
     s1 = InitSound();
     s2 = InitSound();
@@ -202,19 +208,25 @@ int main(int argc, char *argv[])
     FMOD_Sound_SetMode(s1->sound, FMOD_LOOP_NORMAL);
     music.loadMusic(s2, "res/music/choose.wav");
     music.playMusic(s1);
-    // 坐标系统
-    viewMat = glm::translate(viewMat, glm::vec3(0.0f, 0.0f, -3.0f));
-    projMat = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f); // 透视投影矩阵
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     for (int j = 0; j < 4; j++)
-    //         printf("%.3f,", projMat[i][j]);
-    //     printf("\n");
-    // }
+    // 回调函数
+    glfwSetKeyCallback(window, keyCallback);
+    glfwSetScrollCallback(window, scrollCallBack);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glm::vec3 offVec[10] = {
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(2.0f, 5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f, 3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f, 2.0f, -2.5f),
+        glm::vec3(1.5f, 0.2f, -1.5f),
+        glm::vec3(-1.3f, 1.0f, -1.5f)};
     while (!glfwWindowShouldClose(window))
     {
-        cur = clock();
-        // inputs
+        // clock_t start=clock();
+        //  inputs
         press_close_window(window);
         // shader
         glClearColor(0.1, 0.2, 0.3, 1);
@@ -222,30 +234,25 @@ int main(int argc, char *argv[])
 
         shader1.use();
         float t = 2 * glfwGetTime();
-        if (cur - pre_control > 10)
-            press_position_control(window, &shader1, &pre_control);
         float scale = (sin(t) + 1) * 0.5;
-        glm::vec3 offVec[10] = {
-            glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 5.0f, -15.0f),
-            glm::vec3(-1.5f, -2.2f, -2.5f), glm::vec3(-3.8f, -2.0f, -12.3f),
-            glm::vec3(2.4f, -0.4f, -3.5f), glm::vec3(-1.7f, 3.0f, -7.5f),
-            glm::vec3(1.3f, -2.0f, -2.5f), glm::vec3(1.5f, 2.0f, -2.5f),
-            glm::vec3(1.5f, 0.2f, -1.5f), glm::vec3(-1.3f, 1.0f, -1.5f)};
+        camera1.updateSpeed();
+        camera1.keyboardControl(window);
+        camera1.curseControl(window);
+        camera1.updatePosition(&shader1, "view", "proj");
         shader1.unfm1f("mixVector", scale);
-        shader1.unfmat4fv("view", viewMat);
-        shader1.unfmat4fv("proj", projMat);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture[0]);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture[1]);
         // glBindVertexArray(VA_NAME[0]);
+        shader1.unfmat4fv("model", glm::mat4(1.0f));
+        glDrawArrays(GL_TRIANGLES, 36, 6);
         for (int i = 0; i < 10; i++)
         {
             glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), offVec[i]);
-            if (i % 2 == 0)
-                modelMat = glm::rotate(
-                    modelMat, (float)glfwGetTime() * glm::radians(100.0f),
-                    glm::vec3(1.0f, 0.2f, 0.5f));
+            modelMat = glm::rotate(
+                modelMat, (float)glfwGetTime() * glm::radians(100.0f),
+                glm::vec3(1.0f, 0.2f, 0.5f));
             shader1.unfmat4fv("model", modelMat);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
@@ -255,6 +262,7 @@ int main(int argc, char *argv[])
         // output
         glfwSwapBuffers(window);
         glfwPollEvents();
+        // printf("\ntime:%dms",clock()-start);
     }
     glDeleteVertexArrays(2, VA_NAME); // 删除VAO绑定的一个VAO对象
     glDeleteBuffers(1, &VB_NAME);     // 删除VBO绑定的一个缓存对象
@@ -289,58 +297,15 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
         FMOD_Channel_Stop(s1->channel);
     }
 }
+void scrollCallBack(GLFWwindow *window, double xoffset, double yoffset)
+{
+    camera1.scrollCallback(yoffset);
+}
 // 普通函数
 void press_close_window(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, TRUE);
-}
-void press_position_control(GLFWwindow *window, Shader *shader, clock_t *pre)
-{
-    // 位移控制
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(0.0f, -0.015f, 0.0f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(0.0f, 0.015f, 0.0f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(0.015f, 0.0f, 0.0f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(-0.015f, 0.0f, 0.0f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(0.0f, 0.0f, 0.03f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        viewMat = glm::translate(viewMat, glm::vec3(0.0f, 0.0f, -0.03f));
-        *pre = clock();
-    }
-    // 旋转控制
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        viewMat = glm::rotate(viewMat, glm::radians(1.0f),
-                              glm::vec3(0.0f, 1.0f, 0.0f));
-        *pre = clock();
-    }
-    else if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        viewMat = glm::rotate(viewMat, glm::radians(-1.0f),
-                              glm::vec3(0.0f, 1.0f, 0.0f));
-        *pre = clock();
-    }
 }
 void OpenName_Init(OPENFILENAMEA *ofn, char szFile[])
 {

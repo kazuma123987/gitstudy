@@ -39,13 +39,14 @@ VERSION 0.0.1
 LANGUAGES CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 # 设置头文件目录(如果设置为源目录程序将改为#include "include/GLFW/glfw3.h")
-include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 # 添加源文件
 set(SOURCES 
+    src/global.cpp
     src/sound.cpp
     src/shader.cpp
-    src/global.cpp
     src/stb_image.cpp
+    src/camera.cpp
     main.cpp
 )
 link_directories(${PROJECT_SOURCE_DIR})
