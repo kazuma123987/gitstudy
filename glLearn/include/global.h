@@ -1,13 +1,11 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
-#include "tool.h"
 #include "shader.h"
 #include "sound.h"
+#include "camera.h"
 extern char filePath[PATH_MAX];
 extern FMODSOUND *s1;
 extern FMODSOUND *s2;
 extern FMODMUSIC music;
-extern glm::mat4 viewMat;
-extern glm::mat4 viewRotate;
-extern glm::mat4 projMat;
+extern Camera camera1;
 #endif
