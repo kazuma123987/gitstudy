@@ -12,6 +12,8 @@ public:
     void unfm1f(const char *str, float value) const;
     void unfm1i(const char *str, float value) const;
     void unfm3f(const char *str, float a, float b, float c);
+    void unfvec3f(const char *str,glm::vec3 vec);
+    void unfmat3fv(const char *str,glm::mat3 matrix);
     void unfmat4fv(const char *str,glm::mat4 matrix);
 };
 #endif

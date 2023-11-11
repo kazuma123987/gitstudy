@@ -14,10 +14,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/src/sound.cpp.obj.d"
   "CMakeFiles/main.dir/src/stb_image.cpp.obj"
   "CMakeFiles/main.dir/src/stb_image.cpp.obj.d"
+  "CMakeFiles/main.dir/version.rc.obj"
   "libmain.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang CXX)
+foreach(lang CXX RC)
   include(CMakeFiles/main.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

@@ -33,7 +33,7 @@ void Camera::keyboardControl(GLFWwindow *window)
         cameraPos -= glm::normalize(glm::cross(cameraFront, worldUp)) * cameraSpeed;
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, worldUp)) * cameraSpeed;
-    cameraPos.y = 0; // 这里限制了摄像机只能在xz平面移动
+    //cameraPos.y = 0; // 这里限制了摄像机只能在xz平面移动
 }
 void Camera::curseControl(GLFWwindow *window)
 {
@@ -73,4 +73,8 @@ void Camera::scrollCallback(float offset)
         fov = 1.0f;
     else if (fov > 60.0f)
         fov = 60.0f;
+}
+glm::vec3 Camera::getPos()
+{
+    return cameraPos;
 }

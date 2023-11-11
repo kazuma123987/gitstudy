@@ -272,6 +272,14 @@ src/stb_image.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.s
 .PHONY : src/stb_image.cpp.s
 
+version.obj: version.rc.obj
+.PHONY : version.obj
+
+# target to build an object file
+version.rc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/version.rc.obj
+.PHONY : version.rc.obj
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -299,6 +307,7 @@ help:
 	@echo ... src/stb_image.obj
 	@echo ... src/stb_image.i
 	@echo ... src/stb_image.s
+	@echo ... version.obj
 .PHONY : help
 
 
