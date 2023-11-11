@@ -84,6 +84,14 @@ void Shader::unfm3f(const char *str, float a, float b, float c)
 {
     glUniform3f(glGetUniformLocation(shaderProgram, str), a, b, c);
 }
+void Shader::unfvec3f(const char *str,glm::vec3 vec)
+{
+    glUniform3f(glGetUniformLocation(shaderProgram,str),vec.x,vec.y,vec.z);
+}
+void Shader::unfmat3fv(const char *str,glm::mat3 matrix)
+{
+    glUniformMatrix3fv(glGetUniformLocation(shaderProgram,str),1,GL_FALSE,glm::value_ptr(matrix));
+}
 void Shader::unfmat4fv(const char *str,glm::mat4 matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram,str),1,GL_FALSE,glm::value_ptr(matrix));

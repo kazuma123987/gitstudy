@@ -27,5 +27,6 @@ public:
     void keyboardControl(GLFWwindow *window);
     void curseControl(GLFWwindow *window);
     void scrollCallback(float offset);
+    glm::vec3 getPos();
 };
 #endif

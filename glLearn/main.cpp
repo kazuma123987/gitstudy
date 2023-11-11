@@ -46,61 +46,62 @@ int main(int argc, char *argv[])
         glfwTerminate();
         return -1;
     }
-    /*-----------first box-----------*/
+    /*-----------model-----------*/
     // 创建着色器程序
     SetCurrentDirectoryA(filePath);
-    Shader shader1("res\\shader\\shader.vs", "res\\shader\\shader.fs");
+    Shader modelShader("res\\shader\\model.vs", "res\\shader\\model.fs");
 
     // 顶点数组和索引
     float arr_vertex[] = {
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        // 位置(3)纹理(2)法向量(3)
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
 
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,
 
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
 
-        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 
-        -500.0f, -5.0f, -500.0f, 0.0f, 0.0f,
-        500.0f, -5.0f, -500.0f, 1.0f, 0.0f,
-        500.0f, -5.0f, 500.0f, 1.0f, 1.0f,
-        500.0f, -5.0f, 500.0f, 1.0f, 1.0f,
-        -500.0f, -5.0f, 500.0f, 0.0f, 1.0f,
-        -500.0f, -5.0f, -500.0f, 0.0f, 0.0f};
+        -500.0f, -0.5f, -500.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        500.0f, -0.5f, -500.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        500.0f, -0.5f, 500.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        500.0f, -0.5f, 500.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        -500.0f, -0.5f, 500.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        -500.0f, -0.5f, -500.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
     unsigned int arr_index[] = {
         0, 1, 3, 1, 2, 3, // front
         4, 5, 7, 5, 7, 6, // behind
@@ -111,9 +112,9 @@ int main(int argc, char *argv[])
     };
 
     // VAO
-    GLuint VA_NAME[2];
-    glGenVertexArrays(2, VA_NAME);
-    glBindVertexArray(VA_NAME[0]);
+    GLuint modelVAO;
+    glGenVertexArrays(1, &modelVAO);
+    glBindVertexArray(modelVAO);
 
     // VBO
     GLuint VB_NAME;
@@ -178,17 +179,31 @@ int main(int argc, char *argv[])
         fputs("\nfailed to load the image2", stderr);
     stbi_image_free(imageData);
     // 指定纹理单元传入的位置(注意这里不要把第二个参数设置成GL_TEXTURE0等)
-    shader1.use();
-    shader1.unfm1i("ourTexture1", 0);
-    shader1.unfm1i("ourTexture2", 1);
+    modelShader.use();
+    modelShader.unfm1i("ourTexture1", 0);
+    modelShader.unfm1i("ourTexture2", 1);
 
     // 顶点指针设置
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
                           (void *)0); // 顶点坐标
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
                           (void *)(3 * sizeof(float))); // 纹理坐标
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(5 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    /*-----------light-----------*/
+    Shader lightShader = Shader("res/shader/model.vs", "res/shader/light.fs");
+    GLuint lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VB_NAME);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+    glm::vec3 lightColor = glm::vec3(1.0f);
+    glm::vec3 lightPos=glm::vec3(1.0f,1.0f,0.0f);
+    glm::mat4 lightMat;
+
     // 开启深度测试
     glEnable(GL_DEPTH_TEST);
 
@@ -229,43 +244,54 @@ int main(int argc, char *argv[])
         //  inputs
         press_close_window(window);
         // shader
-        glClearColor(0.1, 0.2, 0.3, 1);
+        // glClearColor(0.1, 0.2, 0.3, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader1.use();
+        modelShader.use();
         float t = 2 * glfwGetTime();
-        float scale = (sin(t) + 1) * 0.5;
         camera1.updateSpeed();
         camera1.keyboardControl(window);
         camera1.curseControl(window);
-        camera1.updatePosition(&shader1, "view", "proj");
-        shader1.unfm1f("mixVector", scale);
+        camera1.updatePosition(&modelShader, "view", "proj");
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture[0]);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture[1]);
-        // glBindVertexArray(VA_NAME[0]);
-        shader1.unfmat4fv("model", glm::mat4(1.0f));
+        glBindVertexArray(modelVAO);
+        modelShader.unfm1f("mixVector", 0.0f);
+        modelShader.unfmat4fv("model", glm::mat4(1.0f));
         glDrawArrays(GL_TRIANGLES, 36, 6);
-        for (int i = 0; i < 10; i++)
-        {
-            glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), offVec[i]);
-            modelMat = glm::rotate(
-                modelMat, (float)glfwGetTime() * glm::radians(100.0f),
-                glm::vec3(1.0f, 0.2f, 0.5f));
-            shader1.unfmat4fv("model", modelMat);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
+
+        lightPos.x = cos(t);
+        lightPos.z = sin(t);
+        modelShader.unfvec3f("lightPos", lightPos);
+        modelShader.unfvec3f("viewPos",camera1.getPos());
+        modelShader.unfvec3f("lightColor", lightColor);
+        glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), offVec[0]);
+        //modelMat=glm::rotate(modelMat,(float)glfwGetTime()*glm::radians(50.0f),glm::vec3(0.6f,0.5f,0.0f));
+        modelShader.unfmat4fv("model", modelMat);
+        glm::mat3 normMat=glm::mat3(glm::transpose(glm::inverse(modelMat)));
+        modelShader.unfmat3fv("normMat",normMat);
+        modelShader.unfm1f("mixVector", lightPos.z*0.5+0.5);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        lightShader.use();
+        lightMat = glm::translate(glm::mat4(1.0f), lightPos);
+        lightMat = glm::scale(lightMat, glm::vec3(0.2f));
+        lightShader.unfmat4fv("model", lightMat);
+        camera1.updatePosition(&lightShader, "view", "proj");
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         // sound
-        music.set3DPosition(s1, sin(t), cos(t), 0);
-        music.updateSystem();
+        // music.set3DPosition(s1, sin(t), cos(t), 0);
+        // music.updateSystem();
         // output
         glfwSwapBuffers(window);
         glfwPollEvents();
         // printf("\ntime:%dms",clock()-start);
     }
-    glDeleteVertexArrays(2, VA_NAME); // 删除VAO绑定的一个VAO对象
-    glDeleteBuffers(1, &VB_NAME);     // 删除VBO绑定的一个缓存对象
+    glDeleteVertexArrays(1, &modelVAO); // 删除VAO绑定的一个VAO对象
+    glDeleteBuffers(1, &VB_NAME);       // 删除VBO绑定的一个缓存对象
     glDeleteBuffers(2, EB_NAME);
     glDeleteTextures(4, texture);
     glfwTerminate(); // 不要忘记释放glfw资源
