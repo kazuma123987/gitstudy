@@ -169,13 +169,26 @@ int main(int argc, char* argv[])
 		camera->update();
 		camera->updateMat(modelShader);
 		glBindVertexArray(modelVAO);
-		modelShader.unfvec3fv("lightColor", lightColor);
-		modelShader.unfvec3fv("LightPos", lightPos);
+		glm::vec3 lightPosition=glm::vec3(camera->getViewMat()*glm::vec4(lightPos,1.0f));
+		lightColor.x=sin(0.2f*t)*0.5f+0.5f;
+		lightColor.y=sin(0.5f*t)*0.5f+0.5f;
+		lightColor.z=sin(0.7f*t)*0.5f+0.5f;
+		glm::vec3 lightAmbient=glm::vec3(1.0f)*lightColor;
+		glm::vec3 lightDiffuse=glm::vec3(1.0f)*lightColor;
+		glm::vec3 lightSpecular=glm::vec3(1.0f)*lightColor;
+		modelShader.unfvec3fv("light.position", lightPosition);
+		modelShader.unfvec3fv("light.ambient",lightAmbient);
+		modelShader.unfvec3fv("light.diffuse",lightDiffuse);
+		modelShader.unfvec3fv("light.specular",lightSpecular);
 		for (int i = 0; i < 1; i++)
 		{
 			modelShader.unfmat4fv("model", model[i]);
 			glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(camera->getViewMat() * model[i])));
 			modelShader.unfmat3fv("normalMat", normalMat);
+			modelShader.unfvec3fv("material.ambient",glm::vec3(0.19225f));
+			modelShader.unfvec3fv("material.diffuse",glm::vec3(0.50754f));
+			modelShader.unfvec3fv("material.specular",glm::vec3(0.508273f));
+			modelShader.unfm1f("material.shininess",0.4 * 128.0f);
 			for (int j = 0; j < 6; j++)
 			{
 				modelShader.unfm1i("texIndex", j);
@@ -186,7 +199,7 @@ int main(int argc, char* argv[])
 		glBindVertexArray(lightVAO);
 		lightShader.use();
 		glm::mat4 lightMat = glm::translate(unitMat, lightPos);
-		lightMat = glm::scale(lightMat, glm::vec3(0.2f, 0.2f, 0.2f));//先位移再进行缩放或者旋转
+		lightMat = glm::scale(lightMat, glm::vec3(0.2f));//先位移再进行缩放或者旋转
 		lightShader.unfmat4fv("model", lightMat);
 		lightShader.unfvec3fv("lightColor", lightColor);
 		camera->updateMat(lightShader);
