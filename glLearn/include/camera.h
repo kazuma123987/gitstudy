@@ -17,6 +17,7 @@ public:
 	//鼠标滚轮控制相机投影矩阵的角度fov(影响视野)
 	void scrollCallback(float offset);
 	glm::vec3 getCameraPos();
+	glm::vec3 getCameraFront();
 	glm::mat4 getViewMat();
 	glm::mat4 getProjMat();
 private:

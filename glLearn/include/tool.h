@@ -22,6 +22,6 @@
 #include <GLFW/glfw3.h> //轻量级跨平台工具库，提供渲染物体最低限度的API（管理窗口、读取输入、处理事件）
 #include <stb_image.h>
 #define PI 3.1415926536
-#define WIDTH 700
-#define HEIGHT 700
+#define WIDTH 1600
+#define HEIGHT 900
 #endif

@@ -81,6 +81,10 @@ glm::vec3 Camera::getCameraPos()
 {
 	return cameraPos;
 }
+glm::vec3 Camera::getCameraFront()
+{
+	return cameraFront;
+}
 glm::mat4 Camera::getViewMat()
 {
 	return view;

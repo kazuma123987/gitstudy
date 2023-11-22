@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 	char *c = strrchr(filePath, '\\');
 	if (c != NULL)
 		*(c + 1) = '\0';
-	//printf_s("%s", filePath);
-	// glfw初始化
+	// printf_s("%s", filePath);
+	//  glfw初始化
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 注意设置的glfw上下文版本
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -80,11 +80,13 @@ int main(int argc, char *argv[])
 	int width[6], height[6], nColorChannels[6]; // 纹理的宽、高、颜色通道数
 	stbi_set_flip_vertically_on_load(TRUE);		// 开启竖直翻转
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);		// 设置纹理为单字节传输
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
+		// float clampColor[] = {0.0f, 0.0f, 0.0f, 1.0f};
 		glBindTexture(GL_TEXTURE_2D, texture[i]);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		// glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, clampColor);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // 只有缩小能开启多级渐远纹理
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		// 加载并发送纹理
@@ -120,9 +122,8 @@ int main(int argc, char *argv[])
 	modelShader.use();
 	modelShader.unfm1i("material.diffuseTexture", 0);
 	modelShader.unfm1i("material.specularTexture", 1);
-	modelShader.unfm1i("emission",2);
 	// 绑定纹理
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, texture[i]);
@@ -147,7 +148,7 @@ int main(int argc, char *argv[])
 	// 光源矩阵
 	glm::mat4 unitMat = glm::mat4(1.0f);
 	glm::vec3 lightPos = glm::vec3(0.0f, 0.8f, 3.0f);
-	glm::vec3 lightColor = glm::vec3(1.0f);
+	glm::vec3 lightColor[4] = {glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f)};
 	// Camera
 	camera = new Camera();
 	// glEnable
@@ -160,6 +161,7 @@ int main(int argc, char *argv[])
 	/*--------------------渲染循环--------------------*/
 	while (!glfwWindowShouldClose(window))
 	{
+		clock_t start = clock();
 		// INPUT
 		press_close_window(window);
 		camera->keyboardInput(window);
@@ -173,26 +175,58 @@ int main(int argc, char *argv[])
 		lightPos.x = cos(t);
 		// model
 		modelShader.use();
-		clock_t start=clock();
-		float mix=abs((t/6-(int)t/6)-0.5f)*2;//此函数效率是sin(t)的10倍
-		printf("\r%ld",clock()-start);
-		modelShader.unfm1f("yOffset",t*0.5);
-		modelShader.unfm1f("mixVector",mix);
 		camera->update();
 		camera->updateMat(modelShader);
 		glBindVertexArray(modelVAO);
-		glm::vec3 lightPosition = glm::vec3(camera->getViewMat() * glm::vec4(lightPos, 1.0f));
-		// lightColor.x = sin(0.2f * t) * 0.5f + 0.5f;
-		// lightColor.y = sin(0.5f * t) * 0.5f + 0.5f;
-		// lightColor.z = sin(0.7f * t) * 0.5f + 0.5f;
-		glm::vec3 lightAmbient = glm::vec3(0.1f) * lightColor;
-		glm::vec3 lightDiffuse = glm::vec3(0.5f) * lightColor;
-		glm::vec3 lightSpecular = glm::vec3(1.0f) * lightColor;
-		modelShader.unfvec3fv("light.position", lightPosition);
-		modelShader.unfvec3fv("light.ambient", lightAmbient);
-		modelShader.unfvec3fv("light.diffuse", lightDiffuse);
-		modelShader.unfvec3fv("light.specular", lightSpecular);
-		for (int i = 0; i < 1; i++)
+		// 点光源
+		glm::mat4 lightMat[4];
+		for (int i = 0; i < 4; i++)
+		{
+			lightMat[i] = glm::translate(glm::translate(unitMat, lightPos), offsetLight[i]);
+			glm::vec3 lightPosition = glm::vec3(camera->getViewMat() * (lightMat[i] * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)));
+			lightMat[i] = glm::scale(lightMat[i], glm::vec3(0.2f)); // 先位移再进行缩放或者旋转
+			lightColor[i].r = sin(0.2f * (t + 2 * i)) * 0.5f + 0.5f;
+			lightColor[i].g = sin(0.5f * (t + 2 * i)) * 0.5f + 0.5f;
+			lightColor[i].b = sin(0.7f * (t + 2 * i)) * 0.5f + 0.5f;
+			glm::vec3 lightAmbient = glm::vec3(0.1f) * lightColor[i];
+			glm::vec3 lightDiffuse = glm::vec3(0.5f) * lightColor[i];
+			glm::vec3 lightSpecular = glm::vec3(1.0f) * lightColor[i];
+			char *name = (char *)calloc(30, sizeof(char));
+			sprintf(name, "dotLight[%d].position", i);
+			modelShader.unfvec3fv(name, lightPosition);
+			sprintf(name, "dotLight[%d].ambient", i);
+			modelShader.unfvec3fv(name, lightAmbient);
+			sprintf(name, "dotLight[%d].diffuse", i);
+			modelShader.unfvec3fv(name, lightDiffuse);
+			sprintf(name, "dotLight[%d].specular", i);
+			modelShader.unfvec3fv(name, lightSpecular);
+			sprintf(name, "dotLight[%d].constant", i);
+			modelShader.unfm1f(name, 1.0f);
+			sprintf(name, "dotLight[%d].linear", i);
+			modelShader.unfm1f(name, 0.09f);
+			sprintf(name, "dotLight[%d].quadratic", i);
+			modelShader.unfm1f(name, 0.032f);
+			free(name);
+		}
+		// 定向光源(平行光)
+		modelShader.unfvec3fv("dirLight.lightToFrag", glm::vec3(0.0f, -1.0f, 0.0f));
+		modelShader.unfvec3fv("dirLight.ambient", glm::vec3(0.05f));
+		modelShader.unfvec3fv("dirLight.diffuse", glm::vec3(0.1f));
+		modelShader.unfvec3fv("dirLight.specular", glm::vec3(0.5f));
+		// 聚光灯(手电筒)
+		modelShader.unfvec3fv("spotLight.ambient", glm::vec3(0.1f));
+		modelShader.unfvec3fv("spotLight.diffuse", glm::vec3(0.8f));
+		modelShader.unfvec3fv("spotLight.specular", glm::vec3(1.0f));
+		modelShader.unfm1f("spotLight.constant", 1.0f);
+		modelShader.unfm1f("spotLight.linear", 0.09f);
+		modelShader.unfm1f("spotLight.quadratic", 0.032f);
+		modelShader.unfvec3fv("spotLight.spotFront", glm::vec3(camera->getViewMat() * glm::vec4(camera->getCameraFront() + camera->getCameraPos(), 1.0f)));
+		modelShader.unfm1f("spotLight.inCutOff", glm::cos(glm::radians(12.5f)));
+		modelShader.unfm1f("spotLight.outCutOff", glm::cos(glm::radians(15.0f)));
+		modelShader.unfm1i("material.diffuseTexture", 0);
+		modelShader.unfm1i("material.specularTexture", 1);
+		//箱子
+		for (int i = 0; i < 10; i++)
 		{
 			modelShader.unfmat4fv("model", model[i]);
 			glm::mat3 normalMat = glm::mat3(glm::transpose(glm::inverse(camera->getViewMat() * model[i])));
@@ -200,15 +234,23 @@ int main(int argc, char *argv[])
 			modelShader.unfm1f("material.shininess", 32.0f);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+		//地面
+		modelShader.unfm1i("material.diffuseTexture", 3);
+		modelShader.unfm1i("material.specularTexture", 3);
+		modelShader.unfmat4fv("model", glm::mat4(1.0f));
+		modelShader.unfmat4fv("normalMat", glm::mat3(1.0f));
+		modelShader.unfm1f("material.shininess", 32.0f);
+		glDrawArrays(GL_TRIANGLES, 36, 6);
 		// light
 		glBindVertexArray(lightVAO);
 		lightShader.use();
-		glm::mat4 lightMat = glm::translate(unitMat, lightPos);
-		lightMat = glm::scale(lightMat, glm::vec3(0.2f)); // 先位移再进行缩放或者旋转
-		lightShader.unfmat4fv("model", lightMat);
-		lightShader.unfvec3fv("lightColor", lightColor);
-		camera->updateMat(lightShader);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (int i = 0; i < 4; i++)
+		{
+			lightShader.unfmat4fv("model", lightMat[i]);
+			lightShader.unfvec3fv("lightColor", lightColor[i]);
+			camera->updateMat(lightShader);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 		// SOUND
 		music.set3DPosition(s1, sin(t), cos(t), 0);
 		music.updateSystem();
@@ -216,6 +258,7 @@ int main(int argc, char *argv[])
 		// EVENTS && DISPLAY
 		glfwSwapBuffers(window);
 		glfwPollEvents(); // 处理窗口交互事件等
+		printf("\r%.6ldms", clock() - start);
 	}
 
 	/*--------------------释放内存--------------------*/
