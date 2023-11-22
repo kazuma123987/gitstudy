@@ -12,4 +12,5 @@ extern Camera* camera;
 extern float arr_vertex[];
 extern size_t arrVertex_N;
 extern glm::vec3 offsetModel[10];
+extern glm::vec3 offsetLight[4];
 #endif
