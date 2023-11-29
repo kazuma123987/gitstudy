@@ -12,15 +12,19 @@
 #include <math.h>
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
+#include <vector>
 /*---------------外部库----------------*/
 //需要链接库的头文件
-#include "glm/glm.hpp" //后面均为opengl提供的数学库,可以用于opengl之外的数学运算
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include <glm/glm.hpp> //后面均为opengl提供的数学库,可以用于opengl之外的数学运算
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <fmod/fmod.h>
 #include <glad/glad.h>  //glad.h必须放在glfw3.h前面，glad可以查找gl、glu、glex、wgl、glx的函数指针以方便调用其函数
 #include <GLFW/glfw3.h> //轻量级跨平台工具库，提供渲染物体最低限度的API（管理窗口、读取输入、处理事件）
 #include <stb_image.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #define PI 3.1415926536
 #define WIDTH 1600
 #define HEIGHT 900

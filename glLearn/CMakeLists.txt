@@ -47,6 +47,8 @@ set(SOURCES
     src/shader.cpp
     src/stb_image.cpp
     src/camera.cpp
+    src/mesh.cpp
+    src/model.cpp
     main.cpp
 )
 link_directories(${PROJECT_SOURCE_DIR})
@@ -79,3 +81,4 @@ ENDIF()
 #target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/GLFW/glfw3.dll)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libglfw3.a)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libglad.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libassimp.dll.a)

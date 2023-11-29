@@ -1,0 +1,189 @@
+newmtl material_0_0
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_1
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_2
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_3
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/hair.png
+map_d tex/hair.png
+newmtl material_0_4
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_5
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_6
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_7
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_8
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_9
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/face.png
+map_d tex/face.png
+newmtl material_0_10
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/hair.png
+map_d tex/hair.png
+newmtl material_0_11
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/hair.png
+map_d tex/hair.png
+newmtl material_0_12
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/hair.png
+map_d tex/hair.png
+newmtl material_0_13
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_14
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_15
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_16
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_17
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_18
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_19
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png
+newmtl material_0_20
+Ka 0.0 0.0 0.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
+d 0.0
+Ns 0.0
+lum 1
+map_Kd tex/clothes.png
+map_d tex/clothes.png

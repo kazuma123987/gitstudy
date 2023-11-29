@@ -21,10 +21,10 @@ void Camera::update()//需要先使用(use)着色器
 	cameraSpeed = (curTime - lastTime) * 2.5f;
 	lastTime = curTime;
 }
-void Camera::updateMat(Shader shader)
+void Camera::updateMat(Shader* shader)
 {
-	shader.unfmat4fv("view", view);
-	shader.unfmat4fv("proj", proj);
+	shader->unfmat4fv("view", view);
+	shader->unfmat4fv("proj", proj);
 }
 void Camera::keyboardInput(GLFWwindow* window)
 {
@@ -76,20 +76,4 @@ void Camera::scrollCallback(float offset)
 	fov += offset;
 	if (fov < 1.0f)fov = 1.0f;
 	else if (fov > 90.0f)fov = 90.0f;
-}
-glm::vec3 Camera::getCameraPos()
-{
-	return cameraPos;
-}
-glm::vec3 Camera::getCameraFront()
-{
-	return cameraFront;
-}
-glm::mat4 Camera::getViewMat()
-{
-	return view;
-}
-glm::mat4 Camera::getProjMat()
-{
-	return proj;
 }
