@@ -200,6 +200,54 @@ src/global.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/global.cpp.s
 .PHONY : src/global.cpp.s
 
+src/mesh.obj: src/mesh.cpp.obj
+.PHONY : src/mesh.obj
+
+# target to build an object file
+src/mesh.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh.cpp.obj
+.PHONY : src/mesh.cpp.obj
+
+src/mesh.i: src/mesh.cpp.i
+.PHONY : src/mesh.i
+
+# target to preprocess a source file
+src/mesh.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh.cpp.i
+.PHONY : src/mesh.cpp.i
+
+src/mesh.s: src/mesh.cpp.s
+.PHONY : src/mesh.s
+
+# target to generate assembly for a file
+src/mesh.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh.cpp.s
+.PHONY : src/mesh.cpp.s
+
+src/model.obj: src/model.cpp.obj
+.PHONY : src/model.obj
+
+# target to build an object file
+src/model.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/model.cpp.obj
+.PHONY : src/model.cpp.obj
+
+src/model.i: src/model.cpp.i
+.PHONY : src/model.i
+
+# target to preprocess a source file
+src/model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/model.cpp.i
+.PHONY : src/model.cpp.i
+
+src/model.s: src/model.cpp.s
+.PHONY : src/model.s
+
+# target to generate assembly for a file
+src/model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/model.cpp.s
+.PHONY : src/model.cpp.s
+
 src/shader.obj: src/shader.cpp.obj
 .PHONY : src/shader.obj
 
@@ -290,6 +338,12 @@ help:
 	@echo ... src/global.obj
 	@echo ... src/global.i
 	@echo ... src/global.s
+	@echo ... src/mesh.obj
+	@echo ... src/mesh.i
+	@echo ... src/mesh.s
+	@echo ... src/model.obj
+	@echo ... src/model.i
+	@echo ... src/model.s
 	@echo ... src/shader.obj
 	@echo ... src/shader.i
 	@echo ... src/shader.s
