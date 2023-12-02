@@ -150,6 +150,9 @@ int main(int argc, char *argv[])
 		cubeShader.unfvec3fv("viewerPos", camera->getCameraPos());
 		cubeShader.unfm1f("material.shininess", 32.0f);
 		// 绘制箱子
+		glEnable(GL_CULL_FACE);//允许面剔除
+		glCullFace(GL_BACK);//剔除背面（默认就是GL_BACK）
+		glFrontFace(GL_CCW);//将逆时针的面定义为正面,GL_CW则反之（默认就是GL_CCW）
 		glm::mat3 normMat;
 		for (int i = 0; i < 10; i++)
 		{
@@ -158,18 +161,21 @@ int main(int argc, char *argv[])
 			cubeShader.unfmat3fv("normMat", normMat);
 			box.Draw(&cubeShader);
 		}
+		glDisable(GL_CULL_FACE);
 		// 绘制地面
 		cubeShader.unfmat4fv("model", unitMat);
 		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
 		cubeShader.unfmat3fv("normMat", normMat);
 		floor.Draw(&cubeShader);
 		// 绘制人物
+		glEnable(GL_CULL_FACE);
 		glStencilFunc(GL_ALWAYS,1,0xff);
 		glStencilMask(0xff);
 		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat)));
 		cubeShader.unfmat3fv("normMat", normMat);
 		cubeShader.unfmat4fv("model", humanMat);
 		human.Draw(&cubeShader);
+		glDisable(GL_CULL_FACE);//人物2的发带只有单面,不能用面剔除
 		//绘制人物2
 		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat2)));
 		cubeShader.unfmat3fv("normMat", normMat);
