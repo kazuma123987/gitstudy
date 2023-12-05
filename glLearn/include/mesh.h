@@ -5,6 +5,7 @@
 #include <shader.h>
 unsigned int TextureFromFile(const char* path);
 unsigned int TextureFromEmbbeded(const aiTexture* aiTex);
+unsigned int loadCubeTexture(std::vector<std::string> cubePaths);
 struct Vertex
 {
 	glm::vec3 Position;//位置
@@ -36,7 +37,7 @@ public:
 	}
 	Mesh(float array[], int numberCount, const char* diffusePath, const char* specularPath)
 	{
-		for (unsigned int i = 0; i < numberCount / 8; i++)
+		for (int i = 0; i < numberCount / 8; i++)
 		{
 			Vertex vertex;
 			vertex.Position = glm::vec3(array[8 * i], array[1 + 8 * i], array[2 + 8 * i]);
@@ -61,6 +62,24 @@ public:
 			texture.path = specularPath;
 			textures.push_back(texture);
 		}
+		setupMesh();
+	}
+	Mesh(float array[], int numberCount, std::vector<std::string> cubePaths)
+	{
+		for (int i = 0; i < numberCount / 8; i++)
+		{
+			Vertex vertex;
+			vertex.Position = glm::vec3(array[8 * i], array[1 + 8 * i], array[2 + 8 * i]);
+			vertex.Normal = glm::vec3(array[3 + 8 * i], array[4 + 8 * i], array[5 + 8 * i]);
+			vertex.TexCoord = glm::vec2(array[6 + 8 * i], array[7 + 8 * i]);
+			vertices.push_back(vertex);
+			indices.push_back(i);
+		}
+		Texture texture;
+		texture.id=loadCubeTexture(cubePaths);
+		texture.type="texture_cube";
+		texture.path=cubePaths[0].substr(0,cubePaths[0].find_last_of('\\'));
+		textures.push_back(texture);
 		setupMesh();
 	}
 	void DestoryMesh();

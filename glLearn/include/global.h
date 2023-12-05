@@ -14,4 +14,5 @@ extern float arr_floor[];
 extern size_t arrVertex_N;
 extern size_t arrFloor_N;
 extern glm::vec3 offsetModel[10];
+extern std::vector<std::string> cubePaths;
 #endif

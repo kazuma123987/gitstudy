@@ -1,2 +1,2 @@
-#define STB_IMAGE_IMPLEMENTATION // ÓÃÓÚ¼¤»îstb_image.hµÄÍ·ÎÄ¼ş´úÂë
-#include "stb_image.h"           //Í¼Ïñ¼ÓÔØ¿â(²»ÄÜĞ´Èë)
+#define STB_IMAGE_IMPLEMENTATION // ç”¨äºæ¿€æ´»stb_image.hçš„å¤´æ–‡ä»¶ä»£ç 
+#include "stb_image.h"           //å›¾åƒåŠ è½½åº“(ä¸èƒ½å†™å…¥)

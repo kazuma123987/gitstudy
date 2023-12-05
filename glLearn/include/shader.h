@@ -1,7 +1,7 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 #include <tool.h>
-//¶¨Ïò¹â	struct DirectLight{glm::vec3 dir,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular}
+//å®šå‘å…‰	struct DirectLight{glm::vec3 dir,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular}
 struct DirectLight
 {
 	glm::vec3 dir;
@@ -9,7 +9,7 @@ struct DirectLight
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 };
-//µã¹âÔ´struct DotLight{glm::vec3 pos,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular,float constant,float linear,float quadratic}
+//ç‚¹å…‰æºstruct DotLight{glm::vec3 pos,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular,float constant,float linear,float quadratic}
 struct DotLight
 {
 	glm::vec3 pos;
@@ -21,7 +21,7 @@ struct DotLight
 	float linear;
 	float quadratic;
 };
-//¾Û¹âµÆstruct SpotLight	{glm::vec3 pos,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular,float constant,float linear,float quadratic,float inCutOff,float outCutOff,glm::vec3 front}
+//èšå…‰ç¯struct SpotLight	{glm::vec3 pos,glm::vec3 ambient,glm::vec3 diffuse,glm::vec3 specular,float constant,float linear,float quadratic,float inCutOff,float outCutOff,glm::vec3 front}
 struct SpotLight
 {
 	glm::vec3 pos;
