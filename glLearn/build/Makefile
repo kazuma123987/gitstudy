@@ -176,6 +176,30 @@ src/camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/camera.cpp.s
 .PHONY : src/camera.cpp.s
 
+src/glad.obj: src/glad.c.obj
+.PHONY : src/glad.obj
+
+# target to build an object file
+src/glad.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad.c.obj
+.PHONY : src/glad.c.obj
+
+src/glad.i: src/glad.c.i
+.PHONY : src/glad.i
+
+# target to preprocess a source file
+src/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad.c.i
+.PHONY : src/glad.c.i
+
+src/glad.s: src/glad.c.s
+.PHONY : src/glad.s
+
+# target to generate assembly for a file
+src/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad.c.s
+.PHONY : src/glad.c.s
+
 src/global.obj: src/global.cpp.obj
 .PHONY : src/global.obj
 
@@ -335,6 +359,9 @@ help:
 	@echo ... src/camera.obj
 	@echo ... src/camera.i
 	@echo ... src/camera.s
+	@echo ... src/glad.obj
+	@echo ... src/glad.i
+	@echo ... src/glad.s
 	@echo ... src/global.obj
 	@echo ... src/global.i
 	@echo ... src/global.s

@@ -30,7 +30,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	glm::vec3 vec3;
 	glm::vec2 vec2;
 	//process vertex
-	for (int i = 0; i < mesh->mNumVertices; i++)
+	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
 		vec3.x = mesh->mVertices[i].x;
@@ -74,18 +74,21 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	//process texture(material)
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	//ÂşÉäÌùÍ¼
+	//æ¼«å°„è´´å›¾
 	std::vector<Texture> diffuseTexture = loadMaterialTexture(material, aiTextureType_DIFFUSE, "texture_diffuse", scene);
 	textures.insert(textures.end(), diffuseTexture.begin(), diffuseTexture.end());
-	//¾µÃæÌùÍ¼
+	//é•œé¢è´´å›¾
 	std::vector<Texture> specularTexture = loadMaterialTexture(material, aiTextureType_SPECULAR, "texture_specular", scene);
 	textures.insert(textures.end(), specularTexture.begin(), specularTexture.end());
-	//·¨ÏßÌùÍ¼
+	//æ³•çº¿è´´å›¾
 	std::vector<Texture> normalTexture = loadMaterialTexture(material, aiTextureType_NORMALS, "texture_normal", scene);
 	textures.insert(textures.end(), normalTexture.begin(), normalTexture.end());
-	//¸ß¶ÈÌùÍ¼
+	//é«˜åº¦è´´å›¾
 	std::vector<Texture> heightTexture = loadMaterialTexture(material, aiTextureType_HEIGHT, "texture_height", scene);
 	textures.insert(textures.end(), heightTexture.begin(), heightTexture.end());
+	//åå°„è´´å›¾
+	std::vector<Texture> reflectTexture = loadMaterialTexture(material, aiTextureType_AMBIENT, "texture_reflect", scene);
+	textures.insert(textures.end(), reflectTexture.begin(), reflectTexture.end());
 	return Mesh(vertices, indices, textures);
 }
 std::vector<Texture> Model::loadMaterialTexture(aiMaterial* material, aiTextureType aiType, std::string typeName, const aiScene* scene)

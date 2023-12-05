@@ -9,13 +9,6 @@ Camera* camera;
 float arr_vertex[] =
 {
 	//位置(3)法向量(3)纹理(2)
-    // Back face
-    -0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 0.0f, // Bottom-left
-     0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 1.0f, // top-right
-     0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 0.0f, // bottom-right         
-     0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 1.0f, // top-right
-    -0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 0.0f, // bottom-left
-    -0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 1.0f, // top-left
     // Front face
     -0.5f, -0.5f,  0.5f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, // bottom-left
      0.5f, -0.5f,  0.5f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, // bottom-right
@@ -23,6 +16,13 @@ float arr_vertex[] =
      0.5f,  0.5f,  0.5f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, // top-right
     -0.5f,  0.5f,  0.5f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, // top-left
     -0.5f, -0.5f,  0.5f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, // bottom-left
+    // Back face
+    -0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 0.0f, // Bottom-left
+     0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 1.0f, // top-right
+     0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 0.0f, // bottom-right         
+     0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 1.0f, 1.0f, // top-right
+    -0.5f, -0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 0.0f, // bottom-left
+    -0.5f,  0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f, 1.0f, // top-left
     // Left face
     -0.5f,  0.5f,  0.5f, -1.0f,0.0f,0.0f, 1.0f, 0.0f, // top-right
     -0.5f,  0.5f, -0.5f, -1.0f,0.0f,0.0f, 1.0f, 1.0f, // top-left
@@ -76,4 +76,13 @@ glm::vec3 offsetModel[10] = {
 	glm::vec3(1.5f, 2.0f, -2.5f),
 	glm::vec3(1.5f, 0.2f, -1.5f),
 	glm::vec3(-1.3f, 1.0f, -1.5f)
+};
+std::vector<std::string> cubePaths=
+{
+    "res\\texture\\skybox\\px.jpg",
+    "res\\texture\\skybox\\nx.jpg",
+    "res\\texture\\skybox\\py.jpg",
+    "res\\texture\\skybox\\ny.jpg",
+    "res\\texture\\skybox\\pz.jpg",
+    "res\\texture\\skybox\\nz.jpg",
 };

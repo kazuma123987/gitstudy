@@ -68,11 +68,26 @@ include CMakeFiles/main.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/main.dir/flags.make
 
+CMakeFiles/main.dir/src/glad.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/glad.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/glad.c.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/glad.c
+CMakeFiles/main.dir/src/glad.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/main.dir/src/glad.c.obj"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/glad.c.obj -MF CMakeFiles\main.dir\src\glad.c.obj.d -o CMakeFiles\main.dir\src\glad.c.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\glad.c
+
+CMakeFiles/main.dir/src/glad.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/glad.c.i"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\glad.c > CMakeFiles\main.dir\src\glad.c.i
+
+CMakeFiles/main.dir/src/glad.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/glad.c.s"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\glad.c -o CMakeFiles\main.dir\src\glad.c.s
+
 CMakeFiles/main.dir/src/global.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/global.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/global.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/global.cpp
 CMakeFiles/main.dir/src/global.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/src/global.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/global.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/global.cpp.obj -MF CMakeFiles\main.dir\src\global.cpp.obj.d -o CMakeFiles\main.dir\src\global.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\global.cpp
 
 CMakeFiles/main.dir/src/global.cpp.i: cmake_force
@@ -87,7 +102,7 @@ CMakeFiles/main.dir/src/sound.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/sound.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/sound.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/sound.cpp
 CMakeFiles/main.dir/src/sound.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/sound.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/sound.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/sound.cpp.obj -MF CMakeFiles\main.dir\src\sound.cpp.obj.d -o CMakeFiles\main.dir\src\sound.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\sound.cpp
 
 CMakeFiles/main.dir/src/sound.cpp.i: cmake_force
@@ -102,7 +117,7 @@ CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/shader.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/shader.cpp
 CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/shader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/shader.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/shader.cpp.obj -MF CMakeFiles\main.dir\src\shader.cpp.obj.d -o CMakeFiles\main.dir\src\shader.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\shader.cpp
 
 CMakeFiles/main.dir/src/shader.cpp.i: cmake_force
@@ -117,7 +132,7 @@ CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/stb_image.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/stb_image.cpp
 CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/stb_image.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/stb_image.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/stb_image.cpp.obj -MF CMakeFiles\main.dir\src\stb_image.cpp.obj.d -o CMakeFiles\main.dir\src\stb_image.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\stb_image.cpp
 
 CMakeFiles/main.dir/src/stb_image.cpp.i: cmake_force
@@ -132,7 +147,7 @@ CMakeFiles/main.dir/src/camera.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/camera.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/camera.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/camera.cpp
 CMakeFiles/main.dir/src/camera.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/camera.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/camera.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/camera.cpp.obj -MF CMakeFiles\main.dir\src\camera.cpp.obj.d -o CMakeFiles\main.dir\src\camera.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\camera.cpp
 
 CMakeFiles/main.dir/src/camera.cpp.i: cmake_force
@@ -147,7 +162,7 @@ CMakeFiles/main.dir/src/mesh.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/mesh.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/mesh.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/mesh.cpp
 CMakeFiles/main.dir/src/mesh.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/mesh.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/src/mesh.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/mesh.cpp.obj -MF CMakeFiles\main.dir\src\mesh.cpp.obj.d -o CMakeFiles\main.dir\src\mesh.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\mesh.cpp
 
 CMakeFiles/main.dir/src/mesh.cpp.i: cmake_force
@@ -162,7 +177,7 @@ CMakeFiles/main.dir/src/model.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/model.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/src/model.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/src/model.cpp
 CMakeFiles/main.dir/src/model.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/src/model.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/src/model.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/model.cpp.obj -MF CMakeFiles\main.dir\src\model.cpp.obj.d -o CMakeFiles\main.dir\src\model.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\src\model.cpp
 
 CMakeFiles/main.dir/src/model.cpp.i: cmake_force
@@ -177,7 +192,7 @@ CMakeFiles/main.dir/main.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/main.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
 CMakeFiles/main.dir/main.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.cpp
 CMakeFiles/main.dir/main.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/main.dir/main.cpp.obj"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.obj -MF CMakeFiles\main.dir\main.cpp.obj.d -o CMakeFiles\main.dir\main.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\main.cpp
 
 CMakeFiles/main.dir/main.cpp.i: cmake_force
@@ -190,6 +205,7 @@ CMakeFiles/main.dir/main.cpp.s: cmake_force
 
 # Object files for target main
 main_OBJECTS = \
+"CMakeFiles/main.dir/src/glad.c.obj" \
 "CMakeFiles/main.dir/src/global.cpp.obj" \
 "CMakeFiles/main.dir/src/sound.cpp.obj" \
 "CMakeFiles/main.dir/src/shader.cpp.obj" \
@@ -202,6 +218,7 @@ main_OBJECTS = \
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
+C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/src/glad.c.obj
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/src/global.cpp.obj
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/src/sound.cpp.obj
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/src/shader.cpp.obj
@@ -213,12 +230,11 @@ C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/build.make
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/fmodL.dll
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/include/lib/libglfw3.a
-C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/include/lib/libglad.lib
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/include/lib/libassimp.dll.a
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/objects1.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\main.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable C:\Users\34181\Desktop\code-demo\gitstudy\glLearn\main.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\main.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

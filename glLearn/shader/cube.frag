@@ -7,6 +7,7 @@ struct Material
 {
     sampler2D texture_diffuse1;
     sampler2D texture_specular1;
+    sampler2D texture_reflect1;
     float shininess;
 };
 //定向光
@@ -49,18 +50,21 @@ struct SpotLight
 vec3 dirColor(DirectLight dirLight);
 vec3 dotColor(DotLight dotLight);
 vec3 spotColor(SpotLight spotLight);
+vec3 reflectColor();
 //uniform变量
 uniform Material material;
 uniform DirectLight dirLight;
 uniform DotLight dotLight[4];
 uniform SpotLight spotLight;
 uniform vec3 viewerPos;
+uniform samplerCube texture_cube1;
 void main()
 {
     vec3 result=dirColor(dirLight);
     for(int i=0;i<4;i++)
-    result+=dotColor(dotLight[i]);
+        result+=dotColor(dotLight[i]); 
     result+=spotColor(spotLight);
+    result+=reflectColor();
     //输出颜色
     gl_FragColor=vec4(result,1.0f);
 }
@@ -120,4 +124,10 @@ vec3 spotColor(SpotLight spotLight)
     float visiable=clamp((delta-spotLight.outCutOff)/(spotLight.inCutOff-spotLight.outCutOff),0.0f,1.0f);
     //返回值
     return(ambient+diffuse+specular)*decay*visiable;
+}
+vec3 reflectColor()
+{
+    vec3 viewerTofrag=normalize(fragPos-viewerPos);
+    vec3 reflectLight=reflect(viewerTofrag,normal);
+    return vec3(texture(material.texture_reflect1,texPos))*vec3(texture(texture_cube1,reflectLight));
 }

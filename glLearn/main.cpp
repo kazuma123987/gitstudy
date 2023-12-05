@@ -4,6 +4,7 @@
 #include <global.h>
 #include <mesh.h>
 #include <model.h>
+#include <frameBuffer.h>
 // N卡使用独显运行
 extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 不弹出调试控制台(用于Release版本)
@@ -47,17 +48,22 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	// 着色器
+	SetCurrentDirectoryA(filePath);
 	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag");
 	Shader lightShader("shader\\light.vert", "shader\\light.frag");
 	Shader outlineShader("shader\\outline.vert", "shader\\outline.frag");
+	Shader screenShader("shader\\screen.vert","shader\\screen.frag");
+	Shader skyboxShader("shader\\skybox.vert","shader\\skybox.frag");
+	//帧缓冲对象(FrameBuffer Object)
+	FrameBuffer fbo(WIDTH,HEIGHT);
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
 	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
 	Mesh floor(arr_floor, arrFloor_N / 4, "res\\texture\\box4.png", "res\\texture\\box4.png");
 	Mesh light(arr_vertex, arrVertex_N / 4, NULL, NULL);
+	Mesh skybox(arr_vertex, arrVertex_N / 4,cubePaths);
 	clock_t start = clock();
-	Model human("C:\\Users\\34181\\source\\repos\\glstudy\\glstudy\\res\\3dmodels\\hutao\\胡桃.obj");
-	Model human2("C:\\Users\\34181\\source\\repos\\glstudy\\glstudy\\res\\3dmodels\\lnt\\00001.obj");
+	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.blend");
 	printf_s("load time:%dms", clock() - start);
 
 	// 模型矩阵
@@ -68,7 +74,6 @@ int main(int argc, char *argv[])
 		boxMat[i] = glm::rotate(boxMat[i], glm::radians(20.0f * i), glm::vec3(1.0f, i, i));
 	}
 	glm::mat4 humanMat = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
-	glm::mat4 humanMat2=glm::scale(glm::translate(glm::mat4(1.0f),glm::vec3(4.0f,0.0f,0.0f)), glm::vec3(0.2f));
 	// 光源矩阵
 	glm::mat4 unitMat = glm::mat4(1.0f);
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, 3.0f);
@@ -114,8 +119,11 @@ int main(int argc, char *argv[])
 		camera->keyboardInput(window);
 		camera->curseInput(window);
 
+		/*------第一阶段处理------*/
+		fbo.bind();
 		// LOGIC && RENDER
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_STENCIL_TEST);
 		glStencilOp(GL_KEEP,GL_KEEP,GL_REPLACE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -142,6 +150,9 @@ int main(int argc, char *argv[])
 		spotLight.front = camera->getCameraFront();
 		// model
 		cubeShader.use();
+		cubeShader.unfm1i("texture_cube1",4);//设置要传入GL_TEXTURE4
+		glActiveTexture(GL_TEXTURE4);		//激活纹理单元4
+		glBindTexture(GL_TEXTURE_CUBE_MAP,skybox.textures[0].id);//把立方体纹理绑定到当前纹理单元
 		camera->updateMat(&cubeShader);
 		cubeShader.unfDirLight("dirLight", &dirLight);
 		for (int i = 0; i < 4; i++)
@@ -176,23 +187,16 @@ int main(int argc, char *argv[])
 		cubeShader.unfmat4fv("model", humanMat);
 		human.Draw(&cubeShader);
 		glDisable(GL_CULL_FACE);//人物2的发带只有单面,不能用面剔除
-		//绘制人物2
-		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat2)));
-		cubeShader.unfmat3fv("normMat", normMat);
-		cubeShader.unfmat4fv("model", humanMat2);
-		human2.Draw(&cubeShader);
-		//outline
-		glStencilFunc(GL_NOTEQUAL,1,0xff);
-		glStencilMask(0x00);
-		glDisable(GL_DEPTH_TEST);
-		outlineShader.use();
-		camera->updateMat(&outlineShader);
-		outlineShader.unfmat4fv("model",humanMat);
-		human.Draw(&outlineShader);
-		outlineShader.unfmat4fv("model",humanMat2);
-		human2.Draw(&outlineShader);
-		glStencilMask(0xff);//允许写入和清空模板缓冲区
-		glEnable(GL_DEPTH_TEST);//启用深度测试
+		//绘制天空盒
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.use();
+		camera->updateMat(&skyboxShader);
+		skybox.Draw(&skyboxShader);
+		glDepthFunc(GL_LESS);
+
+		/*------第二阶段处理(后期处理)------*/
+		fbo.Draw(&screenShader);
+
 		// SOUND
 		music.set3DPosition(s1, sin(t), cos(t), 0);
 		music.updateSystem();
@@ -204,6 +208,7 @@ int main(int argc, char *argv[])
 
 	/*--------------------释放内存--------------------*/
 	glfwTerminate(); // 不要忘记释放glfw资源
+	fbo.destoyFBO();
 	deleteSound(s1);
 	deleteSound(s2);
 	delete (camera);
