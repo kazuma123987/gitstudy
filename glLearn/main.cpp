@@ -110,6 +110,11 @@ int main(int argc, char *argv[])
 	// 绑定回调函数
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetScrollCallback(window, scrollCallback);
+	//先更新着色器块索引
+	camera->setShaderUBOIndex(&cubeShader,"Mat");
+	camera->setShaderUBOIndex(&lightShader,"Mat");
+	camera->setShaderUBOIndex(&outlineShader,"Mat");
+	camera->setShaderUBOIndex(&skyboxShader,"Mat");
 
 	/*--------------------渲染循环--------------------*/
 	while (!glfwWindowShouldClose(window))
@@ -130,9 +135,9 @@ int main(int argc, char *argv[])
 		glStencilMask(0x00);
 		float t = glfwGetTime();
 		camera->update();
+		camera->updateUBO();//直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
 		// LIGHT(先渲染光源,因为后续物体受光源影响)
 		lightShader.use();
-		camera->updateMat(&lightShader);
 		// dotLight//
 		lightPos.x = 3 * sin(t);
 		lightPos.z = 3 * cos(t);
@@ -153,7 +158,6 @@ int main(int argc, char *argv[])
 		cubeShader.unfm1i("texture_cube1",4);//设置要传入GL_TEXTURE4
 		glActiveTexture(GL_TEXTURE4);		//激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP,skybox.textures[0].id);//把立方体纹理绑定到当前纹理单元
-		camera->updateMat(&cubeShader);
 		cubeShader.unfDirLight("dirLight", &dirLight);
 		for (int i = 0; i < 4; i++)
 			cubeShader.unfDotLight((std::string("dotLight") + "[" + std::to_string(i) + "]").c_str(), &dotLight[i]);
@@ -190,7 +194,6 @@ int main(int argc, char *argv[])
 		//绘制天空盒
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.use();
-		camera->updateMat(&skyboxShader);
 		skybox.Draw(&skyboxShader);
 		glDepthFunc(GL_LESS);
 
