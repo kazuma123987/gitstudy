@@ -3,8 +3,11 @@ layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 normal_in;
 layout(location = 2) in vec2 texPos_in;
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 proj;
+layout(std140)uniform Mat
+{
+	uniform mat4 view;
+	uniform mat4 proj;
+};
 uniform mat3 normMat;//法向量矩阵
 out vec3 fragPos;
 out vec3 normal;

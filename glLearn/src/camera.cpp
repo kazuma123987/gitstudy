@@ -12,6 +12,11 @@ Camera::Camera()
 	lastTime = curTime = glfwGetTime();
 	pitch = 0.0f;
 	yaw = 0.0f;
+	glGenBuffers(1,&UBO);
+	glBindBuffer(GL_UNIFORM_BUFFER,UBO);
+	glBufferData(GL_UNIFORM_BUFFER,2*sizeof(glm::mat4),NULL,GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER,0);
+	glBindBufferBase(GL_UNIFORM_BUFFER,0,UBO);
 }
 void Camera::update()//需要先使用(use)着色器
 {
@@ -20,11 +25,6 @@ void Camera::update()//需要先使用(use)着色器
 	curTime = glfwGetTime();
 	cameraSpeed = (curTime - lastTime) * 2.5f;
 	lastTime = curTime;
-}
-void Camera::updateMat(Shader* shader)
-{
-	shader->unfmat4fv("view", view);
-	shader->unfmat4fv("proj", proj);
 }
 void Camera::keyboardInput(GLFWwindow* window)
 {
