@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	}
 	// 着色器
 	SetCurrentDirectoryA(filePath);
-	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag");
+	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag","shader\\explode.geom");
 	Shader lightShader("shader\\light.vert", "shader\\light.frag");
 	Shader outlineShader("shader\\outline.vert", "shader\\outline.frag");
 	Shader screenShader("shader\\screen.vert","shader\\screen.frag");
@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
 		spotLight.front = camera->getCameraFront();
 		// model
 		cubeShader.use();
+		cubeShader.unfm1f("time",abs(t/2.0f-(int)(t/2.0f)-0.5f)*2.0f);
 		cubeShader.unfm1i("texture_cube1",4);//设置要传入GL_TEXTURE4
 		glActiveTexture(GL_TEXTURE4);		//激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP,skybox.textures[0].id);//把立方体纹理绑定到当前纹理单元

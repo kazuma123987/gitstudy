@@ -1,64 +1,28 @@
 #include <shader.h>
-Shader::Shader(const char* vpath, const char* fpath)
+Shader::Shader(const char *vpath, const char *fpath, const char *gpath)
 {
-	// 文件操作
-	FILE* fp1 = NULL;
-	fopen_s(&fp1, vpath, "rb");
-	if (!fp1)
-		fputs("\nfailed to open the path of vertexShader", stderr);
-	FILE* fp2 = NULL;
-	fopen_s(&fp2, fpath, "rb");
-	if (!fp2)
-		fputs("\nfailed to open the path of fragmentShader", stderr);
-	fseek(fp1, 0, SEEK_END);
-	size_t size1 = ftell(fp1);
-	fseek(fp2, 0, SEEK_END);
-	size_t size2 = ftell(fp2);
-	char* code1 = (char*)malloc(size1 + 1);
-	char* code2 = (char*)malloc(size2 + 1);
-	rewind(fp1);
-	rewind(fp2);
-	size_t readSize1 = fread(code1, sizeof(char), size1, fp1);
-	if (readSize1 < size1)
-		fputs("\nfailed to read the file", stderr);
-	code1[size1] = '\0';
-	size_t readSize2 = fread(code2, sizeof(char), size2, fp2);
-	if (readSize2 < size2)
-		fputs("\nfailed to read the file", stderr);
-	code2[size2] = '\0';
-	fclose(fp1);
-	fclose(fp2);
 	// 顶点着色器
-	GLuint vsh = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vsh, 1, &code1, NULL);
-	glCompileShader(vsh);
-	int flag_v = 1;
-	char infolog[512];
-	glGetShaderiv(vsh, GL_COMPILE_STATUS, &flag_v);
-	if (!flag_v)
-	{
-		glGetShaderInfoLog(vsh, 512, NULL, infolog);
-		fputs(infolog, stderr);
-	}
-	free(code1);
+	char *code1 = readCode(vpath);
+	GLuint vsh = createShader(&code1, GL_VERTEX_SHADER);
 	// 片段着色器
-	GLuint fsh = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fsh, 1, &code2, NULL);
-	glCompileShader(fsh);
-	int flag_f = 1;
-	glGetShaderiv(fsh, GL_COMPILE_STATUS, &flag_f);
-	if (!flag_f)
+	char *code2 = readCode(fpath);
+	GLuint fsh = createShader(&code2, GL_FRAGMENT_SHADER);
+	// 几何着色器
+	GLuint gsh;
+	if (gpath)
 	{
-		glGetShaderInfoLog(fsh, 512, NULL, infolog);
-		fputs(infolog, stderr);
+		char *code3 = readCode(gpath);
+		gsh = createShader(&code3, GL_GEOMETRY_SHADER);
 	}
-	free(code2);
 	// 着色器程序
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vsh);
+	if(gpath)
+		glAttachShader(shaderProgram,gsh);
 	glAttachShader(shaderProgram, fsh);
 	glLinkProgram(shaderProgram);
 	int flag_p = 1;
+	char infolog[512];
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &flag_p);
 	if (!flag_p)
 	{
@@ -66,6 +30,8 @@ Shader::Shader(const char* vpath, const char* fpath)
 		fputs(infolog, stderr);
 	}
 	glDeleteShader(vsh);
+	if(gpath)
+		glDeleteShader(gsh);
 	glDeleteShader(fsh);
 }
 
@@ -73,31 +39,31 @@ void Shader::use()
 {
 	glUseProgram(shaderProgram);
 }
-void Shader::unfm1f(const char* str, float value) const
+void Shader::unfm1f(const char *str, float value) const
 {
 	glUniform1f(glGetUniformLocation(shaderProgram, str), value);
 }
-void Shader::unfm1i(const char* str, int value) const
+void Shader::unfm1i(const char *str, int value) const
 {
 	glUniform1i(glGetUniformLocation(shaderProgram, str), value);
 }
-void Shader::unfm3f(const char* str, float a, float b, float c) const
+void Shader::unfm3f(const char *str, float a, float b, float c) const
 {
 	glUniform3f(glGetUniformLocation(shaderProgram, str), a, b, c);
 }
-void Shader::unfmat4fv(const char* str, glm::mat4 trans) const
+void Shader::unfmat4fv(const char *str, glm::mat4 trans) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, str), 1, GL_FALSE, glm::value_ptr(trans));
 }
-void Shader::unfvec3fv(const char* str, glm::vec3 vec3)const
+void Shader::unfvec3fv(const char *str, glm::vec3 vec3) const
 {
 	glUniform3fv(glGetUniformLocation(shaderProgram, str), 1, glm::value_ptr(vec3));
 }
-void Shader::unfmat3fv(const char* str, glm::mat3 mat3)const
+void Shader::unfmat3fv(const char *str, glm::mat3 mat3) const
 {
 	glUniformMatrix3fv(glGetUniformLocation(shaderProgram, str), 1, GL_FALSE, glm::value_ptr(mat3));
 }
-void Shader::unfDirLight(const char* str, DirectLight* dirLight)const
+void Shader::unfDirLight(const char *str, DirectLight *dirLight) const
 {
 	std::string name = str;
 	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".dir").c_str()), 1, glm::value_ptr(dirLight->dir));
@@ -105,7 +71,7 @@ void Shader::unfDirLight(const char* str, DirectLight* dirLight)const
 	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".diffuse").c_str()), 1, glm::value_ptr(dirLight->diffuse));
 	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".specular").c_str()), 1, glm::value_ptr(dirLight->specular));
 }
-void Shader::unfDotLight(const char* str, DotLight* dotLight)const
+void Shader::unfDotLight(const char *str, DotLight *dotLight) const
 {
 	std::string name = str;
 	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".pos").c_str()), 1, glm::value_ptr(dotLight->pos));
@@ -116,7 +82,7 @@ void Shader::unfDotLight(const char* str, DotLight* dotLight)const
 	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".linear").c_str()), dotLight->linear);
 	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".quadratic").c_str()), dotLight->quadratic);
 }
-void Shader::unfSpotLight(const char* str, SpotLight* spotLight)const
+void Shader::unfSpotLight(const char *str, SpotLight *spotLight) const
 {
 	std::string name = str;
 	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".pos").c_str()), 1, glm::value_ptr(spotLight->pos));
