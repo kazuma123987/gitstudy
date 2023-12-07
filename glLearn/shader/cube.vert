@@ -9,13 +9,17 @@ layout(std140)uniform Mat
 	uniform mat4 proj;
 };
 uniform mat3 normMat;//法向量矩阵
-out vec3 fragPos;
-out vec3 normal;
-out vec2 texPos;
+//使用接口块效率更佳
+out VS_OUT
+{
+vec3 fragPos;
+vec3 normal;
+vec2 texPos;
+}vs_out;
 void main()
 {
 	gl_Position = proj*view*model * vec4(aPos, 1.0f);
-	fragPos=vec3(model*vec4(aPos,1.0f));//顶点
-	normal=normalize(normMat*normal_in);//法向量
-	texPos = texPos_in;//纹理
+	vs_out.fragPos=vec3(model*vec4(aPos,1.0f));//顶点
+	vs_out.normal=normalize(normMat*normal_in);//法向量
+	vs_out.texPos = texPos_in;//纹理
 }
