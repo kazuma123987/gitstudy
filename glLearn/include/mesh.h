@@ -83,7 +83,11 @@ public:
 		setupMesh();
 	}
 	void DestoryMesh();
-	void Draw(Shader* shader);
+	void Draw(Shader* shader,int instanceCount=0);
+	GLuint getVAO()
+	{
+		return VAO;
+	}
 private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh();

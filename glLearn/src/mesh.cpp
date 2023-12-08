@@ -33,7 +33,7 @@ void Mesh::DestoryMesh()
 	for (unsigned int i = 0; i < textures.size(); i++)
 		glDeleteTextures(1, &textures[i].id);
 }
-void Mesh::Draw(Shader *shader)
+void Mesh::Draw(Shader *shader,int instanceCount)
 {
 	int diffuseIndex = 0;
 	int specularIndex = 0;
@@ -75,7 +75,10 @@ void Mesh::Draw(Shader *shader)
 		}
 	}
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	if(!instanceCount)
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	else 
+		glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0,instanceCount);
 	glBindVertexArray(0);
 	glActiveTexture(GL_TEXTURE0);
 }

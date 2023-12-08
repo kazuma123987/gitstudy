@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	Shader outlineShader("shader\\outline.vert", "shader\\outline.frag");
 	Shader screenShader("shader\\screen.vert","shader\\screen.frag");
 	Shader skyboxShader("shader\\skybox.vert","shader\\skybox.frag");
+	Shader instantShader("shader\\instant.vert","shader\\instant.frag");
 	//帧缓冲对象(FrameBuffer Object)
 	FrameBuffer fbo(WIDTH,HEIGHT);
 	/*--------------------模型参数设置--------------------*/
@@ -64,6 +65,8 @@ int main(int argc, char *argv[])
 	Mesh skybox(arr_vertex, arrVertex_N / 4,cubePaths);
 	clock_t start = clock();
 	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.blend");
+	Model planet("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\planet\\planet.obj");
+	Model rock("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\rock\\rock.obj");
 	printf_s("load time:%dms", clock() - start);
 
 	// 模型矩阵
@@ -91,6 +94,58 @@ int main(int argc, char *argv[])
 	// spotLight
 	SpotLight spotLight = {glm::vec3(0.0f), glm::vec3(0.01f), glm::vec3(0.7f), glm::vec3(1.0f), 1.0f, 0.09f, 0.032f,
 						   glm::cos(glm::radians(15.0f)), glm::cos(glm::radians(17.5f)), glm::vec3(0.0f, 0.0f, -1.0f)};
+	//rock
+	const int rockNum=100000;
+	glm::mat4 *rockMat=new glm::mat4[rockNum];//这里用栈会溢出(windows栈空间1MB,linux为4MB,可用-Wl,--stack=yourSize来让链接器增加栈空间)
+	float radius=50.0f;
+	float rockOffsetMax=2.5f;
+	srand(glfwGetTime());
+	for(int i=0;i<rockNum;i++)
+	{
+		glm::mat4 model;
+		//位移
+		float radians=(float)i/(float)rockNum*360.0f;
+		glm::vec3 rockPos;
+		float rockOffset=(rand()%(int)(2*rockOffsetMax*100))/100.0f-rockOffsetMax;//这里乘以100再除以100提高精度
+		rockPos.x=(radius+rockOffset)*cos(glm::radians(radians));
+		rockPos.z=(radius+rockOffset)*sin(glm::radians(radians));
+		rockPos.y=rockOffset*0.4f;//让y轴范围为(-0.4*rockOffset,0.4*rockOffset)，上下更加扁平
+		model=glm::translate(glm::mat4(1.0f),rockPos);
+		//缩放
+		float scale=(rand()%20+5)/1000.0f;//0.05到0.25之间缩放
+		model=glm::scale(model,glm::vec3(scale));
+		//旋转
+		float angle=rand()%360;//0到360度旋转
+		model=glm::rotate(model,glm::radians(angle),glm::vec3(0.4f,0.6,0.8f));
+
+		rockMat[i]=model;
+	}
+	GLuint instanceVBO;
+	glGenBuffers(1,&instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER,instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER,rockNum*sizeof(glm::mat4),&rockMat[0],GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+
+	for(unsigned int i=0;i<rock.meshes.size();i++)
+	{
+		GLuint VAO=rock.meshes[i].getVAO();
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER,instanceVBO);
+		glEnableVertexAttribArray(7);
+		glVertexAttribPointer(7,4,GL_FLOAT,GL_FALSE,sizeof(glm::mat4),(void*)0);
+		glEnableVertexAttribArray(8);
+		glVertexAttribPointer(8,4,GL_FLOAT,GL_FALSE,sizeof(glm::mat4),(void*)(sizeof(glm::vec4)));
+		glEnableVertexAttribArray(9);
+		glVertexAttribPointer(9,4,GL_FLOAT,GL_FALSE,sizeof(glm::mat4),(void*)(2*sizeof(glm::vec4)));
+		glEnableVertexAttribArray(10);
+		glVertexAttribPointer(10,4,GL_FLOAT,GL_FALSE,sizeof(glm::mat4),(void*)(3*sizeof(glm::vec4)));
+		glVertexAttribDivisor(7,1);//1是属性除数,等于0时每次更新顶点时更新,等于1时每次更新实例时更新,等于3时每3次更新实例时更新
+		glVertexAttribDivisor(8,1);
+		glVertexAttribDivisor(9,1);
+		glVertexAttribDivisor(10,1);
+		glBindBuffer(GL_ARRAY_BUFFER,0);		
+	}
+
 	/*--------------------音频设置--------------------*/
 	// fmod
 	s1 = InitSound();
@@ -115,6 +170,7 @@ int main(int argc, char *argv[])
 	camera->setShaderUBOIndex(&lightShader,"Mat");
 	camera->setShaderUBOIndex(&outlineShader,"Mat");
 	camera->setShaderUBOIndex(&skyboxShader,"Mat");
+	camera->setShaderUBOIndex(&instantShader,"Mat");
 
 	/*--------------------渲染循环--------------------*/
 	while (!glfwWindowShouldClose(window))
@@ -175,7 +231,7 @@ int main(int argc, char *argv[])
 			cubeShader.unfmat4fv("model", boxMat[i]);
 			normMat = glm::mat3(glm::transpose(glm::inverse(boxMat[i])));
 			cubeShader.unfmat3fv("normMat", normMat);
-			box.Draw(&cubeShader);
+			box.Draw(&cubeShader,100000);
 		}
 		glDisable(GL_CULL_FACE);
 		// 绘制地面
@@ -192,6 +248,14 @@ int main(int argc, char *argv[])
 		cubeShader.unfmat4fv("model", humanMat);
 		human.Draw(&cubeShader);
 		glDisable(GL_CULL_FACE);//人物2的发带只有单面,不能用面剔除
+		//绘制行星
+		normMat= glm::mat3(glm::transpose(glm::inverse(unitMat)));
+		cubeShader.unfmat3fv("normMat",normMat);
+		cubeShader.unfmat4fv("model", unitMat);
+		planet.Draw(&cubeShader);
+		//绘制陨石
+		instantShader.use();
+		rock.Draw(&instantShader,rockNum);
 		//绘制天空盒
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.use();
@@ -215,7 +279,8 @@ int main(int argc, char *argv[])
 	fbo.destoyFBO();
 	deleteSound(s1);
 	deleteSound(s2);
-	delete (camera);
+	delete(camera);
+	delete[] rockMat;
 	music.systemFree();
 	return 0;
 }
