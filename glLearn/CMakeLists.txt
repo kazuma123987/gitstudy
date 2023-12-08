@@ -75,7 +75,7 @@ set(PRODUCT_NAME "game")
 set(COPYRIGHT "Copyright (C) 2023")
 #把工作目录下的version.rc.in编译到build目录下的version.rc
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/res/icon/version.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/version.rc
   @ONLY)
 add_executable(${PROJECT_NAME} ${SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/version.rc)# 添加可执行文件
@@ -90,6 +90,6 @@ ELSE()
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/fmod.dll)
 ENDIF()
 #target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/GLFW/glfw3.dll)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libglfw3.a)
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libglad.lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/lib/libassimp.dll.a)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a)
+#target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglad.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libassimp.dll.a)

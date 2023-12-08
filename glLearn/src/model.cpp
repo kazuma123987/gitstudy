@@ -1,8 +1,8 @@
 #include <model.h>
-void Model::loadModel(const char* path)
+void Model::loadModel(const char *path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		printf_s("ASSIMP::ERROR::%s", importer.GetErrorString());
@@ -12,24 +12,24 @@ void Model::loadModel(const char* path)
 	directory = pathName.substr(0, pathName.find_last_of('\\') + 1);
 	processNode(scene->mRootNode, scene);
 }
-void Model::processNode(aiNode* node, const aiScene* scene)
+void Model::processNode(aiNode *node, const aiScene *scene)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(processMesh(mesh, scene));
 	}
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 		processNode(node->mChildren[i], scene);
 }
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 	glm::vec3 vec3;
 	glm::vec2 vec2;
-	//process vertex
+	// process vertex
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
@@ -50,7 +50,8 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			vec2.y = mesh->mTextureCoords[0][i].y;
 			vertex.TexCoord = vec2;
 		}
-		else vertex.TexCoord = glm::vec2(0, 0);
+		else
+			vertex.TexCoord = glm::vec2(0, 0);
 		if (mesh->HasTangentsAndBitangents())
 		{
 			vec3.x = mesh->mTangents[i].x;
@@ -64,7 +65,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		}
 		vertices.push_back(vertex);
 	}
-	//process index
+	// process index
 	if (mesh->HasFaces())
 		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 		{
@@ -72,26 +73,26 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			for (unsigned int j = 0; j < face.mNumIndices; j++)
 				indices.push_back(face.mIndices[j]);
 		}
-	//process texture(material)
-	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	//漫射贴图
+	// process texture(material)
+	aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+	// 漫射贴图
 	std::vector<Texture> diffuseTexture = loadMaterialTexture(material, aiTextureType_DIFFUSE, "texture_diffuse", scene);
 	textures.insert(textures.end(), diffuseTexture.begin(), diffuseTexture.end());
-	//镜面贴图
+	// 镜面贴图
 	std::vector<Texture> specularTexture = loadMaterialTexture(material, aiTextureType_SPECULAR, "texture_specular", scene);
 	textures.insert(textures.end(), specularTexture.begin(), specularTexture.end());
-	//法线贴图
+	// 法线贴图
 	std::vector<Texture> normalTexture = loadMaterialTexture(material, aiTextureType_NORMALS, "texture_normal", scene);
 	textures.insert(textures.end(), normalTexture.begin(), normalTexture.end());
-	//高度贴图
+	// 高度贴图
 	std::vector<Texture> heightTexture = loadMaterialTexture(material, aiTextureType_HEIGHT, "texture_height", scene);
 	textures.insert(textures.end(), heightTexture.begin(), heightTexture.end());
-	//反射贴图
+	// 反射贴图
 	std::vector<Texture> reflectTexture = loadMaterialTexture(material, aiTextureType_AMBIENT, "texture_reflect", scene);
 	textures.insert(textures.end(), reflectTexture.begin(), reflectTexture.end());
 	return Mesh(vertices, indices, textures);
 }
-std::vector<Texture> Model::loadMaterialTexture(aiMaterial* material, aiTextureType aiType, std::string typeName, const aiScene* scene)
+std::vector<Texture> Model::loadMaterialTexture(aiMaterial *material, aiTextureType aiType, std::string typeName, const aiScene *scene)
 {
 	std::vector<Texture> textures;
 	for (unsigned int i = 0; i < material->GetTextureCount(aiType); i++)
@@ -111,7 +112,7 @@ std::vector<Texture> Model::loadMaterialTexture(aiMaterial* material, aiTextureT
 		if (!isQuit)
 		{
 			Texture texture;
-			const aiTexture* aiTex = scene->GetEmbeddedTexture(aiStr.C_Str());
+			const aiTexture *aiTex = scene->GetEmbeddedTexture(aiStr.C_Str());
 			if (aiTex)
 				texture.id = TextureFromEmbbeded(aiTex);
 			else
@@ -129,8 +130,12 @@ void Model::DestroyModel()
 	for (unsigned int i = 0; i < meshes.size(); i++)
 		meshes[i].DestoryMesh();
 }
-void Model::Draw(Shader* shader)
+void Model::Draw(Shader *shader, int instanceCount)
 {
-	for (unsigned int i = 0; i < meshes.size(); i++)
-		meshes[i].Draw(shader);
+	if (!instanceCount)
+		for (unsigned int i = 0; i < meshes.size(); i++)
+			meshes[i].Draw(shader);
+	else
+		for (unsigned int i = 0; i < meshes.size(); i++)
+			meshes[i].Draw(shader, instanceCount);
 }

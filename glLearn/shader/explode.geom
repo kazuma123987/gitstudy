@@ -8,7 +8,7 @@ vec3 normal;
 vec2 texPos;
 }gs_in[];
 //declare
-void drawVertex(int index,vec3 norm);
+void drawVertex(int index);
 vec3 getNormal();
 vec4 explode(vec4 position,vec3 normal);
 //uniform
@@ -19,14 +19,14 @@ out vec2 texPos;
 void main()
 {
     vec3 norm=getNormal();
-    drawVertex(0,norm);
-    drawVertex(1,norm);
-    drawVertex(2,norm);
+    drawVertex(0);
+    drawVertex(1);
+    drawVertex(2);
     EndPrimitive();        
 }
-void drawVertex(int index,vec3 norm)
+void drawVertex(int index)
 {
-    gl_Position=explode(gl_in[index].gl_Position,norm);
+    gl_Position=gl_in[index].gl_Position;
     fragPos=gs_in[index].fragPos;
     normal=gs_in[index].normal;
     texPos=gs_in[index].texPos;

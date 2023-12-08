@@ -13,7 +13,7 @@ public:
 		loadModel(path);
 	}
 	void DestroyModel();
-	void Draw(Shader* shader);
+	void Draw(Shader* shader,int instanceCount=0);
 private:
 	void loadModel(const char* path);
 	void processNode(aiNode* node, const aiScene* scene);
