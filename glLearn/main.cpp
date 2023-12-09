@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 注意设置的glfw上下文版本
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES,4);//提示(Hint)glfw使用4个采样点的缓冲
 #ifdef _APPLE_
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -161,6 +162,7 @@ int main(int argc, char *argv[])
 	// glEnable
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
+	glEnable(GL_MULTISAMPLE);//开启多重采样缓冲(在不使用帧缓冲时不需要额外处理)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	// 绑定回调函数
 	glfwSetKeyCallback(window, keyCallback);
@@ -175,6 +177,7 @@ int main(int argc, char *argv[])
 	/*--------------------渲染循环--------------------*/
 	while (!glfwWindowShouldClose(window))
 	{
+		clock_t start=clock();
 		// INPUT
 		press_close_window(window);
 		camera->keyboardInput(window);
@@ -231,7 +234,7 @@ int main(int argc, char *argv[])
 			cubeShader.unfmat4fv("model", boxMat[i]);
 			normMat = glm::mat3(glm::transpose(glm::inverse(boxMat[i])));
 			cubeShader.unfmat3fv("normMat", normMat);
-			box.Draw(&cubeShader,100000);
+			box.Draw(&cubeShader);
 		}
 		glDisable(GL_CULL_FACE);
 		// 绘制地面
@@ -268,6 +271,10 @@ int main(int argc, char *argv[])
 		// SOUND
 		music.set3DPosition(s1, sin(t), cos(t), 0);
 		music.updateSystem();
+
+		//设置标题
+		std::string title="game"+std::string("     ")+"FPS:"+std::to_string(1000/(clock()-start));
+		glfwSetWindowTitle(window,title.c_str());
 
 		// EVENTS && DISPLAY
 		glfwSwapBuffers(window);

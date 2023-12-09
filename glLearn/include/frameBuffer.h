@@ -2,11 +2,15 @@
 #define _FRAMEBUFFER_H_
 #include <tool.h>
 #include <shader.h>
+//注意在渲染循环中先绑定多重采样帧缓冲对象再进行常规渲染,再把多重采样帧缓冲对象的颜色缓冲、深度缓冲、模板缓冲还原到屏幕空间帧缓冲
+//帧缓冲对象
 class FrameBuffer
 {
 public:
     FrameBuffer(int width, int height)
     {
+        this->width=width;
+        this->height=height;
         // 帧缓冲对象(FrameBuffer Object)
         glGenFramebuffers(1, &FBO);
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -30,23 +34,44 @@ public:
             fputs("The frameBuffer is not complete", stderr);
         glBindFramebuffer(GL_FRAMEBUFFER, 0); // 解除帧缓冲的绑定,防止误操作
 
+        //多重采样帧缓冲(MSAA多重采样抗锯齿)
+        glGenBuffers(1,&MFBO);
+        glBindBuffer(GL_FRAMEBUFFER,MFBO);
+        //多重采样纹理
+        glGenTextures(1,&MTEXTURE);
+        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE,MTEXTURE);
+        glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE,4,GL_RGB,width,height,GL_TRUE);
+        glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE,0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D_MULTISAMPLE,MTEXTURE,0);
+        //多重采样渲染缓冲
+        glGenBuffers(1,&MRBO);
+        glBindRenderbuffer(GL_RENDERBUFFER,MRBO);
+        glRenderbufferStorageMultisample(GL_RENDERBUFFER,4,GL_DEPTH24_STENCIL8,width,height);
+        glBindRenderbuffer(GL_RENDERBUFFER,0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_STENCIL_ATTACHMENT,GL_RENDERBUFFER,MRBO);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER)!=GL_FRAMEBUFFER_COMPLETE)
+            fputs("The mutisampler frameBuffer is not complete", stderr);
+        glBindFramebuffer(GL_FRAMEBUFFER,0);
+
         float vertex[] =
-        {
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-         1.0f, -1.0f,  1.0f,  1.0f, 0.0f, // bottom-right
-         1.0f,  1.0f,  1.0f,  1.0f, 1.0f, // top-right
-         1.0f,  1.0f,  1.0f,  1.0f, 1.0f, // top-right
-        -1.0f,  1.0f,  1.0f,  0.0f, 1.0f, // top-left
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f, // bottom-left
-        };
+            {
+                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+                1.0f, -1.0f, 1.0f, 1.0f, 0.0f,  // bottom-right
+                1.0f, 1.0f, 1.0f, 1.0f, 1.0f,   // top-right
+                1.0f, 1.0f, 1.0f, 1.0f, 1.0f,   // top-right
+                -1.0f, 1.0f, 1.0f, 0.0f, 1.0f,  // top-left
+                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+            };
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
-        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)0);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)(3*sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
         glBindVertexArray(0);
     }
@@ -56,7 +81,7 @@ public:
     }
     void bind()
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+        glBindFramebuffer(GL_FRAMEBUFFER, MFBO);
     }
     void unBind()
     {
@@ -64,26 +89,39 @@ public:
     }
     void Draw(Shader *shader)
     {
-        unBind();
+        //先把多重采样帧缓冲的颜色缓冲、深度缓冲、模板缓冲(缓冲区大小是采样点个数倍)还原到一般的帧缓冲
+        glBindFramebuffer(GL_READ_FRAMEBUFFER,MFBO);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER,FBO);
+        glBlitFramebuffer(0,0,width,height,0,0,width,height,GL_COLOR_BUFFER_BIT,GL_NEAREST);
+        glBlitFramebuffer(0,0,width,height,0,0,width,height,GL_DEPTH_BUFFER_BIT,GL_NEAREST);
+        glBlitFramebuffer(0,0,width,height,0,0,width,height,GL_STENCIL_BUFFER_BIT,GL_NEAREST);
+        //画屏幕空间
+        shader->use();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);//注意要先绑定默认帧缓冲再清除对应的缓冲区
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_STENCIL_TEST);
-        shader->use();
-        glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+        glBindTexture(GL_TEXTURE_2D, texColorBuffer);//片段着色器sampler2D对应的是GL_TEXTURE_2D纹理
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES,0,30);
+        glDrawArrays(GL_TRIANGLES, 0, 30);
     }
     void destoyFBO()
     {
         glDeleteRenderbuffers(1, &RBO);
+        glDeleteRenderbuffers(1, &MRBO);
         glDeleteFramebuffers(1, &FBO);
+        glDeleteFramebuffers(1, &MFBO);
         glDeleteTextures(1, &texColorBuffer);
-        glDeleteVertexArrays(1,&VAO);
-        glDeleteBuffers(1,&VBO);
+        glDeleteTextures(1, &MTEXTURE);
+        glDeleteVertexArrays(1, &VAO);
+        glDeleteBuffers(1, &VBO);
     }
 
 private:
-    GLuint VAO, VBO, FBO, RBO, texColorBuffer;
+    int width,height;
+    GLuint VAO, VBO;
+    GLuint FBO, RBO, texColorBuffer;
+    GLuint MFBO, MRBO, MTEXTURE;
 };
 #endif
