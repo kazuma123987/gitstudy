@@ -2,8 +2,8 @@
 layout(location=0)in vec3 aPos;
 layout(std140)uniform Mat
 {
-	uniform mat4 view;
-	uniform mat4 proj;
+	mat4 view;
+	mat4 proj;
 };
 out vec3 texCoord;
 void main(){

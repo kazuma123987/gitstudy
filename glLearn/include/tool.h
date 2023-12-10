@@ -13,6 +13,10 @@
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
 #include <vector>
+#include <thread>
+#include <chrono>
+#include <atomic>
+#include <mutex>
 /*---------------外部库----------------*/
 //需要链接库的头文件
 #include <glm/glm.hpp> //后面均为opengl提供的数学库,可以用于opengl之外的数学运算
