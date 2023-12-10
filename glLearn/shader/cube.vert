@@ -5,8 +5,8 @@ layout(location = 2) in vec2 texPos_in;
 uniform mat4 model;
 layout(std140)uniform Mat
 {
-	uniform mat4 view;
-	uniform mat4 proj;
+	mat4 view;
+	mat4 proj;
 };
 uniform mat3 normMat;//法向量矩阵
 //使用接口块效率更佳
