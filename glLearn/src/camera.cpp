@@ -4,6 +4,7 @@ Camera::Camera()
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 	worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	qua=glm::quat(0.0f,0.0f,0.0f,1.0f);
 	view = glm::mat4(1.0f);
 	proj = glm::mat4(1.0f);
 	fov = 45.0f;
@@ -21,7 +22,8 @@ Camera::Camera()
 void Camera::update()//需要先使用(use)着色器
 {
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, worldUp);
-	proj = glm::perspective(glm::radians(fov), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+	proj = glm::perspective(glm::radians(fov), (float)WIDTH / (float)HEIGHT, 0.1f, 10000.0f);
+	//proj=glm::ortho(0.0f,(float)WIDTH,0.0f,(float)HEIGHT,0.1f,10000.0f);
 	curTime = glfwGetTime();
 	cameraSpeed = (curTime - lastTime) * 2.5f;
 	lastTime = curTime;
@@ -61,6 +63,10 @@ void Camera::curseInput(GLFWwindow* window)
 	float offsetY = yPos - lastY;
 	lastX = xPos;
 	lastY = yPos;
+	// glm::quat up_q=glm::angleAxis(glm::radians(offsetY*0.1f),glm::vec3(1.0f,0.0f,0.0f));
+	// glm::quat right_q=glm::angleAxis(glm::radians(offsetX*0.1f),glm::vec3(0.0f,1.0f,0.0f));
+	// qua*=(up_q*right_q);
+	// cameraFront=glm::normalize(glm::vec3(glm::mat4_cast(qua)*glm::vec4(0.0f,0.0f,-1.0f,1.0f)));
 	pitch += offsetY * curseSensitivity;
 	if (pitch > 89.0f)pitch = 89.0f;
 	else if (pitch < -89.0f)pitch = -89.0f;
