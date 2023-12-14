@@ -14,6 +14,7 @@ void frame_size_callback(GLFWwindow *window, int width, int height);
 void press_close_window(GLFWwindow *window);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void scrollCallback(GLFWwindow *window, double xoffset, double yoffset);
+void rendFPS(GLFWwindow *window);
 int main(int argc, char *argv[])
 {
 	// 获取文件当前路径
@@ -50,14 +51,13 @@ int main(int argc, char *argv[])
 	}
 	// 着色器
 	SetCurrentDirectoryA(filePath);
-	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag", "shader\\explode.geom");
+	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag");
 	Shader lightShader("shader\\light.vert", "shader\\light.frag");
 	Shader outlineShader("shader\\outline.vert", "shader\\outline.frag");
 	Shader screenShader("shader\\screen.vert", "shader\\screen.frag");
 	Shader skyboxShader("shader\\skybox.vert", "shader\\skybox.frag");
 	Shader instantShader("shader\\instant.vert", "shader\\instant.frag");
-	// 帧缓冲对象(FrameBuffer Object)
-	FrameBuffer fbo(WIDTH, HEIGHT);
+	Shader depthShader("shader\\depthMap.vert", "shader\\depthMap.frag");
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
 	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
 	Mesh skybox(arr_vertex, arrVertex_N / 4, cubePaths);
 	clock_t start = clock();
 	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.blend");
-	Model planet("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\planet\\planet.obj");
 	Model rock("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\rock\\rock.obj");
 	printf_s("load time:%dms", clock() - start);
 
@@ -83,7 +82,8 @@ int main(int argc, char *argv[])
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, 3.0f);
 	glm::vec3 lightColor[4] = {glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f)};
 	// dirLight
-	DirectLight dirLight = {glm::vec3(-0.1f, -1.0f, -0.1f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.5f)};
+	DirectLight dirLight = {glm::vec3(2.0f, -8.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.5f)};
+	glm::mat4 shadowSpaceMat=glm::ortho(-20.0f,20.0f,-20.0f,20.0f,0.1f,100.0f)*glm::lookAt(-dirLight.dir,glm::vec3(0.0f),glm::vec3(0.0f,1.0f,0.0f));
 	// dotLight
 	DotLight dotLight[4];
 	glm::mat4 dotLightMat[4];
@@ -110,10 +110,10 @@ int main(int argc, char *argv[])
 		float rockOffset = (rand() % (int)(2 * rockOffsetMax * 100)) / 100.0f - rockOffsetMax; // 这里乘以100再除以100提高精度
 		rockPos.x = (radius + rockOffset) * cos(glm::radians(radians));
 		rockPos.z = (radius + rockOffset) * sin(glm::radians(radians));
-		rockPos.y = rockOffset * 0.4f; // 让y轴范围为(-0.4*rockOffset,0.4*rockOffset)，上下更加扁平
+		rockPos.y = rockOffset * ((rand()%800)/1000.0f-0.4f); // 让y轴范围为(-0.4*rockOffset,0.4*rockOffset)，上下更加扁平
 		model = glm::translate(glm::mat4(1.0f), rockPos);
 		// 缩放
-		float scale = (rand() % 20 + 5) / 1000.0f; // 0.05到0.25之间缩放
+		float scale = (rand() % 21 + 5) / 1000.0f; // 0.05到0.25之间缩放
 		model = glm::scale(model, glm::vec3(scale));
 		// 旋转
 		float angle = rand() % 360; // 0到360度旋转
@@ -167,6 +167,9 @@ int main(int argc, char *argv[])
 	// 绑定回调函数
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetScrollCallback(window, scrollCallback);
+	// 帧缓冲对象(FrameBuffer Object)
+	FrameBuffer fbo(WIDTH, HEIGHT);
+	FrameBuffer shadowFBO(2048,2048);
 	// 先更新着色器块索引
 	camera->setShaderUBOIndex(&cubeShader, "Mat");
 	camera->setShaderUBOIndex(&lightShader, "Mat");
@@ -181,39 +184,61 @@ int main(int argc, char *argv[])
 		press_close_window(window);
 		camera->keyboardInput(window);
 		camera->curseInput(window);
-
-		/*------第一阶段处理------*/
-		fbo.bind();
-		// LOGIC && RENDER
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_STENCIL_TEST);
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glStencilMask(0x00);
-		float t = glfwGetTime();
 		camera->update();
 		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
-		// LIGHT(先渲染光源,因为后续物体受光源影响)
-		lightShader.use();
-		// dotLight//
+
+		// LOGIC && RENDER
+		//lightLogic
+		float t = glfwGetTime();
 		lightPos.x = 3 * sin(t);
 		lightPos.z = 3 * cos(t);
 		for (int i = 0; i < 4; i++)
 		{
 			lightColor[i] = {sin(0.2f * t + 2 * i) * 0.5f + 0.5f, sin(0.5f * t + 2 * i) * 0.5f + 0.5f, sin(0.7f * t + 2 * i) * 0.5f + 0.5f};
-			lightShader.unfvec3fv("lightColor", lightColor[i]);
 			dotLight[i] = {lightPos + offsetModel[i], 0.1f * lightColor[i], 0.5f * lightColor[i], lightColor[i], 1.0f, 0.09f, 0.032f};
 			dotLightMat[i] = glm::scale(glm::translate(unitMat, dotLight[i].pos), glm::vec3(0.2f));
+		}
+		spotLight.pos = camera->getCameraPos();
+		spotLight.front = camera->getCameraFront();
+
+		/*------第一阶段处理(生成深度贴图)------*/
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_STENCIL_TEST);
+		shadowFBO.bindSFBO();
+		glClear(GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+		depthShader.use();
+		depthShader.unfmat4fv("shadowSpaceMat",shadowSpaceMat);
+		// 绘制箱子
+		for (int i = 0; i < 10; i++)
+		{
+			depthShader.unfmat4fv("model", boxMat[i]);
+			box.Draw(&depthShader);
+		}
+		// 绘制地面
+		depthShader.unfmat4fv("model", unitMat);
+		floor.Draw(&depthShader);
+		// 绘制人物
+		depthShader.unfmat4fv("model", humanMat);
+		human.Draw(&cubeShader);
+		
+
+		/*------第二阶段处理(正常渲染)------*/
+		fbo.bindMFBO();
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		//绘制光源
+		lightShader.use();
+		for(int i=0;i<4;i++)
+		{
+			lightShader.unfvec3fv("lightColor", lightColor[i]);
 			lightShader.unfmat4fv("model", dotLightMat[i]);
 			light.Draw(&lightShader);
 		}
-		// spotLight//
-		spotLight.pos = camera->getCameraPos();
-		spotLight.front = camera->getCameraFront();
-		// model
+		// modelLogic
 		cubeShader.use();
+		cubeShader.unfmat4fv("shadowSpaceMat",shadowSpaceMat);
 		cubeShader.unfm1f("time", abs(t / 2.0f - (int)(t / 2.0f) - 0.5f) * 2.0f);
+		shadowFBO.bindSTexture(&cubeShader,"shadowMap",5);//深度贴图
 		cubeShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
 		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
@@ -224,9 +249,6 @@ int main(int argc, char *argv[])
 		cubeShader.unfvec3fv("viewerPos", camera->getCameraPos());
 		cubeShader.unfm1f("material.shininess", 32.0f);
 		// 绘制箱子
-		glEnable(GL_CULL_FACE); // 允许面剔除
-		glCullFace(GL_BACK);	// 剔除背面（默认就是GL_BACK）
-		glFrontFace(GL_CCW);	// 将逆时针的面定义为正面,GL_CW则反之（默认就是GL_CCW）
 		glm::mat3 normMat;
 		for (int i = 0; i < 10; i++)
 		{
@@ -235,36 +257,26 @@ int main(int argc, char *argv[])
 			cubeShader.unfmat3fv("normMat", normMat);
 			box.Draw(&cubeShader);
 		}
-		glDisable(GL_CULL_FACE);
 		// 绘制地面
 		cubeShader.unfmat4fv("model", unitMat);
 		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
 		cubeShader.unfmat3fv("normMat", normMat);
 		floor.Draw(&cubeShader);
 		// 绘制人物
-		glEnable(GL_CULL_FACE);
-		glStencilFunc(GL_ALWAYS, 1, 0xff);
-		glStencilMask(0xff);
 		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat)));
 		cubeShader.unfmat3fv("normMat", normMat);
 		cubeShader.unfmat4fv("model", humanMat);
 		human.Draw(&cubeShader);
-		glDisable(GL_CULL_FACE); // 人物2的发带只有单面,不能用面剔除
-		// 绘制行星
-		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
-		cubeShader.unfmat3fv("normMat", normMat);
-		cubeShader.unfmat4fv("model", unitMat);
-		planet.Draw(&cubeShader);
 		// 绘制陨石
 		instantShader.use();
 		rock.Draw(&instantShader, rockNum);
-		// 绘制天空盒
-		glDepthFunc(GL_LEQUAL);
-		skyboxShader.use();
-		skybox.Draw(&skyboxShader);
-		glDepthFunc(GL_LESS);
+		// // 绘制天空盒
+		// glDepthFunc(GL_LEQUAL);
+		// skyboxShader.use();
+		// skybox.Draw(&skyboxShader);
+		// glDepthFunc(GL_LESS);
 
-		/*------第二阶段处理(后期处理)------*/
+		/*------第三阶段处理(后期处理)------*/
 		fbo.Draw(&screenShader);
 
 		// SOUND
@@ -272,17 +284,7 @@ int main(int argc, char *argv[])
 		music.updateSystem();
 
 		// 设置标题
-		static int fps = 0;
-		fps++;
-		static auto preTime = std::chrono::high_resolution_clock::now();
-		auto curTime = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - preTime).count()>= 1000)
-		{
-			preTime=curTime;
-			std::string title = "game" + std::string("     ") + "FPS:" + std::to_string(fps);
-			glfwSetWindowTitle(window, title.c_str());
-			fps=0;
-		}
+		rendFPS(window);
 
 		// EVENTS && DISPLAY
 		glfwSwapBuffers(window);
@@ -327,4 +329,18 @@ void press_close_window(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, TRUE);
+}
+void rendFPS(GLFWwindow *window)
+{
+		static int fps = 0;
+		fps++;
+		static auto preTime = std::chrono::high_resolution_clock::now();
+		auto curTime = std::chrono::high_resolution_clock::now();
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - preTime).count()>= 1000)
+		{
+			preTime=curTime;
+			std::string title = "game" + std::string("     ") + "FPS:" + std::to_string(fps);
+			glfwSetWindowTitle(window, title.c_str());
+			fps=0;
+		}
 }
