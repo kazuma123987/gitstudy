@@ -51,17 +51,17 @@ void Shader::unfm3f(const char *str, float a, float b, float c) const
 {
 	glUniform3f(glGetUniformLocation(shaderProgram, str), a, b, c);
 }
-void Shader::unfmat4fv(const char *str, glm::mat4 trans) const
+void Shader::unfmat4fv(const char *str, glm::mat4 trans,int count) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, str), 1, GL_FALSE, glm::value_ptr(trans));
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, str),count, GL_FALSE, glm::value_ptr(trans));
 }
-void Shader::unfvec3fv(const char *str, glm::vec3 vec3) const
+void Shader::unfvec3fv(const char *str, glm::vec3 vec3,int count) const
 {
-	glUniform3fv(glGetUniformLocation(shaderProgram, str), 1, glm::value_ptr(vec3));
+	glUniform3fv(glGetUniformLocation(shaderProgram, str),count, glm::value_ptr(vec3));
 }
-void Shader::unfmat3fv(const char *str, glm::mat3 mat3) const
+void Shader::unfmat3fv(const char *str, glm::mat3 mat3,int count) const
 {
-	glUniformMatrix3fv(glGetUniformLocation(shaderProgram, str), 1, GL_FALSE, glm::value_ptr(mat3));
+	glUniformMatrix3fv(glGetUniformLocation(shaderProgram, str),count, GL_FALSE, glm::value_ptr(mat3));
 }
 void Shader::unfDirLight(const char *str, DirectLight *dirLight) const
 {

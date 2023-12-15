@@ -22,7 +22,7 @@ Camera::Camera()
 void Camera::update()//需要先使用(use)着色器
 {
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, worldUp);
-	proj = glm::perspective(glm::radians(fov), (float)WIDTH / (float)HEIGHT, 0.1f, 10000.0f);
+	proj = glm::perspective(glm::radians(fov), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
 	//proj=glm::ortho(0.0f,(float)WIDTH,0.0f,(float)HEIGHT,0.1f,10000.0f);
 	curTime = glfwGetTime();
 	cameraSpeed = (curTime - lastTime) * 2.5f;

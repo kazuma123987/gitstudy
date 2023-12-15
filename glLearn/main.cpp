@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
 	Shader skyboxShader("shader\\skybox.vert", "shader\\skybox.frag");
 	Shader instantShader("shader\\instant.vert", "shader\\instant.frag");
 	Shader depthShader("shader\\depthMap.vert", "shader\\depthMap.frag");
+	Shader depthCubeShader("shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
 	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
@@ -79,19 +80,20 @@ int main(int argc, char *argv[])
 	glm::mat4 humanMat = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
 	// 光源矩阵
 	glm::mat4 unitMat = glm::mat4(1.0f);
-	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, 3.0f);
-	glm::vec3 lightColor[4] = {glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f)};
+	glm::vec3 lightPos = glm::vec3(0.0f, 4.0f, 3.0f);
+	glm::vec3 lightColor = glm::vec3(1.0f);
+
 	// dirLight
 	DirectLight dirLight = {glm::vec3(2.0f, -8.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.5f)};
-	glm::mat4 shadowSpaceMat=glm::ortho(-20.0f,20.0f,-20.0f,20.0f,0.1f,100.0f)*glm::lookAt(-dirLight.dir,glm::vec3(0.0f),glm::vec3(0.0f,1.0f,0.0f));
+	glm::mat4 shadowSpaceMat = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f) * glm::lookAt(-dirLight.dir, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	// dotLight
-	DotLight dotLight[4];
-	glm::mat4 dotLightMat[4];
-	for (int i = 0; i < 4; i++)
-	{
-		dotLight[i] = {lightPos + offsetModel[i], 0.02f * lightColor[i], 0.5f * lightColor[i], lightColor[i], 1.0f, 0.09f, 0.032f};
-		dotLightMat[i] = glm::translate(unitMat, dotLight[i].pos);
-	}
+	DotLight dotLight = {lightPos, 0.02f * lightColor, 0.5f * lightColor, lightColor, 1.0f, 0.09f, 0.032f};
+	glm::mat4 dotLightMat = glm::translate(unitMat, dotLight.pos);
+	const float near_plane = 0.1f;
+	const float far_plane = 100.0f;
+	glm::mat4 dotShadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+	glm::mat4 dotShadowMat[6];
 	// spotLight
 	SpotLight spotLight = {glm::vec3(0.0f), glm::vec3(0.01f), glm::vec3(0.7f), glm::vec3(1.0f), 1.0f, 0.09f, 0.032f,
 						   glm::cos(glm::radians(15.0f)), glm::cos(glm::radians(17.5f)), glm::vec3(0.0f, 0.0f, -1.0f)};
@@ -110,7 +112,7 @@ int main(int argc, char *argv[])
 		float rockOffset = (rand() % (int)(2 * rockOffsetMax * 100)) / 100.0f - rockOffsetMax; // 这里乘以100再除以100提高精度
 		rockPos.x = (radius + rockOffset) * cos(glm::radians(radians));
 		rockPos.z = (radius + rockOffset) * sin(glm::radians(radians));
-		rockPos.y = rockOffset * ((rand()%800)/1000.0f-0.4f); // 让y轴范围为(-0.4*rockOffset,0.4*rockOffset)，上下更加扁平
+		rockPos.y = rockOffset * ((rand() % 800) / 1000.0f - 0.4f); // 让y轴范围为(-0.4*rockOffset,0.4*rockOffset)，上下更加扁平
 		model = glm::translate(glm::mat4(1.0f), rockPos);
 		// 缩放
 		float scale = (rand() % 21 + 5) / 1000.0f; // 0.05到0.25之间缩放
@@ -169,7 +171,8 @@ int main(int argc, char *argv[])
 	glfwSetScrollCallback(window, scrollCallback);
 	// 帧缓冲对象(FrameBuffer Object)
 	FrameBuffer fbo(WIDTH, HEIGHT);
-	FrameBuffer shadowFBO(2048,2048);
+	FrameBuffer shadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
+	FrameBuffer spotShadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 	// 先更新着色器块索引
 	camera->setShaderUBOIndex(&cubeShader, "Mat");
 	camera->setShaderUBOIndex(&lightShader, "Mat");
@@ -188,26 +191,36 @@ int main(int argc, char *argv[])
 		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
 
 		// LOGIC && RENDER
-		//lightLogic
+		// lightLogic
 		float t = glfwGetTime();
 		lightPos.x = 3 * sin(t);
 		lightPos.z = 3 * cos(t);
-		for (int i = 0; i < 4; i++)
-		{
-			lightColor[i] = {sin(0.2f * t + 2 * i) * 0.5f + 0.5f, sin(0.5f * t + 2 * i) * 0.5f + 0.5f, sin(0.7f * t + 2 * i) * 0.5f + 0.5f};
-			dotLight[i] = {lightPos + offsetModel[i], 0.1f * lightColor[i], 0.5f * lightColor[i], lightColor[i], 1.0f, 0.09f, 0.032f};
-			dotLightMat[i] = glm::scale(glm::translate(unitMat, dotLight[i].pos), glm::vec3(0.2f));
-		}
-		spotLight.pos = camera->getCameraPos();
-		spotLight.front = camera->getCameraFront();
+		// lightColor = {sin(0.2f * t + 2 * i) * 0.5f + 0.5f, sin(0.5f * t + 2 * i) * 0.5f + 0.5f, sin(0.7f * t + 2 * i) * 0.5f + 0.5f};
+		lightColor = {1.0f, 1.0f, 1.0f};
+		dotLight = {lightPos, 0.1f * lightColor, 0.5f * lightColor, lightColor, 1.0f, 0.09f, 0.0032f};
+		dotLightMat = glm::scale(glm::translate(unitMat, dotLight.pos), glm::vec3(0.2f));
+		dotShadowMat[0] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
+		dotShadowMat[1] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
+		dotShadowMat[2] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0));
+		dotShadowMat[3] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0));
+		dotShadowMat[4] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0));
+		dotShadowMat[5] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0));
+		glm::vec3 spotColor=glm::vec3(sin(t)+1,cos(2*t)+1,sin(3*t)+1)*0.5f;
+		spotLight.pos = lightPos + glm::vec3(1.0f, 2.0f, -1.5f);
+		spotLight.front = glm::normalize(-spotLight.pos);
+		spotLight.ambient=0.01f*spotColor;
+		spotLight.diffuse=0.7f*spotColor;
+		spotLight.specular=spotColor;
 
-		/*------第一阶段处理(生成深度贴图)------*/
+		/*------第一阶段处理(生成阴影贴图)------*/
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_STENCIL_TEST);
+
+		// 定向光阴影贴图
 		shadowFBO.bindSFBO();
-		glClear(GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
 		depthShader.use();
-		depthShader.unfmat4fv("shadowSpaceMat",shadowSpaceMat);
+		depthShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
 		// 绘制箱子
 		for (int i = 0; i < 10; i++)
 		{
@@ -219,35 +232,77 @@ int main(int argc, char *argv[])
 		floor.Draw(&depthShader);
 		// 绘制人物
 		depthShader.unfmat4fv("model", humanMat);
-		human.Draw(&cubeShader);
-		
+		human.Draw(&depthShader);
+
+		// 点光源阴影贴图
+		shadowFBO.bindSFBO_Cube();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		depthCubeShader.use();
+		depthCubeShader.unfm1f("far_plane", far_plane);
+		depthCubeShader.unfvec3fv("lightPos", dotLight.pos);
+		for (int i = 0; i < 6; i++)
+			depthCubeShader.unfmat4fv(("shadowCubeMat" + std::string("[") + std::to_string(i) + "]").c_str(), dotShadowMat[i]);
+		// 绘制箱子
+		for (int i = 0; i < 10; i++)
+		{
+			depthCubeShader.unfmat4fv("model", boxMat[i]);
+			box.Draw(&depthCubeShader);
+		}
+		// 绘制地面
+		depthCubeShader.unfmat4fv("model", unitMat);
+		floor.Draw(&depthCubeShader);
+		// 绘制人物
+		depthCubeShader.unfmat4fv("model", humanMat);
+		human.Draw(&depthCubeShader);
+
+		// 聚光灯阴影贴图
+		spotShadowFBO.bindSFBO();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		depthShader.use();
+		glm::mat4 spotShadowSpaceMat = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f) *
+									   glm::lookAt(spotLight.pos, spotLight.pos + spotLight.front, glm::vec3(0.0f, 1.0f, 0.0f));
+		depthShader.unfmat4fv("shadowSpaceMat", spotShadowSpaceMat);
+		// 绘制箱子
+		for (int i = 0; i < 10; i++)
+		{
+			depthShader.unfmat4fv("model", boxMat[i]);
+			box.Draw(&depthShader);
+		}
+		// 绘制地面
+		depthShader.unfmat4fv("model", unitMat);
+		floor.Draw(&depthShader);
+		// 绘制人物
+		depthShader.unfmat4fv("model", humanMat);
+		human.Draw(&depthShader);
 
 		/*------第二阶段处理(正常渲染)------*/
 		fbo.bindMFBO();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		//绘制光源
+		// 绘制光源
 		lightShader.use();
-		for(int i=0;i<4;i++)
-		{
-			lightShader.unfvec3fv("lightColor", lightColor[i]);
-			lightShader.unfmat4fv("model", dotLightMat[i]);
-			light.Draw(&lightShader);
-		}
+		lightShader.unfvec3fv("lightColor", lightColor);
+		lightShader.unfmat4fv("model", dotLightMat);
+		light.Draw(&lightShader);
+		lightShader.unfvec3fv("lightColor", spotColor);
+		lightShader.unfmat4fv("model", glm::scale(glm::translate(unitMat,spotLight.pos),glm::vec3(0.1f)));
+		light.Draw(&lightShader);
 		// modelLogic
 		cubeShader.use();
-		cubeShader.unfmat4fv("shadowSpaceMat",shadowSpaceMat);
-		cubeShader.unfm1f("time", abs(t / 2.0f - (int)(t / 2.0f) - 0.5f) * 2.0f);
-		shadowFBO.bindSTexture(&cubeShader,"shadowMap",5);//深度贴图
+		cubeShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
+		cubeShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
+		shadowFBO.bindSTexture(&cubeShader, "shadowMap", 5); // 深度贴图
+		shadowFBO.bindSTexture_Cube(&cubeShader, "shadowCubeMap", 6);
+		spotShadowFBO.bindSTexture(&cubeShader, "spotShadowMap", 7);
 		cubeShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
 		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
 		cubeShader.unfDirLight("dirLight", &dirLight);
-		for (int i = 0; i < 4; i++)
-			cubeShader.unfDotLight((std::string("dotLight") + "[" + std::to_string(i) + "]").c_str(), &dotLight[i]);
+		cubeShader.unfDotLight("dotLight", &dotLight);
 		cubeShader.unfSpotLight("spotLight", &spotLight);
 		cubeShader.unfvec3fv("viewerPos", camera->getCameraPos());
 		cubeShader.unfm1f("material.shininess", 32.0f);
+		cubeShader.unfm1f("far_plane", far_plane);
 		// 绘制箱子
 		glm::mat3 normMat;
 		for (int i = 0; i < 10; i++)
@@ -293,7 +348,9 @@ int main(int argc, char *argv[])
 
 	/*--------------------释放内存--------------------*/
 	glfwTerminate(); // 不要忘记释放glfw资源
-	fbo.destoyFBO();
+	fbo.destory();
+	shadowFBO.destory();
+	spotShadowFBO.destory();
 	deleteSound(s1);
 	deleteSound(s2);
 	delete (camera);
@@ -332,15 +389,15 @@ void press_close_window(GLFWwindow *window)
 }
 void rendFPS(GLFWwindow *window)
 {
-		static int fps = 0;
-		fps++;
-		static auto preTime = std::chrono::high_resolution_clock::now();
-		auto curTime = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - preTime).count()>= 1000)
-		{
-			preTime=curTime;
-			std::string title = "game" + std::string("     ") + "FPS:" + std::to_string(fps);
-			glfwSetWindowTitle(window, title.c_str());
-			fps=0;
-		}
+	static int fps = 0;
+	fps++;
+	static auto preTime = std::chrono::high_resolution_clock::now();
+	auto curTime = std::chrono::high_resolution_clock::now();
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - preTime).count() >= 1000)
+	{
+		preTime = curTime;
+		std::string title = "game" + std::string("     ") + "FPS:" + std::to_string(fps);
+		glfwSetWindowTitle(window, title.c_str());
+		fps = 0;
+	}
 }
