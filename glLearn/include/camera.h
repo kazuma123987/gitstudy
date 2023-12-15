@@ -64,6 +64,10 @@ public:
 	{
 		this->proj=proj;
 	}
+	float getFov()
+	{
+		return fov;
+	}
 
 private:
 	GLuint UBO;

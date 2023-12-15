@@ -3,6 +3,7 @@ in VS_OUT
 {
 vec3 fragPos;
 vec4 fragPosShadowSpace;
+vec4 fragPosCameraSpace;
 vec3 normal;//已标准化
 vec2 texPos;
 }fs_in;
@@ -55,26 +56,45 @@ vec3 dirColor(DirectLight dirLight);
 vec3 dotColor(DotLight dotLight);
 vec3 spotColor(SpotLight spotLight);
 vec3 reflectColor();
-float calculateShadow(vec4 fragPosShadowSpace,vec3 fragToLight);
+float calculateDirShadow(vec4 fragPosShadowSpace,vec3 fragToLight);
+float calculateDotShadow(vec3 lightToFrag);
+float calculateSpotShadow(vec4 fragPosCameraSpace,vec3 fragToLight);
 //uniform变量
 uniform Material material;
 uniform DirectLight dirLight;
-uniform DotLight dotLight[4];
+uniform DotLight dotLight;
 uniform SpotLight spotLight;
 uniform vec3 viewerPos;
 uniform samplerCube texture_cube1;
 uniform sampler2D shadowMap;
+uniform sampler2D spotShadowMap;
+uniform samplerCube shadowCubeMap;
+uniform float far_plane;
 //全局变量
 vec2 pixelSize=2.0f/textureSize(shadowMap,0);
+vec3 sampleOffset[20] = vec3[]
+(
+   vec3( 1,  1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1,  1,  1), 
+   vec3( 1,  1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1,  1, -1),
+   vec3( 1,  1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1,  1,  0),
+   vec3( 1,  0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1,  0, -1),
+   vec3( 0,  1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0,  1, -1)
+);
 void main()
 {
-    vec3 result=dirColor(dirLight);
-    // for(int i=0;i<4;i++)
-    //     result+=dotColor(dotLight[i]); 
-    // result+=spotColor(spotLight);
-    // result+=reflectColor();
+    vec3 result=vec3(0.0f);
+    result+=dirColor(dirLight);
+    result+=dotColor(dotLight); 
+    result+=spotColor(spotLight);
+    //result+=reflectColor();
     //输出颜色
     gl_FragColor=vec4(result,1.0f);
+    // vec3 projCoords=fs_in.fragPosCameraSpace.xyz/fs_in.fragPosCameraSpace.w;//归一化为裁切空间坐标
+    // projCoords=(projCoords+1)*0.5f;//把坐标范围转化为[0,1],x和y变为UV坐标,z变成最近的深度值
+    // float closestDepth=texture(spotShadowMap,projCoords.xy).r;
+    // float z = 100.0f*0.1f/(100.0f+(0.1f-100.0f)*closestDepth);
+    // float linearDepth=(z-0.1f)/(100.0f-0.1f);
+    // gl_FragColor=vec4(vec3(linearDepth),1.0f);
 }
 vec3 dirColor(DirectLight dirLight)
 {
@@ -90,7 +110,7 @@ vec3 dirColor(DirectLight dirLight)
     float spec=pow(max(dot(halfwayDir,fs_in.normal),0.0f),material.shininess);
     vec3 specular=spec*dirLight.specular*vec3(texture(material.texture_specular1,fs_in.texPos));
     //计算阴影
-    float shadow=calculateShadow(fs_in.fragPosShadowSpace,fragToLight);
+    float shadow=calculateDirShadow(fs_in.fragPosShadowSpace,fragToLight);
     //返回值
     return(ambient+(1-shadow)*(diffuse+specular));
 }
@@ -110,8 +130,10 @@ vec3 dotColor(DotLight dotLight)
     //衰减率
     float d=length(dotLight.pos-fs_in.fragPos);
     float decay=1.0f/(dotLight.constant+dotLight.linear*d+dotLight.quadratic*d*d);
+    //计算阴影
+    float shadow=calculateDotShadow(fs_in.fragPos-dotLight.pos);
     //返回值
-    return(ambient+diffuse+specular)*decay;
+    return(ambient+(1.0f-shadow)*(diffuse+specular))*decay;
 }
 vec3 spotColor(SpotLight spotLight)
 {
@@ -132,8 +154,10 @@ vec3 spotColor(SpotLight spotLight)
     //可见度
     float delta=dot(normalize(spotLight.front),-fragToLight);
     float visiable=clamp((delta-spotLight.outCutOff)/(spotLight.inCutOff-spotLight.outCutOff),0.0f,1.0f);
+    //计算阴影
+    float shadow=calculateSpotShadow(fs_in.fragPosCameraSpace,fragToLight);
     //返回值
-    return(ambient+diffuse+specular)*decay*visiable;
+    return(ambient+(1.0f-shadow)*(diffuse+specular))*decay*visiable;
 }
 vec3 reflectColor()
 {
@@ -141,7 +165,7 @@ vec3 reflectColor()
     vec3 reflectLight=reflect(viewerTofrag,fs_in.normal);
     return vec3(texture(material.texture_reflect1,fs_in.texPos))*vec3(texture(texture_cube1,reflectLight));
 }
-float calculateShadow(vec4 fragPosShadowSpace,vec3 fragToLight)
+float calculateDirShadow(vec4 fragPosShadowSpace,vec3 fragToLight)
 {
     vec3 projCoords=fragPosShadowSpace.xyz/fragPosShadowSpace.w;//归一化为裁切空间坐标
     projCoords=(projCoords+1)*0.5f;//把坐标范围转化为[0,1],x和y变为UV坐标,z变成最近的深度值
@@ -153,6 +177,38 @@ float calculateShadow(vec4 fragPosShadowSpace,vec3 fragToLight)
         for(int j=-1;j<=1;j++)
         {
             float sampleDepth=texture(shadowMap,projCoords.xy+vec2(i,j)*pixelSize).r;
+            shadow+=currentDepth-bias>sampleDepth?1.0f:0.0f;
+        }
+    shadow/=9.0f;
+    if(projCoords.z>1.0f)shadow=0.0f;//这里让深度贴图(阴影贴图)视光锥外的部分不产生阴影
+    return shadow;
+}
+float calculateDotShadow(vec3 lightToFrag)
+{
+    //float closestDepth=texture(shadowCubeMap,lightToFrag).r;
+    float currentDepth=length(lightToFrag);
+    float bias=0.05f/max(pow(currentDepth,2),1.0f);//这里可以证明bias近似的与距离贴图的平方成反比
+    currentDepth/=far_plane;
+    float shadow=0.0f;
+    for(int i=0;i<20;i++)
+    {
+        float sampleDepth=texture(shadowCubeMap,lightToFrag+sampleOffset[i]*0.01f).r;
+        shadow+=currentDepth-bias>sampleDepth?1.0f:0.0f;
+    }
+    shadow/=20.0f;
+    return shadow;
+}
+float calculateSpotShadow(vec4 fragPosCameraSpace,vec3 fragToLight)
+{
+    vec3 projCoords=fragPosCameraSpace.xyz/fragPosCameraSpace.w;//归一化为裁切空间坐标
+    projCoords=(projCoords+1)*0.5f;//把坐标范围转化为[0,1],x和y变为UV坐标,z变成最近的深度值
+    float currentDepth=projCoords.z;
+    float bias=max(0.005f*(1.0f-dot(fragToLight,fs_in.normal)),0.0f);//阴影的近平面与远平面距离越大,bias应越小(当法线方向与光的方向一致则无需偏移)
+    float shadow=0.0f;
+    for(int i=-1;i<=1;i++)
+        for(int j=-1;j<=1;j++)
+        {
+            float sampleDepth=texture(spotShadowMap,projCoords.xy+vec2(i,j)*pixelSize).r;
             shadow+=currentDepth-bias>sampleDepth?1.0f:0.0f;
         }
     shadow/=9.0f;

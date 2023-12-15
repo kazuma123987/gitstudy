@@ -34,4 +34,6 @@
 #define PI 3.1415926536
 #define WIDTH 1600
 #define HEIGHT 900
+#define SHADOW_WIDTH 2048
+#define SHADOW_HEIGHT 2048
 #endif
