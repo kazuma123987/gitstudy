@@ -1,6 +1,7 @@
 #include <shader.h>
-Shader::Shader(const char *vpath, const char *fpath, const char *gpath)
+Shader::Shader(const char *instanceName,const char *vpath, const char *fpath, const char *gpath)
 {
+	this->instanceName=instanceName;
 	// 顶点着色器
 	char *code1 = readCode(vpath);
 	GLuint vsh = createShader(&code1, GL_VERTEX_SHADER);
@@ -39,60 +40,60 @@ void Shader::use()
 {
 	glUseProgram(shaderProgram);
 }
-void Shader::unfm1f(const char *str, float value) const
+void Shader::unfm1f(const char *str, float value)
 {
-	glUniform1f(glGetUniformLocation(shaderProgram, str), value);
+	glUniform1f(getUnfLocation(str), value);
 }
-void Shader::unfm1i(const char *str, int value) const
+void Shader::unfm1i(const char *str, int value)
 {
-	glUniform1i(glGetUniformLocation(shaderProgram, str), value);
+	glUniform1i(getUnfLocation(str), value);
 }
-void Shader::unfm3f(const char *str, float a, float b, float c) const
+void Shader::unfm3f(const char *str, float a, float b, float c)
 {
-	glUniform3f(glGetUniformLocation(shaderProgram, str), a, b, c);
+	glUniform3f(getUnfLocation(str), a, b, c);
 }
-void Shader::unfmat4fv(const char *str, glm::mat4 trans,int count) const
+void Shader::unfmat4fv(const char *str, glm::mat4 trans,int count)
 {
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, str),count, GL_FALSE, glm::value_ptr(trans));
+	glUniformMatrix4fv(getUnfLocation(str),count, GL_FALSE, glm::value_ptr(trans));
 }
-void Shader::unfvec3fv(const char *str, glm::vec3 vec3,int count) const
+void Shader::unfvec3fv(const char *str, glm::vec3 vec3,int count)
 {
-	glUniform3fv(glGetUniformLocation(shaderProgram, str),count, glm::value_ptr(vec3));
+	glUniform3fv(getUnfLocation(str),count, glm::value_ptr(vec3));
 }
-void Shader::unfmat3fv(const char *str, glm::mat3 mat3,int count) const
+void Shader::unfmat3fv(const char *str, glm::mat3 mat3,int count)
 {
-	glUniformMatrix3fv(glGetUniformLocation(shaderProgram, str),count, GL_FALSE, glm::value_ptr(mat3));
+	glUniformMatrix3fv(getUnfLocation( str),count, GL_FALSE, glm::value_ptr(mat3));
 }
-void Shader::unfDirLight(const char *str, DirectLight *dirLight) const
+void Shader::unfDirLight(const char *str, DirectLight *dirLight)
 {
 	std::string name = str;
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".dir").c_str()), 1, glm::value_ptr(dirLight->dir));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".ambient").c_str()), 1, glm::value_ptr(dirLight->ambient));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".diffuse").c_str()), 1, glm::value_ptr(dirLight->diffuse));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".specular").c_str()), 1, glm::value_ptr(dirLight->specular));
+	glUniform3fv(getUnfLocation( (name + ".dir").c_str()), 1, glm::value_ptr(dirLight->dir));
+	glUniform3fv(getUnfLocation( (name + ".ambient").c_str()), 1, glm::value_ptr(dirLight->ambient));
+	glUniform3fv(getUnfLocation( (name + ".diffuse").c_str()), 1, glm::value_ptr(dirLight->diffuse));
+	glUniform3fv(getUnfLocation( (name + ".specular").c_str()), 1, glm::value_ptr(dirLight->specular));
 }
-void Shader::unfDotLight(const char *str, DotLight *dotLight) const
+void Shader::unfDotLight(const char *str, DotLight *dotLight)
 {
 	std::string name = str;
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".pos").c_str()), 1, glm::value_ptr(dotLight->pos));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".ambient").c_str()), 1, glm::value_ptr(dotLight->ambient));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".diffuse").c_str()), 1, glm::value_ptr(dotLight->diffuse));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".specular").c_str()), 1, glm::value_ptr(dotLight->specular));
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".constant").c_str()), dotLight->constant);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".linear").c_str()), dotLight->linear);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".quadratic").c_str()), dotLight->quadratic);
+	glUniform3fv(getUnfLocation( (name + ".pos").c_str()), 1, glm::value_ptr(dotLight->pos));
+	glUniform3fv(getUnfLocation( (name + ".ambient").c_str()), 1, glm::value_ptr(dotLight->ambient));
+	glUniform3fv(getUnfLocation( (name + ".diffuse").c_str()), 1, glm::value_ptr(dotLight->diffuse));
+	glUniform3fv(getUnfLocation( (name + ".specular").c_str()), 1, glm::value_ptr(dotLight->specular));
+	glUniform1f(getUnfLocation( (name + ".constant").c_str()), dotLight->constant);
+	glUniform1f(getUnfLocation( (name + ".linear").c_str()), dotLight->linear);
+	glUniform1f(getUnfLocation( (name + ".quadratic").c_str()), dotLight->quadratic);
 }
-void Shader::unfSpotLight(const char *str, SpotLight *spotLight) const
+void Shader::unfSpotLight(const char *str, SpotLight *spotLight)
 {
 	std::string name = str;
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".pos").c_str()), 1, glm::value_ptr(spotLight->pos));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".ambient").c_str()), 1, glm::value_ptr(spotLight->ambient));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".diffuse").c_str()), 1, glm::value_ptr(spotLight->diffuse));
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".specular").c_str()), 1, glm::value_ptr(spotLight->specular));
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".constant").c_str()), spotLight->constant);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".linear").c_str()), spotLight->linear);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".quadratic").c_str()), spotLight->quadratic);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".inCutOff").c_str()), spotLight->inCutOff);
-	glUniform1f(glGetUniformLocation(shaderProgram, (name + ".outCutOff").c_str()), spotLight->outCutOff);
-	glUniform3fv(glGetUniformLocation(shaderProgram, (name + ".front").c_str()), 1, glm::value_ptr(spotLight->front));
+	glUniform3fv(getUnfLocation( (name + ".pos").c_str()), 1, glm::value_ptr(spotLight->pos));
+	glUniform3fv(getUnfLocation( (name + ".ambient").c_str()), 1, glm::value_ptr(spotLight->ambient));
+	glUniform3fv(getUnfLocation( (name + ".diffuse").c_str()), 1, glm::value_ptr(spotLight->diffuse));
+	glUniform3fv(getUnfLocation( (name + ".specular").c_str()), 1, glm::value_ptr(spotLight->specular));
+	glUniform1f(getUnfLocation( (name + ".constant").c_str()), spotLight->constant);
+	glUniform1f(getUnfLocation( (name + ".linear").c_str()), spotLight->linear);
+	glUniform1f(getUnfLocation( (name + ".quadratic").c_str()), spotLight->quadratic);
+	glUniform1f(getUnfLocation( (name + ".inCutOff").c_str()), spotLight->inCutOff);
+	glUniform1f(getUnfLocation( (name + ".outCutOff").c_str()), spotLight->outCutOff);
+	glUniform3fv(getUnfLocation( (name + ".front").c_str()), 1, glm::value_ptr(spotLight->front));
 }

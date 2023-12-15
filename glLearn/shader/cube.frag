@@ -12,7 +12,7 @@ struct Material
 {
     sampler2D texture_diffuse1;
     sampler2D texture_specular1;
-    sampler2D texture_reflect1;
+    sampler2D texture_ambient1;
     float shininess;
 };
 //定向光
@@ -163,7 +163,7 @@ vec3 reflectColor()
 {
     vec3 viewerTofrag=normalize(fs_in.fragPos-viewerPos);
     vec3 reflectLight=reflect(viewerTofrag,fs_in.normal);
-    return vec3(texture(material.texture_reflect1,fs_in.texPos))*vec3(texture(texture_cube1,reflectLight));
+    return vec3(texture(material.texture_diffuse1,fs_in.texPos))*vec3(texture(texture_cube1,reflectLight));
 }
 float calculateDirShadow(vec4 fragPosShadowSpace,vec3 fragToLight)
 {
