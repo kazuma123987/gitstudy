@@ -40,28 +40,31 @@ struct SpotLight
 class Shader
 {
 public:
-	Shader(const char *vpath, const char *fpath, const char *gpath = NULL);
+	std::unordered_map<std::string, int> uniformLocationCache; // map是红黑树结构,unordered_map是哈希表结构,前者有序,后者无序
+	// find(): map.find(std::string)返回int,而map.find(int)返回std::string
+	Shader(const char *instanceName,const char *vpath, const char *fpath, const char *gpath = NULL);
 	unsigned int shaderProgram;
+	std::string instanceName;
 
 	void use();
-	void unfm1f(const char *str, float value) const;
-	void unfm1i(const char *str, int value) const;
-	void unfm3f(const char *str, float a, float b, float c) const;
-	void unfvec3fv(const char *str, glm::vec3 vec3,int count=1) const;
-	void unfmat3fv(const char *str, glm::mat3 mat3,int count=1) const;
-	void unfmat4fv(const char *str, glm::mat4 trans,int count=1) const;
-	void unfDirLight(const char *str, DirectLight *dirLight) const;
-	void unfDotLight(const char *str, DotLight *dotLight) const;
-	void unfSpotLight(const char *str, SpotLight *spotLight) const;
+	void unfm1f(const char *str, float value);
+	void unfm1i(const char *str, int value);
+	void unfm3f(const char *str, float a, float b, float c);
+	void unfvec3fv(const char *str, glm::vec3 vec3, int count = 1);
+	void unfmat3fv(const char *str, glm::mat3 mat3, int count = 1) ;
+	void unfmat4fv(const char *str, glm::mat4 trans, int count = 1);
+	void unfDirLight(const char *str, DirectLight *dirLight);
+	void unfDotLight(const char *str, DotLight *dotLight);
+	void unfSpotLight(const char *str, SpotLight *spotLight);
 
 private:
-	//读取文件的字符串(记住要free掉)
+	// 读取文件的字符串(记住要free掉)
 	char *readCode(const char *path)
 	{
 		FILE *fp = NULL;
 		fopen_s(&fp, path, "rb");
 		if (!fp)
-			printf_s("\nfailed to open the path : %s",path);
+			printf_s("\nfailed to open the path : %s", path);
 		fseek(fp, 0, SEEK_END);
 		size_t size = ftell(fp);
 		rewind(fp);
@@ -73,21 +76,31 @@ private:
 		fclose(fp);
 		return code;
 	}
-	GLuint createShader(char **code,GLenum shaderType)
+	GLuint createShader(char **code, GLenum shaderType)
 	{
-		GLuint shader=glCreateShader(shaderType);
-		glShaderSource(shader,1,code,NULL);
+		GLuint shader = glCreateShader(shaderType);
+		glShaderSource(shader, 1, code, NULL);
 		glCompileShader(shader);
-		int flag=1;
+		int flag = 1;
 		char infoLog[512];
-		glGetShaderiv(shader,GL_COMPILE_STATUS,&flag);
-		if(!flag)
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &flag);
+		if (!flag)
 		{
-			glGetShaderInfoLog(shader,512,NULL,infoLog);
-			fputs(infoLog,stderr);
+			glGetShaderInfoLog(shader, 512, NULL, infoLog);
+			fputs(infoLog, stderr);
 		}
 		free(*code);
 		return shader;
+	}
+	GLint getUnfLocation(const char *name)
+	{
+		if (uniformLocationCache.find(name) != uniformLocationCache.end())
+			return uniformLocationCache[name];
+		int ret = glGetUniformLocation(shaderProgram, name);
+		// if (ret == -1)
+		// 	printf("\nthe uniform value : '%s' can't be found in the shader: '%s'",name,instanceName.c_str());
+		uniformLocationCache[name] = ret;
+		return ret;
 	}
 };
 #endif

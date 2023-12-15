@@ -51,14 +51,14 @@ int main(int argc, char *argv[])
 	}
 	// 着色器
 	SetCurrentDirectoryA(filePath);
-	Shader cubeShader("shader\\cube.vert", "shader\\cube.frag");
-	Shader lightShader("shader\\light.vert", "shader\\light.frag");
-	Shader outlineShader("shader\\outline.vert", "shader\\outline.frag");
-	Shader screenShader("shader\\screen.vert", "shader\\screen.frag");
-	Shader skyboxShader("shader\\skybox.vert", "shader\\skybox.frag");
-	Shader instantShader("shader\\instant.vert", "shader\\instant.frag");
-	Shader depthShader("shader\\depthMap.vert", "shader\\depthMap.frag");
-	Shader depthCubeShader("shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
+	Shader cubeShader("cubeShader","shader\\cube.vert", "shader\\cube.frag");
+	Shader lightShader("lightShader","shader\\light.vert", "shader\\light.frag");
+	Shader outlineShader("outlineShader","shader\\outline.vert", "shader\\outline.frag");
+	Shader screenShader("screenShader","shader\\screen.vert", "shader\\screen.frag");
+	Shader skyboxShader("skyboxShader","shader\\skybox.vert", "shader\\skybox.frag");
+	Shader instantShader("instantShader","shader\\instant.vert", "shader\\instant.frag");
+	Shader depthShader("depthShader","shader\\depthMap.vert", "shader\\depthMap.frag");
+	Shader depthCubeShader("depthCubeShader","shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
 	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
@@ -295,7 +295,7 @@ int main(int argc, char *argv[])
 		shadowFBO.bindSTexture_Cube(&cubeShader, "shadowCubeMap", 6);
 		spotShadowFBO.bindSTexture(&cubeShader, "spotShadowMap", 7);
 		cubeShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
-		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
+ 		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
 		cubeShader.unfDirLight("dirLight", &dirLight);
 		cubeShader.unfDotLight("dotLight", &dotLight);
@@ -325,11 +325,11 @@ int main(int argc, char *argv[])
 		// 绘制陨石
 		instantShader.use();
 		rock.Draw(&instantShader, rockNum);
-		// // 绘制天空盒
-		// glDepthFunc(GL_LEQUAL);
-		// skyboxShader.use();
-		// skybox.Draw(&skyboxShader);
-		// glDepthFunc(GL_LESS);
+		// 绘制天空盒
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.use();
+		skybox.Draw(&skyboxShader);
+		glDepthFunc(GL_LESS);
 
 		/*------第三阶段处理(后期处理)------*/
 		fbo.Draw(&screenShader);

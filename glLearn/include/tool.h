@@ -13,6 +13,10 @@
 #include <windows.h> //Sleep()
 #include <conio.h>   //kbhit(),_getch()
 #include <vector>
+#include <map>
+#include <unordered_map>
+#include <typeinfo.h>
+
 #include <thread>
 #include <chrono>
 #include <atomic>
