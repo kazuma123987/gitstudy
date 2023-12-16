@@ -15,7 +15,6 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-#include <typeinfo.h>
 
 #include <thread>
 #include <chrono>
@@ -35,6 +34,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 #define PI 3.1415926536
 #define WIDTH 1600
 #define HEIGHT 900

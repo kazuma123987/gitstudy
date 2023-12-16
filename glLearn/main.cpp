@@ -1,64 +1,18 @@
-#include <tool.h>
-#include <sound.h>
-#include <shader.h>
-#include <global.h>
-#include <mesh.h>
-#include <model.h>
-#include <frameBuffer.h>
-// N卡使用独显运行
-extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-// 不弹出调试控制台(用于Release版本)
-// #pragma comment(linker, "/subsystem:\"windows\"  /entry:\"mainCRTStartup\"")
-//  函数声明
-void frame_size_callback(GLFWwindow *window, int width, int height);
-void press_close_window(GLFWwindow *window);
-void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
-void scrollCallback(GLFWwindow *window, double xoffset, double yoffset);
-void rendFPS(GLFWwindow *window);
+#include <main.h>
 int main(int argc, char *argv[])
 {
-	// 获取文件当前路径
-	// strcpy_s(filePath,"C:\\Users\\34181\\source\\repos\\glstudy\\glstudy");
-	GetModuleFileNameA(NULL, filePath, 260);
-	char *c = strrchr(filePath, '\\');
-	if (c != NULL)
-		*(c + 1) = '\0';
-	// glfw初始化
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 注意设置的glfw上下文版本
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, 4); // 提示(Hint)glfw使用4个采样点的缓冲
-#ifdef _APPLE_
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-	// 创建glfw窗口
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "game", NULL, NULL);
-	if (window == NULL)
-	{
-		fputs("\nfailed to create window", stderr);
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window); // 设置window为gl要处理的窗口环境
-	glfwSetFramebufferSizeCallback(window, frame_size_callback);
-	// 使用glad加载opengl库
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		fputs("\nfailed to init glad", stderr);
-		glfwTerminate();
-		return -1;
-	}
+	if (gameInit() == -1)
+		fputs("\nfailed to init the game", stderr);
 	// 着色器
 	SetCurrentDirectoryA(filePath);
-	Shader cubeShader("cubeShader","shader\\cube.vert", "shader\\cube.frag");
-	Shader lightShader("lightShader","shader\\light.vert", "shader\\light.frag");
-	Shader outlineShader("outlineShader","shader\\outline.vert", "shader\\outline.frag");
-	Shader screenShader("screenShader","shader\\screen.vert", "shader\\screen.frag");
-	Shader skyboxShader("skyboxShader","shader\\skybox.vert", "shader\\skybox.frag");
-	Shader instantShader("instantShader","shader\\instant.vert", "shader\\instant.frag");
-	Shader depthShader("depthShader","shader\\depthMap.vert", "shader\\depthMap.frag");
-	Shader depthCubeShader("depthCubeShader","shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
+	Shader cubeShader("cubeShader", "shader\\cube.vert", "shader\\cube.frag");
+	Shader lightShader("lightShader", "shader\\light.vert", "shader\\light.frag");
+	Shader outlineShader("outlineShader", "shader\\outline.vert", "shader\\outline.frag");
+	Shader screenShader("screenShader", "shader\\screen.vert", "shader\\screen.frag");
+	Shader skyboxShader("skyboxShader", "shader\\skybox.vert", "shader\\skybox.frag");
+	Shader instantShader("instantShader", "shader\\instant.vert", "shader\\instant.frag");
+	Shader depthShader("depthShader", "shader\\depthMap.vert", "shader\\depthMap.frag");
+	Shader depthCubeShader("depthCubeShader", "shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
 	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
@@ -81,20 +35,21 @@ int main(int argc, char *argv[])
 	// 光源矩阵
 	glm::mat4 unitMat = glm::mat4(1.0f);
 	glm::vec3 lightPos = glm::vec3(0.0f, 4.0f, 3.0f);
-	glm::vec3 lightColor = glm::vec3(1.0f);
 
 	// dirLight
 	DirectLight dirLight = {glm::vec3(2.0f, -8.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.5f)};
 	glm::mat4 shadowSpaceMat = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f) * glm::lookAt(-dirLight.dir, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// dotLight
-	DotLight dotLight = {lightPos, 0.02f * lightColor, 0.5f * lightColor, lightColor, 1.0f, 0.09f, 0.032f};
+	glm::vec3 dotColor = glm::vec3(1.0f);
+	DotLight dotLight = {lightPos, 0.02f * dotColor, 0.5f * dotColor, dotColor, 1.0f, 0.09f, 0.032f};
 	glm::mat4 dotLightMat = glm::translate(unitMat, dotLight.pos);
 	const float near_plane = 0.1f;
 	const float far_plane = 100.0f;
 	glm::mat4 dotShadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 	glm::mat4 dotShadowMat[6];
 	// spotLight
+	glm::vec3 spotColor = glm::vec3(1.0f);
 	SpotLight spotLight = {glm::vec3(0.0f), glm::vec3(0.01f), glm::vec3(0.7f), glm::vec3(1.0f), 1.0f, 0.09f, 0.032f,
 						   glm::cos(glm::radians(15.0f)), glm::cos(glm::radians(17.5f)), glm::vec3(0.0f, 0.0f, -1.0f)};
 	// rock
@@ -165,9 +120,8 @@ int main(int argc, char *argv[])
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
 	glEnable(GL_MULTISAMPLE); // 开启多重采样缓冲(在不使用帧缓冲时不需要额外处理)
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	// 绑定回调函数
-	glfwSetKeyCallback(window, keyCallback);
+	glfwSetFramebufferSizeCallback(window, frame_size_callback);
 	glfwSetScrollCallback(window, scrollCallback);
 	// 帧缓冲对象(FrameBuffer Object)
 	FrameBuffer fbo(WIDTH, HEIGHT);
@@ -185,8 +139,13 @@ int main(int argc, char *argv[])
 	{
 		// INPUT
 		press_close_window(window);
-		camera->keyboardInput(window);
-		camera->curseInput(window);
+		mouse_button_input(window);
+		keyboardInput(window);
+		if (!isShowCursor)
+		{
+			camera->keyboardInput(window);
+			camera->curseInput(window);
+		}
 		camera->update();
 		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
 
@@ -196,8 +155,8 @@ int main(int argc, char *argv[])
 		lightPos.x = 3 * sin(t);
 		lightPos.z = 3 * cos(t);
 		// lightColor = {sin(0.2f * t + 2 * i) * 0.5f + 0.5f, sin(0.5f * t + 2 * i) * 0.5f + 0.5f, sin(0.7f * t + 2 * i) * 0.5f + 0.5f};
-		lightColor = {1.0f, 1.0f, 1.0f};
-		dotLight = {lightPos, 0.1f * lightColor, 0.5f * lightColor, lightColor, 1.0f, 0.09f, 0.0032f};
+		// lightColor = {1.0f, 1.0f, 1.0f};
+		dotLight = {lightPos, 0.1f * dotColor, 0.5f * dotColor, dotColor, 1.0f, 0.09f, 0.0032f};
 		dotLightMat = glm::scale(glm::translate(unitMat, dotLight.pos), glm::vec3(0.2f));
 		dotShadowMat[0] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
 		dotShadowMat[1] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
@@ -205,12 +164,87 @@ int main(int argc, char *argv[])
 		dotShadowMat[3] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0));
 		dotShadowMat[4] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0));
 		dotShadowMat[5] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0));
-		glm::vec3 spotColor=glm::vec3(sin(t)+1,cos(2*t)+1,sin(3*t)+1)*0.5f;
 		spotLight.pos = lightPos + glm::vec3(1.0f, 2.0f, -1.5f);
 		spotLight.front = glm::normalize(-spotLight.pos);
-		spotLight.ambient=0.01f*spotColor;
-		spotLight.diffuse=0.7f*spotColor;
-		spotLight.specular=spotColor;
+		spotLight.ambient = 0.01f * spotColor;
+		spotLight.diffuse = 0.7f * spotColor;
+		spotLight.specular = spotColor;
+
+		// IMGUI
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		// 设置下一个窗口的位置和大小
+		ImGui::SetNextWindowPos({0, 0});
+		ImGui::SetNextWindowSize({WIDTH / 5, HEIGHT});
+		// GUI窗口
+		ImGui::Begin("Settings", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove);
+		if (ImGui::Button("点击我"))
+			printf("\npress");
+		char textBuffer[50] = "input text";
+		ImGui::InputText("input text", textBuffer, sizeof(textBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+		ImGui::Text(textBuffer);
+		double x;
+		ImGui::InputDouble("input double", &x);
+		ImGui::Text(std::to_string(x).c_str());
+		if (ImGui::BeginListBox("listbox"))
+		{
+			static bool isSelected = false;
+			static unsigned int index = 0; // 默认选中位置
+			for (unsigned int i = 0; i < 10; i++)
+			{
+				isSelected = (index == i);
+				if (ImGui::Selectable(("select" + std::to_string(i)).c_str(), isSelected))
+				{
+					x = i;
+					index = i;
+				}
+			}
+			ImGui::EndListBox();
+		}
+		static unsigned int index = 0;
+		if (ImGui::BeginCombo("combo", std::to_string(index).c_str()))
+		{
+			static bool isSelected = false;
+			for (unsigned int i = 0; i < 10; i++)
+			{
+				isSelected = (index == i);
+				if (ImGui::Selectable(std::to_string(i).c_str(), isSelected))
+				{
+					x = 2 * i;
+					index = i;
+				}
+			}
+			ImGui::EndCombo();
+		}
+		static bool isChecked;
+		ImGui::Checkbox("check box", &isChecked);
+		float slider[4];
+		ImGui::SliderFloat4("slider", slider, 0.0f, 1.0f);
+		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
+		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
+		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::SetCursorPos({(ImGui::GetWindowWidth() - ImGui::CalcTextSize("退出游戏?").x) * 0.5f, 100.0f});
+			ImGui::Text("退出游戏?");
+			ImGui::SetCursorPos({0.0f, 180.0f});
+			if (ImGui::Button("是", ImVec2(120, 0)))
+			{
+				ImGui::CloseCurrentPopup(); // 关闭对话框
+				break;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("否", ImVec2(120, 0)))
+			{
+				ImGui::CloseCurrentPopup(); // 关闭对话框
+			}
+			ImGui::EndPopup();
+		}
+		if (ImGui::Button("退出游戏"))
+			ImGui::OpenPopup("Exit Game");
+		ImGui::End();
 
 		/*------第一阶段处理(生成阴影贴图)------*/
 		glEnable(GL_DEPTH_TEST);
@@ -279,13 +313,14 @@ int main(int argc, char *argv[])
 		fbo.bindMFBO();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
 		// 绘制光源
 		lightShader.use();
-		lightShader.unfvec3fv("lightColor", lightColor);
+		lightShader.unfvec3fv("lightColor", dotColor);
 		lightShader.unfmat4fv("model", dotLightMat);
 		light.Draw(&lightShader);
 		lightShader.unfvec3fv("lightColor", spotColor);
-		lightShader.unfmat4fv("model", glm::scale(glm::translate(unitMat,spotLight.pos),glm::vec3(0.1f)));
+		lightShader.unfmat4fv("model", glm::scale(glm::translate(unitMat, spotLight.pos), glm::vec3(0.1f)));
 		light.Draw(&lightShader);
 		// modelLogic
 		cubeShader.use();
@@ -295,7 +330,7 @@ int main(int argc, char *argv[])
 		shadowFBO.bindSTexture_Cube(&cubeShader, "shadowCubeMap", 6);
 		spotShadowFBO.bindSTexture(&cubeShader, "spotShadowMap", 7);
 		cubeShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
- 		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
+		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
 		cubeShader.unfDirLight("dirLight", &dirLight);
 		cubeShader.unfDotLight("dotLight", &dotLight);
@@ -333,6 +368,8 @@ int main(int argc, char *argv[])
 
 		/*------第三阶段处理(后期处理)------*/
 		fbo.Draw(&screenShader);
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		// SOUND
 		music.set3DPosition(s1, sin(t), cos(t), 0);
@@ -348,6 +385,9 @@ int main(int argc, char *argv[])
 
 	/*--------------------释放内存--------------------*/
 	glfwTerminate(); // 不要忘记释放glfw资源
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 	fbo.destory();
 	shadowFBO.destory();
 	spotShadowFBO.destory();
@@ -357,47 +397,4 @@ int main(int argc, char *argv[])
 	delete[] rockMat;
 	music.systemFree();
 	return 0;
-}
-// 回调函数
-void frame_size_callback(GLFWwindow *window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
-void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-	if (key == (GLFW_KEY_P) && action == GLFW_PRESS)
-	{
-		static bool f = FALSE;
-		music.playMusic(s2);
-		FMOD_Channel_SetPaused(s1->channel, (f = !f));
-	}
-	else if (key == GLFW_KEY_N && action == GLFW_PRESS)
-	{
-		music.playMusic(s2);
-		FMOD_Channel_Stop(s1->channel);
-	}
-}
-void scrollCallback(GLFWwindow *window, double xoffset, double yoffset)
-{
-	camera->scrollCallback(yoffset);
-}
-// 普通函数
-void press_close_window(GLFWwindow *window)
-{
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, TRUE);
-}
-void rendFPS(GLFWwindow *window)
-{
-	static int fps = 0;
-	fps++;
-	static auto preTime = std::chrono::high_resolution_clock::now();
-	auto curTime = std::chrono::high_resolution_clock::now();
-	if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - preTime).count() >= 1000)
-	{
-		preTime = curTime;
-		std::string title = "game" + std::string("     ") + "FPS:" + std::to_string(fps);
-		glfwSetWindowTitle(window, title.c_str());
-		fps = 0;
-	}
 }
