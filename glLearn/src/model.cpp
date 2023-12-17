@@ -85,7 +85,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	std::vector<Texture> normalTexture = loadMaterialTexture(material, aiTextureType_NORMALS, "texture_normal", scene);
 	textures.insert(textures.end(), normalTexture.begin(), normalTexture.end());
 	// 高度贴图
-	std::vector<Texture> heightTexture = loadMaterialTexture(material, aiTextureType_HEIGHT, "texture_height", scene);
+	std::vector<Texture> heightTexture = loadMaterialTexture(material, aiTextureType_HEIGHT, "texture_normal", scene);
 	textures.insert(textures.end(), heightTexture.begin(), heightTexture.end());
 	// 反射贴图
 	std::vector<Texture> ambientTexture = loadMaterialTexture(material, aiTextureType_AMBIENT, "texture_ambient", scene);

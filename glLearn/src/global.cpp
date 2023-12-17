@@ -62,8 +62,19 @@ float arr_floor[] =
 	-1000.0f, -2.0f, 1000.0f, 0.0f, 1.0f, 0.0f,0.0f, 2000.0f,
 	-1000.0f, -2.0f, -1000.0f, 0.0f, 1.0f, 0.0f,0.0f, 0.0f
 };
+float arr_wall[]=
+{
+//   |    position    |     normal      | texCoord |      tangent      |     bitangent     |
+    -5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f, // bottom-left
+     5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f,// bottom-right
+     5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f,// top-right
+     5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+    -5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-left
+    -5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-left
+};
 size_t arrVertex_N = sizeof(arr_vertex);
 size_t arrFloor_N = sizeof(arr_floor);
+size_t arrWall_N=sizeof(arr_wall);
 //模型位置偏移数组
 glm::vec3 offsetModel[10] = {
 	glm::vec3(0.0f, 0.0f, 0.0f),
