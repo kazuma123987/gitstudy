@@ -11,8 +11,10 @@ extern FMODMUSIC music;
 extern Camera* camera;
 extern float arr_vertex[];
 extern float arr_floor[];
+extern float arr_wall[];
 extern size_t arrVertex_N;
 extern size_t arrFloor_N;
+extern size_t arrWall_N;
 extern glm::vec3 offsetModel[10];
 extern std::vector<std::string> cubePaths;
 #endif

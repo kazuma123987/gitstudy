@@ -55,7 +55,6 @@ struct SpotLight
 vec3 dirColor(DirectLight dirLight);
 vec3 dotColor(DotLight dotLight);
 vec3 spotColor(SpotLight spotLight);
-vec3 reflectColor();
 float calculateDirShadow(vec4 fragPosShadowSpace,vec3 fragToLight);
 float calculateDotShadow(vec3 lightToFrag);
 float calculateSpotShadow(vec4 fragPosCameraSpace,vec3 fragToLight);
@@ -65,7 +64,6 @@ uniform DirectLight dirLight;
 uniform DotLight dotLight;
 uniform SpotLight spotLight;
 uniform vec3 viewerPos;
-uniform samplerCube texture_cube1;
 uniform sampler2D shadowMap;
 uniform sampler2D spotShadowMap;
 uniform samplerCube shadowCubeMap;
@@ -86,15 +84,8 @@ void main()
     result+=dirColor(dirLight);
     result+=dotColor(dotLight); 
     result+=spotColor(spotLight);
-    //result+=reflectColor();
     //输出颜色
     gl_FragColor=vec4(result,1.0f);
-    // vec3 projCoords=fs_in.fragPosCameraSpace.xyz/fs_in.fragPosCameraSpace.w;//归一化为裁切空间坐标
-    // projCoords=(projCoords+1)*0.5f;//把坐标范围转化为[0,1],x和y变为UV坐标,z变成最近的深度值
-    // float closestDepth=texture(spotShadowMap,projCoords.xy).r;
-    // float z = 100.0f*0.1f/(100.0f+(0.1f-100.0f)*closestDepth);
-    // float linearDepth=(z-0.1f)/(100.0f-0.1f);
-    // gl_FragColor=vec4(vec3(linearDepth),1.0f);
 }
 vec3 dirColor(DirectLight dirLight)
 {
@@ -158,12 +149,6 @@ vec3 spotColor(SpotLight spotLight)
     float shadow=calculateSpotShadow(fs_in.fragPosCameraSpace,fragToLight);
     //返回值
     return(ambient+(1.0f-shadow)*(diffuse+specular))*decay*visiable;
-}
-vec3 reflectColor()
-{
-    vec3 viewerTofrag=normalize(fs_in.fragPos-viewerPos);
-    vec3 reflectLight=reflect(viewerTofrag,fs_in.normal);
-    return vec3(texture(material.texture_diffuse1,fs_in.texPos))*vec3(texture(texture_cube1,reflectLight));
 }
 float calculateDirShadow(vec4 fragPosShadowSpace,vec3 fragToLight)
 {

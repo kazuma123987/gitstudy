@@ -22,7 +22,7 @@ vec2 texPos;
 }vs_out;
 void main()
 {
-	gl_Position = proj*view*model*vec4(aPos.x+gl_InstanceID,aPos.yz, 1.0f);
+	gl_Position = proj*view*model*vec4(aPos, 1.0f);
 	vs_out.fragPos=vec3(model*vec4(aPos,1.0f));//顶点
 	vs_out.fragPosShadowSpace=shadowSpaceMat*vec4(vs_out.fragPos,1.0f);
 	vs_out.normal=normalize(normMat*normal_in);//法向量

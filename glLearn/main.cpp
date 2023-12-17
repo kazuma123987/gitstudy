@@ -6,6 +6,7 @@ int main(int argc, char *argv[])
 	// 着色器
 	SetCurrentDirectoryA(filePath);
 	Shader cubeShader("cubeShader", "shader\\cube.vert", "shader\\cube.frag");
+	Shader modelShader("modelShader", "shader\\model.vert", "shader\\model.frag");
 	Shader lightShader("lightShader", "shader\\light.vert", "shader\\light.frag");
 	Shader outlineShader("outlineShader", "shader\\outline.vert", "shader\\outline.frag");
 	Shader screenShader("screenShader", "shader\\screen.vert", "shader\\screen.frag");
@@ -13,14 +14,19 @@ int main(int argc, char *argv[])
 	Shader instantShader("instantShader", "shader\\instant.vert", "shader\\instant.frag");
 	Shader depthShader("depthShader", "shader\\depthMap.vert", "shader\\depthMap.frag");
 	Shader depthCubeShader("depthCubeShader", "shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
+	// //加载纹理
+	// GLuint wall_diffuse=TextureFromFile("res\\texture\\brickwall.jpg");
+	// GLuint wall_normal=TextureFromFile("res\\texture\\normal_map.jpg");
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
-	Mesh box(arr_vertex, arrVertex_N / 4, "res\\texture\\box1.png", "res\\texture\\box2.png");
-	Mesh floor(arr_floor, arrFloor_N / 4, "res\\texture\\box4.png", "res\\texture\\box4.png");
-	Mesh light(arr_vertex, arrVertex_N / 4, NULL, NULL);
-	Mesh skybox(arr_vertex, arrVertex_N / 4, cubePaths);
+	Mesh box(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box1.png", "res\\texture\\box2.png");
+	Mesh wall(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT,
+			  "res\\texture\\brickwall.jpg", "res\\texture\\brickwall.jpg", "res\\texture\\normal_map.png");
+	Mesh floor(arr_floor, arrFloor_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box4.png", "res\\texture\\box4.png");
+	Mesh light(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD);
+	Mesh skybox(arr_vertex, arrVertex_N, cubePaths);
 	clock_t start = clock();
-	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.blend");
+	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.obj");
 	Model rock("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\rock\\rock.obj");
 	printf_s("load time:%dms", clock() - start);
 
@@ -128,6 +134,7 @@ int main(int argc, char *argv[])
 	FrameBuffer shadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 	FrameBuffer spotShadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 	// 先更新着色器块索引
+	camera->setShaderUBOIndex(&modelShader, "Mat");
 	camera->setShaderUBOIndex(&cubeShader, "Mat");
 	camera->setShaderUBOIndex(&lightShader, "Mat");
 	camera->setShaderUBOIndex(&outlineShader, "Mat");
@@ -323,15 +330,39 @@ int main(int argc, char *argv[])
 		lightShader.unfmat4fv("model", glm::scale(glm::translate(unitMat, spotLight.pos), glm::vec3(0.1f)));
 		light.Draw(&lightShader);
 		// modelLogic
+		modelShader.use();
+		modelShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
+		modelShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
+		shadowFBO.bindSTexture(&modelShader, "shadowMap", 5); // 深度贴图
+		shadowFBO.bindSTexture_Cube(&modelShader, "shadowCubeMap", 6);
+		spotShadowFBO.bindSTexture(&modelShader, "spotShadowMap", 7);
+		modelShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
+		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
+		modelShader.unfDirLight("dirLight", &dirLight);
+		modelShader.unfDotLight("dotLight", &dotLight);
+		modelShader.unfSpotLight("spotLight", &spotLight);
+		modelShader.unfvec3fv("viewerPos", camera->getCameraPos());
+		modelShader.unfm1f("material.shininess", 32.0f);
+		modelShader.unfm1f("far_plane", far_plane);
+		// 绘制人物
+		glm::mat3 normMat;
+		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat)));
+		modelShader.unfmat3fv("normMat", normMat);
+		modelShader.unfmat4fv("model", humanMat);
+		human.Draw(&modelShader);
+		// 绘制墙
+		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
+		modelShader.unfmat3fv("normMat", normMat);
+		modelShader.unfmat4fv("model", unitMat);
+		wall.Draw(&modelShader);
+		// modelLogic
 		cubeShader.use();
 		cubeShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
 		cubeShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
 		shadowFBO.bindSTexture(&cubeShader, "shadowMap", 5); // 深度贴图
 		shadowFBO.bindSTexture_Cube(&cubeShader, "shadowCubeMap", 6);
 		spotShadowFBO.bindSTexture(&cubeShader, "spotShadowMap", 7);
-		cubeShader.unfm1i("texture_cube1", 4);					   // 设置要传入GL_TEXTURE4
-		glActiveTexture(GL_TEXTURE4);							   // 激活纹理单元4
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textures[0].id); // 把立方体纹理绑定到当前纹理单元
 		cubeShader.unfDirLight("dirLight", &dirLight);
 		cubeShader.unfDotLight("dotLight", &dotLight);
 		cubeShader.unfSpotLight("spotLight", &spotLight);
@@ -339,7 +370,6 @@ int main(int argc, char *argv[])
 		cubeShader.unfm1f("material.shininess", 32.0f);
 		cubeShader.unfm1f("far_plane", far_plane);
 		// 绘制箱子
-		glm::mat3 normMat;
 		for (int i = 0; i < 10; i++)
 		{
 			cubeShader.unfmat4fv("model", boxMat[i]);
@@ -352,11 +382,6 @@ int main(int argc, char *argv[])
 		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
 		cubeShader.unfmat3fv("normMat", normMat);
 		floor.Draw(&cubeShader);
-		// 绘制人物
-		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat)));
-		cubeShader.unfmat3fv("normMat", normMat);
-		cubeShader.unfmat4fv("model", humanMat);
-		human.Draw(&cubeShader);
 		// 绘制陨石
 		instantShader.use();
 		rock.Draw(&instantShader, rockNum);
