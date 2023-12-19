@@ -144,18 +144,21 @@ unsigned int TextureFromFile(const char *path)
 	if (imagedata)
 	{
 		GLenum format;
+		GLenum internalFormat;
 		switch (nColorChannels)
 		{
 		case 1:
-			format = GL_RED;
+			internalFormat = format = GL_RED;
 			break;
 		case 2:
-			format = GL_RG;
+			internalFormat = format = GL_RG;
 			break;
 		case 3:
+			internalFormat = GL_SRGB;
 			format = GL_RGB;
 			break;
 		case 4:
+			internalFormat =GL_SRGB_ALPHA;
 			format = GL_RGBA;
 			break;
 		}
@@ -165,13 +168,13 @@ unsigned int TextureFromFile(const char *path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 		if (width % 4 == 0)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else
 		{
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		}
@@ -199,30 +202,37 @@ unsigned int TextureFromEmbbeded(const aiTexture *aiTex)
 	if (imagedata)
 	{
 		GLenum format;
+		GLenum internalFormat;
 		switch (nColorChannels)
 		{
 		case 1:
-			format = GL_RED;
+			internalFormat = format = GL_RED;
 			break;
 		case 2:
-			format = GL_RG;
+			internalFormat = format = GL_RG;
 			break;
 		case 3:
+			internalFormat = GL_SRGB;
 			format = GL_RGB;
 			break;
 		case 4:
+			internalFormat =GL_SRGB_ALPHA;
 			format = GL_RGBA;
 			break;
 		}
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 		if (width % 4 == 0)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else
 		{
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imagedata);
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		}
@@ -243,36 +253,43 @@ unsigned int loadCubeTexture(std::vector<std::string> cubePaths)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	int width, height, nColorChannel;
-	GLenum format;
 	for (unsigned int i = 0; i < cubePaths.size(); i++)
 	{
 		unsigned char *imageData = stbi_load(cubePaths[i].c_str(), &width, &height, &nColorChannel, 0);
-		if (imageData)
+	if (imageData)
+	{
+		GLenum format;
+		GLenum internalFormat;
+		switch (nColorChannel)
 		{
-			switch (nColorChannel)
-			{
-			case 1:
-				format = GL_RED;
-				break;
-			case 2:
-				format = GL_RG;
-				break;
-			case 3:
-				format = GL_RGB;
-				break;
-			case 4:
-				format = GL_RGBA;
-				break;
-			}
-			if (width % 4 == 0)
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
-			else
-			{
-				glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
-				glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-			}
+		case 1:
+			internalFormat = format = GL_RED;
+			break;
+		case 2:
+			internalFormat = format = GL_RG;
+			break;
+		case 3:
+			internalFormat = GL_SRGB;
+			format = GL_RGB;
+			break;
+		case 4:
+			internalFormat =GL_SRGB_ALPHA;
+			format = GL_RGBA;
+			break;
 		}
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		if (width % 4 == 0)
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
+		else
+		{
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		}
+	}
 		else
 			fputs("failed to load the cubeImage", stderr);
 		stbi_image_free(imageData);

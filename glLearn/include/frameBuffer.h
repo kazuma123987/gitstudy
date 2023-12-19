@@ -7,6 +7,9 @@
 class FrameBuffer
 {
 public:
+    bool gammaCorrection=false;
+    bool HDR=false;
+    float exposure=1.0f;
     FrameBuffer(int width, int height, bool isShadowMap = false)
     {
         this->width = width;
@@ -20,7 +23,7 @@ public:
             // 用纹理创建颜色帧缓冲
             glGenTextures(1, &TEXTURE);
             glBindTexture(GL_TEXTURE_2D, TEXTURE);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL); // 生成了缓存空间但没有填充数据
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL); // 生成了缓存空间但没有填充数据
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -43,7 +46,7 @@ public:
             // 多重采样纹理
             glGenTextures(1, &MTEXTURE);
             glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, MTEXTURE);
-            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);
+            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB16F, width, height, GL_TRUE);
             glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
@@ -172,6 +175,9 @@ public:
             glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
             // 画屏幕空间
             shader->use();
+            shader->unfm1i("gammaCorrection",gammaCorrection);
+            shader->unfm1i("HDR_ON",HDR);
+            shader->unfm1f("exposure",exposure);
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // 注意要先绑定默认帧缓冲再清除对应的缓冲区
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

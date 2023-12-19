@@ -1,6 +1,9 @@
 #version 400 core
 in vec2 texCoord;
 uniform sampler2D screenTexture;
+uniform bool gammaCorrection;
+uniform bool HDR_ON;
+uniform float exposure;
 const float offset = 1.0f / 300.0f;
 out vec4 FragColor;
 void main(){
@@ -28,5 +31,11 @@ void main(){
     vec3 multiColor=vec3(0.0f);//混合颜色
     for(int i=0;i<9;i++)
         multiColor+=sampleColor[i]*kernel[i];
+    //HDR
+    if(HDR_ON)
+    multiColor=vec3(1.0f)-exp(-multiColor*exposure);
+    //伽马校正
+    float gammaValue = 2.2f;
+    if(gammaCorrection)multiColor=pow(multiColor,vec3(1.0f/gammaValue));
     FragColor=vec4(multiColor,1.0f);
 }
