@@ -238,6 +238,7 @@ int main(int argc, char *argv[])
 		ImGui::SliderFloat4("slider", slider, 0.0f, 1.0f);
 		static float height_scale=0.1f;
 		ImGui::SliderFloat("height_scale",&height_scale,0.0f,1.0f);
+		ImGui::SliderFloat("曝光度",&fbo.exposure,0.0f,10.0f);
 		static bool drawRock = true;
 		static bool skyBox_ON = false;
 		static bool heightTexture_ON = false;
@@ -256,6 +257,8 @@ int main(int argc, char *argv[])
 		ImGui::Checkbox("dotLight_ON", &dotLight_ON);
 		ImGui::Checkbox("spotLight_ON", &spotLight_ON);
 		ImGui::Checkbox("reflect_ON", &reflect_ON);
+		ImGui::Checkbox("伽马校正",&fbo.gammaCorrection);
+		ImGui::Checkbox("HDR_ON",&fbo.HDR);
 		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
 		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
 		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
