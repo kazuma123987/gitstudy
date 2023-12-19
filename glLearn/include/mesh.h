@@ -45,62 +45,17 @@ public:
 		this->textures = textures;
 		setupMesh();
 	}
-	Mesh(float array[], size_t arraySize, unsigned int type, const char *diffusePath = NULL, const char *specularPath = NULL, const char *normalPath = NULL)
+	Mesh(float array[], size_t arraySize, unsigned int type, const char *diffusePath = NULL,
+		 const char *specularPath = NULL, const char *normalPath = NULL, const char *heightPath = NULL)
 	{
-		unsigned int vertexTypeCount[7] = {3, 3, 2, 3, 3, MAX_BONE_INFLUENCE, MAX_BONE_INFLUENCE};
-		int groupCount = 0;
-		int offset = 0;
-		for (unsigned int i = 0; i < 7; i++)
-			groupCount += type & 1u << i ? vertexTypeCount[i] : 0;
-		for (unsigned int i = 0; i < (arraySize / 4) / groupCount; i++)
-		{
-			Vertex vertex;
-			if (type & VertexType::POSITION)
-			{
-				vertex.Position = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
-				offset += 3;
-			}
-			if (type & VertexType::NORMAL)
-			{
-				vertex.Normal = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
-				offset += 3;
-			}
-			if (type & VertexType::TEXCOORD)
-			{
-				vertex.TexCoord = glm::vec2(array[offset], array[offset + 1]);
-				offset += 2;
-			}
-			if (type & VertexType::TANGENT)
-			{
-				vertex.Tangent = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
-				offset += 3;
-			}
-			if (type & VertexType::BITANGENT)
-			{
-				vertex.Bitangent = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
-				offset += 3;
-			}
-			if (type & VertexType::M_BONEIDS)
-			{
-				for (int j = 0; j < MAX_BONE_INFLUENCE; j++)
-					vertex.m_BoneIDs[j] = array[offset + j];
-				offset += MAX_BONE_INFLUENCE;
-			}
-			if (type & VertexType::M_WEIGHTS)
-			{
-				for (int j = 0; j < MAX_BONE_INFLUENCE; j++)
-					vertex.m_Weights[j] = array[offset + j];
-			}
-			vertices.push_back(vertex);
-			indices.push_back(i);
-		}
+		processArray(array, arraySize, type);
 		if (diffusePath)
 		{
 			Texture texture;
 			texture.id = TextureFromFile(diffusePath);
 			texture.type = "texture_diffuse";
 			texture.path = diffusePath;
-			textures.push_back(texture);
+			textures.emplace_back(texture);
 		}
 		if (specularPath)
 		{
@@ -108,7 +63,7 @@ public:
 			texture.id = TextureFromFile(specularPath);
 			texture.type = "texture_specular";
 			texture.path = specularPath;
-			textures.push_back(texture);
+			textures.emplace_back(texture);
 		}
 		if (normalPath)
 		{
@@ -116,26 +71,28 @@ public:
 			texture.id = TextureFromFile(normalPath);
 			texture.type = "texture_normal";
 			texture.path = normalPath;
-			textures.push_back(texture);
+			textures.emplace_back(texture);
+		}
+		if (heightPath)
+		{
+			Texture texture;
+			texture.id = TextureFromFile(heightPath);
+			texture.type = "texture_height";
+			texture.path = heightPath;
+			textures.emplace_back(texture);
 		}
 		setupMesh();
 	}
-	Mesh(float array[], size_t arraySize, std::vector<std::string> cubePaths)
+	Mesh(float array[], size_t arraySize, unsigned int type, std::vector<std::string> cubePaths)
 	{
-		for (size_t i = 0; i < arraySize / 32; i++)
-		{
-			Vertex vertex;
-			vertex.Position = glm::vec3(array[8 * i], array[1 + 8 * i], array[2 + 8 * i]);
-			vertex.Normal = glm::vec3(array[3 + 8 * i], array[4 + 8 * i], array[5 + 8 * i]);
-			vertex.TexCoord = glm::vec2(array[6 + 8 * i], array[7 + 8 * i]);
-			vertices.push_back(vertex);
-			indices.push_back(i);
-		}
+		processArray(array, arraySize, type);
 		Texture texture;
+		stbi_set_flip_vertically_on_load(false);//天空盒按照方向向量取值时yz轴是反的
 		texture.id = loadCubeTexture(cubePaths);
+		stbi_set_flip_vertically_on_load(true);
 		texture.type = "texture_cube";
 		texture.path = cubePaths[0].substr(0, cubePaths[0].find_last_of('\\'));
-		textures.push_back(texture);
+		textures.emplace_back(texture);
 		setupMesh();
 	}
 	void DestoryMesh();
@@ -148,5 +105,6 @@ public:
 private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh();
+	void processArray(float array[], size_t arraySize, unsigned int type);
 };
 #endif // !_MESH_H_

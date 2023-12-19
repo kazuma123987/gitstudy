@@ -1,4 +1,5 @@
 #include <mesh.h>
+// private
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);
@@ -25,6 +26,57 @@ void Mesh::setupMesh()
 	glEnableVertexAttribArray(6);
 	glBindVertexArray(0);
 }
+void Mesh::processArray(float array[], size_t arraySize, unsigned int type)
+{
+	static unsigned int vertexTypeCount[7] = {3, 3, 2, 3, 3, MAX_BONE_INFLUENCE, MAX_BONE_INFLUENCE};
+	int groupCount = 0;
+	int offset = 0;
+	for (unsigned int i = 0; i < 7; i++)
+		groupCount += type & 1u << i ? vertexTypeCount[i] : 0;
+	for (unsigned int i = 0; i < (arraySize / 4) / groupCount; i++)
+	{
+		Vertex vertex;
+		if (type & VertexType::POSITION)
+		{
+			vertex.Position = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
+			offset += 3;
+		}
+		if (type & VertexType::NORMAL)
+		{
+			vertex.Normal = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
+			offset += 3;
+		}
+		if (type & VertexType::TEXCOORD)
+		{
+			vertex.TexCoord = glm::vec2(array[offset], array[offset + 1]);
+			offset += 2;
+		}
+		if (type & VertexType::TANGENT)
+		{
+			vertex.Tangent = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
+			offset += 3;
+		}
+		if (type & VertexType::BITANGENT)
+		{
+			vertex.Bitangent = glm::vec3(array[offset], array[offset + 1], array[offset + 2]);
+			offset += 3;
+		}
+		if (type & VertexType::M_BONEIDS)
+		{
+			for (int j = 0; j < MAX_BONE_INFLUENCE; j++)
+				vertex.m_BoneIDs[j] = array[offset + j];
+			offset += MAX_BONE_INFLUENCE;
+		}
+		if (type & VertexType::M_WEIGHTS)
+		{
+			for (int j = 0; j < MAX_BONE_INFLUENCE; j++)
+				vertex.m_Weights[j] = array[offset + j];
+		}
+		vertices.emplace_back(vertex);
+		indices.emplace_back(i);
+	}
+}
+// public
 void Mesh::DestoryMesh()
 {
 	glDeleteVertexArrays(1, &VAO);
@@ -33,13 +85,13 @@ void Mesh::DestoryMesh()
 	for (unsigned int i = 0; i < textures.size(); i++)
 		glDeleteTextures(1, &textures[i].id);
 }
-void Mesh::Draw(Shader *shader,int instanceCount)
+void Mesh::Draw(Shader *shader, int instanceCount)
 {
 	int diffuseIndex = 0;
 	int specularIndex = 0;
 	int normalIndex = 0;
 	int heightIndex = 0;
-	int reflectIndex = 0;
+	int ambientIndex = 0;
 	int cubeIndex = 0;
 	int index;
 	for (unsigned int i = 0; i < textures.size(); i++)
@@ -53,8 +105,8 @@ void Mesh::Draw(Shader *shader,int instanceCount)
 			index = ++normalIndex;
 		else if (textures[i].type == "texture_height")
 			index = ++heightIndex;
-		else if (textures[i].type == "texture_reflect")
-			index = ++reflectIndex;
+		else if (textures[i].type == "texture_ambient")
+			index = ++ambientIndex;
 		else
 			index = ++cubeIndex;
 		if (textures[i].type != "texture_cube")
@@ -75,10 +127,10 @@ void Mesh::Draw(Shader *shader,int instanceCount)
 		}
 	}
 	glBindVertexArray(VAO);
-	if(!instanceCount)
+	if (!instanceCount)
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	else 
-		glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0,instanceCount);
+	else
+		glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, instanceCount);
 	glBindVertexArray(0);
 	glActiveTexture(GL_TEXTURE0);
 }

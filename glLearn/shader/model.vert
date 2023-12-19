@@ -33,8 +33,8 @@ void main()
     //施密特正交化
     vs_out.normal=normalize(normMat*normal_in);//法向量
     vec3 T=normalize(normMat*tangent_in);
-    T=normalize(T-dot(vs_out.normal,T)*T);
-    vec3 B=cross(vs_out.normal,T);
-    //vec3 B=normalize(normMat*biTangent_in);
+    //T=normalize(T-dot(vs_out.normal,T)*T);
+    //vec3 B=cross(vs_out.normal,T);
+    vec3 B=normalize(normMat*biTangent_in);
     vs_out.TBN=mat3(T,B,vs_out.normal);
 }

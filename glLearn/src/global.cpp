@@ -65,12 +65,34 @@ float arr_floor[] =
 float arr_wall[]=
 {
 //   |    position    |     normal      | texCoord |      tangent      |     bitangent     |
-    -5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f, // bottom-left
-     5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f,// bottom-right
-     5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f ,-1.0f , 0.0f,// top-right
-     5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
-    -5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-left
-    -5.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-left
+     0.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f, // bottom-left
+    10.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-right
+    10.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+    10.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+     0.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-left
+     0.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-left
+};
+float arr_redWall[]=
+{
+  //注意到同一平面上的所有三角形tangent和bitangent都应该是一样的
+//   |    position    |     normal      | texCoord |      tangent      |     bitangent     |
+   -10.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f, // bottom-left
+     0.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-right
+     0.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+     0.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+   -10.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-left
+   -10.0f,  0.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-left
+};
+float arr_toyBox[]=
+{
+  //注意到同一平面上的所有三角形tangent和bitangent都应该是一样的
+//   |    position    |     normal      | texCoord |      tangent      |     bitangent     |
+    -5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f, // bottom-left
+     5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-right
+     5.0f, 20.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+     5.0f, 20.0f, -5.0f, 0.0f,0.0f,1.0f, 1.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-right
+    -5.0f, 20.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 1.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// top-left
+    -5.0f, 10.0f, -5.0f, 0.0f,0.0f,1.0f, 0.0f, 0.0f, 1.0f , 0.0f, 0.0f , 0.0f , 1.0f , 0.0f,// bottom-left
 };
 size_t arrVertex_N = sizeof(arr_vertex);
 size_t arrFloor_N = sizeof(arr_floor);
