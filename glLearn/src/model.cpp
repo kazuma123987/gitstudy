@@ -2,7 +2,7 @@
 void Model::loadModel(const char *path)
 {
 	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		printf_s("ASSIMP::ERROR::%s", importer.GetErrorString());
@@ -17,7 +17,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(processMesh(mesh, scene));
+		meshes.emplace_back(processMesh(mesh, scene));
 	}
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 		processNode(node->mChildren[i], scene);
@@ -63,7 +63,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 			vec3.z = mesh->mBitangents[i].z;
 			vertex.Bitangent = vec3;
 		}
-		vertices.push_back(vertex);
+		vertices.emplace_back(vertex);
 	}
 	// process index
 	if (mesh->HasFaces())
@@ -71,7 +71,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		{
 			aiFace face = mesh->mFaces[i];
 			for (unsigned int j = 0; j < face.mNumIndices; j++)
-				indices.push_back(face.mIndices[j]);
+				indices.emplace_back(face.mIndices[j]);
 		}
 	// process texture(material)
 	aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -104,7 +104,7 @@ std::vector<Texture> Model::loadMaterialTexture(aiMaterial *material, aiTextureT
 		{
 			if (strcmp(texture_loaded[j].path.c_str(), aiStr.C_Str()) == 0)
 			{
-				textures.push_back(texture_loaded[j]);
+				textures.emplace_back(texture_loaded[j]);
 				isQuit = true;
 				break;
 			}
@@ -119,8 +119,8 @@ std::vector<Texture> Model::loadMaterialTexture(aiMaterial *material, aiTextureT
 				texture.id = TextureFromFile((directory + aiStr.C_Str()).c_str());
 			texture.type = typeName;
 			texture.path = aiStr.C_Str();
-			textures.push_back(texture);
-			texture_loaded.push_back(texture);
+			textures.emplace_back(texture);
+			texture_loaded.emplace_back(texture);
 		}
 	}
 	return textures;

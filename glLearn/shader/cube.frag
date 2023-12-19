@@ -68,6 +68,11 @@ uniform sampler2D shadowMap;
 uniform sampler2D spotShadowMap;
 uniform samplerCube shadowCubeMap;
 uniform float far_plane;
+
+uniform bool normalTexture_ON;
+uniform bool dirLight_ON;
+uniform bool dotLight_ON;
+uniform bool spotLight_ON;
 //全局变量
 vec2 pixelSize=2.0f/textureSize(shadowMap,0);
 vec3 sampleOffset[20] = vec3[]
@@ -81,9 +86,12 @@ vec3 sampleOffset[20] = vec3[]
 void main()
 {
     vec3 result=vec3(0.0f);
-    result+=dirColor(dirLight);
-    result+=dotColor(dotLight); 
-    result+=spotColor(spotLight);
+    if(dirLight_ON)
+        result+=dirColor(dirLight);
+    if(dotLight_ON)
+        result+=dotColor(dotLight); 
+    if(spotLight_ON)
+        result+=spotColor(spotLight);
     //输出颜色
     gl_FragColor=vec4(result,1.0f);
 }

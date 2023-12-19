@@ -12,6 +12,8 @@ extern Camera* camera;
 extern float arr_vertex[];
 extern float arr_floor[];
 extern float arr_wall[];
+extern float arr_redWall[];
+extern float arr_toyBox[];
 extern size_t arrVertex_N;
 extern size_t arrFloor_N;
 extern size_t arrWall_N;

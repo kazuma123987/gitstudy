@@ -14,21 +14,27 @@ int main(int argc, char *argv[])
 	Shader instantShader("instantShader", "shader\\instant.vert", "shader\\instant.frag");
 	Shader depthShader("depthShader", "shader\\depthMap.vert", "shader\\depthMap.frag");
 	Shader depthCubeShader("depthCubeShader", "shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
-	// //加载纹理
-	// GLuint wall_diffuse=TextureFromFile("res\\texture\\brickwall.jpg");
-	// GLuint wall_normal=TextureFromFile("res\\texture\\normal_map.jpg");
+	// 设置纹理y轴(V轴)翻转
+	stbi_set_flip_vertically_on_load(true);
 	/*--------------------模型参数设置--------------------*/
 	// 创建或加载模型
+	clock_t start = clock();
 	Mesh box(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box1.png", "res\\texture\\box2.png");
-	Mesh wall(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT,
-			  "res\\texture\\brickwall.jpg", "res\\texture\\brickwall.jpg", "res\\texture\\normal_map.png");
+	Mesh wall(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\wall\\brickwall.jpg",
+			  "res\\texture\\wall\\brickwall.jpg", "res\\texture\\wall\\normal_map.png");
+	Mesh redWall(arr_redWall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\redWall\\bricks2.jpg",
+				 "res\\texture\\redWall\\bricks2.jpg", "res\\texture\\redWall\\bricks2_normal.jpg", "res\\texture\\redWall\\bricks2_disp.jpg");
+	Mesh toyBox(arr_toyBox, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\toybox\\toy_box_diffuse.png",
+				"res\\texture\\toybox\\toy_box_diffuse.png", "res\\texture\\toybox\\toy_box_normal.png", "res\\texture\\toybox\\toy_box_disp.png");
 	Mesh floor(arr_floor, arrFloor_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box4.png", "res\\texture\\box4.png");
 	Mesh light(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD);
-	Mesh skybox(arr_vertex, arrVertex_N, cubePaths);
-	clock_t start = clock();
-	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.obj");
+	Mesh skybox(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, cubePaths);
+	printf_s("\nMeshes load time:%dms", clock() - start);
+	start = clock();
+	// Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\nanosuit_reflection\\nanosuit.obj");
+	Model human("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\hutao\\胡桃.obj");
 	Model rock("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\rock\\rock.obj");
-	printf_s("load time:%dms", clock() - start);
+	printf_s("\nModels load time:%dms", clock() - start);
 
 	// 模型矩阵
 	glm::mat4 boxMat[10];
@@ -230,6 +236,26 @@ int main(int argc, char *argv[])
 		ImGui::Checkbox("check box", &isChecked);
 		float slider[4];
 		ImGui::SliderFloat4("slider", slider, 0.0f, 1.0f);
+		static float height_scale=0.1f;
+		ImGui::SliderFloat("height_scale",&height_scale,0.0f,1.0f);
+		static bool drawRock = true;
+		static bool skyBox_ON = false;
+		static bool heightTexture_ON = false;
+		static bool normalTexture_ON = false;
+		static bool dirLight_ON = true;
+		static bool dotLight_ON = true;
+		static bool spotLight_ON = false;
+		static bool reflect_ON = false;
+		static bool Parallax_Occlustion_Mapping=true;
+		ImGui::Checkbox("drawRocks", &drawRock);
+		ImGui::Checkbox("skyBox_ON", &skyBox_ON);
+		ImGui::Checkbox("normalTexture_ON", &normalTexture_ON);
+		ImGui::Checkbox("heightTexture_ON", &heightTexture_ON);
+		ImGui::Checkbox("视差遮蔽映射",&Parallax_Occlustion_Mapping);
+		ImGui::Checkbox("dirLight_ON", &dirLight_ON);
+		ImGui::Checkbox("dotLight_ON", &dotLight_ON);
+		ImGui::Checkbox("spotLight_ON", &spotLight_ON);
+		ImGui::Checkbox("reflect_ON", &reflect_ON);
 		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
 		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
 		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -331,6 +357,15 @@ int main(int argc, char *argv[])
 		light.Draw(&lightShader);
 		// modelLogic
 		modelShader.use();
+		modelShader.unfm1i("heightTexture_ON", heightTexture_ON);
+		modelShader.unfm1i("normalTexture_ON", normalTexture_ON);
+		modelShader.unfm1i("dirLight_ON", dirLight_ON);
+		modelShader.unfm1i("dotLight_ON", dotLight_ON);
+		modelShader.unfm1i("spotLight_ON", spotLight_ON);
+		modelShader.unfm1i("reflect_ON", reflect_ON);
+		modelShader.unfm1i("Parallax_Occlustion_Mapping",Parallax_Occlustion_Mapping);
+		modelShader.unfm1f("height_scale",height_scale);
+
 		modelShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
 		modelShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
 		shadowFBO.bindSTexture(&modelShader, "shadowMap", 5); // 深度贴图
@@ -356,8 +391,23 @@ int main(int argc, char *argv[])
 		modelShader.unfmat3fv("normMat", normMat);
 		modelShader.unfmat4fv("model", unitMat);
 		wall.Draw(&modelShader);
-		// modelLogic
+		// 绘制红墙
+		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
+		modelShader.unfmat3fv("normMat", normMat);
+		modelShader.unfmat4fv("model", unitMat);
+		redWall.Draw(&modelShader);
+		// 绘制玩具盒
+		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
+		modelShader.unfmat3fv("normMat", normMat);
+		modelShader.unfmat4fv("model", unitMat);
+		toyBox.Draw(&modelShader);
+		// cubeLogic
 		cubeShader.use();
+		cubeShader.unfm1i("normalTexture_ON", normalTexture_ON);
+		cubeShader.unfm1i("dirLight_ON", dirLight_ON);
+		cubeShader.unfm1i("dotLight_ON", dotLight_ON);
+		cubeShader.unfm1i("spotLight_ON", spotLight_ON);
+
 		cubeShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
 		cubeShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
 		shadowFBO.bindSTexture(&cubeShader, "shadowMap", 5); // 深度贴图
@@ -383,13 +433,19 @@ int main(int argc, char *argv[])
 		cubeShader.unfmat3fv("normMat", normMat);
 		floor.Draw(&cubeShader);
 		// 绘制陨石
-		instantShader.use();
-		rock.Draw(&instantShader, rockNum);
+		if (drawRock)
+		{
+			instantShader.use();
+			rock.Draw(&instantShader, rockNum);
+		}
 		// 绘制天空盒
-		glDepthFunc(GL_LEQUAL);
-		skyboxShader.use();
-		skybox.Draw(&skyboxShader);
-		glDepthFunc(GL_LESS);
+		if (skyBox_ON)
+		{
+			glDepthFunc(GL_LEQUAL);
+			skyboxShader.use();
+			skybox.Draw(&skyboxShader);
+			glDepthFunc(GL_LESS);
+		}
 
 		/*------第三阶段处理(后期处理)------*/
 		fbo.Draw(&screenShader);
