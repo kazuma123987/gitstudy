@@ -7,10 +7,10 @@
 class FrameBuffer
 {
 public:
-    bool gammaCorrection=false;
-    bool HDR=false;
-    float exposure=1.0f;
-    FrameBuffer(int width, int height, bool isShadowMap = false)
+    bool gammaCorrection = false;
+    bool HDR = false;
+    float exposure = 1.0f;
+    FrameBuffer(int width, int height, bool isShadowMap = false, int colorBufferCount = 1)
     {
         this->width = width;
         this->height = height;
@@ -21,13 +21,22 @@ public:
             glGenFramebuffers(1, &FBO);
             glBindFramebuffer(GL_FRAMEBUFFER, FBO);
             // 用纹理创建颜色帧缓冲
-            glGenTextures(1, &TEXTURE);
-            glBindTexture(GL_TEXTURE_2D, TEXTURE);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL); // 生成了缓存空间但没有填充数据
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TEXTURE, 0);
+            GLuint *tempTex = (GLuint *)malloc(sizeof(GLuint) * colorBufferCount);
+            glGenTextures(colorBufferCount, tempTex);
+            TEXTURE.assign(tempTex, tempTex + colorBufferCount);
+            free(tempTex);
+            std::vector<GLuint> attachMent;
+            for (int i = 0; i < colorBufferCount; i++)
+            {
+                glBindTexture(GL_TEXTURE_2D, TEXTURE[i]);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL); // 生成了缓存空间但没有填充数据
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glBindTexture(GL_TEXTURE_2D, 0);
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, TEXTURE[i], 0);
+                attachMent.emplace_back(GL_COLOR_ATTACHMENT0 + i);
+            }
+            glDrawBuffers(colorBufferCount, &attachMent[0]);
             // 用渲染缓冲对象RBO(RenderBuffer Object)创建深度与模板缓冲(深度24bit,模板8bit),不同于纹理缓冲,RBO的
             // 缓冲区专门为帧缓冲设计
             glGenRenderbuffers(1, &RBO);
@@ -104,21 +113,21 @@ public:
                 fputs("The shadow frameBuffer is not complete", stderr);
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-            //用于立方体阴影贴图的帧缓冲(没有颜色信息)
+            // 用于立方体阴影贴图的帧缓冲(没有颜色信息)
             glGenFramebuffers(1, &SFBO_CUBE);
             glBindFramebuffer(GL_FRAMEBUFFER, SFBO_CUBE);
             // 深度与模板纹理
             glGenTextures(1, &STEXTURE_DEPTH_CUBE);
             glBindTexture(GL_TEXTURE_CUBE_MAP, STEXTURE_DEPTH_CUBE);
-            for(GLuint i=0;i<6;i++)
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+            for (GLuint i = 0; i < 6; i++)
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-            glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,STEXTURE_DEPTH_CUBE,0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, STEXTURE_DEPTH_CUBE, 0);
             glDrawBuffer(GL_NONE);
             glReadBuffer(GL_NONE);
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -134,10 +143,12 @@ public:
     {
         glViewport(0, 0, width, height);
         glBindFramebuffer(GL_FRAMEBUFFER, MFBO);
+        MFBO_ON = true;
     }
     void bindFBO()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+        MFBO_ON = false;
     }
     void bindSFBO()
     {
@@ -165,31 +176,54 @@ public:
         glActiveTexture(GL_TEXTURE0 + index);
         glBindTexture(GL_TEXTURE_CUBE_MAP, STEXTURE_DEPTH_CUBE);
     }
-    void Draw(Shader *shader)
+    GLuint getTexture(int index = 0)
+    {
+        return TEXTURE[index];
+    }
+    GLuint getMTexture()
+    {
+        return MTEXTURE;
+    }
+    void copy_MFBO_To_FBO()
+    {
+        // 先把多重采样帧缓冲的颜色缓冲、深度缓冲、模板缓冲(缓冲区大小是采样点个数倍)还原到一般的帧缓冲
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, MFBO);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+    }
+    void Draw(Shader *shader,int index=0,bool withNoTexture=false)
     {
         if (!isShadowMap)
         {
-            // 先把多重采样帧缓冲的颜色缓冲、深度缓冲、模板缓冲(缓冲区大小是采样点个数倍)还原到一般的帧缓冲
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, MFBO);
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO);
-            glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+            if (MFBO_ON)
+                copy_MFBO_To_FBO();
             // 画屏幕空间
             shader->use();
-            shader->unfm1i("gammaCorrection",gammaCorrection);
-            shader->unfm1i("HDR_ON",HDR);
-            shader->unfm1f("exposure",exposure);
+            shader->unfm1i("gammaCorrection", gammaCorrection);
+            shader->unfm1i("HDR_ON", HDR);
+            shader->unfm1f("exposure", exposure);
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // 注意要先绑定默认帧缓冲再清除对应的缓冲区
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-            glBindTexture(GL_TEXTURE_2D, TEXTURE); // 片段着色器sampler2D对应的是GL_TEXTURE_2D纹理
+            if(!withNoTexture)glBindTexture(GL_TEXTURE_2D,TEXTURE[index]);
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
         else
         {
-            fputs("\nthe framebuffer don't contains color!",stderr);
+            fputs("\nthe framebuffer don't contains color!", stderr);
             return;
         }
+    }
+    // 调用此函数前先使用(use)着色器
+    void DrawTexture(GLuint Texture)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+        glClearColor(0.0f,0.0f,0.0f,1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        glBindTexture(GL_TEXTURE_2D, Texture);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
     }
     void destory()
     {
@@ -199,7 +233,7 @@ public:
             glDeleteRenderbuffers(1, &MRBO);
             glDeleteFramebuffers(1, &FBO);
             glDeleteFramebuffers(1, &MFBO);
-            glDeleteTextures(1, &TEXTURE);
+            glDeleteTextures(TEXTURE.size(), &TEXTURE[0]);
             glDeleteTextures(1, &MTEXTURE);
             glDeleteVertexArrays(1, &VAO);
             glDeleteBuffers(1, &VBO);
@@ -216,8 +250,10 @@ public:
 private:
     int width, height;
     bool isShadowMap;
+    bool MFBO_ON = false;
     GLuint VAO, VBO;
-    GLuint FBO, RBO, TEXTURE;
+    GLuint FBO, RBO;
+    std::vector<GLuint> TEXTURE;
     GLuint MFBO, MRBO, MTEXTURE;
     GLuint SFBO, STEXTURE_DEPTH;
     GLuint SFBO_CUBE, STEXTURE_DEPTH_CUBE;
