@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 	Shader instantShader("instantShader", "shader\\instant.vert", "shader\\instant.frag");
 	Shader depthShader("depthShader", "shader\\depthMap.vert", "shader\\depthMap.frag");
 	Shader depthCubeShader("depthCubeShader", "shader\\depthCubeMap.vert", "shader\\depthCubeMap.frag", "shader\\depthCubeMap.geom");
+	Shader blurShader("blurShader","shader\\screen.vert","shader\\blur.frag");
+	Shader twoTexShader("twoTexShader","shader\\screen.vert","shader\\twoTexs.frag");
 	// 设置纹理y轴(V轴)翻转
 	stbi_set_flip_vertically_on_load(true);
 	/*--------------------模型参数设置--------------------*/
@@ -54,7 +56,7 @@ int main(int argc, char *argv[])
 
 	// dotLight
 	glm::vec3 dotColor = glm::vec3(1.0f);
-	DotLight dotLight = {lightPos, 0.02f * dotColor, 0.5f * dotColor, dotColor, 1.0f, 0.09f, 0.032f};
+	DotLight dotLight = {lightPos, 0.02f * dotColor, 0.5f * dotColor,  dotColor, 1.0f, 0.09f, 0.032f};
 	glm::mat4 dotLightMat = glm::translate(unitMat, dotLight.pos);
 	const float near_plane = 0.1f;
 	const float far_plane = 100.0f;
@@ -136,7 +138,10 @@ int main(int argc, char *argv[])
 	glfwSetFramebufferSizeCallback(window, frame_size_callback);
 	glfwSetScrollCallback(window, scrollCallback);
 	// 帧缓冲对象(FrameBuffer Object)
-	FrameBuffer fbo(WIDTH, HEIGHT);
+	FrameBuffer finalFBO(WIDTH, HEIGHT);
+	FrameBuffer texFBO(WIDTH,HEIGHT);
+	FrameBuffer twoTexFBO(WIDTH,HEIGHT,false,2);
+	FrameBuffer pingpongFBO[2]={FrameBuffer(WIDTH,HEIGHT),FrameBuffer(WIDTH,HEIGHT)};
 	FrameBuffer shadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 	FrameBuffer spotShadowFBO(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 	// 先更新着色器块索引
@@ -165,11 +170,11 @@ int main(int argc, char *argv[])
 		// LOGIC && RENDER
 		// lightLogic
 		float t = glfwGetTime();
-		lightPos.x = 3 * sin(t);
-		lightPos.z = 3 * cos(t);
+		//lightPos.x = 3 * sin(t);
+		//lightPos.z = 3 * cos(t);
 		// lightColor = {sin(0.2f * t + 2 * i) * 0.5f + 0.5f, sin(0.5f * t + 2 * i) * 0.5f + 0.5f, sin(0.7f * t + 2 * i) * 0.5f + 0.5f};
 		// lightColor = {1.0f, 1.0f, 1.0f};
-		dotLight = {lightPos, 0.1f * dotColor, 0.5f * dotColor, dotColor, 1.0f, 0.09f, 0.0032f};
+		dotLight = {lightPos, 0.1f*dotColor, 0.5f * dotColor, dotColor, 1.0f, 0.09f, 0.0032f};
 		dotLightMat = glm::scale(glm::translate(unitMat, dotLight.pos), glm::vec3(0.2f));
 		dotShadowMat[0] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
 		dotShadowMat[1] = dotShadowProj * glm::lookAt(dotLight.pos, dotLight.pos + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0));
@@ -236,9 +241,11 @@ int main(int argc, char *argv[])
 		ImGui::Checkbox("check box", &isChecked);
 		float slider[4];
 		ImGui::SliderFloat4("slider", slider, 0.0f, 1.0f);
-		static float height_scale=0.1f;
-		ImGui::SliderFloat("height_scale",&height_scale,0.0f,1.0f);
-		ImGui::SliderFloat("曝光度",&fbo.exposure,0.0f,10.0f);
+		static float height_scale = 0.1f;
+		ImGui::SliderFloat("height_scale", &height_scale, 0.0f, 1.0f);
+		ImGui::SliderFloat("曝光度", &finalFBO.exposure, 0.0f, 10.0f);
+		static int blurCount=1;
+		ImGui::SliderInt("高斯模糊次数",&blurCount,0,15);
 		static bool drawRock = true;
 		static bool skyBox_ON = false;
 		static bool heightTexture_ON = false;
@@ -247,18 +254,18 @@ int main(int argc, char *argv[])
 		static bool dotLight_ON = true;
 		static bool spotLight_ON = false;
 		static bool reflect_ON = false;
-		static bool Parallax_Occlustion_Mapping=true;
+		static bool Parallax_Occlustion_Mapping = true;
 		ImGui::Checkbox("drawRocks", &drawRock);
 		ImGui::Checkbox("skyBox_ON", &skyBox_ON);
 		ImGui::Checkbox("normalTexture_ON", &normalTexture_ON);
 		ImGui::Checkbox("heightTexture_ON", &heightTexture_ON);
-		ImGui::Checkbox("视差遮蔽映射",&Parallax_Occlustion_Mapping);
+		ImGui::Checkbox("视差遮蔽映射", &Parallax_Occlustion_Mapping);
 		ImGui::Checkbox("dirLight_ON", &dirLight_ON);
 		ImGui::Checkbox("dotLight_ON", &dotLight_ON);
 		ImGui::Checkbox("spotLight_ON", &spotLight_ON);
 		ImGui::Checkbox("reflect_ON", &reflect_ON);
-		ImGui::Checkbox("伽马校正",&fbo.gammaCorrection);
-		ImGui::Checkbox("HDR_ON",&fbo.HDR);
+		ImGui::Checkbox("伽马校正", &finalFBO.gammaCorrection);
+		ImGui::Checkbox("HDR_ON", &finalFBO.HDR);
 		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
 		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
 		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -346,16 +353,16 @@ int main(int argc, char *argv[])
 		human.Draw(&depthShader);
 
 		/*------第二阶段处理(正常渲染)------*/
-		fbo.bindMFBO();
+		texFBO.bindMFBO();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		// 绘制光源
 		lightShader.use();
-		lightShader.unfvec3fv("lightColor", dotColor);
+		lightShader.unfvec3fv("lightColor", dotColor * 10.0f);
 		lightShader.unfmat4fv("model", dotLightMat);
 		light.Draw(&lightShader);
-		lightShader.unfvec3fv("lightColor", spotColor);
+		lightShader.unfvec3fv("lightColor", spotColor * 10.0f);
 		lightShader.unfmat4fv("model", glm::scale(glm::translate(unitMat, spotLight.pos), glm::vec3(0.1f)));
 		light.Draw(&lightShader);
 		// modelLogic
@@ -366,8 +373,8 @@ int main(int argc, char *argv[])
 		modelShader.unfm1i("dotLight_ON", dotLight_ON);
 		modelShader.unfm1i("spotLight_ON", spotLight_ON);
 		modelShader.unfm1i("reflect_ON", reflect_ON);
-		modelShader.unfm1i("Parallax_Occlustion_Mapping",Parallax_Occlustion_Mapping);
-		modelShader.unfm1f("height_scale",height_scale);
+		modelShader.unfm1i("Parallax_Occlustion_Mapping", Parallax_Occlustion_Mapping);
+		modelShader.unfm1f("height_scale", height_scale);
 
 		modelShader.unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
 		modelShader.unfmat4fv("shadowSpaceMat", shadowSpaceMat);
@@ -451,7 +458,29 @@ int main(int argc, char *argv[])
 		}
 
 		/*------第三阶段处理(后期处理)------*/
-		fbo.Draw(&screenShader);
+		texFBO.copy_MFBO_To_FBO();//还原texFBO的纹理
+		twoTexShader.use();
+		twoTexFBO.DrawTexture(texFBO.getTexture());//用texFBO的纹理渲染到twoTexFBO的两个纹理附件中
+		int count=blurCount;//高斯模糊的次数
+		bool horizontal=true;
+		bool isFirst=true;
+		blurShader.use();
+		for(int i=0;i<count*2;i++)
+		{
+			blurShader.unfm1i("horizontal",horizontal);
+			pingpongFBO[!horizontal].DrawTexture(isFirst?twoTexFBO.getTexture(1):pingpongFBO[horizontal].getTexture());
+			horizontal=!horizontal;
+			if(isFirst)isFirst=false;
+		}
+		screenShader.use();
+		screenShader.unfm1i("screenTexture",0);
+		screenShader.unfm1i("bloomTexture",1);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D,twoTexFBO.getTexture(0));
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D,pingpongFBO[!horizontal].getTexture());
+		finalFBO.Draw(&screenShader,0,true);			
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -472,7 +501,10 @@ int main(int argc, char *argv[])
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-	fbo.destory();
+	finalFBO.destory();
+	texFBO.destory();
+	pingpongFBO[0].destory();
+	pingpongFBO[1].destory();
 	shadowFBO.destory();
 	spotShadowFBO.destory();
 	deleteSound(s1);

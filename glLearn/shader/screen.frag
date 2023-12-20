@@ -1,12 +1,27 @@
 #version 400 core
 in vec2 texCoord;
 uniform sampler2D screenTexture;
+uniform sampler2D bloomTexture;
 uniform bool gammaCorrection;
 uniform bool HDR_ON;
 uniform float exposure;
-const float offset = 1.0f / 300.0f;
+vec3 kernelColor();
 out vec4 FragColor;
 void main(){
+    vec3 result=vec3(0.0f);
+    result+=kernelColor();
+    result+=texture(bloomTexture,texCoord).rgb;
+    //HDR
+    if(HDR_ON)
+    result=vec3(1.0f)-exp(-result*exposure);
+    //伽马校正
+    float gammaValue = 2.2f;
+    if(gammaCorrection)result=pow(result,vec3(1.0f/gammaValue));
+    FragColor=vec4(result,1.0f);
+}
+vec3 kernelColor()
+{
+    const float offset = 1.0f / 300.0f;
     vec2 offsets[9]=vec2[]
     (
         vec2(-offset,offset), //左上
@@ -31,11 +46,5 @@ void main(){
     vec3 multiColor=vec3(0.0f);//混合颜色
     for(int i=0;i<9;i++)
         multiColor+=sampleColor[i]*kernel[i];
-    //HDR
-    if(HDR_ON)
-    multiColor=vec3(1.0f)-exp(-multiColor*exposure);
-    //伽马校正
-    float gammaValue = 2.2f;
-    if(gammaCorrection)multiColor=pow(multiColor,vec3(1.0f/gammaValue));
-    FragColor=vec4(multiColor,1.0f);
+    return multiColor;
 }
