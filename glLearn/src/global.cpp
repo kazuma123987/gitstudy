@@ -3,7 +3,6 @@ char filePath[260];
 FMODSOUND* s1;
 FMODSOUND* s2;
 FMODMUSIC music;
-Camera* camera;
 // 顶点数组
 // 顶点数组
 float arr_vertex[] =

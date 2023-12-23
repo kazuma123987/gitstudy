@@ -8,7 +8,7 @@ Camera::Camera()
 	view = glm::mat4(1.0f);
 	proj = glm::mat4(1.0f);
 	fov = 45.0f;
-	cameraSpeed = 0.01f;
+	cameraSpeed = 0.05f;
 	curseSensitivity = 0.05f;
 	lastTime = curTime = glfwGetTime();
 	pitch = 0.0f;
@@ -25,7 +25,7 @@ void Camera::update()//需要先使用(use)着色器
 	proj = glm::perspective(glm::radians(fov), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
 	//proj=glm::ortho(0.0f,(float)WIDTH,0.0f,(float)HEIGHT,0.1f,10000.0f);
 	curTime = glfwGetTime();
-	cameraSpeed = (curTime - lastTime) * 2.5f;
+	cameraSpeed = (curTime - lastTime) * 5.0f;
 	lastTime = curTime;
 }
 void Camera::keyboardInput(GLFWwindow* window)

@@ -43,6 +43,7 @@ public:
 	std::unordered_map<std::string, int> uniformLocationCache; // map是红黑树结构,unordered_map是哈希表结构,前者有序,后者无序
 	// find(): map.find(std::string)返回int,而map.find(int)返回std::string
 	Shader(const char *instanceName,const char *vpath, const char *fpath, const char *gpath = NULL);
+	Shader(){};
 	unsigned int shaderProgram;
 	std::string instanceName;
 
