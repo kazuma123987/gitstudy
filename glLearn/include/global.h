@@ -8,7 +8,6 @@ extern char filePath[260];
 extern FMODSOUND* s1;
 extern FMODSOUND* s2;
 extern FMODMUSIC music;
-extern Camera* camera;
 extern float arr_vertex[];
 extern float arr_floor[];
 extern float arr_wall[];

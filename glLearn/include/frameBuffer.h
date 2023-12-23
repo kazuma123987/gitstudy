@@ -10,6 +10,7 @@ public:
     bool gammaCorrection = false;
     bool HDR = false;
     float exposure = 1.0f;
+    FrameBuffer(){};
     FrameBuffer(int width, int height, bool isShadowMap = false, int colorBufferCount = 1)
     {
         this->width = width;
@@ -21,10 +22,12 @@ public:
             glGenFramebuffers(1, &FBO);
             glBindFramebuffer(GL_FRAMEBUFFER, FBO);
             // 用纹理创建颜色帧缓冲
-            GLuint *tempTex = (GLuint *)malloc(sizeof(GLuint) * colorBufferCount);
-            glGenTextures(colorBufferCount, tempTex);
-            TEXTURE.assign(tempTex, tempTex + colorBufferCount);
-            free(tempTex);
+            for (int i = 0; i < colorBufferCount; i++)
+            {
+                GLuint tempTex;
+                glGenTextures(1, &tempTex);
+                TEXTURE.emplace_back(tempTex);
+            }
             std::vector<GLuint> attachMent;
             for (int i = 0; i < colorBufferCount; i++)
             {
@@ -69,26 +72,26 @@ public:
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 fputs("The mutisampler frameBuffer is not complete", stderr);
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-            float vertex[] =
-                {
-                    -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, // bottom-left
-                    1.0f, -1.0f, 1.0f, 1.0f, 0.0f,  // bottom-right
-                    1.0f, 1.0f, 1.0f, 1.0f, 1.0f,   // top-right
-                    1.0f, 1.0f, 1.0f, 1.0f, 1.0f,   // top-right
-                    -1.0f, 1.0f, 1.0f, 0.0f, 1.0f,  // top-left
-                    -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, // bottom-left
-                };
-            glGenVertexArrays(1, &VAO);
-            glBindVertexArray(VAO);
-            glGenBuffers(1, &VBO);
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-            glEnableVertexAttribArray(1);
-            glBindVertexArray(0);
+            if (VAO == 0)
+            {
+                float vertex[] =
+                    {
+                        -1.0f, 1.0f, 1.0f, 0.0f, 1.0f,  // 左上
+                        1.0f, 1.0f, 1.0f, 1.0f, 1.0f,   // 右上
+                        -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, // 左下
+                        1.0f, -1.0f, 1.0f, 1.0f, 0.0f,  // 右下
+                    };
+                glGenVertexArrays(1, &VAO);
+                glBindVertexArray(VAO);
+                glGenBuffers(1, &VBO);
+                glBindBuffer(GL_ARRAY_BUFFER, VBO);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+                glEnableVertexAttribArray(1);
+                glBindVertexArray(0);
+            }
         }
         else
         {
@@ -147,6 +150,7 @@ public:
     }
     void bindFBO()
     {
+        glViewport(0, 0, width, height);
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
         MFBO_ON = false;
     }
@@ -176,6 +180,14 @@ public:
         glActiveTexture(GL_TEXTURE0 + index);
         glBindTexture(GL_TEXTURE_CUBE_MAP, STEXTURE_DEPTH_CUBE);
     }
+    GLuint getFBO()
+    {
+        return this->FBO;
+    }
+    GLuint getMFBO()
+    {
+        return this->MFBO;
+    }
     GLuint getTexture(int index = 0)
     {
         return TEXTURE[index];
@@ -191,7 +203,7 @@ public:
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
     }
-    void Draw(Shader *shader,int index=0,bool withNoTexture=false)
+    void Draw(Shader *shader, int index = 0, bool withNoTexture = false, GLuint textureID = 0)
     {
         if (!isShadowMap)
         {
@@ -205,9 +217,10 @@ public:
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // 注意要先绑定默认帧缓冲再清除对应的缓冲区
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-            if(!withNoTexture)glBindTexture(GL_TEXTURE_2D,TEXTURE[index]);
+            if (!withNoTexture)
+                glBindTexture(GL_TEXTURE_2D, (!textureID) ? TEXTURE[index] : textureID);
             glBindVertexArray(VAO);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         }
         else
         {
@@ -219,11 +232,11 @@ public:
     void DrawTexture(GLuint Texture)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-        glClearColor(0.0f,0.0f,0.0f,1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         glBindTexture(GL_TEXTURE_2D, Texture);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
     void destory()
     {
@@ -235,8 +248,13 @@ public:
             glDeleteFramebuffers(1, &MFBO);
             glDeleteTextures(TEXTURE.size(), &TEXTURE[0]);
             glDeleteTextures(1, &MTEXTURE);
-            glDeleteVertexArrays(1, &VAO);
-            glDeleteBuffers(1, &VBO);
+            static bool firstDel = true;
+            if (firstDel)
+            {
+                glDeleteVertexArrays(1, &VAO);
+                glDeleteBuffers(1, &VBO);
+                firstDel=false;
+            }
         }
         else
         {
@@ -251,7 +269,8 @@ private:
     int width, height;
     bool isShadowMap;
     bool MFBO_ON = false;
-    GLuint VAO, VBO;
+    static GLuint VAO;
+    static GLuint VBO;
     GLuint FBO, RBO;
     std::vector<GLuint> TEXTURE;
     GLuint MFBO, MRBO, MTEXTURE;
