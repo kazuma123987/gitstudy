@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	/*--------------------渲染循环--------------------*/
 	while (!glfwWindowShouldClose(window))
 	{
-		// INPUT
+		//*INPUT
 		press_close_window(window);
 		mouse_button_input(window);
 		keyboardInput(window);
@@ -36,11 +36,12 @@ int main(int argc, char *argv[])
 		camera->update();
 		camera->updateUBO(); //直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
 		
-		//处理游戏逻辑
+		//*LOGIC
 		game->gameLogic();
+
+		//*Rend
 		//渲染GUI界面
 		game->rendGUI();
-
 		/*------第一阶段处理(生成阴影贴图)------*/
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_STENCIL_TEST);
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
 		// 设置标题
 		rendFPS(window);
 
-		// EVENTS && DISPLAY
+		//* EVENTS && DISPLAY
 		glfwSwapBuffers(window);
 		glfwPollEvents(); // 处理窗口交互事件等
 	}

@@ -83,13 +83,15 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 worldUp;
 	glm::mat4 view; // 观察矩阵
-	glm::mat4 proj; // 透视投影矩阵,通过该矩阵与观察矩阵可以把世界空间坐标转换为裁切空间坐标,裁切空间x',y',z'范围都是[-1,1]
+	glm::mat4 proj; //透视投影矩阵,通过该矩阵与观察矩阵可以把世界空间坐标转换为裁切空间坐标,裁切空间x',y',z'范围都是[-1,1]
 	//对于xy,按照远近平面的相似三角形求值,对于z',若z'=f(z),则f(near)=-1,f(far)=1,且z'=[((1/(z+3)−1/near)/(1/far−1/near))⋅2−1]
 	//对于深度值,其范围为[0,1],depth=(z'+1)/2,故depth=(1/(z+3)−1/near)/(1/far−1/near),这里的(z+3)是因为相机的位置在z=-3处
 
-	//总结1:裁切空间z'∈[-1,1],depth∈[0,1],depth=z'*0.5+0.5,这个转换就是实际的深度坐标与裁切空间z'坐标的实际转换公式
-	//总结2:对于正交投影矩阵,深度变化是线性的,即depth=((z-camera_z)−near)/(far−near),
-	//总结3:对于透视投影矩阵,深度变化是非线性的,即depth=(1/(z-camera_z)−1/near)/(1/far−1/near)
+	//!总结1:裁切空间z'∈[-1,1],depth∈[0,1],depth=z'*0.5+0.5,这个转换就是实际的深度坐标与裁切空间z'坐标的实际转换公式
+	//!总结2:对于正交投影矩阵,深度变化是线性的,即depth=((z-camera_z)−near)/(far−near),
+	//!总结3:对于透视投影矩阵,深度变化是非线性的,即depth=(1/(z-camera_z)−1/near)/(1/far−1/near)
+	//!总结4:设vec4 fragPos=vec4(x,y,z,1.0f)是世界坐标,则vec fragPos_View=view*fragPos后,其z值为-leng(观察者到片段位置),注意负号,
+	//!同时若vec4 fragPos_proj=proj*fragPos_View,则fragPos_proj.w=-fragPos_View.z,gl_FragCoord.w=1.0f/fragPos_Proj.w=-1.0f/fragPos_View.z
 };
 
-#endif // !_CAMERA_H_
+#endif

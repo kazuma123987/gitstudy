@@ -13,8 +13,8 @@ extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 GLFWwindow *window;
 bool isShowCursor = true;
 Camera *camera;
-GLuint FrameBuffer::VAO=0;
-GLuint FrameBuffer::VBO=0;
+GLuint FrameBuffer::VAO = 0;
+GLuint FrameBuffer::VBO = 0;
 
 void press_close_window(GLFWwindow *window)
 {
@@ -87,6 +87,8 @@ public:
 	// 用于四边形(quad)绘制的VAO/VBO
 	GLuint quadVAO = 0;
 	GLuint quadVBO;
+	GLuint noiseMap;
+	std::vector<glm::vec3> ssaoSamples;
 	// GUI变量
 	bool drawRock = true;
 	bool skyBox_ON = false;
@@ -97,8 +99,11 @@ public:
 	bool spotLight_ON = false;
 	bool reflect_ON = false;
 	bool Parallax_Occlustion_Mapping = true;
+	bool ssao_ON = false;
 	float height_scale = 0.1f;
 	int blurCount = 1;
+	int kernelSize = 64;
+	float kernelRadius = 0.5f;
 	// 着色器
 	Shader *cubeShader;
 	Shader *modelShader;
@@ -113,6 +118,8 @@ public:
 	Shader *twoTexShader;
 	Shader *gBufferShader;
 	Shader *deferredShader;
+	Shader *ssaoShader;
+	Shader *simpleBlurShader;
 	// 模型和网格
 	Mesh *box;
 	Mesh *wall;
@@ -158,6 +165,8 @@ public:
 	FrameBuffer *shadowFBO;
 	FrameBuffer *spotShadowFBO;
 	FrameBuffer *gBufferFBO;
+	FrameBuffer *ssaoFBO;
+	FrameBuffer *ssaoBlurFBO;
 	Game(){};
 	~Game()
 	{
@@ -236,6 +245,8 @@ public:
 		twoTexShader = new Shader("twoTexShader", "shader\\postShader\\screen.vert", "shader\\postShader\\twoTexs.frag");
 		gBufferShader = new Shader("gBufferShader", "shader\\deferredShader\\gBuffer.vert", "shader\\deferredShader\\gBuffer.frag");
 		deferredShader = new Shader("deferredShader", "shader\\deferredShader\\deferred_shading.vert", "shader\\deferredShader\\deferred_shading.frag");
+		ssaoShader = new Shader("ssaoShader", "shader\\deferredShader\\ssao.vert", "shader\\deferredShader\\ssao.frag");
+		simpleBlurShader = new Shader("simpleBlurShader", "shader\\deferredShader\\simpleBlur.vert", "shader\\deferredShader\\simpleBlur.frag");
 		// 更新着色器块索引
 		camera->setShaderUBOIndex(modelShader, "Mat");
 		camera->setShaderUBOIndex(cubeShader, "Mat");
@@ -244,6 +255,7 @@ public:
 		camera->setShaderUBOIndex(skyboxShader, "Mat");
 		camera->setShaderUBOIndex(instantShader, "Mat");
 		camera->setShaderUBOIndex(gBufferShader, "Mat");
+		camera->setShaderUBOIndex(ssaoShader, "Mat");
 		// 网格与模型
 		box = new Mesh(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box1.png", "res\\texture\\box2.png");
 		wall = new Mesh(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\wall\\brickwall.jpg",
@@ -313,6 +325,41 @@ public:
 			glVertexAttribDivisor(10, 1);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
+		// noiseMap生成
+		std::random_device rd;
+		std::default_random_engine engine(rd());
+		std::uniform_real_distribution<float> randomFloat(0.0f, 1.0f);
+		std::vector<glm::vec3> ssaoNoise;
+		for (int i = 0; i < 16; i++)
+		{
+			glm::vec3 noise =
+				{
+					randomFloat(engine) * 2.0f - 1.0f,
+					randomFloat(engine) * 2.0f - 1.0f,
+					0.0f // z方向为0
+				};
+			ssaoNoise.emplace_back(noise);
+		}
+		glGenTextures(1, &noiseMap);
+		glBindTexture(GL_TEXTURE_2D, noiseMap);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // 注意要重复纹理
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+		// 采样核心半球生成
+		for (int i = 0; i < kernelSize; i++)
+		{
+			glm::vec3 sample =
+				{
+					randomFloat(engine) * 2.0f - 1.0f,
+					randomFloat(engine) * 2.0f - 1.0f,
+					randomFloat(engine) // z正半球
+				};
+			sample = glm::normalize(sample);
+			sample *= randomFloat(engine);
+			ssaoSamples.emplace_back(sample);
+		}
 		// 注意只有通过动态内存分配才能使纹理绑定的对象的生命周期为全局(空纹理会在绑定对象不存在时丢失缓冲区)
 		finalFBO = new FrameBuffer(WIDTH, HEIGHT);
 		texFBO = new FrameBuffer(WIDTH, HEIGHT);
@@ -321,6 +368,8 @@ public:
 		shadowFBO = new FrameBuffer(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 		spotShadowFBO = new FrameBuffer(SHADOW_WIDTH, SHADOW_HEIGHT, true);
 		gBufferFBO = new FrameBuffer(WIDTH, HEIGHT, false, 3);
+		ssaoFBO = new FrameBuffer(WIDTH, HEIGHT);
+		ssaoBlurFBO = new FrameBuffer(WIDTH, HEIGHT);
 	}
 	void game_free()
 	{
@@ -348,6 +397,8 @@ public:
 		delete twoTexShader;
 		delete gBufferShader;
 		delete deferredShader;
+		delete ssaoShader;
+		delete simpleBlurShader;
 		glfwTerminate(); // 不要忘记释放glfw资源
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -358,8 +409,11 @@ public:
 		delete shadowFBO;
 		delete spotShadowFBO;
 		delete gBufferFBO;
+		delete ssaoFBO;
+		delete ssaoBlurFBO;
 		glDeleteVertexArrays(1, &quadVAO);
 		glDeleteBuffers(1, &quadVBO);
+		glDeleteTextures(1, &noiseMap);
 		deleteSound(s1);
 		deleteSound(s2);
 		music.systemFree();
@@ -443,6 +497,7 @@ public:
 		ImGui::SliderFloat("height_scale", &height_scale, 0.0f, 1.0f);
 		ImGui::SliderFloat("曝光度", &finalFBO->exposure, 0.0f, 10.0f);
 		ImGui::SliderInt("高斯模糊次数", &blurCount, 0, 15);
+		ImGui::SliderFloat("ssao采样半径", &kernelRadius, 0.0f, 2.0f);
 		ImGui::Checkbox("drawRocks", &drawRock);
 		ImGui::Checkbox("skyBox_ON", &skyBox_ON);
 		ImGui::Checkbox("normalTexture_ON", &normalTexture_ON);
@@ -454,6 +509,7 @@ public:
 		ImGui::Checkbox("reflect_ON", &reflect_ON);
 		ImGui::Checkbox("伽马校正", &finalFBO->gammaCorrection);
 		ImGui::Checkbox("HDR_ON", &finalFBO->HDR);
+		ImGui::Checkbox("SSAO", &ssao_ON);
 		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
 		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
 		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -717,20 +773,54 @@ public:
 	}
 	void deferredRend()
 	{
+		if (ssao_ON)
+		{
+			// 生成ssao贴图
+			ssaoFBO->bindFBO();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			ssaoShader->use();
+			ssaoShader->unfm1i("gPositionDepth", 0);
+			ssaoShader->unfm1i("gNormal", 1);
+			ssaoShader->unfm1i("noiseMap", 2);
+			for (int i = 0; i < 2; i++)
+			{
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, gBufferFBO->getTexture(i));
+			}
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, noiseMap);
+			for (int i = 0; i < kernelSize; i++)
+				ssaoShader->unfvec3fv(("samples" + std::string("[") + std::to_string(i) + "]").c_str(), ssaoSamples[i]);
+			ssaoShader->unfm1i("kernelSize", kernelSize);
+			ssaoShader->unfm1f("radius", kernelRadius);
+			drawQuad();
+			// 模糊ssao贴图
+			ssaoBlurFBO->bindFBO();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			simpleBlurShader->use();
+			simpleBlurShader->unfm1i("ssaoTexture", 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, ssaoFBO->getTexture());
+			drawQuad();
+		}
+		// 延迟着色
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBufferFBO->getFBO());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, texFBO->getFBO());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 		glDepthMask(GL_FALSE);
 		deferredShader->use();
-		deferredShader->unfmat4fv("dirShadowSpaceMat",dirShadowSpaceMat);
-		deferredShader->unfmat4fv("spotShadowSpaceMat",spotShadowSpaceMat);
-		deferredShader->unfm1i("gPosition", 0);
+		deferredShader->unfmat4fv("dirShadowSpaceMat", dirShadowSpaceMat);
+		deferredShader->unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
+		deferredShader->unfm1i("gPositionDepth", 0);
 		deferredShader->unfm1i("gNormal", 1);
 		deferredShader->unfm1i("gDiffuseAndSpecular", 2);
-		shadowFBO->bindSTexture(deferredShader,"dirShadowMap",3);
-		shadowFBO->bindSTexture_Cube(deferredShader,"dotShadowMap",4);
-		spotShadowFBO->bindSTexture(deferredShader,"spotShadowMap",5);
+		shadowFBO->bindSTexture(deferredShader, "dirShadowMap", 3);
+		shadowFBO->bindSTexture_Cube(deferredShader, "dotShadowMap", 4);
+		spotShadowFBO->bindSTexture(deferredShader, "spotShadowMap", 5);
+		deferredShader->unfm1i("ssaoTexture", 6);
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, ssaoBlurFBO->getTexture());
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -739,12 +829,13 @@ public:
 		}
 		deferredShader->unfDirLight("dirLight", &dirLight);
 		deferredShader->unfDotLight("dotLight", &dotLight);
-		deferredShader->unfSpotLight("spotLight",&spotLight);
-		deferredShader->unfm1i("dirLight_ON",dirLight_ON);
-		deferredShader->unfm1i("dotLight_ON",dotLight_ON);
-		deferredShader->unfm1i("spotLight_ON",spotLight_ON);
-		deferredShader->unfm1f("near_plane",near_plane);
-		deferredShader->unfm1f("far_plane",far_plane);
+		deferredShader->unfSpotLight("spotLight", &spotLight);
+		deferredShader->unfm1i("dirLight_ON", dirLight_ON);
+		deferredShader->unfm1i("dotLight_ON", dotLight_ON);
+		deferredShader->unfm1i("spotLight_ON", spotLight_ON);
+		deferredShader->unfm1i("SSAO_ON",ssao_ON);
+		deferredShader->unfm1f("near_plane", near_plane);
+		deferredShader->unfm1f("far_plane", far_plane);
 		deferredShader->unfvec3fv("viewerPos", camera->getCameraPos());
 		drawQuad();
 		glDepthMask(GL_TRUE);
@@ -767,7 +858,7 @@ public:
 	}
 	void postRend()
 	{
-		//texFBO->copy_MFBO_To_FBO(); // 还原texFBO的纹理
+		// texFBO->copy_MFBO_To_FBO(); // 还原texFBO的纹理
 		twoTexShader->use();
 		twoTexFBO->DrawTexture(texFBO->getTexture()); // 用texFBO的纹理渲染到twoTexFBO的两个纹理附件中
 		int count = blurCount;						  // 高斯模糊的次数
