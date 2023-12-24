@@ -34,7 +34,7 @@ struct SpotLight
 };
 in vec2 texCoord;
 //uniform变量
-uniform sampler2D gPosition;
+uniform sampler2D gPositionDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gDiffuseAndSpecular;
 
@@ -43,10 +43,11 @@ uniform samplerCube dotShadowMap;
 uniform sampler2D spotShadowMap;
 uniform mat4 dirShadowSpaceMat;
 uniform mat4 spotShadowSpaceMat;
-
+uniform sampler2D ssaoTexture;
 uniform bool dirLight_ON;
 uniform bool dotLight_ON;
 uniform bool spotLight_ON;
+uniform bool SSAO_ON;
 uniform float near_plane;
 uniform float far_plane;
 uniform DirectLight dirLight;
@@ -61,15 +62,18 @@ vec3 spotColor(SpotLight spotLight);
 float linearDepth(float depth);
 out vec4 FragColor;
 //全局变量
-vec3 fragPos=texture(gPosition,texCoord).rgb;
+vec3 fragPos=texture(gPositionDepth,texCoord).rgb;
+float depth=texture(gPositionDepth,texCoord).a;
 vec3 normal=texture(gNormal,texCoord).rgb;
 vec3 diffuse=texture(gDiffuseAndSpecular,texCoord).rgb;
 float sp=texture(gDiffuseAndSpecular,texCoord).a;
 vec3 viewDir=normalize(viewerPos-fragPos);
 vec2 pixelSize=1.0f/textureSize(dirShadowMap,0);
+float occlusion=1.0f;
 void main()
 {
     //计算光照
+    if(SSAO_ON)occlusion=texture(ssaoTexture,texCoord).r;
     vec3 result=vec3(0.0f);
     if(dirLight_ON)
         result+=dirColor(dirLight);
@@ -82,7 +86,7 @@ void main()
 vec3 dirColor(DirectLight dirLight)
 {
     //环境光
-    vec3 ambient=dirLight.ambient*diffuse;
+    vec3 ambient=occlusion*dirLight.ambient*diffuse;
     //漫射光
     vec3 lightDir=normalize(-dirLight.dir);
     float diff=max(dot(lightDir,normal),0.0f);
@@ -107,7 +111,7 @@ vec3 dirColor(DirectLight dirLight)
 vec3 dotColor(DotLight dotLight)
 {
     //环境光
-    vec3 ambient=dotLight.ambient*diffuse;
+    vec3 ambient=occlusion*dotLight.ambient*diffuse;
     //漫射光
     vec3 lightDir=normalize(dotLight.pos-fragPos);
     float diff=max(dot(lightDir,normal),0.0f);
@@ -126,7 +130,7 @@ vec3 dotColor(DotLight dotLight)
 vec3 spotColor(SpotLight spotLight)
 {
     //环境光
-    vec3 ambient=spotLight.ambient*diffuse;
+    vec3 ambient=occlusion*spotLight.ambient*diffuse;
     //漫射光
     vec3 lightDir=normalize(spotLight.pos-fragPos);
     float diff=max(dot(lightDir,normal),0.0f);

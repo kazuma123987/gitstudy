@@ -20,7 +20,7 @@ uniform vec3 viewerPos;
 uniform float height_scale;
 uniform bool hasNormalMap;
 uniform bool hasHeightMap;
-layout(location=0)out vec3 gPosition;
+layout(location=0)out vec4 gPositionDepth;
 layout(location=1)out vec3 gNormal;
 layout(location=2)out vec4 gDiffuseAndSpecular;
 void calculateTexCoord();
@@ -31,7 +31,8 @@ void main()
 {
     calculateTexCoord();
     calculateNormal();
-    gPosition=fs_in.fragPos;
+    gPositionDepth.rgb=fs_in.fragPos;
+    gPositionDepth.a=1.0f/gl_FragCoord.w;//!注意观察空间里相机朝向的方向为-z,而gl_FragCoord.w=-1.0f/fragPos_View.z,这个操作让相机朝向为正
     gNormal=normalize(normal);
     gDiffuseAndSpecular.rgb=texture(material.texture_diffuse1,texCoord).rgb;
     gDiffuseAndSpecular.a=texture(material.texture_specular1,texCoord).a;
