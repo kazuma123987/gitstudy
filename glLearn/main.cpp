@@ -1,7 +1,7 @@
 #include <main.h>
 int main(int argc, char *argv[])
 {
-	Game *game=new Game();
+	Game *game = new Game();
 	if (game->gameInit() == -1)
 		fputs("\nfailed to init the game", stderr);
 	/*--------------------音频设置--------------------*/
@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 	music.loadMusic(s2, "res/music/choose.wav");
 	music.playMusic(s1);
 	// glEnable
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
 	glEnable(GL_MULTISAMPLE); // 开启多重采样缓冲(在不使用帧缓冲时不需要额外处理)
@@ -34,13 +35,13 @@ int main(int argc, char *argv[])
 			camera->curseInput(window);
 		}
 		camera->update();
-		camera->updateUBO(); //直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
-		
+		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
+
 		//*LOGIC
 		game->gameLogic();
 
 		//*Rend
-		//渲染GUI界面
+		// 渲染GUI界面
 		game->rendGUI();
 		/*------第一阶段处理(生成阴影贴图)------*/
 		glEnable(GL_DEPTH_TEST);
@@ -50,8 +51,8 @@ int main(int argc, char *argv[])
 		/*------第二阶段处理(正常渲染)------*/
 		game->rendGBuffer();
 		game->deferredRend();
-		//game->rendScene();
-		/*------第三阶段处理(后期处理)------*/			
+		// game->rendScene();
+		/*------第三阶段处理(后期处理)------*/
 		game->postRend();
 
 		ImGui::Render();
