@@ -64,6 +64,7 @@
         "thread": "cpp",
         "condition_variable": "cpp",
         "mutex": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "codecvt": "cpp"
     }
 }

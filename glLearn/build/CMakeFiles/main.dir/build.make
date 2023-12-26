@@ -350,6 +350,7 @@ C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/fmodL.dll
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/lib/libglfw3.a
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/lib/libassimp.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/lib/libfreetype.a
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/objects1.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe: CMakeFiles/main.dir/link.txt

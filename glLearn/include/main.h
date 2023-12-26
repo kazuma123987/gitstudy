@@ -7,6 +7,7 @@
 #include <mesh.h>
 #include <model.h>
 #include <frameBuffer.h>
+#include <fonts.h>
 // N卡使用独显运行
 extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // main函数全局变量
@@ -15,10 +16,21 @@ bool isShowCursor = true;
 Camera *camera;
 GLuint FrameBuffer::VAO = 0;
 GLuint FrameBuffer::VBO = 0;
-
+void utf8_to_wchar(wchar_t *dst, size_t dstlen, char *src)
+{
+	size_t len = strlen(src);
+	size_t w_size = MultiByteToWideChar(CP_UTF8, 0, src, len, NULL, 0);
+	if (w_size > dstlen)
+	{
+		printf("\nutf8_to_wchar error::out of the dst buffer");
+		return;
+	}
+	MultiByteToWideChar(CP_UTF8, 0, src, len, dst, w_size);
+	dst[w_size]=L'\0';
+};
 void press_close_window(GLFWwindow *window)
 {
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, TRUE);
 }
 void rendFPS(GLFWwindow *window)
@@ -89,21 +101,27 @@ public:
 	GLuint quadVBO;
 	GLuint noiseMap;
 	std::vector<glm::vec3> ssaoSamples;
+	Fonts *font;
 	// GUI变量
 	bool drawRock = true;
 	bool skyBox_ON = false;
-	bool heightTexture_ON = false;
-	bool normalTexture_ON = false;
 	bool dirLight_ON = true;
 	bool dotLight_ON = true;
 	bool spotLight_ON = false;
-	bool reflect_ON = false;
-	bool Parallax_Occlustion_Mapping = true;
 	bool ssao_ON = false;
 	float height_scale = 0.1f;
 	int blurCount = 1;
 	int kernelSize = 64;
 	float kernelRadius = 0.5f;
+	char textBuffer[4096] = {'I', 'n', 'p', 'u', 't', 'T', 'e', 'x', 't', '\0'};
+	wchar_t wtestBuffer[4096]={0};
+	float textScale = 1.0f;
+	float text_thickness = 0.5f;
+	float text_softness = 0.0f;
+	float outline_thickness = 0.5f;
+	float outline_softness = 0.0f;
+	glm::vec3 textColor = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 outlineColor = glm::vec3(1.0f);
 	// 着色器
 	Shader *cubeShader;
 	Shader *modelShader;
@@ -120,6 +138,7 @@ public:
 	Shader *deferredShader;
 	Shader *ssaoShader;
 	Shader *simpleBlurShader;
+	Shader *fontShader;
 	// 模型和网格
 	Mesh *box;
 	Mesh *wall;
@@ -230,8 +249,12 @@ public:
 	{
 		// Camera
 		camera = new Camera();
-		// 着色器
+		// Font
 		SetCurrentDirectoryA(filePath);
+		std::vector<std::string> path = {"res/fonts/yolan.ttf"};
+		font = new Fonts(path);
+		font->loadChars();
+		// 着色器
 		cubeShader = new Shader("cubeShader", "shader\\objectsShader\\cube.vert", "shader\\objectsShader\\cube.frag");
 		modelShader = new Shader("modelShader", "shader\\objectsShader\\model.vert", "shader\\objectsShader\\model.frag");
 		lightShader = new Shader("lightShader", "shader\\objectsShader\\light.vert", "shader\\objectsShader\\light.frag");
@@ -247,6 +270,7 @@ public:
 		deferredShader = new Shader("deferredShader", "shader\\deferredShader\\deferred_shading.vert", "shader\\deferredShader\\deferred_shading.frag");
 		ssaoShader = new Shader("ssaoShader", "shader\\deferredShader\\ssao.vert", "shader\\deferredShader\\ssao.frag");
 		simpleBlurShader = new Shader("simpleBlurShader", "shader\\deferredShader\\simpleBlur.vert", "shader\\deferredShader\\simpleBlur.frag");
+		fontShader = new Shader("fontShader", "shader\\specialShader\\fonts.vert", "shader\\specialShader\\fonts.frag");
 		// 更新着色器块索引
 		camera->setShaderUBOIndex(modelShader, "Mat");
 		camera->setShaderUBOIndex(cubeShader, "Mat");
@@ -256,6 +280,7 @@ public:
 		camera->setShaderUBOIndex(instantShader, "Mat");
 		camera->setShaderUBOIndex(gBufferShader, "Mat");
 		camera->setShaderUBOIndex(ssaoShader, "Mat");
+		camera->setShaderUBOIndex(fontShader, "Mat");
 		// 网格与模型
 		box = new Mesh(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box1.png", "res\\texture\\box2.png");
 		wall = new Mesh(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\wall\\brickwall.jpg",
@@ -374,6 +399,7 @@ public:
 	void game_free()
 	{
 		delete camera;
+		delete font;
 		delete box;
 		delete wall;
 		delete redWall;
@@ -399,6 +425,7 @@ public:
 		delete deferredShader;
 		delete ssaoShader;
 		delete simpleBlurShader;
+		delete fontShader;
 		glfwTerminate(); // 不要忘记释放glfw资源
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -458,8 +485,7 @@ public:
 		ImGui::Begin("Settings", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove);
 		if (ImGui::Button("点击我"))
 			printf("\npress");
-		char textBuffer[50] = "input text";
-		ImGui::InputText("input text", textBuffer, sizeof(textBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+		ImGui::InputTextMultiline("input text", textBuffer, sizeof(textBuffer), ImVec2(0, 0), ImGuiInputTextFlags_EnterReturnsTrue);
 		ImGui::Text(textBuffer);
 		double x;
 		ImGui::InputDouble("input double", &x);
@@ -496,22 +522,25 @@ public:
 		}
 		ImGui::SliderFloat("height_scale", &height_scale, 0.0f, 1.0f);
 		ImGui::SliderFloat("曝光度", &finalFBO->exposure, 0.0f, 10.0f);
+		ImGui::SliderFloat("textScale", &textScale, 0.1f, 10.0f);
+		ImGui::SliderFloat("textThickness", &text_thickness, 0.0f, 1.0f);
+		ImGui::SliderFloat("textSoftness", &text_softness, 0.0f, 1.0f);
+		ImGui::SliderFloat("outline_thickness", &outline_thickness, 0.0f, 1.0f);
+		ImGui::SliderFloat("outline_softness", &outline_softness, 0.0f, 1.0f);
 		ImGui::SliderInt("高斯模糊次数", &blurCount, 0, 15);
 		ImGui::SliderFloat("ssao采样半径", &kernelRadius, 0.0f, 2.0f);
 		ImGui::Checkbox("drawRocks", &drawRock);
 		ImGui::Checkbox("skyBox_ON", &skyBox_ON);
-		ImGui::Checkbox("normalTexture_ON", &normalTexture_ON);
-		ImGui::Checkbox("heightTexture_ON", &heightTexture_ON);
-		ImGui::Checkbox("视差遮蔽映射", &Parallax_Occlustion_Mapping);
 		ImGui::Checkbox("dirLight_ON", &dirLight_ON);
 		ImGui::Checkbox("dotLight_ON", &dotLight_ON);
 		ImGui::Checkbox("spotLight_ON", &spotLight_ON);
-		ImGui::Checkbox("reflect_ON", &reflect_ON);
 		ImGui::Checkbox("伽马校正", &finalFBO->gammaCorrection);
 		ImGui::Checkbox("HDR_ON", &finalFBO->HDR);
 		ImGui::Checkbox("SSAO", &ssao_ON);
 		ImGui::ColorEdit3("dotColor", (float *)&dotColor);
 		ImGui::ColorEdit3("spotColor", (float *)&spotColor);
+		ImGui::ColorEdit3("fontColor", (float *)&textColor);
+		ImGui::ColorEdit3("outlineColor", (float *)&outlineColor);
 		if (ImGui::BeginPopupModal("Exit Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::SetCursorPos({(ImGui::GetWindowWidth() - ImGui::CalcTextSize("退出游戏?").x) * 0.5f, 100.0f});
@@ -620,112 +649,6 @@ public:
 		depthShader->unfmat4fv("model", unitMat);
 		toyBox->Draw(depthShader);
 	}
-	void rendScene()
-	{
-		texFBO->bindMFBO();
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-		// 绘制光源
-		lightShader->use();
-		lightShader->unfvec3fv("lightColor", dotColor * 10.0f);
-		lightShader->unfmat4fv("model", dotLightMat);
-		light->Draw(lightShader);
-		lightShader->unfvec3fv("lightColor", spotColor * 10.0f);
-		lightShader->unfmat4fv("model", glm::scale(glm::translate(unitMat, spotLight.pos), glm::vec3(0.1f)));
-		light->Draw(lightShader);
-		// modelLogic
-		modelShader->use();
-		modelShader->unfm1i("heightTexture_ON", heightTexture_ON);
-		modelShader->unfm1i("normalTexture_ON", normalTexture_ON);
-		modelShader->unfm1i("dirLight_ON", dirLight_ON);
-		modelShader->unfm1i("dotLight_ON", dotLight_ON);
-		modelShader->unfm1i("spotLight_ON", spotLight_ON);
-		modelShader->unfm1i("reflect_ON", reflect_ON);
-		modelShader->unfm1i("Parallax_Occlustion_Mapping", Parallax_Occlustion_Mapping);
-		modelShader->unfm1f("height_scale", height_scale);
-
-		modelShader->unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
-		modelShader->unfmat4fv("shadowSpaceMat", dirShadowSpaceMat);
-		shadowFBO->bindSTexture(modelShader, "shadowMap", 5); // 深度贴图
-		shadowFBO->bindSTexture_Cube(modelShader, "shadowCubeMap", 6);
-		spotShadowFBO->bindSTexture(modelShader, "spotShadowMap", 7);
-		modelShader->unfm1i("texture_cube1", 4);					// 设置要传入GL_TEXTURE4
-		glActiveTexture(GL_TEXTURE4);								// 激活纹理单元4
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->textures[0].id); // 把立方体纹理绑定到当前纹理单元
-		modelShader->unfDirLight("dirLight", &dirLight);
-		modelShader->unfDotLight("dotLight", &dotLight);
-		modelShader->unfSpotLight("spotLight", &spotLight);
-		modelShader->unfvec3fv("viewerPos", camera->getCameraPos());
-		modelShader->unfm1f("material.shininess", 32.0f);
-		modelShader->unfm1f("far_plane", far_plane);
-		// 绘制人物
-		glm::mat3 normMat;
-		normMat = glm::mat3(glm::transpose(glm::inverse(humanMat)));
-		modelShader->unfmat3fv("normMat", normMat);
-		modelShader->unfmat4fv("model", humanMat);
-		human->Draw(modelShader);
-		// 绘制墙
-		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
-		modelShader->unfmat3fv("normMat", normMat);
-		modelShader->unfmat4fv("model", unitMat);
-		wall->Draw(modelShader);
-		// 绘制红墙
-		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
-		modelShader->unfmat3fv("normMat", normMat);
-		modelShader->unfmat4fv("model", unitMat);
-		redWall->Draw(modelShader);
-		// 绘制玩具盒
-		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
-		modelShader->unfmat3fv("normMat", normMat);
-		modelShader->unfmat4fv("model", unitMat);
-		toyBox->Draw(modelShader);
-		// cubeLogic
-		cubeShader->use();
-		cubeShader->unfm1i("normalTexture_ON", normalTexture_ON);
-		cubeShader->unfm1i("dirLight_ON", dirLight_ON);
-		cubeShader->unfm1i("dotLight_ON", dotLight_ON);
-		cubeShader->unfm1i("spotLight_ON", spotLight_ON);
-
-		cubeShader->unfmat4fv("spotShadowSpaceMat", spotShadowSpaceMat);
-		cubeShader->unfmat4fv("shadowSpaceMat", dirShadowSpaceMat);
-		shadowFBO->bindSTexture(cubeShader, "shadowMap", 5); // 深度贴图
-		shadowFBO->bindSTexture_Cube(cubeShader, "shadowCubeMap", 6);
-		spotShadowFBO->bindSTexture(cubeShader, "spotShadowMap", 7);
-		cubeShader->unfDirLight("dirLight", &dirLight);
-		cubeShader->unfDotLight("dotLight", &dotLight);
-		cubeShader->unfSpotLight("spotLight", &spotLight);
-		cubeShader->unfvec3fv("viewerPos", camera->getCameraPos());
-		cubeShader->unfm1f("material.shininess", 32.0f);
-		cubeShader->unfm1f("far_plane", far_plane);
-		// 绘制箱子
-		for (int i = 0; i < 10; i++)
-		{
-			cubeShader->unfmat4fv("model", boxMat[i]);
-			normMat = glm::mat3(glm::transpose(glm::inverse(boxMat[i])));
-			cubeShader->unfmat3fv("normMat", normMat);
-			box->Draw(cubeShader);
-		}
-		// 绘制地面
-		cubeShader->unfmat4fv("model", unitMat);
-		normMat = glm::mat3(glm::transpose(glm::inverse(unitMat)));
-		cubeShader->unfmat3fv("normMat", normMat);
-		ground->Draw(cubeShader);
-		// 绘制陨石
-		if (drawRock)
-		{
-			instantShader->use();
-			rock->Draw(instantShader, rockNum);
-		}
-		// 绘制天空盒
-		if (skyBox_ON)
-		{
-			glDepthFunc(GL_LEQUAL);
-			skyboxShader->use();
-			skybox->Draw(skyboxShader);
-			glDepthFunc(GL_LESS);
-		}
-	}
 	void rendGBuffer()
 	{
 		gBufferFBO->bindFBO();
@@ -833,11 +756,23 @@ public:
 		deferredShader->unfm1i("dirLight_ON", dirLight_ON);
 		deferredShader->unfm1i("dotLight_ON", dotLight_ON);
 		deferredShader->unfm1i("spotLight_ON", spotLight_ON);
-		deferredShader->unfm1i("SSAO_ON",ssao_ON);
+		deferredShader->unfm1i("SSAO_ON", ssao_ON);
 		deferredShader->unfm1f("near_plane", near_plane);
 		deferredShader->unfm1f("far_plane", far_plane);
 		deferredShader->unfvec3fv("viewerPos", camera->getCameraPos());
 		drawQuad();
+		// 渲染文本
+		static const glm::mat4 fontProj = glm::ortho(0.0f, (float)WIDTH, 0.0f, (float)HEIGHT);
+		fontShader->use();
+		fontShader->unfvec3fv("textColor", textColor);
+		fontShader->unfvec3fv("outlineColor", outlineColor);
+		fontShader->unfmat4fv("projection", fontProj);
+		fontShader->unfm1f("thickness", text_thickness);
+		fontShader->unfm1f("softness", text_softness);
+		fontShader->unfm1f("outline_thickness", outline_thickness);
+		fontShader->unfm1f("outline_softness", outline_softness);
+		utf8_to_wchar(wtestBuffer,4096,textBuffer);
+		font->rendText(wtestBuffer,glm::vec2(400.0f, 450.0f), textScale);
 		glDepthMask(GL_TRUE);
 		// 绘制光源
 		lightShader->use();

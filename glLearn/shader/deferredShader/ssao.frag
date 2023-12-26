@@ -31,6 +31,7 @@ void main()
         projSample.xyz=(projSample.xyz+1.0f)*0.5f;
         float sampleDepth=texture(gPositionDepth,projSample.xy).a;//注意采样的观察空间z坐标
         float bias=0.025f;
+        //smoothstep(float a,float b,float x) t=satitude
         float rangeCheck=smoothstep(0.0f,1.0f,radius/abs(-viewSample.z-sampleDepth));
         occlusion+=(-viewSample.z-bias>sampleDepth?1.0f:0.0f)*rangeCheck;//!观察空间摄像机朝向为-z方向
     }

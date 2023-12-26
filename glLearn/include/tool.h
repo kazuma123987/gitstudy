@@ -16,6 +16,7 @@
 #include <map>
 #include <unordered_map>
 #include <random>
+#include <wchar.h>
 
 #include <thread>
 #include <chrono>
@@ -38,6 +39,8 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #define PI 3.1415926536
 #define WIDTH 1600
 #define HEIGHT 900
