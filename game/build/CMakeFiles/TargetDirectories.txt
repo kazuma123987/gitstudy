@@ -1,0 +1,3 @@
+C:/Users/34181/Desktop/code-demo/gitstudy/game/build/CMakeFiles/main.dir
+C:/Users/34181/Desktop/code-demo/gitstudy/game/build/CMakeFiles/edit_cache.dir
+C:/Users/34181/Desktop/code-demo/gitstudy/game/build/CMakeFiles/rebuild_cache.dir

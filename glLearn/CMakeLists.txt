@@ -47,17 +47,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include
 ${CMAKE_SOURCE_DIR}/include/imgui
 ${CMAKE_SOURCE_DIR}/include/imgui/platform)
 # 添加源文件
-set(SOURCES 
-    src/glad.c
-    src/global.cpp
-    src/sound.cpp
-    src/shader.cpp
-    src/stb_image.cpp
-    src/camera.cpp
-    src/mesh.cpp
-    src/model.cpp
-    main.cpp
-)
+file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/src/*.c")
 file(GLOB IMGUI "${CMAKE_SOURCE_DIR}/src/imgui/*.cpp" "${CMAKE_SOURCE_DIR}/src/imgui/platform/*.cpp")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
