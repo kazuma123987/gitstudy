@@ -60,16 +60,13 @@ public:
     void loadChar(unsigned long charIndex, int faceIndex = 0)
     {
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        if (FT_Load_Char(ftface[faceIndex], charIndex, FT_LOAD_RENDER))
+        if (FT_Load_Char(ftface[faceIndex], charIndex, FT_LOAD_RENDER))//FT_Load_Char(face, char_code, FT_LOAD_RENDER | FT_LOAD_MONOCHROME);可生成双值位图
         {
             fputs("\nfailed to load char", stderr);
             return;
         }
         if (isSDF)
-        {
-            FT_GlyphSlot slot = ftface[faceIndex]->glyph;
-            FT_Render_Glyph(slot, FT_RENDER_MODE_SDF);
-        }
+            FT_Render_Glyph(ftface[faceIndex]->glyph, FT_RENDER_MODE_SDF);
         else
         {
             FT_Matrix ftMat;
