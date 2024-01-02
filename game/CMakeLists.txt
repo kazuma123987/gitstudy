@@ -45,7 +45,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 # 设置头文件目录(如果设置为源目录程序将改为#include "include/GLFW/glfw3.h")
 include_directories(${CMAKE_SOURCE_DIR}/include/tools ${CMAKE_SOURCE_DIR}/include/user)
 # 添加源文件
-set(GLAD "${CMAKE_SOURCE_DIR}/src/glad/glad.c")
+set(GLAD "${CMAKE_SOURCE_DIR}/src/tools/glad/glad.c")
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/user/*.cpp")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
