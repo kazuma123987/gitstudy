@@ -7,7 +7,7 @@ void main()
 {
     float alpha=texture(textImage,texCoord).r;
     float shadow=texture(textImage,texCoord+vec2(-0.1f)).r;
-    alpha=smoothstep(0.5f,0.5f,alpha);
+    alpha=smoothstep(0.5f-0.05f,0.5f+0.05f,alpha);
     FragColor=vec4(textColor,alpha);
     if(FragColor.a==0.0f)FragColor=vec4(vec3(0.0f),shadow);
 }
