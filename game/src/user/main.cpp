@@ -43,7 +43,12 @@ int main()
     glfwSetFramebufferSizeCallback(window, frameSizeCallBack);
     glfwSetCursorPosCallback(window, cursorPosCallBack);
     glfwSetMouseButtonCallback(window, mouseButtonCallBack);
-    // 开启混合和面剔除
+    // 设置窗口图标
+    GLFWimage *image=(GLFWimage*)malloc(sizeof(GLFWimage));
+    image[0].pixels=stbi_load("res/icon/game.png", &image[0].width, &image[0].height, NULL, 4);
+    glfwSetWindowIcon(window, 1, image);
+    stbi_image_free(image->pixels);
+    //  开启混合和面剔除
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);
@@ -68,6 +73,7 @@ int main()
     }
     ResourceManager::Clear();
     delete game;
+    free(image);
     glfwTerminate();
     return 0;
 }

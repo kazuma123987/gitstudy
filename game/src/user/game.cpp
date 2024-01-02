@@ -57,7 +57,6 @@ void Game::Init()
     ResourceManager::getShader("textShader").unfmat4("proj", proj);
     // 创建渲染器
     renderer = new SpriteRender(ResourceManager::getShader("spriteShader"));
-    particle = new ParticleGenerator(ResourceManager::getShader("particleShader"), ResourceManager::getTexture("particle"), 800);
     effects = new PostProcessor(ResourceManager::getShader("postShader"), this->width, this->height);
     textRenderer = new TextRender("res/fonts/yolan.ttf", ResourceManager::getShader("textShader"));
     // 加载纹理
@@ -79,6 +78,8 @@ void Game::Init()
     ResourceManager::loadTexture("res/texture/startButton.png", GL_UNSIGNED_BYTE, "start");
     ResourceManager::loadTexture("res/texture/exitButton.png", GL_UNSIGNED_BYTE, "exit");
     ResourceManager::loadTexture("res/texture/logo.png", GL_UNSIGNED_BYTE, "logo");
+    //创建粒子发射器
+    particle = new ParticleGenerator(ResourceManager::getShader("particleShader"), ResourceManager::getTexture("particle"), 800);
     // 加载存档
     loadSaves("res/saves/0.data");
     // 加载关卡

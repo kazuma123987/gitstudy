@@ -383,7 +383,6 @@ C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/build.make
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/fmodL.dll
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libglfw3.a
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libassimp.dll.a
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libfreetype.a
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/objects1.rsp
