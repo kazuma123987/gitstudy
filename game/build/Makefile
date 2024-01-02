@@ -128,29 +128,29 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-src/glad/glad.obj: src/glad/glad.c.obj
-.PHONY : src/glad/glad.obj
+src/tools/glad/glad.obj: src/tools/glad/glad.c.obj
+.PHONY : src/tools/glad/glad.obj
 
 # target to build an object file
-src/glad/glad.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.obj
-.PHONY : src/glad/glad.c.obj
+src/tools/glad/glad.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/tools/glad/glad.c.obj
+.PHONY : src/tools/glad/glad.c.obj
 
-src/glad/glad.i: src/glad/glad.c.i
-.PHONY : src/glad/glad.i
+src/tools/glad/glad.i: src/tools/glad/glad.c.i
+.PHONY : src/tools/glad/glad.i
 
 # target to preprocess a source file
-src/glad/glad.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.i
-.PHONY : src/glad/glad.c.i
+src/tools/glad/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/tools/glad/glad.c.i
+.PHONY : src/tools/glad/glad.c.i
 
-src/glad/glad.s: src/glad/glad.c.s
-.PHONY : src/glad/glad.s
+src/tools/glad/glad.s: src/tools/glad/glad.c.s
+.PHONY : src/tools/glad/glad.s
 
 # target to generate assembly for a file
-src/glad/glad.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.s
-.PHONY : src/glad/glad.c.s
+src/tools/glad/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/tools/glad/glad.c.s
+.PHONY : src/tools/glad/glad.c.s
 
 src/user/ball_object.obj: src/user/ball_object.cpp.obj
 .PHONY : src/user/ball_object.obj
@@ -175,6 +175,30 @@ src/user/ball_object.s: src/user/ball_object.cpp.s
 src/user/ball_object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/ball_object.cpp.s
 .PHONY : src/user/ball_object.cpp.s
+
+src/user/button.obj: src/user/button.cpp.obj
+.PHONY : src/user/button.obj
+
+# target to build an object file
+src/user/button.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/button.cpp.obj
+.PHONY : src/user/button.cpp.obj
+
+src/user/button.i: src/user/button.cpp.i
+.PHONY : src/user/button.i
+
+# target to preprocess a source file
+src/user/button.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/button.cpp.i
+.PHONY : src/user/button.cpp.i
+
+src/user/button.s: src/user/button.cpp.s
+.PHONY : src/user/button.s
+
+# target to generate assembly for a file
+src/user/button.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/button.cpp.s
+.PHONY : src/user/button.cpp.s
 
 src/user/game.obj: src/user/game.cpp.obj
 .PHONY : src/user/game.obj
@@ -248,6 +272,30 @@ src/user/game_object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/game_object.cpp.s
 .PHONY : src/user/game_object.cpp.s
 
+src/user/lives.obj: src/user/lives.cpp.obj
+.PHONY : src/user/lives.obj
+
+# target to build an object file
+src/user/lives.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/lives.cpp.obj
+.PHONY : src/user/lives.cpp.obj
+
+src/user/lives.i: src/user/lives.cpp.i
+.PHONY : src/user/lives.i
+
+# target to preprocess a source file
+src/user/lives.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/lives.cpp.i
+.PHONY : src/user/lives.cpp.i
+
+src/user/lives.s: src/user/lives.cpp.s
+.PHONY : src/user/lives.s
+
+# target to generate assembly for a file
+src/user/lives.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/lives.cpp.s
+.PHONY : src/user/lives.cpp.s
+
 src/user/main.obj: src/user/main.cpp.obj
 .PHONY : src/user/main.obj
 
@@ -271,6 +319,30 @@ src/user/main.s: src/user/main.cpp.s
 src/user/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/main.cpp.s
 .PHONY : src/user/main.cpp.s
+
+src/user/menu.obj: src/user/menu.cpp.obj
+.PHONY : src/user/menu.obj
+
+# target to build an object file
+src/user/menu.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/menu.cpp.obj
+.PHONY : src/user/menu.cpp.obj
+
+src/user/menu.i: src/user/menu.cpp.i
+.PHONY : src/user/menu.i
+
+# target to preprocess a source file
+src/user/menu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/menu.cpp.i
+.PHONY : src/user/menu.cpp.i
+
+src/user/menu.s: src/user/menu.cpp.s
+.PHONY : src/user/menu.s
+
+# target to generate assembly for a file
+src/user/menu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/menu.cpp.s
+.PHONY : src/user/menu.cpp.s
 
 src/user/particle_generator.obj: src/user/particle_generator.cpp.obj
 .PHONY : src/user/particle_generator.obj
@@ -368,6 +440,30 @@ src/user/shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/shader.cpp.s
 .PHONY : src/user/shader.cpp.s
 
+src/user/sound_manager.obj: src/user/sound_manager.cpp.obj
+.PHONY : src/user/sound_manager.obj
+
+# target to build an object file
+src/user/sound_manager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/sound_manager.cpp.obj
+.PHONY : src/user/sound_manager.cpp.obj
+
+src/user/sound_manager.i: src/user/sound_manager.cpp.i
+.PHONY : src/user/sound_manager.i
+
+# target to preprocess a source file
+src/user/sound_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/sound_manager.cpp.i
+.PHONY : src/user/sound_manager.cpp.i
+
+src/user/sound_manager.s: src/user/sound_manager.cpp.s
+.PHONY : src/user/sound_manager.s
+
+# target to generate assembly for a file
+src/user/sound_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/sound_manager.cpp.s
+.PHONY : src/user/sound_manager.cpp.s
+
 src/user/sprite_render.obj: src/user/sprite_render.cpp.obj
 .PHONY : src/user/sprite_render.obj
 
@@ -416,6 +512,30 @@ src/user/stb_image.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/stb_image.cpp.s
 .PHONY : src/user/stb_image.cpp.s
 
+src/user/textRender.obj: src/user/textRender.cpp.obj
+.PHONY : src/user/textRender.obj
+
+# target to build an object file
+src/user/textRender.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/textRender.cpp.obj
+.PHONY : src/user/textRender.cpp.obj
+
+src/user/textRender.i: src/user/textRender.cpp.i
+.PHONY : src/user/textRender.i
+
+# target to preprocess a source file
+src/user/textRender.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/textRender.cpp.i
+.PHONY : src/user/textRender.cpp.i
+
+src/user/textRender.s: src/user/textRender.cpp.s
+.PHONY : src/user/textRender.s
+
+# target to generate assembly for a file
+src/user/textRender.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/user/textRender.cpp.s
+.PHONY : src/user/textRender.cpp.s
+
 src/user/texture.obj: src/user/texture.cpp.obj
 .PHONY : src/user/texture.obj
 
@@ -449,12 +569,15 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
-	@echo ... src/glad/glad.obj
-	@echo ... src/glad/glad.i
-	@echo ... src/glad/glad.s
+	@echo ... src/tools/glad/glad.obj
+	@echo ... src/tools/glad/glad.i
+	@echo ... src/tools/glad/glad.s
 	@echo ... src/user/ball_object.obj
 	@echo ... src/user/ball_object.i
 	@echo ... src/user/ball_object.s
+	@echo ... src/user/button.obj
+	@echo ... src/user/button.i
+	@echo ... src/user/button.s
 	@echo ... src/user/game.obj
 	@echo ... src/user/game.i
 	@echo ... src/user/game.s
@@ -464,9 +587,15 @@ help:
 	@echo ... src/user/game_object.obj
 	@echo ... src/user/game_object.i
 	@echo ... src/user/game_object.s
+	@echo ... src/user/lives.obj
+	@echo ... src/user/lives.i
+	@echo ... src/user/lives.s
 	@echo ... src/user/main.obj
 	@echo ... src/user/main.i
 	@echo ... src/user/main.s
+	@echo ... src/user/menu.obj
+	@echo ... src/user/menu.i
+	@echo ... src/user/menu.s
 	@echo ... src/user/particle_generator.obj
 	@echo ... src/user/particle_generator.i
 	@echo ... src/user/particle_generator.s
@@ -479,12 +608,18 @@ help:
 	@echo ... src/user/shader.obj
 	@echo ... src/user/shader.i
 	@echo ... src/user/shader.s
+	@echo ... src/user/sound_manager.obj
+	@echo ... src/user/sound_manager.i
+	@echo ... src/user/sound_manager.s
 	@echo ... src/user/sprite_render.obj
 	@echo ... src/user/sprite_render.i
 	@echo ... src/user/sprite_render.s
 	@echo ... src/user/stb_image.obj
 	@echo ... src/user/stb_image.i
 	@echo ... src/user/stb_image.s
+	@echo ... src/user/textRender.obj
+	@echo ... src/user/textRender.i
+	@echo ... src/user/textRender.s
 	@echo ... src/user/texture.obj
 	@echo ... src/user/texture.i
 	@echo ... src/user/texture.s

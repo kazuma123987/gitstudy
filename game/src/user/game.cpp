@@ -8,15 +8,19 @@ char FILE_DIR[FILENAME_MAX];
 float shakeTime = 0.0f;
 SpriteRender *renderer;
 ParticleGenerator *particle;
+TextRender *textRenderer;
 GameObject *player;
 BallObject *ball;
 PostProcessor *effects;
+SoundManager *sound;
+Lives *lives;
+Menu *menu;
 //*函数声明
 typedef std::tuple<float, glm::vec2> Collision;
 Collision checkCollisions(BallObject &one, GameObject &two);
 //*构造函数
 Game::Game(int width, int height)
-    : state(GAME_ACTIVE), keys(), width(width), height(height), curLevel(0){};
+    : state(GAME_MENU), keys(), buttons(), width(width), height(height), curLevel(0), exit(false){};
 Game::~Game()
 {
     delete renderer;
@@ -24,6 +28,10 @@ Game::~Game()
     delete ball;
     delete particle;
     delete effects;
+    delete sound;
+    delete textRenderer;
+    delete lives;
+    delete menu;
 };
 void Game::Init()
 {
@@ -38,16 +46,20 @@ void Game::Init()
     ResourceManager::loadShader("res/shader/sprite.vert", "res/shader/sprite.frag", NULL, "spriteShader");
     ResourceManager::loadShader("res/shader/particle.vert", "res/shader/particle.frag", NULL, "particleShader");
     ResourceManager::loadShader("res/shader/post.vert", "res/shader/post.frag", NULL, "postShader");
+    ResourceManager::loadShader("res/shader/text.vert", "res/shader/text.frag", NULL, "textShader");
     // 配置着色器
     glm::mat4 proj = glm::ortho(0.0f, (float)this->width, 0.0f, (float)this->height, -1.0f, 1.0f);
     ResourceManager::getShader("spriteShader").Use().unfm1i("image", 0);
     ResourceManager::getShader("spriteShader").unfmat4("proj", proj);
     ResourceManager::getShader("particleShader").Use().unfm1i("image", 0);
     ResourceManager::getShader("particleShader").unfmat4("proj", proj);
+    ResourceManager::getShader("textShader").Use().unfm1i("textImage", 0);
+    ResourceManager::getShader("textShader").unfmat4("proj", proj);
     // 创建渲染器
     renderer = new SpriteRender(ResourceManager::getShader("spriteShader"));
     particle = new ParticleGenerator(ResourceManager::getShader("particleShader"), ResourceManager::getTexture("particle"), 800);
     effects = new PostProcessor(ResourceManager::getShader("postShader"), this->width, this->height);
+    textRenderer = new TextRender("res/fonts/yolan.ttf", ResourceManager::getShader("textShader"));
     // 加载纹理
     ResourceManager::loadTexture("res/texture/awesomeface.png", GL_UNSIGNED_BYTE, "face");
     ResourceManager::loadTexture("res/texture/block.png", GL_UNSIGNED_BYTE, "block");
@@ -61,6 +73,14 @@ void Game::Init()
     ResourceManager::loadTexture("res/texture/powerup_passthrough.png", GL_UNSIGNED_BYTE, "passthrough");
     ResourceManager::loadTexture("res/texture/powerup_speed.png", GL_UNSIGNED_BYTE, "speed");
     ResourceManager::loadTexture("res/texture/powerup_sticky.png", GL_UNSIGNED_BYTE, "sticky");
+    ResourceManager::loadTexture("res/texture/heart_fill.png", GL_UNSIGNED_BYTE, "heart_fill");
+    ResourceManager::loadTexture("res/texture/heart_box.png", GL_UNSIGNED_BYTE, "heart_box");
+    ResourceManager::loadTexture("res/texture/menu.png", GL_UNSIGNED_BYTE, "menu");
+    ResourceManager::loadTexture("res/texture/startButton.png", GL_UNSIGNED_BYTE, "start");
+    ResourceManager::loadTexture("res/texture/exitButton.png", GL_UNSIGNED_BYTE, "exit");
+    ResourceManager::loadTexture("res/texture/logo.png", GL_UNSIGNED_BYTE, "logo");
+    // 加载存档
+    loadSaves("res/saves/0.data");
     // 加载关卡
     for (int i = 1; i <= 4; i++)
     {
@@ -74,6 +94,25 @@ void Game::Init()
     // 创建球物体
     glm::vec2 ballPos(playerPos + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, PLAYER_SIZE.y));
     ball = new BallObject(ballPos, BALL_RADIUS, BALL_VELOCITY, ResourceManager::getTexture("face"));
+    // 创建生命值
+    lives = new Lives(this->width, this->height, 3, 50);
+    // 创建菜单界面
+    menu = new Menu(this->width, this->height);
+    // 创建音频管理器
+    sound = new SoundManager(32);
+    // 加载音乐
+    sound->loadSound("res/music/game_active.mp3", "game_active", FMOD_LOOP_NORMAL);
+    sound->loadSound("res/music/menu.mp3", "menu", FMOD_LOOP_NORMAL);
+    sound->loadSound("res/music/brick_hit.mp3", "brick_hit");
+    sound->loadSound("res/music/paddle_hit.mp3", "paddle_hit");
+    sound->loadSound("res/music/solid_hit.wav", "solid_hit");
+    sound->loadSound("res/music/powerup.wav", "powerup");
+    sound->loadSound("res/music/devil.mp3", "devil");
+    sound->loadSound("res/music/lose.mp3", "lose");
+    sound->loadSound("res/music/win.mp3", "win");
+    sound->loadSound("res/music/button.wav", "button");
+    // 播放游戏菜单音乐
+    sound->playSound("menu", 0);
 };
 void Game::ProcessInput(float deltaTime)
 {
@@ -105,30 +144,99 @@ void Game::ProcessInput(float deltaTime)
         if (this->keys[GLFW_KEY_SPACE])
             ball->stuck = false;
     }
+    else if (this->state == GAME_MENU)
+    {
+        menu->processInput(cursorPos.x, cursorPos.y, buttons[GLFW_MOUSE_BUTTON_LEFT]);
+    }
+    else if (this->state == GAME_WIN)
+    {
+        static float timer = 0.0f;
+        timer += deltaTime;
+        if (timer >= 2.0f)
+        {
+            timer = 0.0f;
+            this->state = GAME_MENU;
+            curLevel = (curLevel + 1) % 4;
+            writeSaves("res/saves/0.data");
+            this->resetLevel();
+            sound->stopGroup(0);
+            sound->playSound("menu", 0);
+        }
+    }
+    else if (this->state == GAME_LOSE)
+    {
+        static float timer = 0.0f;
+        timer += deltaTime;
+        if (timer >= 2.0f)
+        {
+            timer = 0.0f;
+            this->state = GAME_MENU;
+            sound->stopGroup(0);
+            sound->playSound("menu", 0);
+        }
+    }
 };
 void Game::Update(float deltaTime)
 {
-    // 球的移动
-    ball->Move(deltaTime, this->width, this->height);
-    // 碰撞检测
-    this->doCollisions();
-    // 检测是否失败
-    if (ball->position.y <= -ball->size.y)
+    // 更新音乐管理器
+    sound->update();
+    if (this->state == GAME_ACTIVE)
     {
-        this->resetLevel();
-        this->resetPlayer();
+        // 球的移动
+        ball->Move(deltaTime, this->width, this->height);
+        // 碰撞检测
+        this->doCollisions();
+        // 更新粒子
+        particle->Update(deltaTime, *ball, 4, ball->size / 4.0f);
+        // 更新特效时间
+        if (shakeTime > 0.0f)
+        {
+            shakeTime -= deltaTime;
+            if (shakeTime <= 0.0f)
+                effects->shake = false;
+        }
+        // 检测是否失败
+        if (ball->position.y <= -ball->size.y)
+        {
+            lives->curLifePoint--;
+            if (lives->curLifePoint == 0)
+            {
+                this->state = GAME_LOSE;
+                textRenderer->RenderText(L"YOU LOSE", glm::vec2(600, 450), 1.5f, glm::vec3(1.0f, 0.0f, 0.0f));
+                sound->stopGroup(0);
+                sound->playSound("lose", 0);
+                this->resetLevel();
+            }
+            this->resetPlayer();
+        }
+        // 检测是否胜利
+        if (this->isCompleted())
+        {
+            this->resetPlayer();
+            this->state = GAME_WIN;
+            textRenderer->RenderText(L"YOU WIN", glm::vec2(600, 450), 1.5f, glm::vec3(0.0f, 0.5f, 0.8f));
+            sound->stopGroup(0);
+            sound->playSound("win", 0);
+        }
+        // 更新道具powerUps(必须最后更新)
+        updatePowerUps(deltaTime);
     }
-    // 更新粒子
-    particle->Update(deltaTime, *ball, 4, ball->size / 4.0f);
-    // 更新特效时间
-    if (shakeTime > 0.0f)
+    else if (this->state == GAME_MENU)
     {
-        shakeTime -= deltaTime;
-        if (shakeTime <= 0.0f)
-            effects->shake = false;
+        if (menu->start.click)
+        {
+            this->state = GAME_ACTIVE;
+            menu->start.click = false;
+            sound->playSound("button", 1);
+            sound->stopGroup(0);
+            sound->playSound("game_active", 0);
+        }
+        else if (menu->exit.click)
+        {
+            this->exit = true;
+            writeSaves("res/saves/0.data");//保存存档
+        }
     }
-    // 更新道具powerUps
-    updatePowerUps(deltaTime);
 };
 void Game::Render()
 {
@@ -155,6 +263,14 @@ void Game::Render()
         // 绘制特效
         effects->Copy_MFBO_To_FBO();
         effects->Draw();
+        // 绘制生命值
+        lives->Draw(*renderer);
+        // 绘制关卡数
+        textRenderer->RenderText(L"Level:" + std::to_wstring(this->curLevel + 1), glm::vec2(700, 850),1.0f,glm::vec3(0.8f,0.8f,0.1f));
+    }
+    else if (this->state == GAME_MENU)
+    {
+        menu->Draw(*renderer);
     }
 };
 Collision checkCollisions(BallObject &one, GameObject &two)
@@ -195,11 +311,13 @@ void Game::doCollisions()
             {
                 if (!brick.isSolid)
                 {
+                    sound->playSound("brick_hit", 1);
                     brick.destoryed = true;
                     spawnPowerUps(brick); // 销毁时有概率生成道具
                 }
                 else if (!ball->passThrough)
                 {
+                    sound->playSound("solid_hit", 1);
                     shakeTime = 0.05f;
                     effects->shake = true;
                 }
@@ -213,7 +331,6 @@ void Game::doCollisions()
                             ball->velocity.x = -ball->velocity.x;
                         if (abs(diff.y) > 0)
                             ball->velocity.y = -ball->velocity.y;
-                        // TODO:diff是零向量时球不会移动
                         if (length)
                             ball->position += ((ball->radius - length) * glm::normalize(diff));
                         else
@@ -233,6 +350,7 @@ void Game::doCollisions()
                 // 先进行速度更新
                 if (!dirHasChanged)
                 {
+                    sound->playSound("paddle_hit", 1);
                     float oldBallVelocity = glm::length(ball->velocity);
                     float max_x = abs(ball->velocity.y * 1.73f);
                     ball->velocity.x += player->velocity.x * 0.1f;
@@ -263,6 +381,7 @@ void Game::doCollisions()
                 // 如果碰到玩家会被销毁且激活
                 if (checkCollisions(*player, powerUp))
                 {
+                    sound->playSound("powerup", 1);
                     powerUp.destoryed = true;
                     activatePowerUp(powerUp);
                 }
@@ -272,6 +391,7 @@ void Game::doCollisions()
 }
 void Game::resetLevel()
 {
+    lives->curLifePoint = 3;
     this->levels[curLevel].Load(("res/level/level" + std::to_string(curLevel + 1)).c_str(), this->width, this->height);
     for (auto &powerUp : this->powerUps)
     {
@@ -416,6 +536,58 @@ void Game::activatePowerUp(PowerUp &powerUp)
         {
             effects->chaos = true;
             this->powerUpTimer["chaos"] = 6.0f;
+            sound->playSound("devil", 0);
         }
     }
+}
+bool Game::isCompleted()
+{
+    for (auto &brick : this->levels[curLevel].bricks)
+    {
+        if (!brick.isSolid && !brick.destoryed)
+            return false;
+    }
+    return true;
+}
+void Game::loadSaves(const char* path)
+{
+    FILE *fp = NULL;
+    fopen_s(&fp, path, "rb");
+    if (fp == NULL)
+    {
+        printf("failed to open the file\n");
+        return;
+    }
+    fseek(fp, 0, SEEK_END);
+    size_t textSize = ftell(fp);
+    char *text = (char *)malloc(textSize + 1);
+    rewind(fp);
+    fread(text, sizeof(char), textSize, fp);
+    if (text)
+    {
+        char *ptr = text;
+        char numBuffer[12];
+        int bufferIndex = 0;
+        while (true)
+        {
+            if (*ptr >= '0' && *ptr <= '9')
+                numBuffer[bufferIndex++] = *ptr;
+            ptr++;
+            if (*ptr == '\n' || *ptr == '\0' || *ptr == ' ')
+            {
+                numBuffer[bufferIndex] = '\0';
+                this->curLevel = atoi(numBuffer);
+                break;
+            }
+        }
+    }
+    free(text);
+    fclose(fp);
+}
+void Game::writeSaves(const char* path)
+{
+    FILE *fp = NULL;
+    fopen_s(&fp, path, "w");
+    fprintf(fp, "%d", this->curLevel);
+    fclose(fp);
 }

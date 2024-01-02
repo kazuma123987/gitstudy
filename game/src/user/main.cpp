@@ -10,7 +10,9 @@ const GLuint SCREEN_HEIGHT = 900;
 void keyCallBack(GLFWwindow *window, int key, int scancode, int action, int mod);
 void frameSizeCallBack(GLFWwindow *window, int width, int height);
 void setFPS(GLFWwindow *window);
-Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
+void cursorPosCallBack(GLFWwindow *window, double x, double y);
+void mouseButtonCallBack(GLFWwindow *window, int button, int action, int mods);
+Game *game = new Game(SCREEN_WIDTH, SCREEN_HEIGHT);
 int main()
 {
     //  初始化glfw
@@ -39,12 +41,14 @@ int main()
     // 注册回调函数
     glfwSetKeyCallback(window, keyCallBack);
     glfwSetFramebufferSizeCallback(window, frameSizeCallBack);
+    glfwSetCursorPosCallback(window, cursorPosCallBack);
+    glfwSetMouseButtonCallback(window, mouseButtonCallBack);
     // 开启混合和面剔除
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);
     // 游戏初始化
-    game.Init();
+    game->Init();
     // 控制游戏速度
     float curTime = 0.0f;
     float lastTIme = 0.0f;
@@ -55,19 +59,15 @@ int main()
         lastTIme = curTime;
         setFPS(window);
         glfwPollEvents();
-        game.ProcessInput(deltaTime);
-        game.Update(deltaTime);
-        game.Render();
-
-        // //获取鼠标位置
-        // double xPos,yPos;
-        // glfwGetCursorPos(window,&xPos,&yPos);
-        // yPos=900.0-yPos;
-        // printf("\rX:%.2f Y:%.2f",xPos,yPos);
-
+        game->ProcessInput(deltaTime);
+        game->Update(deltaTime);
+        if (game->exit)
+            glfwSetWindowShouldClose(window, true);
+        game->Render();
         glfwSwapBuffers(window);
     }
     ResourceManager::Clear();
+    delete game;
     glfwTerminate();
     return 0;
 }
@@ -78,9 +78,9 @@ void keyCallBack(GLFWwindow *window, int key, int scancode, int action, int mod)
     if (key >= 0 && key < 1024)
     {
         if (action == GLFW_PRESS)
-            game.keys[key] = true;
+            game->keys[key] = true;
         else if (action == GLFW_RELEASE)
-            game.keys[key] = false;
+            game->keys[key] = false;
     }
 }
 void frameSizeCallBack(GLFWwindow *window, int width, int height)
@@ -98,5 +98,20 @@ void setFPS(GLFWwindow *window)
         lastTime = curTime;
         glfwSetWindowTitle(window, ("breakOut   FPS:" + std::to_string(fpsCount)).c_str());
         fpsCount = 0;
+    }
+}
+void cursorPosCallBack(GLFWwindow *window, double x, double y)
+{
+    game->cursorPos.x = x;
+    game->cursorPos.y = game->height - y;
+}
+void mouseButtonCallBack(GLFWwindow *window, int button, int action, int mods)
+{
+    if (button >= 0 && button <= 8)
+    {
+        if (action == GLFW_PRESS)
+            game->buttons[button] = true;
+        else if (action == GLFW_RELEASE)
+            game->buttons[button] = false;
     }
 }

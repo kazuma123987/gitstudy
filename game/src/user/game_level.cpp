@@ -5,17 +5,31 @@ void GameLevel::Load(const char *path, int width, int height)
     std::vector<std::vector<int>> tileData;
     char *data = ResourceManager::loadText(path);
     char *ptr = data;
+    char numberBuffer[12];
+    int numberBufferIndex = 0;
+
     while (*ptr != '\0')
     {
         std::vector<int> idata;
-        for (; *ptr != '\n' && *ptr != '\0'; ptr++)
+        while (*ptr != '\n' && *ptr != '\0')
         {
-            if (*ptr >= '0' && *ptr <= '9')
-                idata.push_back(*ptr - '0');
+            numberBufferIndex = 0;
+            while (*ptr != ' ' && *ptr != '\n' && *ptr != '\0')
+            {
+                if (*ptr >= '0' && *ptr <= '9')
+                    numberBuffer[numberBufferIndex++] = *ptr;
+                ptr++;
+            }
+            numberBuffer[numberBufferIndex] = '\0';
+            idata.push_back(atoi(numberBuffer));
+            if (*ptr == '\n' || *ptr == '\0')
+                break;
+            ptr++;
         }
         tileData.push_back(idata);
-        if (*ptr != '\0')
-            ptr++;
+        if (*ptr == '\0')
+            break;
+        ptr++;
     }
     free(data);
     Init(tileData, width, height);
@@ -38,9 +52,9 @@ void GameLevel::Init(std::vector<std::vector<int>> tileData, int width, int heig
     size_t w_num = tileData[0].size();
     size_t h_num = tileData.size();
     float unitWidth = width / (float)w_num;
-    float unitHeight = height / (float)(h_num*2);
-    for (int i = 0; i < h_num; i++)
-        for (int j = 0; j < w_num; j++)
+    float unitHeight = height / (float)(h_num * 2);
+    for (size_t i = 0; i < h_num; i++)
+        for (size_t j = 0; j < w_num; j++)
         {
             if (tileData[i][j] == 1)
             {
