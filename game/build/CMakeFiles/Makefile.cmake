@@ -112,6 +112,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.27.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeRCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeSystem.cmake"
+  "C:/Users/34181/Desktop/code-demo/gitstudy/game/settings.cmake"
   )
 
 # The corresponding makefile is:
