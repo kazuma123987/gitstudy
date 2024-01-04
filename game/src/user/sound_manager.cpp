@@ -108,7 +108,7 @@ void SoundManager::destroy()
 {
     for (size_t i = 0; i < channels.size(); i++)
         FMOD_Channel_Stop(channels[i]);
-    for (auto sound : sounds)
+    for (auto &sound : sounds)
         FMOD_Sound_Release(sound.second);
     for (size_t i = 0; i < groups.size(); i++)
         FMOD_ChannelGroup_Release(this->groups[i]);
