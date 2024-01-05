@@ -128,6 +128,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+src/glad/glad.obj: src/glad/glad.c.obj
+.PHONY : src/glad/glad.obj
+
+# target to build an object file
+src/glad/glad.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.obj
+.PHONY : src/glad/glad.c.obj
+
+src/glad/glad.i: src/glad/glad.c.i
+.PHONY : src/glad/glad.i
+
+# target to preprocess a source file
+src/glad/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.i
+.PHONY : src/glad/glad.c.i
+
+src/glad/glad.s: src/glad/glad.c.s
+.PHONY : src/glad/glad.s
+
+# target to generate assembly for a file
+src/glad/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.s
+.PHONY : src/glad/glad.c.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -152,6 +176,102 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/resource_manager.obj: src/resource_manager.cpp.obj
+.PHONY : src/resource_manager.obj
+
+# target to build an object file
+src/resource_manager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.obj
+.PHONY : src/resource_manager.cpp.obj
+
+src/resource_manager.i: src/resource_manager.cpp.i
+.PHONY : src/resource_manager.i
+
+# target to preprocess a source file
+src/resource_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.i
+.PHONY : src/resource_manager.cpp.i
+
+src/resource_manager.s: src/resource_manager.cpp.s
+.PHONY : src/resource_manager.s
+
+# target to generate assembly for a file
+src/resource_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.s
+.PHONY : src/resource_manager.cpp.s
+
+src/shader.obj: src/shader.cpp.obj
+.PHONY : src/shader.obj
+
+# target to build an object file
+src/shader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.obj
+.PHONY : src/shader.cpp.obj
+
+src/shader.i: src/shader.cpp.i
+.PHONY : src/shader.i
+
+# target to preprocess a source file
+src/shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.i
+.PHONY : src/shader.cpp.i
+
+src/shader.s: src/shader.cpp.s
+.PHONY : src/shader.s
+
+# target to generate assembly for a file
+src/shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.s
+.PHONY : src/shader.cpp.s
+
+src/stb_image.obj: src/stb_image.cpp.obj
+.PHONY : src/stb_image.obj
+
+# target to build an object file
+src/stb_image.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.obj
+.PHONY : src/stb_image.cpp.obj
+
+src/stb_image.i: src/stb_image.cpp.i
+.PHONY : src/stb_image.i
+
+# target to preprocess a source file
+src/stb_image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.i
+.PHONY : src/stb_image.cpp.i
+
+src/stb_image.s: src/stb_image.cpp.s
+.PHONY : src/stb_image.s
+
+# target to generate assembly for a file
+src/stb_image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.s
+.PHONY : src/stb_image.cpp.s
+
+src/texture.obj: src/texture.cpp.obj
+.PHONY : src/texture.obj
+
+# target to build an object file
+src/texture.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.obj
+.PHONY : src/texture.cpp.obj
+
+src/texture.i: src/texture.cpp.i
+.PHONY : src/texture.i
+
+# target to preprocess a source file
+src/texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.i
+.PHONY : src/texture.cpp.i
+
+src/texture.s: src/texture.cpp.s
+.PHONY : src/texture.s
+
+# target to generate assembly for a file
+src/texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.s
+.PHONY : src/texture.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -161,9 +281,24 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
+	@echo ... src/glad/glad.obj
+	@echo ... src/glad/glad.i
+	@echo ... src/glad/glad.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/resource_manager.obj
+	@echo ... src/resource_manager.i
+	@echo ... src/resource_manager.s
+	@echo ... src/shader.obj
+	@echo ... src/shader.i
+	@echo ... src/shader.s
+	@echo ... src/stb_image.obj
+	@echo ... src/stb_image.i
+	@echo ... src/stb_image.s
+	@echo ... src/texture.obj
+	@echo ... src/texture.i
+	@echo ... src/texture.s
 .PHONY : help
 
 
