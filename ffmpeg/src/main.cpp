@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <chrono>
+#include <thread>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "shader.h"
@@ -19,6 +20,7 @@ extern "C"
 // 函数声明
 void frameSizeCallBack(GLFWwindow *window, int width, int height);
 void render(Shader &shader);
+inline void frame_sleep(int duration, int duration_first, int fps);
 // 全局变量
 const int SCREEN_WIDTH = 1600;
 const int SCREEN_HEIGHT = 900;
@@ -92,11 +94,11 @@ int main(int argc, char *argv[])
     // 为视频帧分配空间
     AVFrame *yuvFrame = av_frame_alloc();
     // 生成纹理
-    static int isFirst=1;
+    static int isFirst = 1;
     int count = 0;
     int fps = fmtCtx->streams[streamIndex]->avg_frame_rate.num;
     int duration = 1000 / fps;
-    int duration_last = duration + 1000 % fps;
+    int duration_first = duration + 1000 % fps;
     int width = codecCtx->width;
     int height = codecCtx->height;
     image_Y.Generate(width, height, NULL);
@@ -122,22 +124,16 @@ int main(int argc, char *argv[])
                     glActiveTexture(GL_TEXTURE2);
                     image_V.Bind();
                     glTexImage2D(GL_TEXTURE_2D, 0, image_V.internalFormat, image_V.width, image_V.height, 0, image_V.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[2]);
-                    static int fpsCount = 0;
-                    int fpsTime;
-                    fpsTime = fpsCount ? duration : duration_last;
-                    static auto lastTime = std::chrono::high_resolution_clock::now();
-                    while (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastTime).count() < fpsTime)
-                        ;
-                    lastTime = std::chrono::high_resolution_clock::now();
-                    fpsCount = (fpsCount + 1) % fps;
-                    isFirst=0;
+                    isFirst = 0;
+                    frame_sleep(duration, duration_first, fps);
                 }
             }
             av_packet_unref(packet); // 清空数据区
         }
         else
             glfwSetWindowShouldClose(window, true);
-        if(!isFirst)render(videoShader);
+        if (!isFirst)
+            render(videoShader);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -181,4 +177,14 @@ void render(Shader &shader)
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
+}
+inline void frame_sleep(int duration, int duration_first, int fps)
+{
+    static int fpsCount = 0;
+    int fpsTime;
+    fpsTime = fpsCount ? duration : duration_first;
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    std::this_thread::sleep_for(std::chrono::milliseconds(fpsTime)-std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastTime));
+    lastTime = std::chrono::high_resolution_clock::now();
+    fpsCount = (fpsCount + 1) % fps;
 }
