@@ -100,15 +100,20 @@ CMakeFiles/main.dir/src/main.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/error.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/frame.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/hwcontext.h \
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/imgutils.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/intfloat.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/log.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/macros.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/mathematics.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/mem.h \
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/pixdesc.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/pixfmt.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/rational.h \
   C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/samplefmt.h \
-  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/version.h
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/version.h \
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/swscale.h \
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/version.h \
+  C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/version_major.h
 
 
 C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/corecrt.h:
@@ -313,11 +318,15 @@ C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/frame.h:
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/hwcontext.h:
 
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/imgutils.h:
+
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/macros.h:
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/mathematics.h:
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/mem.h:
+
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/pixdesc.h:
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/pixfmt.h:
 
@@ -326,3 +335,9 @@ C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/rational.h:
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/samplefmt.h:
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libavutil/version.h:
+
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/swscale.h:
+
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/version.h:
+
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/include/libswscale/version_major.h:
