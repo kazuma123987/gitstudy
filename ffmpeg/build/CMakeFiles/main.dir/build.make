@@ -95,6 +95,7 @@ C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/b
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavcodec.dll.a
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavformat.dll.a
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libswscale.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavutil.dll.a
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/objects1.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/link.txt
