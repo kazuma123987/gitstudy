@@ -83,23 +83,109 @@ CMakeFiles/main.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/main.cpp.s"
 	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\main.cpp -o CMakeFiles\main.dir\src\main.cpp.s
 
+CMakeFiles/main.dir/src/resource_manager.cpp.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/resource_manager.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
+CMakeFiles/main.dir/src/resource_manager.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/src/resource_manager.cpp
+CMakeFiles/main.dir/src/resource_manager.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/resource_manager.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/resource_manager.cpp.obj -MF CMakeFiles\main.dir\src\resource_manager.cpp.obj.d -o CMakeFiles\main.dir\src\resource_manager.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\resource_manager.cpp
+
+CMakeFiles/main.dir/src/resource_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/resource_manager.cpp.i"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\resource_manager.cpp > CMakeFiles\main.dir\src\resource_manager.cpp.i
+
+CMakeFiles/main.dir/src/resource_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/resource_manager.cpp.s"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\resource_manager.cpp -o CMakeFiles\main.dir\src\resource_manager.cpp.s
+
+CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
+CMakeFiles/main.dir/src/shader.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/src/shader.cpp
+CMakeFiles/main.dir/src/shader.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/shader.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/shader.cpp.obj -MF CMakeFiles\main.dir\src\shader.cpp.obj.d -o CMakeFiles\main.dir\src\shader.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\shader.cpp
+
+CMakeFiles/main.dir/src/shader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/shader.cpp.i"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\shader.cpp > CMakeFiles\main.dir\src\shader.cpp.i
+
+CMakeFiles/main.dir/src/shader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/shader.cpp.s"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\shader.cpp -o CMakeFiles\main.dir\src\shader.cpp.s
+
+CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
+CMakeFiles/main.dir/src/stb_image.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/src/stb_image.cpp
+CMakeFiles/main.dir/src/stb_image.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/stb_image.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/stb_image.cpp.obj -MF CMakeFiles\main.dir\src\stb_image.cpp.obj.d -o CMakeFiles\main.dir\src\stb_image.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\stb_image.cpp
+
+CMakeFiles/main.dir/src/stb_image.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/stb_image.cpp.i"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\stb_image.cpp > CMakeFiles\main.dir\src\stb_image.cpp.i
+
+CMakeFiles/main.dir/src/stb_image.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/stb_image.cpp.s"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\stb_image.cpp -o CMakeFiles\main.dir\src\stb_image.cpp.s
+
+CMakeFiles/main.dir/src/texture.cpp.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/texture.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
+CMakeFiles/main.dir/src/texture.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/src/texture.cpp
+CMakeFiles/main.dir/src/texture.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/texture.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/texture.cpp.obj -MF CMakeFiles\main.dir\src\texture.cpp.obj.d -o CMakeFiles\main.dir\src\texture.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\texture.cpp
+
+CMakeFiles/main.dir/src/texture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/texture.cpp.i"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\texture.cpp > CMakeFiles\main.dir\src\texture.cpp.i
+
+CMakeFiles/main.dir/src/texture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/texture.cpp.s"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\texture.cpp -o CMakeFiles\main.dir\src\texture.cpp.s
+
+CMakeFiles/main.dir/src/glad/glad.c.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/glad/glad.c.obj: CMakeFiles/main.dir/includes_C.rsp
+CMakeFiles/main.dir/src/glad/glad.c.obj: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/src/glad/glad.c
+CMakeFiles/main.dir/src/glad/glad.c.obj: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/main.dir/src/glad/glad.c.obj"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/glad/glad.c.obj -MF CMakeFiles\main.dir\src\glad\glad.c.obj.d -o CMakeFiles\main.dir\src\glad\glad.c.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\glad\glad.c
+
+CMakeFiles/main.dir/src/glad/glad.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/glad/glad.c.i"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\glad\glad.c > CMakeFiles\main.dir\src\glad\glad.c.i
+
+CMakeFiles/main.dir/src/glad/glad.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/glad/glad.c.s"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\src\glad\glad.c -o CMakeFiles\main.dir\src\glad\glad.c.s
+
 # Object files for target main
 main_OBJECTS = \
-"CMakeFiles/main.dir/src/main.cpp.obj"
+"CMakeFiles/main.dir/src/main.cpp.obj" \
+"CMakeFiles/main.dir/src/resource_manager.cpp.obj" \
+"CMakeFiles/main.dir/src/shader.cpp.obj" \
+"CMakeFiles/main.dir/src/stb_image.cpp.obj" \
+"CMakeFiles/main.dir/src/texture.cpp.obj" \
+"CMakeFiles/main.dir/src/glad/glad.c.obj"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/main.cpp.obj
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/resource_manager.cpp.obj
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/shader.cpp.obj
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/stb_image.cpp.obj
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/texture.cpp.obj
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/src/glad/glad.c.obj
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/build.make
-C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavcodec.dll.a
-C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavformat.dll.a
-C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libswscale.dll.a
-C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libavutil.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/ffmpeg/libavcodec.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/ffmpeg/libavformat.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/ffmpeg/libswscale.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/ffmpeg/libavutil.dll.a
+C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/lib/libglfw3.a
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/linkLibs.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/objects1.rsp
 C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\main.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable C:\Users\34181\Desktop\code-demo\gitstudy\ffmpeg\main.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\main.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
