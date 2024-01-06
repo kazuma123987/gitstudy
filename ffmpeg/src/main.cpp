@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <chrono>
 #include <thread>
+#include <windows.h>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "shader.h"
@@ -14,13 +15,17 @@ extern "C"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
 #include "libavutil/imgutils.h"
+#include "libavdevice/avdevice.h"
 #ifdef __cplusplus
 }
 #endif
+// N卡使用独显运行
+extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // 函数声明
 void frameSizeCallBack(GLFWwindow *window, int width, int height);
 void render(Shader &shader);
 inline void frame_sleep(int duration, int duration_first, int fps);
+void setFPS(GLFWwindow *window);
 // 全局变量
 const int SCREEN_WIDTH = 1600;
 const int SCREEN_HEIGHT = 900;
@@ -63,7 +68,9 @@ int main(int argc, char *argv[])
     videoShader.unfm1i("image_V", 2);
 
     //*---------FFMPEG显示部分---------*//
-    char videoPath[] = "res/gura.mp4";
+    // char videoPath[] = "res/gura.mp4";
+    char videoPath[] = "res/360°.mp4";
+    // char videoPath[] = "res/tera.mp4";
     // 为format上下文分配空间
     AVFormatContext *fmtCtx = avformat_alloc_context();
     // 打开视频文件
@@ -83,7 +90,8 @@ int main(int argc, char *argv[])
     const AVCodec *codec = avcodec_find_decoder(codecPar->codec_id);
     // 根据选中的编解码器为编解码器上下文分配空间
     AVCodecContext *codecCtx = avcodec_alloc_context3(codec);
-    // 根据编解码参数为编解码器上下文赋值
+    codecCtx->thread_count = 16;
+    //  根据编解码参数为编解码器上下文赋值
     avcodec_parameters_to_context(codecCtx, codecPar);
     // 打开编解码器
     avcodec_open2(codecCtx, codec, NULL);
@@ -94,16 +102,17 @@ int main(int argc, char *argv[])
     // 为视频帧分配空间
     AVFrame *yuvFrame = av_frame_alloc();
     // 生成纹理
-    static int isFirst = 1;
-    int count = 0;
-    int fps = fmtCtx->streams[streamIndex]->avg_frame_rate.num;
-    int duration = 1000 / fps;
-    int duration_first = duration + 1000 % fps;
     int width = codecCtx->width;
     int height = codecCtx->height;
     image_Y.Generate(width, height, NULL);
     image_U.Generate(width / 2, height / 2, NULL);
     image_V.Generate(width / 2, height / 2, NULL);
+    // 渲染视频
+    static int isFirst = 1;
+    int count = 0;
+    int fps = (float)fmtCtx->streams[streamIndex]->avg_frame_rate.num / fmtCtx->streams[streamIndex]->avg_frame_rate.den + 0.5f;
+    int duration = 1000 / fps;
+    int duration_first = duration + 1000 % fps;
     while (!glfwWindowShouldClose(window))
     {
         if (av_read_frame(fmtCtx, packet) >= 0)
@@ -111,21 +120,25 @@ int main(int argc, char *argv[])
             if (packet->stream_index == streamIndex)
             {
                 count++;
-                if (avcodec_send_packet(codecCtx, packet) == 0 && avcodec_receive_frame(codecCtx, yuvFrame) == 0)
+                if (avcodec_send_packet(codecCtx, packet) == 0)
                 {
-                    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-                    glClear(GL_COLOR_BUFFER_BIT);
-                    glActiveTexture(GL_TEXTURE0);
-                    image_Y.Bind();
-                    glTexImage2D(GL_TEXTURE_2D, 0, image_Y.internalFormat, image_Y.width, image_Y.height, 0, image_Y.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[0]);
-                    glActiveTexture(GL_TEXTURE1);
-                    image_U.Bind();
-                    glTexImage2D(GL_TEXTURE_2D, 0, image_U.internalFormat, image_U.width, image_U.height, 0, image_U.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[1]);
-                    glActiveTexture(GL_TEXTURE2);
-                    image_V.Bind();
-                    glTexImage2D(GL_TEXTURE_2D, 0, image_V.internalFormat, image_V.width, image_V.height, 0, image_V.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[2]);
-                    isFirst = 0;
+                    while (avcodec_receive_frame(codecCtx, yuvFrame) == 0) // while循环统一线程
+                    {
+                        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                        glClear(GL_COLOR_BUFFER_BIT);
+                        glActiveTexture(GL_TEXTURE0);
+                        image_Y.Bind();
+                        glTexImage2D(GL_TEXTURE_2D, 0, image_Y.internalFormat, image_Y.width, image_Y.height, 0, image_Y.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[0]);
+                        glActiveTexture(GL_TEXTURE1);
+                        image_U.Bind();
+                        glTexImage2D(GL_TEXTURE_2D, 0, image_U.internalFormat, image_U.width, image_U.height, 0, image_U.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[1]);
+                        glActiveTexture(GL_TEXTURE2);
+                        image_V.Bind();
+                        glTexImage2D(GL_TEXTURE_2D, 0, image_V.internalFormat, image_V.width, image_V.height, 0, image_V.imageFormat, GL_UNSIGNED_BYTE, yuvFrame->data[2]);
+                        isFirst = 0;
+                    }
                     frame_sleep(duration, duration_first, fps);
+                    setFPS(window);
                 }
             }
             av_packet_unref(packet); // 清空数据区
@@ -181,10 +194,22 @@ void render(Shader &shader)
 inline void frame_sleep(int duration, int duration_first, int fps)
 {
     static int fpsCount = 0;
-    int fpsTime;
-    fpsTime = fpsCount ? duration : duration_first;
     static auto lastTime = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(std::chrono::milliseconds(fpsTime)-std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - lastTime));
+    auto fpsTime = std::chrono::milliseconds(fpsCount ? duration : duration_first);
+    while(std::chrono::high_resolution_clock::now()- lastTime<fpsTime);
     lastTime = std::chrono::high_resolution_clock::now();
     fpsCount = (fpsCount + 1) % fps;
+}
+void setFPS(GLFWwindow *window)
+{
+    static int fpsCount = 0;
+    fpsCount++;
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    auto curTime = std::chrono::high_resolution_clock::now();
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(curTime - lastTime).count() >= 1000)
+    {
+        lastTime = curTime;
+        glfwSetWindowTitle(window, ("breakOut   FPS:" + std::to_string(fpsCount)).c_str());
+        fpsCount = 0;
+    }
 }
