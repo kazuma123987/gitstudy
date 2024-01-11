@@ -39,3 +39,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# big files
+*.mp4
+*.fbx
+code_docs/*
