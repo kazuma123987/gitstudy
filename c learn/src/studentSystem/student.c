@@ -1,13 +1,11 @@
 #include "student.h"
-#include "stdio.h"
-#include <string.h>
 int myscanf_int(int *p, int size)
 {
     if (size <= 4 && size > 0)
         size++;
     else
     {
-        printf("sizeÓ¦ÔÚÇø¼ä(0,4]\n");
+        printf("sizeåº”åœ¨åŒºé—´(0,4]\n");
         return 1;
     }
     char str[size];
@@ -28,7 +26,7 @@ int myscanf_char(char str[], int size)
         size++;
     else
     {
-        printf("sizeÓ¦´óÓÚ0]\n");
+        printf("sizeåº”å¤§äº0]\n");
         return 1;
     }
     fgets(str, size, stdin);
@@ -47,27 +45,27 @@ int student_write(FILE **fp)
     fseek(*fp, 0, SEEK_END);
     if (ftell(*fp) % sizeof(student) != 0)
     {
-        printf("ERROR:ÎÄ¼ş¸ñÊ½´íÎó\n");
+        printf("ERROR:æ–‡ä»¶æ ¼å¼é”™è¯¯\n");
         return 1;
     }
     int num = 0;
-    printf("Ò»¹²ÓĞ%dÃûÑ§ÉúµÄÊı¾İ,\n", ftell(*fp) / sizeof(student));
-    printf("ÇëÊäÈëÏëÒªÂ¼ÈëµÄÑ§ÉúÊı¾İ¸öÊı\n");
+    printf("ä¸€å…±æœ‰%dåå­¦ç”Ÿçš„æ•°æ®,\n", ftell(*fp) / sizeof(student));
+    printf("è¯·è¾“å…¥æƒ³è¦å½•å…¥çš„å­¦ç”Ÿæ•°æ®ä¸ªæ•°\n");
     while (myscanf_int(&num, 1))
         ;
     student std[num];
     for (int i = 0; i < num; i++)
     {
-        printf("ÇëÊäÈëÑ§Éú%dĞÕÃû:\n", i + 1);
+        printf("è¯·è¾“å…¥å­¦ç”Ÿ%då§“å:\n", i + 1);
         myscanf_char(std[i].name, sizeof(std[i].name));
-        printf("ÇëÊäÈëÑ§Éú%dĞÔ±ğ(0->ÄĞ,1->Å®):\n", i + 1);
+        printf("è¯·è¾“å…¥å­¦ç”Ÿ%dæ€§åˆ«(0->ç”·,1->å¥³):\n", i + 1);
         do
         {
             myscanf_int(&std[i].gendar, sizeof(std[i].gendar));
             if (std[i].gendar != 1 && std[i].gendar != 0)
-                printf("ÎŞĞ§µÄÊäÈë,ÇëÊäÈë0»ò1:\n");
+                printf("æ— æ•ˆçš„è¾“å…¥,è¯·è¾“å…¥0æˆ–1:\n");
         } while (std[i].gendar != 1 && std[i].gendar != 0);
-        printf("ÇëÊäÈëÑ§Éú%dÄêÁä:\n", i + 1);
+        printf("è¯·è¾“å…¥å­¦ç”Ÿ%då¹´é¾„:\n", i + 1);
         myscanf_int(&std[i].age, 3);
     }
     if (fwrite(std, sizeof(student), num, *fp) == num)
@@ -81,7 +79,7 @@ int student_read(FILE **fp)
     int num = ftell(*fp) / sizeof(student);
     if (ftell(*fp) % sizeof(student) != 0)
     {
-        printf("ERROR:ÎÄ¼ş¸ñÊ½´íÎó\n");
+        printf("ERROR:æ–‡ä»¶æ ¼å¼é”™è¯¯\n");
         return 1;
     }
     student stu[num];
@@ -90,31 +88,31 @@ int student_read(FILE **fp)
     int student_operand = 0;
     while (1)
     {
-        printf("Ò»¹²ÓĞ%dÃûÑ§ÉúµÄÊı¾İ,ÇëÊäÈë½øĞĞµÄ²Ù×÷:\n1.²éÕÒÑ§ÉúÊı¾İ 2.²é¿´ËùÓĞÑ§ÉúĞÕÃûÓëĞòºÅ 3.·µ»ØÉÏ¼¶²Ëµ¥\n", num);
+        printf("ä¸€å…±æœ‰%dåå­¦ç”Ÿçš„æ•°æ®,è¯·è¾“å…¥è¿›è¡Œçš„æ“ä½œ:\n1.æŸ¥æ‰¾å­¦ç”Ÿæ•°æ® 2.æŸ¥çœ‹æ‰€æœ‰å­¦ç”Ÿå§“åä¸åºå· 3.è¿”å›ä¸Šçº§èœå•\n", num);
         myscanf_int(&student_operand, 1);
         if (student_operand == 1)
         {
             while(1)
             {
-            printf("ÇëÑ¡Ôñ²éÕÒ·½Ê½:1.ĞÕÃû²éÕÒ 2.ĞòºÅ²éÕÒ\n");
+            printf("è¯·é€‰æ‹©æŸ¥æ‰¾æ–¹å¼:1.å§“åæŸ¥æ‰¾ 2.åºå·æŸ¥æ‰¾\n");
             myscanf_int(&student_operand, 1);
             if(student_operand==1||student_operand==2)break;
-            else printf("ÊäÈëµÄÊı×ÖÎŞĞ§,ÇëÖØĞÂÊäÈë\n");
+            else printf("è¾“å…¥çš„æ•°å­—æ— æ•ˆ,è¯·é‡æ–°è¾“å…¥\n");
             }
             if (student_operand == 1)
                 ;
             else if (student_operand == 2)
             {
                 int watch_num = 0;
-                printf("ÇëÊäÈëÑ§ÉúĞòºÅ\n");
+                printf("è¯·è¾“å…¥å­¦ç”Ÿåºå·\n");
                 myscanf_int(&watch_num, sizeof(watch_num));
                 watch_num--;
-                printf("Ñ§ÉúĞÕÃû£º%s\n", stu[watch_num].name);
+                printf("å­¦ç”Ÿå§“åï¼š%s\n", stu[watch_num].name);
                 if (stu[watch_num].gendar)
-                    printf("Ñ§ÉúĞÔ±ğ£ºÅ®\n");
+                    printf("å­¦ç”Ÿæ€§åˆ«ï¼šå¥³\n");
                 else
-                    printf("Ñ§ÉúĞÔ±ğ£ºÄĞ\n");
-                printf("Ñ§ÉúÄêÁä£º%d\n", stu[watch_num].age);
+                    printf("å­¦ç”Ÿæ€§åˆ«ï¼šç”·\n");
+                printf("å­¦ç”Ÿå¹´é¾„ï¼š%d\n", stu[watch_num].age);
             }
         break;
         }

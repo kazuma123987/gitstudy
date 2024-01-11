@@ -1,9 +1,6 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "time.h"
-#include "math.h"
-#include "string.h"
-#include "guessNumber.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
 void guessNumber()
 {
     srand(time(0)); // time函数是返回一个值，即格林尼治时间1970年1月1日00:00:00到当前时刻的时长，时长单位是秒
@@ -36,4 +33,9 @@ void guessNumber()
             printf("Error, just input y or n!\n");
         }
     }
+}
+int main()
+{
+    guessNumber();
+    return 0;
 }
