@@ -107,12 +107,12 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-windres.cmake"
   "C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/WindowsPaths.cmake"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/CMakeLists.txt"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/CMakeLists.txt"
   "CMakeFiles/3.27.4/CMakeCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeRCCompiler.cmake"
   "CMakeFiles/3.27.4/CMakeSystem.cmake"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/scripts/settings.cmake"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/scripts/settings.cmake"
   )
 
 # The corresponding makefile is:

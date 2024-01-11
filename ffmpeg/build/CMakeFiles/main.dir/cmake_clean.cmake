@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.exe.manifest"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/ffmpeg/main.pdb"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/main.exe"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/main.exe.manifest"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/main.pdb"
   "CMakeFiles/main.dir/src/glad/glad.c.obj"
   "CMakeFiles/main.dir/src/glad/glad.c.obj.d"
   "CMakeFiles/main.dir/src/main.cpp.obj"
