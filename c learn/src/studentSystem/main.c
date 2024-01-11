@@ -1,48 +1,49 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include "student.h"
 #define ADRESS_LENTH 100
 int main(void)
 {
     FILE *fp = NULL;
     char addr_str[ADRESS_LENTH];
-    printf("ÇëÊäÈëÊı¾İÎÄ¼şËùÔÚµØÖ·:");
+    printf("è¯·è¾“å…¥æ•°æ®æ–‡ä»¶æ‰€åœ¨åœ°å€:");
     myscanf_char(addr_str, sizeof(addr_str));
     fp = fopen(addr_str, "r+");
     if (fp)
     {
-        printf("ÎÄ¼ş´ò¿ª³É¹¦£¡\n");
+        printf("æ–‡ä»¶æ‰“å¼€æˆåŠŸï¼\n");
         int8_t student_operand;
         while (1)
         {
-            printf("»¶Ó­½øÈëÑ§ÉúÊı¾İ¹ÜÀíÏµÍ³,ÇëÊäÈëÄãÏë½øĞĞµÄ²Ù×÷:\n1.Ğ´ÈëĞÅÏ¢ 2.²éÕÒĞÅÏ¢ 3.ÍË³öÏµÍ³\n");
+            printf("æ¬¢è¿è¿›å…¥å­¦ç”Ÿæ•°æ®ç®¡ç†ç³»ç»Ÿ,è¯·è¾“å…¥ä½ æƒ³è¿›è¡Œçš„æ“ä½œ:\n1.å†™å…¥ä¿¡æ¯ 2.æŸ¥æ‰¾ä¿¡æ¯ 3.é€€å‡ºç³»ç»Ÿ\n");
             myscanf_int(&student_operand, 1);
             if (student_operand == 1)
             {
                 if (student_write(&fp) == 0)
-                    printf("ÎÄ¼şĞ´Èë³É¹¦!\n");
+                    printf("æ–‡ä»¶å†™å…¥æˆåŠŸ!\n");
                 else
-                    printf("ÎÄ¼şĞ´ÈëÊ§°Ü£¡\n");
+                    printf("æ–‡ä»¶å†™å…¥å¤±è´¥ï¼\n");
             }
             else if (student_operand == 2)
             {
                 if (student_read(&fp) == 0)
-                    printf("ÎÄ¼ş¶ÁÈ¡³É¹¦!\n");
+                    printf("æ–‡ä»¶è¯»å–æˆåŠŸ!\n");
                 else
-                    printf("ÎÄ¼ş¶ÁÈ¡Ê§°Ü£¡\n");
+                    printf("æ–‡ä»¶è¯»å–å¤±è´¥ï¼\n");
             }
             else if (student_operand == 3)
             {
-                printf("ÏµÍ³ÍË³ö³É¹¦!\n");
+                printf("ç³»ç»Ÿé€€å‡ºæˆåŠŸ!\n");
                 break;
             }
             else
-                printf("ÊäÈëµÄÊı×ÖÎŞĞ§,ÇëÖØĞÂÊäÈë£¡\n");
+                printf("è¾“å…¥çš„æ•°å­—æ— æ•ˆ,è¯·é‡æ–°è¾“å…¥ï¼\n");
         }
         fclose(fp);
     }
     else
-        printf("ÎÄ¼ş´ò¿ª´íÎó£¡\n");
+        printf("æ–‡ä»¶æ‰“å¼€é”™è¯¯ï¼\n");
     getchar();
     return 0;
 }
