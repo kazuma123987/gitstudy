@@ -116,24 +116,37 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named util
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 main
-.PHONY : main
+util: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 util
+.PHONY : util
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+util/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\util.dir\build.make CMakeFiles/util.dir/build
+.PHONY : util/fast
+
+#=============================================================================
+# Target rules for targets named media_player
+
+# Build rule for target.
+media_player: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 media_player
+.PHONY : media_player
+
+# fast build rule for target.
+media_player/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/build
+.PHONY : media_player/fast
 
 src/glad/glad.obj: src/glad/glad.c.obj
 .PHONY : src/glad/glad.obj
 
 # target to build an object file
 src/glad/glad.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/glad/glad.c.obj
 .PHONY : src/glad/glad.c.obj
 
 src/glad/glad.i: src/glad/glad.c.i
@@ -141,7 +154,7 @@ src/glad/glad.i: src/glad/glad.c.i
 
 # target to preprocess a source file
 src/glad/glad.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/glad/glad.c.i
 .PHONY : src/glad/glad.c.i
 
 src/glad/glad.s: src/glad/glad.c.s
@@ -149,128 +162,152 @@ src/glad/glad.s: src/glad/glad.c.s
 
 # target to generate assembly for a file
 src/glad/glad.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/glad/glad.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/glad/glad.c.s
 .PHONY : src/glad/glad.c.s
 
-src/main.obj: src/main.cpp.obj
-.PHONY : src/main.obj
+src/media_player/main.obj: src/media_player/main.cpp.obj
+.PHONY : src/media_player/main.obj
 
 # target to build an object file
-src/main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.obj
-.PHONY : src/main.cpp.obj
+src/media_player/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/main.cpp.obj
+.PHONY : src/media_player/main.cpp.obj
 
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
+src/media_player/main.i: src/media_player/main.cpp.i
+.PHONY : src/media_player/main.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/media_player/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/main.cpp.i
+.PHONY : src/media_player/main.cpp.i
 
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
+src/media_player/main.s: src/media_player/main.cpp.s
+.PHONY : src/media_player/main.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/media_player/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/main.cpp.s
+.PHONY : src/media_player/main.cpp.s
 
-src/resource_manager.obj: src/resource_manager.cpp.obj
-.PHONY : src/resource_manager.obj
+src/media_player/shader.obj: src/media_player/shader.cpp.obj
+.PHONY : src/media_player/shader.obj
 
 # target to build an object file
-src/resource_manager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.obj
-.PHONY : src/resource_manager.cpp.obj
+src/media_player/shader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj
+.PHONY : src/media_player/shader.cpp.obj
 
-src/resource_manager.i: src/resource_manager.cpp.i
-.PHONY : src/resource_manager.i
+src/media_player/shader.i: src/media_player/shader.cpp.i
+.PHONY : src/media_player/shader.i
 
 # target to preprocess a source file
-src/resource_manager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.i
-.PHONY : src/resource_manager.cpp.i
+src/media_player/shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/shader.cpp.i
+.PHONY : src/media_player/shader.cpp.i
 
-src/resource_manager.s: src/resource_manager.cpp.s
-.PHONY : src/resource_manager.s
+src/media_player/shader.s: src/media_player/shader.cpp.s
+.PHONY : src/media_player/shader.s
 
 # target to generate assembly for a file
-src/resource_manager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/resource_manager.cpp.s
-.PHONY : src/resource_manager.cpp.s
+src/media_player/shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/shader.cpp.s
+.PHONY : src/media_player/shader.cpp.s
 
-src/shader.obj: src/shader.cpp.obj
-.PHONY : src/shader.obj
+src/media_player/sound_manager.obj: src/media_player/sound_manager.cpp.obj
+.PHONY : src/media_player/sound_manager.obj
 
 # target to build an object file
-src/shader.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.obj
-.PHONY : src/shader.cpp.obj
+src/media_player/sound_manager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj
+.PHONY : src/media_player/sound_manager.cpp.obj
 
-src/shader.i: src/shader.cpp.i
-.PHONY : src/shader.i
+src/media_player/sound_manager.i: src/media_player/sound_manager.cpp.i
+.PHONY : src/media_player/sound_manager.i
 
 # target to preprocess a source file
-src/shader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.i
-.PHONY : src/shader.cpp.i
+src/media_player/sound_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.i
+.PHONY : src/media_player/sound_manager.cpp.i
 
-src/shader.s: src/shader.cpp.s
-.PHONY : src/shader.s
+src/media_player/sound_manager.s: src/media_player/sound_manager.cpp.s
+.PHONY : src/media_player/sound_manager.s
 
 # target to generate assembly for a file
-src/shader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.s
-.PHONY : src/shader.cpp.s
+src/media_player/sound_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.s
+.PHONY : src/media_player/sound_manager.cpp.s
 
-src/stb_image.obj: src/stb_image.cpp.obj
-.PHONY : src/stb_image.obj
+src/media_player/stb_image.obj: src/media_player/stb_image.cpp.obj
+.PHONY : src/media_player/stb_image.obj
 
 # target to build an object file
-src/stb_image.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.obj
-.PHONY : src/stb_image.cpp.obj
+src/media_player/stb_image.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj
+.PHONY : src/media_player/stb_image.cpp.obj
 
-src/stb_image.i: src/stb_image.cpp.i
-.PHONY : src/stb_image.i
+src/media_player/stb_image.i: src/media_player/stb_image.cpp.i
+.PHONY : src/media_player/stb_image.i
 
 # target to preprocess a source file
-src/stb_image.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.i
-.PHONY : src/stb_image.cpp.i
+src/media_player/stb_image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.i
+.PHONY : src/media_player/stb_image.cpp.i
 
-src/stb_image.s: src/stb_image.cpp.s
-.PHONY : src/stb_image.s
+src/media_player/stb_image.s: src/media_player/stb_image.cpp.s
+.PHONY : src/media_player/stb_image.s
 
 # target to generate assembly for a file
-src/stb_image.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/stb_image.cpp.s
-.PHONY : src/stb_image.cpp.s
+src/media_player/stb_image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.s
+.PHONY : src/media_player/stb_image.cpp.s
 
-src/texture.obj: src/texture.cpp.obj
-.PHONY : src/texture.obj
+src/media_player/texture.obj: src/media_player/texture.cpp.obj
+.PHONY : src/media_player/texture.obj
 
 # target to build an object file
-src/texture.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.obj
-.PHONY : src/texture.cpp.obj
+src/media_player/texture.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj
+.PHONY : src/media_player/texture.cpp.obj
 
-src/texture.i: src/texture.cpp.i
-.PHONY : src/texture.i
+src/media_player/texture.i: src/media_player/texture.cpp.i
+.PHONY : src/media_player/texture.i
 
 # target to preprocess a source file
-src/texture.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.i
-.PHONY : src/texture.cpp.i
+src/media_player/texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/texture.cpp.i
+.PHONY : src/media_player/texture.cpp.i
 
-src/texture.s: src/texture.cpp.s
-.PHONY : src/texture.s
+src/media_player/texture.s: src/media_player/texture.cpp.s
+.PHONY : src/media_player/texture.s
 
 # target to generate assembly for a file
-src/texture.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/texture.cpp.s
-.PHONY : src/texture.cpp.s
+src/media_player/texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/texture.cpp.s
+.PHONY : src/media_player/texture.cpp.s
+
+src/utils/util.obj: src/utils/util.c.obj
+.PHONY : src/utils/util.obj
+
+# target to build an object file
+src/utils/util.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\util.dir\build.make CMakeFiles/util.dir/src/utils/util.c.obj
+.PHONY : src/utils/util.c.obj
+
+src/utils/util.i: src/utils/util.c.i
+.PHONY : src/utils/util.i
+
+# target to preprocess a source file
+src/utils/util.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\util.dir\build.make CMakeFiles/util.dir/src/utils/util.c.i
+.PHONY : src/utils/util.c.i
+
+src/utils/util.s: src/utils/util.c.s
+.PHONY : src/utils/util.s
+
+# target to generate assembly for a file
+src/utils/util.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\util.dir\build.make CMakeFiles/util.dir/src/utils/util.c.s
+.PHONY : src/utils/util.c.s
 
 # Help Target
 help:
@@ -280,25 +317,29 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... main
+	@echo ... media_player
+	@echo ... util
 	@echo ... src/glad/glad.obj
 	@echo ... src/glad/glad.i
 	@echo ... src/glad/glad.s
-	@echo ... src/main.obj
-	@echo ... src/main.i
-	@echo ... src/main.s
-	@echo ... src/resource_manager.obj
-	@echo ... src/resource_manager.i
-	@echo ... src/resource_manager.s
-	@echo ... src/shader.obj
-	@echo ... src/shader.i
-	@echo ... src/shader.s
-	@echo ... src/stb_image.obj
-	@echo ... src/stb_image.i
-	@echo ... src/stb_image.s
-	@echo ... src/texture.obj
-	@echo ... src/texture.i
-	@echo ... src/texture.s
+	@echo ... src/media_player/main.obj
+	@echo ... src/media_player/main.i
+	@echo ... src/media_player/main.s
+	@echo ... src/media_player/shader.obj
+	@echo ... src/media_player/shader.i
+	@echo ... src/media_player/shader.s
+	@echo ... src/media_player/sound_manager.obj
+	@echo ... src/media_player/sound_manager.i
+	@echo ... src/media_player/sound_manager.s
+	@echo ... src/media_player/stb_image.obj
+	@echo ... src/media_player/stb_image.i
+	@echo ... src/media_player/stb_image.s
+	@echo ... src/media_player/texture.obj
+	@echo ... src/media_player/texture.i
+	@echo ... src/media_player/texture.s
+	@echo ... src/utils/util.obj
+	@echo ... src/utils/util.i
+	@echo ... src/utils/util.s
 .PHONY : help
 
 

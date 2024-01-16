@@ -15,10 +15,8 @@ file(GLOB swap ${CMAKE_SOURCE_DIR}/src/swap/*.c)
 file(GLOB test ${CMAKE_SOURCE_DIR}/src/test/*.c)
 #可执行文件
 add_executable(chess ${chess})
-target_include_directories(chess PUBLIC "${CMAKE_SOURCE_DIR}/src/chess")
 
 add_executable(guessNumber ${guessNumber})
-target_include_directories(guessNumber PUBLIC "${CMAKE_SOURCE_DIR}/src/guessNumber")
 
 add_executable(studentSystem ${studentSystem})
 target_include_directories(studentSystem PUBLIC "${CMAKE_SOURCE_DIR}/src/studentSystem")

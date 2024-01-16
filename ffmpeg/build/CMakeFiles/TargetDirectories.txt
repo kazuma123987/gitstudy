@@ -1,3 +1,4 @@
-C:/Users/34181/Desktop/gitstudy/ffmpeg/build/CMakeFiles/main.dir
+C:/Users/34181/Desktop/gitstudy/ffmpeg/build/CMakeFiles/util.dir
+C:/Users/34181/Desktop/gitstudy/ffmpeg/build/CMakeFiles/media_player.dir
 C:/Users/34181/Desktop/gitstudy/ffmpeg/build/CMakeFiles/edit_cache.dir
 C:/Users/34181/Desktop/gitstudy/ffmpeg/build/CMakeFiles/rebuild_cache.dir

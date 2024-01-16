@@ -6,4 +6,4 @@ if not exist build (
 cd build || exit
 del "./*" --recurse
 cmake -G "MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="../scripts/settings.cmake" -DCMAKE_BUILD_TYPE=%1 ..
-cmake --build . -j --target=main
+cmake --build . -j --target=all
