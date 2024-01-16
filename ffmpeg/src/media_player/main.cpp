@@ -229,6 +229,11 @@ int main(int argc, char *argv[])
         mutex.lock();
 #ifdef USE_SDL
         SDL_PollEvent(&sdlEvent);
+#else
+        glfwPollEvents();
+#endif
+        mutex.unlock();
+#ifdef USE_SDL
         if (sdlEvent.type == SDL_QUIT)
         {
             start_or_quit = false;
@@ -240,14 +245,12 @@ int main(int argc, char *argv[])
                 glViewport(0, 0, sdlEvent.window.data1, sdlEvent.window.data2);
         }
 #else
-        glfwPollEvents();
         if (glfwWindowShouldClose(window))
         {
             start_or_quit = false;
             break;
         }
 #endif
-        mutex.unlock();
         if (av_read_frame(fmtCtx, packet) >= 0)
         {
             if (packet->stream_index == vIndex)
