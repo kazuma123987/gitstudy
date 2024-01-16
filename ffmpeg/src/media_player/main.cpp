@@ -36,18 +36,19 @@ static enum AVPixelFormat custom_get_format(AVCodecContext *vCodecCtx, const enu
 void render(Shader &shader);
 inline void frame_sleep(int duration, int duration_first, int fps);
 void setFPS(void *window);
-void glfw_init_window();
-void sdl_init_window();
+void glfw_init_window(int width, int height);
+void sdl_init_window(int width, int height);
 void read_audio_data(void *udata, Uint8 *stream, int len);
 FMOD_RESULT F_CALLBACK fmod_read_data(FMOD_SOUND * /*sound*/, void *data, unsigned int datalen);
 void au_decode(const char *path);
+void framesizecallback(GLFWwindow *window, int width, int height);
 // 静态全局变量
 static Uint8 *audio_chunk; // 指向PCM数据的头部
 static Uint32 audio_len;   // PCM数据的总长度
 static Uint8 *audio_pos;   // 指向PCM数据已经被读取到的位置
 // 非静态全局变量
-const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1080;
+const int SCREEN_WIDTH = 1600;
+const int SCREEN_HEIGHT = 900;
 GLFWwindow *window = NULL;
 SDL_Window *sdl_window = NULL;
 SDL_Event sdlEvent = {0};
@@ -67,13 +68,12 @@ std::mutex mutex;
 #ifdef main
 #undef main
 #endif
-#define USE_SDL
 int main(int argc, char *argv[])
 {
     wchar_t tmpPath[FILENAME_MAX / 2] = {0};
     char customPath[FILENAME_MAX] = {0};
-    char videoPath[] = "res/gura.mp4";
-    // char videoPath[] = "res/360°.mp4";
+    // char videoPath[] = "res/gura.mp4";
+    char videoPath[] = "res/360°.mp4";
     // char videoPath[] = "res/tera.mp4";
     // glfw_init_window();
     if (argc < 2)
@@ -91,12 +91,92 @@ int main(int argc, char *argv[])
         wchar_to_char(tmpPath, customPath, sizeof(customPath), 65001);
 #endif
     }
+
+    //*---------FFMPEG显示部分---------*//
+
+    // 为format上下文分配空间
+    AVFormatContext *fmtCtx = avformat_alloc_context();
+    // 打开视频文件
+    if (avformat_open_input(&fmtCtx, customPath, NULL, NULL))
+        printf("failed to open the video:%s\n", customPath);
+
+    // 查找流信息
+    if (avformat_find_stream_info(fmtCtx, NULL) < 0)
+        printf("failed to find stream info\n");
+
+    // 查找流索引
+    int vIndex = -1;
+    const AVCodec *vCodec = NULL;
+    vIndex = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, &vCodec, 0);
+    if (vIndex == -1)
+        printf("failed to find a video stream\n");
+
+    // 根据选中的编解码器为编解码器上下文分配空间
+    AVCodecContext *vCodecCtx = avcodec_alloc_context3(vCodec);
+    vCodecCtx->thread_count = 8; // 线程数
+
+    //*############################开启硬件加速############################
+    AVBufferRef *hwCtx = NULL;
+    bool hwDecode = true;
+    // 1.查找设备
+    const char *hwtypename="d3d11va";
+    AVHWDeviceType hwType = av_hwdevice_find_type_by_name(hwtypename);
+    if (hwType == AV_HWDEVICE_TYPE_NONE)
+    {
+        printf("failed to find the %s device\n",hwtypename);
+        return 1;
+    }
+    // 2.获取硬件像素格式
+    for (int i = 0;; i++)
+    {
+        const AVCodecHWConfig *config = avcodec_get_hw_config(vCodec, i);
+        if (config == NULL)
+        {
+            printf("Decoder %s don't support the device type:%s\n", vCodec->name, av_hwdevice_get_type_name(hwType));
+            hwDecode = false;
+            break;
+        }
+        if ((config->methods & AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX) && config->device_type == hwType)
+        {
+            hw_pix_fmt = config->pix_fmt;
+            break;
+        }
+    }
+    // 3设置编解码器获取硬件像素格式的回调函数
+    vCodecCtx->get_format = custom_get_format;
+    // 4.创建硬件上下文
+    if (av_hwdevice_ctx_create(&hwCtx, hwType, NULL, NULL, 0) < 0)
+        printf("failed to create device context\n");
+    vCodecCtx->hw_device_ctx = av_buffer_ref(hwCtx);
+    //*##############################################################
+
+    // 赋值编解码上下文并打开编解码器
+    AVCodecParameters *vCodecPar = fmtCtx->streams[vIndex]->codecpar;
+    avcodec_parameters_to_context(vCodecCtx, vCodecPar);
+    avcodec_open2(vCodecCtx, vCodec, NULL);
+
+    // 为packet及其数据区分配空间
+    AVPacket *packet = av_packet_alloc();
+    av_new_packet(packet, vCodecCtx->width * vCodecCtx->height);
+
+    // 为帧分配空间
+    AVFrame *yuvFrame = av_frame_alloc();
+    AVFrame *hwFrame = av_frame_alloc();
+    AVFrame *tmpFrame = NULL; // 临时指针,用于指向yuvFrame或者hwFrame
+    // 计算纹理宽高
+    int width = vCodecCtx->width;
+    int height = vCodecCtx->height;
+// 创建窗口
 #ifdef USE_SDL
-    sdl_init_window();
+    sdl_init_window(SCREEN_WIDTH, SCREEN_HEIGHT);
 #else
-    glfw_init_window();
+    glfw_init_window(SCREEN_WIDTH, SCREEN_HEIGHT);
 #endif
-    //*---------资源加载部分---------*//
+    // 生成纹理并创建着色器
+    image_Y.Generate(width, height, NULL);
+    image_U.Generate(width / 2, height / 2, NULL);
+    image_V.Generate(width / 2, height / 2, NULL);
+    image_UV.Generate(width / 2, height / 2, NULL);
     const char *vCode = "#version 400 core\n"
                         "layout(location=0)in vec4 aPos;\n"
                         "out vec2 texCoord;\n"
@@ -138,87 +218,8 @@ int main(int argc, char *argv[])
     videoShader.unfm1i("image_U", 1);
     videoShader.unfm1i("image_V", 2);
     videoShader.unfm1i("image_UV", 3);
-
-    //*---------FFMPEG显示部分---------*//
-
-    // 为format上下文分配空间
-    AVFormatContext *fmtCtx = avformat_alloc_context();
-    // 打开视频文件
-    if (avformat_open_input(&fmtCtx, customPath, NULL, NULL))
-        printf("failed to open the video:%s\n", customPath);
-
-    // 查找流信息
-    if (avformat_find_stream_info(fmtCtx, NULL) < 0)
-        printf("failed to find stream info\n");
-
-    // 查找流索引
-    int vIndex = -1;
-    const AVCodec *vCodec = NULL;
-    vIndex = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, &vCodec, 0);
-    if (vIndex == -1)
-        printf("failed to find a video stream\n");
-
-    // 根据选中的编解码器为编解码器上下文分配空间
-    AVCodecContext *vCodecCtx = avcodec_alloc_context3(vCodec);
-    vCodecCtx->thread_count = 8; // 线程数
-
-    //*############################开启硬件加速############################
-    AVBufferRef *hwCtx = NULL;
-    bool hwDecode = true;
-    // 1.查找设备
-    AVHWDeviceType hwType = av_hwdevice_find_type_by_name("cuda");
-    if (hwType == AV_HWDEVICE_TYPE_NONE)
-    {
-        printf("failed to find the cuda device\n");
-        return 1;
-    }
-    // 2.获取硬件像素格式
-    for (int i = 0;; i++)
-    {
-        const AVCodecHWConfig *config = avcodec_get_hw_config(vCodec, i);
-        if (config == NULL)
-        {
-            printf("Decoder %s don't support the device type:%s\n", vCodec->name, av_hwdevice_get_type_name(hwType));
-            hwDecode = false;
-            break;
-        }
-        if ((config->methods & AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX) && config->device_type == hwType)
-        {
-            hw_pix_fmt = config->pix_fmt;
-            break;
-        }
-    }
-    // 3设置编解码器获取硬件像素格式的回调函数
-    vCodecCtx->get_format = custom_get_format;
-    // 4.创建硬件上下文
-    if (av_hwdevice_ctx_create(&hwCtx, hwType, NULL, NULL, 0) < 0)
-        printf("failed to create device context\n");
-    vCodecCtx->hw_device_ctx = av_buffer_ref(hwCtx);
-    //*##############################################################
-
-    // 赋值编解码上下文并打开编解码器
-    AVCodecParameters *vCodecPar = fmtCtx->streams[vIndex]->codecpar;
-    avcodec_parameters_to_context(vCodecCtx, vCodecPar);
-    avcodec_open2(vCodecCtx, vCodec, NULL);
-
-    // 为packet及其数据区分配空间
-    AVPacket *packet = av_packet_alloc();
-    av_new_packet(packet, vCodecCtx->width * vCodecCtx->height);
-
-    // 为帧分配空间
-    AVFrame *yuvFrame = av_frame_alloc();
-    AVFrame *hwFrame = av_frame_alloc();
-    AVFrame *tmpFrame = NULL; // 临时指针,用于指向yuvFrame或者hwFrame
     // 创建音频解码线程
     std::thread decode(au_decode, customPath);
-
-    // 生成纹理
-    int width = vCodecCtx->width;
-    int height = vCodecCtx->height;
-    image_Y.Generate(width, height, NULL);
-    image_U.Generate(width / 2, height / 2, NULL);
-    image_V.Generate(width / 2, height / 2, NULL);
-    image_UV.Generate(width / 2, height / 2, NULL);
     // 渲染视频
     int count = 0;
     int fps = (float)fmtCtx->streams[vIndex]->avg_frame_rate.num / fmtCtx->streams[vIndex]->avg_frame_rate.den + 0.5f;
@@ -408,8 +409,13 @@ static enum AVPixelFormat custom_get_format(AVCodecContext *vCodecCtx, const enu
     return AV_PIX_FMT_NONE;
 }
 // 初始化glfw
-void glfw_init_window()
+void glfw_init_window(int width, int height)
 {
+    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO))
+    {
+        fprintf(stderr, "Could not initialize SDL - %s\n", SDL_GetError());
+        exit(1);
+    }
     //*---------GLFW初始化部分---------*//
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -419,7 +425,7 @@ void glfw_init_window()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // glfwWindowHint(GLFW_RESIZABLE, false);
-    window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Media Player", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Media Player", NULL, NULL);
     if (window == NULL)
     {
         printf("failed to create window\n");
@@ -436,10 +442,11 @@ void glfw_init_window()
         printf("ERROR::GLAD failed to load the proc\n");
         return;
     }
+    glfwSetFramebufferSizeCallback(window,framesizecallback);
 }
-void sdl_init_window()
+void sdl_init_window(int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER))
+    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO))
     {
         fprintf(stderr, "Could not initialize SDL - %s\n", SDL_GetError());
         exit(1);
@@ -448,7 +455,7 @@ void sdl_init_window()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     // 创建SDL Window
-    sdl_window = SDL_CreateWindow("Media Player", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    sdl_window = SDL_CreateWindow("Media Player", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     if (!sdl_window)
     {
         fprintf(stderr, "\nSDL: could not set video mode:%s - exiting\n", SDL_GetError());
@@ -616,4 +623,8 @@ void au_decode(const char *path)
     av_packet_free(&packet);
     av_free(buffer);
     swr_free(&swrCtx);
+}
+void framesizecallback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
 }

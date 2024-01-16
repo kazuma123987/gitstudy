@@ -7,11 +7,11 @@ C_DEFINES =
 
 C_INCLUDES = @CMakeFiles/media_player.dir/includes_C.rsp
 
-C_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -mwindows
+C_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall
 
 CXX_DEFINES = 
 
 CXX_INCLUDES = @CMakeFiles/media_player.dir/includes_CXX.rsp
 
-CXX_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -mwindows
+CXX_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall
 
