@@ -134,5 +134,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/main.dir/DependInfo.cmake"
+  "CMakeFiles/util.dir/DependInfo.cmake"
+  "CMakeFiles/media_player.dir/DependInfo.cmake"
   )
