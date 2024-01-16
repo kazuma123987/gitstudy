@@ -18,5 +18,4 @@ void wchar_to_char(wchar_t *src, char *dst, size_t bufferlen,unsigned int codePa
 #ifdef __cplusplus
 }
 #endif
-
 #endif
