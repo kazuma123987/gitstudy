@@ -12,6 +12,7 @@ file(GLOB chess ${CMAKE_SOURCE_DIR}/src/chess/*.c)
 file(GLOB guessNumber ${CMAKE_SOURCE_DIR}/src/guessNumber/*.c)
 file(GLOB studentSystem ${CMAKE_SOURCE_DIR}/src/studentSystem/*.c)
 file(GLOB swap ${CMAKE_SOURCE_DIR}/src/swap/*.c)
+file(GLOB func_pointer ${CMAKE_SOURCE_DIR}/src/func_pointer/*.c)
 file(GLOB test ${CMAKE_SOURCE_DIR}/src/test/*.c)
 #可执行文件
 add_executable(chess ${chess})
@@ -23,6 +24,9 @@ target_include_directories(studentSystem PUBLIC "${CMAKE_SOURCE_DIR}/src/student
 
 add_executable(swap ${swap})
 target_include_directories(swap PUBLIC "${CMAKE_SOURCE_DIR}/src/swap")
+
+add_executable(func_pointer ${func_pointer})
+target_include_directories(func_pointer PUBLIC "${CMAKE_SOURCE_DIR}/src/func_pointer")
 
 add_executable(test ${test})
 target_include_directories(test PUBLIC "${CMAKE_SOURCE_DIR}/src/test")

@@ -54,5 +54,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/guessNumber.dir/DependInfo.cmake"
   "CMakeFiles/studentSystem.dir/DependInfo.cmake"
   "CMakeFiles/swap.dir/DependInfo.cmake"
+  "CMakeFiles/func_pointer.dir/DependInfo.cmake"
   "CMakeFiles/test.dir/DependInfo.cmake"
   )
