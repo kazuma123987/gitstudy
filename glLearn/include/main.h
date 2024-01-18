@@ -16,6 +16,65 @@ bool isShowCursor = true;
 Camera *camera;
 GLuint FrameBuffer::VAO = 0;
 GLuint FrameBuffer::VBO = 0;
+glm::vec3 getPoint(GLfloat u, GLfloat v)
+{
+	GLfloat r = 0.9f;
+	GLfloat pi = glm::pi<GLfloat>();
+	GLfloat z = r * std::cos(pi * u);
+	GLfloat x = r * std::sin(pi * u) * std::cos(2 * pi * v);
+	GLfloat y = r * std::sin(pi * u) * std::sin(2 * pi * v);
+	// std::cout << x << "," << y << "," << z << std::endl;
+	return glm::vec3(x, y, z);
+}
+void createSphere(GLfloat *sphere, GLuint Longitude, GLuint Latitude)
+{
+	// Longitude：经线切分个数
+	// Latitude：纬线切分个数
+	GLfloat lon_step = 1.0f / Longitude;
+	GLfloat lat_step = 1.0f / Latitude;
+	GLuint offset = 0;
+	for (int lat = 0; lat < Latitude; lat++)
+	{ // 纬线u
+		for (int lon = 0; lon < Longitude; lon++)
+		{ // 经线v
+			// 一次构造4个点，两个三角形，
+			glm::vec2 uv1(lat * lat_step, lon * lon_step);
+			glm::vec2 uv2((lat + 1) * lat_step, lon * lon_step);
+			glm::vec2 uv3((lat + 1) * lat_step, (lon + 1) * lon_step);
+			glm::vec2 uv4(lat * lat_step, (lon + 1) * lon_step);
+			glm::vec3 point1 = getPoint(uv1.x, uv1.y);
+			glm::vec3 point2 = getPoint(uv2.x, uv2.y);
+			glm::vec3 point3 = getPoint(uv3.x, uv3.y);
+			glm::vec3 point4 = getPoint(uv4.x, uv4.y);
+			memcpy(sphere + offset, glm::value_ptr(point1), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv1), 2 * sizeof(GLfloat));
+			offset += 2;
+			memcpy(sphere + offset, glm::value_ptr(point4), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv4), 2 * sizeof(GLfloat));
+			offset += 2;
+			memcpy(sphere + offset, glm::value_ptr(point3), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv3), 2 * sizeof(GLfloat));
+			offset += 2;
+
+			memcpy(sphere + offset, glm::value_ptr(point1), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv1), 2 * sizeof(GLfloat));
+			offset += 2;
+			memcpy(sphere + offset, glm::value_ptr(point3), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv3), 2 * sizeof(GLfloat));
+			offset += 2;
+			memcpy(sphere + offset, glm::value_ptr(point2), 3 * sizeof(GLfloat));
+			offset += 3;
+			memcpy(sphere + offset, glm::value_ptr(uv2), 2 * sizeof(GLfloat));
+			offset += 2;
+		}
+	}
+	// std::cout<<"offset:" << offset << std::endl;
+}
 void utf8_to_wchar(wchar_t *dst, size_t dstlen, char *src)
 {
 	size_t len = strlen(src);
@@ -26,7 +85,7 @@ void utf8_to_wchar(wchar_t *dst, size_t dstlen, char *src)
 		return;
 	}
 	MultiByteToWideChar(CP_UTF8, 0, src, len, dst, w_size);
-	dst[w_size]=L'\0';
+	dst[w_size] = L'\0';
 };
 void press_close_window(GLFWwindow *window)
 {
@@ -114,7 +173,7 @@ public:
 	int kernelSize = 64;
 	float kernelRadius = 0.5f;
 	char textBuffer[4096] = {'I', 'n', 'p', 'u', 't', 'T', 'e', 'x', 't', '\0'};
-	wchar_t wtestBuffer[4096]={0};
+	wchar_t wtestBuffer[4096] = {0};
 	float textScale = 1.0f;
 	float text_thickness = 0.5f;
 	float text_softness = 0.0f;
@@ -139,6 +198,7 @@ public:
 	Shader *ssaoShader;
 	Shader *simpleBlurShader;
 	Shader *fontShader;
+	Shader *ballShader;
 	// 模型和网格
 	Mesh *box;
 	Mesh *wall;
@@ -149,6 +209,7 @@ public:
 	Mesh *skybox;
 	Model *human;
 	Model *rock;
+	Mesh *sphere;
 	const int rockNum = 100000;
 	glm::mat4 boxMat[10];
 	glm::mat4 humanMat = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
@@ -271,6 +332,7 @@ public:
 		ssaoShader = new Shader("ssaoShader", "shader\\deferredShader\\ssao.vert", "shader\\deferredShader\\ssao.frag");
 		simpleBlurShader = new Shader("simpleBlurShader", "shader\\deferredShader\\simpleBlur.vert", "shader\\deferredShader\\simpleBlur.frag");
 		fontShader = new Shader("fontShader", "shader\\specialShader\\fonts.vert", "shader\\specialShader\\fonts.frag");
+		ballShader = new Shader("ballShader", "shader\\objectsShader\\ball.vert", "shader\\objectsShader\\ball.frag");
 		// 更新着色器块索引
 		camera->setShaderUBOIndex(modelShader, "Mat");
 		camera->setShaderUBOIndex(cubeShader, "Mat");
@@ -281,6 +343,7 @@ public:
 		camera->setShaderUBOIndex(gBufferShader, "Mat");
 		camera->setShaderUBOIndex(ssaoShader, "Mat");
 		camera->setShaderUBOIndex(fontShader, "Mat");
+		camera->setShaderUBOIndex(ballShader, "Mat");
 		// 网格与模型
 		box = new Mesh(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, "res\\texture\\box1.png", "res\\texture\\box2.png");
 		wall = new Mesh(arr_wall, arrWall_N, POSITION | NORMAL | TEXCOORD | TANGENT | BITANGENT, "res\\texture\\wall\\brickwall.jpg",
@@ -294,6 +357,15 @@ public:
 		skybox = new Mesh(arr_vertex, arrVertex_N, POSITION | NORMAL | TEXCOORD, cubePaths);
 		human = new Model("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\hutao\\胡桃.obj");
 		rock = new Model("C:\\Users\\34181\\Desktop\\code-demo\\gitstudy\\glLearn\\res\\3dmodels\\rock\\rock.obj");
+
+		int longitude = 60;
+		int latitude = 60;
+		size_t sphereArraySize = longitude * latitude * 6 * 5 * sizeof(GLfloat);
+		GLfloat *sphereArray = (GLfloat *)malloc(sphereArraySize);
+		createSphere(sphereArray, longitude, latitude);
+		sphere = new Mesh(sphereArray, sphereArraySize, POSITION | TEXCOORD, "res\\texture\\redWall\\bricks2.jpg");
+		free(sphereArray);
+
 		// 模型矩阵
 		for (int i = 0; i < 10; i++)
 		{
@@ -409,6 +481,7 @@ public:
 		delete skybox;
 		delete human;
 		delete rock;
+		delete sphere;
 		delete[] rockMat;
 		delete cubeShader;
 		delete modelShader;
@@ -426,6 +499,7 @@ public:
 		delete ssaoShader;
 		delete simpleBlurShader;
 		delete fontShader;
+		delete ballShader;
 		glfwTerminate(); // 不要忘记释放glfw资源
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -667,6 +741,9 @@ public:
 		// 绘制墙
 		gBufferShader->unfmat4fv("model", unitMat);
 		wall->Draw(gBufferShader);
+		// 绘制球
+		ballShader->unfmat4fv("model", unitMat);
+		sphere->Draw(ballShader);
 		// 绘制红墙
 		gBufferShader->unfm1i("hasNormalMap", true);
 		gBufferShader->unfm1i("hasHeightMap", true);
@@ -771,8 +848,8 @@ public:
 		fontShader->unfm1f("softness", text_softness);
 		fontShader->unfm1f("outline_thickness", outline_thickness);
 		fontShader->unfm1f("outline_softness", outline_softness);
-		utf8_to_wchar(wtestBuffer,4096,textBuffer);
-		font->rendText(wtestBuffer,glm::vec2(400.0f, 450.0f), textScale);
+		utf8_to_wchar(wtestBuffer, 4096, textBuffer);
+		font->rendText(wtestBuffer, glm::vec2(400.0f, 450.0f), textScale);
 		glDepthMask(GL_TRUE);
 		// 绘制光源
 		lightShader->use();

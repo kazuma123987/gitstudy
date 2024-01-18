@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.exe.manifest"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/glLearn/main.pdb"
+  "C:/Users/34181/Desktop/gitstudy/glLearn/main.exe"
+  "C:/Users/34181/Desktop/gitstudy/glLearn/main.exe.manifest"
+  "C:/Users/34181/Desktop/gitstudy/glLearn/main.pdb"
   "CMakeFiles/main.dir/src/camera.cpp.obj"
   "CMakeFiles/main.dir/src/camera.cpp.obj.d"
   "CMakeFiles/main.dir/src/glad.c.obj"
