@@ -110,6 +110,8 @@ int main(int argc, char *argv[])
     vIndex = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, &vCodec, 0);
     if (vIndex == -1)
         printf("failed to find a video stream\n");
+    av_dump_format(fmtCtx, vIndex, NULL, 0);
+    printf("decoder name:%s\n", vCodec->name);
 
     // 根据选中的编解码器为编解码器上下文分配空间
     AVCodecContext *vCodecCtx = avcodec_alloc_context3(vCodec);
@@ -119,11 +121,11 @@ int main(int argc, char *argv[])
     AVBufferRef *hwCtx = NULL;
     bool hwDecode = true;
     // 1.查找设备
-    const char *hwtypename="d3d11va";
+    const char *hwtypename = "d3d11va";
     AVHWDeviceType hwType = av_hwdevice_find_type_by_name(hwtypename);
     if (hwType == AV_HWDEVICE_TYPE_NONE)
     {
-        printf("failed to find the %s device\n",hwtypename);
+        printf("failed to find the %s device\n", hwtypename);
         return 1;
     }
     // 2.获取硬件像素格式
@@ -292,19 +294,26 @@ int main(int argc, char *argv[])
                         glClear(GL_COLOR_BUFFER_BIT);
                         static int isFirst = 1;
                         if (!isFirst)
+                        {
                             render(videoShader);
+                            frame_sleep(duration, duration_first, fps);
+#ifdef USE_SDL
+                            setFPS(sdl_window);
+#else
+                            setFPS(window);
+#endif
+#ifdef USE_SDL
+                            SDL_GL_SwapWindow(sdl_window);
+#else
+                            glfwSwapBuffers(window);
+#endif
+                        }
                         if (isFirst)
                         {
                             start_or_quit = true;
                             isFirst = 0;
                         }
                     }
-                    frame_sleep(duration, duration_first, fps);
-#ifdef USE_SDL
-                    setFPS(sdl_window);
-#else
-                    setFPS(window);
-#endif
                 }
             }
             av_packet_unref(packet); // 清空数据区
@@ -314,11 +323,6 @@ int main(int argc, char *argv[])
             start_or_quit = false;
             break; // 如果不能读取帧了就退出循环
         }
-#ifdef USE_SDL
-        SDL_GL_SwapWindow(sdl_window);
-#else
-        glfwSwapBuffers(window);
-#endif
     }
     decode.join();
     printf("total frames:%d\n", count);
@@ -417,6 +421,7 @@ void glfw_init_window(int width, int height)
         exit(1);
     }
     //*---------GLFW初始化部分---------*//
+    // 如果GLFW_CONTEXT_VERSION_MAJOR为4,GLFW_CONTEXT_VERSION_MINOR为6,表示opengl4.6版本
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -442,7 +447,7 @@ void glfw_init_window(int width, int height)
         printf("ERROR::GLAD failed to load the proc\n");
         return;
     }
-    glfwSetFramebufferSizeCallback(window,framesizecallback);
+    glfwSetFramebufferSizeCallback(window, framesizecallback);
 }
 void sdl_init_window(int width, int height)
 {

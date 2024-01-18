@@ -168,6 +168,19 @@ swap/fast:
 .PHONY : swap/fast
 
 #=============================================================================
+# Target rules for targets named func_pointer
+
+# Build rule for target.
+func_pointer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 func_pointer
+.PHONY : func_pointer
+
+# fast build rule for target.
+func_pointer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\func_pointer.dir\build.make CMakeFiles/func_pointer.dir/build
+.PHONY : func_pointer/fast
+
+#=============================================================================
 # Target rules for targets named test
 
 # Build rule for target.
@@ -203,6 +216,30 @@ src/chess/chess.s: src/chess/chess.c.s
 src/chess/chess.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/chess/chess.c.s
 .PHONY : src/chess/chess.c.s
+
+src/func_pointer/fun_pointer.obj: src/func_pointer/fun_pointer.c.obj
+.PHONY : src/func_pointer/fun_pointer.obj
+
+# target to build an object file
+src/func_pointer/fun_pointer.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\func_pointer.dir\build.make CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj
+.PHONY : src/func_pointer/fun_pointer.c.obj
+
+src/func_pointer/fun_pointer.i: src/func_pointer/fun_pointer.c.i
+.PHONY : src/func_pointer/fun_pointer.i
+
+# target to preprocess a source file
+src/func_pointer/fun_pointer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\func_pointer.dir\build.make CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.i
+.PHONY : src/func_pointer/fun_pointer.c.i
+
+src/func_pointer/fun_pointer.s: src/func_pointer/fun_pointer.c.s
+.PHONY : src/func_pointer/fun_pointer.s
+
+# target to generate assembly for a file
+src/func_pointer/fun_pointer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\func_pointer.dir\build.make CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.s
+.PHONY : src/func_pointer/fun_pointer.c.s
 
 src/guessNumber/guessNumber.obj: src/guessNumber/guessNumber.c.obj
 .PHONY : src/guessNumber/guessNumber.obj
@@ -357,6 +394,7 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... chess
+	@echo ... func_pointer
 	@echo ... guessNumber
 	@echo ... studentSystem
 	@echo ... swap
@@ -364,6 +402,9 @@ help:
 	@echo ... src/chess/chess.obj
 	@echo ... src/chess/chess.i
 	@echo ... src/chess/chess.s
+	@echo ... src/func_pointer/fun_pointer.obj
+	@echo ... src/func_pointer/fun_pointer.i
+	@echo ... src/func_pointer/fun_pointer.s
 	@echo ... src/guessNumber/guessNumber.obj
 	@echo ... src/guessNumber/guessNumber.i
 	@echo ... src/guessNumber/guessNumber.s
