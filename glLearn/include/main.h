@@ -18,7 +18,7 @@ GLuint FrameBuffer::VAO = 0;
 GLuint FrameBuffer::VBO = 0;
 glm::vec3 getPoint(GLfloat u, GLfloat v)
 {
-	GLfloat r = 0.9f;
+	GLfloat r = 90.0f;
 	GLfloat pi = glm::pi<GLfloat>();
 	GLfloat z = r * std::cos(pi * u);
 	GLfloat x = r * std::sin(pi * u) * std::cos(2 * pi * v);
@@ -363,7 +363,7 @@ public:
 		size_t sphereArraySize = longitude * latitude * 6 * 5 * sizeof(GLfloat);
 		GLfloat *sphereArray = (GLfloat *)malloc(sphereArraySize);
 		createSphere(sphereArray, longitude, latitude);
-		sphere = new Mesh(sphereArray, sphereArraySize, POSITION | TEXCOORD, "res\\texture\\redWall\\bricks2.jpg");
+		sphere = new Mesh(sphereArray, sphereArraySize, POSITION | TEXCOORD, "res\\texture\\360.jpg");
 		free(sphereArray);
 
 		// 模型矩阵

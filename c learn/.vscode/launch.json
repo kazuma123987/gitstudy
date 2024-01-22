@@ -8,7 +8,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/func_pointer.exe",
+            "program": "${workspaceFolder}/bin/heap.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

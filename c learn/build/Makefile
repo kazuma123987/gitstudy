@@ -181,6 +181,19 @@ func_pointer/fast:
 .PHONY : func_pointer/fast
 
 #=============================================================================
+# Target rules for targets named heap
+
+# Build rule for target.
+heap: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 heap
+.PHONY : heap
+
+# fast build rule for target.
+heap/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/build
+.PHONY : heap/fast
+
+#=============================================================================
 # Target rules for targets named test
 
 # Build rule for target.
@@ -264,6 +277,54 @@ src/guessNumber/guessNumber.s: src/guessNumber/guessNumber.c.s
 src/guessNumber/guessNumber.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\guessNumber.dir\build.make CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.s
 .PHONY : src/guessNumber/guessNumber.c.s
+
+src/heap/my_heap.obj: src/heap/my_heap.c.obj
+.PHONY : src/heap/my_heap.obj
+
+# target to build an object file
+src/heap/my_heap.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/my_heap.c.obj
+.PHONY : src/heap/my_heap.c.obj
+
+src/heap/my_heap.i: src/heap/my_heap.c.i
+.PHONY : src/heap/my_heap.i
+
+# target to preprocess a source file
+src/heap/my_heap.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/my_heap.c.i
+.PHONY : src/heap/my_heap.c.i
+
+src/heap/my_heap.s: src/heap/my_heap.c.s
+.PHONY : src/heap/my_heap.s
+
+# target to generate assembly for a file
+src/heap/my_heap.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/my_heap.c.s
+.PHONY : src/heap/my_heap.c.s
+
+src/heap/top-k.obj: src/heap/top-k.c.obj
+.PHONY : src/heap/top-k.obj
+
+# target to build an object file
+src/heap/top-k.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/top-k.c.obj
+.PHONY : src/heap/top-k.c.obj
+
+src/heap/top-k.i: src/heap/top-k.c.i
+.PHONY : src/heap/top-k.i
+
+# target to preprocess a source file
+src/heap/top-k.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/top-k.c.i
+.PHONY : src/heap/top-k.c.i
+
+src/heap/top-k.s: src/heap/top-k.c.s
+.PHONY : src/heap/top-k.s
+
+# target to generate assembly for a file
+src/heap/top-k.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/top-k.c.s
+.PHONY : src/heap/top-k.c.s
 
 src/studentSystem/main.obj: src/studentSystem/main.c.obj
 .PHONY : src/studentSystem/main.obj
@@ -396,6 +457,7 @@ help:
 	@echo ... chess
 	@echo ... func_pointer
 	@echo ... guessNumber
+	@echo ... heap
 	@echo ... studentSystem
 	@echo ... swap
 	@echo ... test
@@ -408,6 +470,12 @@ help:
 	@echo ... src/guessNumber/guessNumber.obj
 	@echo ... src/guessNumber/guessNumber.i
 	@echo ... src/guessNumber/guessNumber.s
+	@echo ... src/heap/my_heap.obj
+	@echo ... src/heap/my_heap.i
+	@echo ... src/heap/my_heap.s
+	@echo ... src/heap/top-k.obj
+	@echo ... src/heap/top-k.i
+	@echo ... src/heap/top-k.s
 	@echo ... src/studentSystem/main.obj
 	@echo ... src/studentSystem/main.i
 	@echo ... src/studentSystem/main.s
