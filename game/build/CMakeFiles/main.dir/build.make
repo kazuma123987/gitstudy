@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\34181\Desktop\code-demo\gitstudy\game
+CMAKE_SOURCE_DIR = C:\Users\34181\Desktop\gitstudy\game
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\34181\Desktop\code-demo\gitstudy\game\build
+CMAKE_BINARY_DIR = C:\Users\34181\Desktop\gitstudy\game\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/main.dir/depend.make
@@ -70,273 +70,278 @@ include CMakeFiles/main.dir/flags.make
 
 CMakeFiles/main.dir/src/user/ball_object.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/ball_object.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/ball_object.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/ball_object.cpp
+CMakeFiles/main.dir/src/user/ball_object.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/ball_object.cpp
 CMakeFiles/main.dir/src/user/ball_object.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/src/user/ball_object.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/ball_object.cpp.obj -MF CMakeFiles\main.dir\src\user\ball_object.cpp.obj.d -o CMakeFiles\main.dir\src\user\ball_object.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\ball_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/src/user/ball_object.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/ball_object.cpp.obj -MF CMakeFiles\main.dir\src\user\ball_object.cpp.obj.d -o CMakeFiles\main.dir\src\user\ball_object.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\ball_object.cpp
 
 CMakeFiles/main.dir/src/user/ball_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/ball_object.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\ball_object.cpp > CMakeFiles\main.dir\src\user\ball_object.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\ball_object.cpp > CMakeFiles\main.dir\src\user\ball_object.cpp.i
 
 CMakeFiles/main.dir/src/user/ball_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/ball_object.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\ball_object.cpp -o CMakeFiles\main.dir\src\user\ball_object.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\ball_object.cpp -o CMakeFiles\main.dir\src\user\ball_object.cpp.s
 
 CMakeFiles/main.dir/src/user/button.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/button.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/button.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/button.cpp
+CMakeFiles/main.dir/src/user/button.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/button.cpp
 CMakeFiles/main.dir/src/user/button.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/user/button.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/button.cpp.obj -MF CMakeFiles\main.dir\src\user\button.cpp.obj.d -o CMakeFiles\main.dir\src\user\button.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\button.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/user/button.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/button.cpp.obj -MF CMakeFiles\main.dir\src\user\button.cpp.obj.d -o CMakeFiles\main.dir\src\user\button.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\button.cpp
 
 CMakeFiles/main.dir/src/user/button.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/button.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\button.cpp > CMakeFiles\main.dir\src\user\button.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\button.cpp > CMakeFiles\main.dir\src\user\button.cpp.i
 
 CMakeFiles/main.dir/src/user/button.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/button.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\button.cpp -o CMakeFiles\main.dir\src\user\button.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\button.cpp -o CMakeFiles\main.dir\src\user\button.cpp.s
 
 CMakeFiles/main.dir/src/user/game.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/game.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/game.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/game.cpp
+CMakeFiles/main.dir/src/user/game.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/game.cpp
 CMakeFiles/main.dir/src/user/game.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/user/game.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game.cpp.obj -MF CMakeFiles\main.dir\src\user\game.cpp.obj.d -o CMakeFiles\main.dir\src\user\game.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/user/game.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game.cpp.obj -MF CMakeFiles\main.dir\src\user\game.cpp.obj.d -o CMakeFiles\main.dir\src\user\game.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\game.cpp
 
 CMakeFiles/main.dir/src/user/game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/game.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game.cpp > CMakeFiles\main.dir\src\user\game.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\game.cpp > CMakeFiles\main.dir\src\user\game.cpp.i
 
 CMakeFiles/main.dir/src/user/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/game.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game.cpp -o CMakeFiles\main.dir\src\user\game.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\game.cpp -o CMakeFiles\main.dir\src\user\game.cpp.s
 
 CMakeFiles/main.dir/src/user/game_level.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/game_level.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/game_level.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/game_level.cpp
+CMakeFiles/main.dir/src/user/game_level.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/game_level.cpp
 CMakeFiles/main.dir/src/user/game_level.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/user/game_level.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game_level.cpp.obj -MF CMakeFiles\main.dir\src\user\game_level.cpp.obj.d -o CMakeFiles\main.dir\src\user\game_level.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_level.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/user/game_level.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game_level.cpp.obj -MF CMakeFiles\main.dir\src\user\game_level.cpp.obj.d -o CMakeFiles\main.dir\src\user\game_level.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\game_level.cpp
 
 CMakeFiles/main.dir/src/user/game_level.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/game_level.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_level.cpp > CMakeFiles\main.dir\src\user\game_level.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\game_level.cpp > CMakeFiles\main.dir\src\user\game_level.cpp.i
 
 CMakeFiles/main.dir/src/user/game_level.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/game_level.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_level.cpp -o CMakeFiles\main.dir\src\user\game_level.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\game_level.cpp -o CMakeFiles\main.dir\src\user\game_level.cpp.s
 
 CMakeFiles/main.dir/src/user/game_object.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/game_object.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/game_object.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/game_object.cpp
+CMakeFiles/main.dir/src/user/game_object.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/game_object.cpp
 CMakeFiles/main.dir/src/user/game_object.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/user/game_object.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game_object.cpp.obj -MF CMakeFiles\main.dir\src\user\game_object.cpp.obj.d -o CMakeFiles\main.dir\src\user\game_object.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/user/game_object.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/game_object.cpp.obj -MF CMakeFiles\main.dir\src\user\game_object.cpp.obj.d -o CMakeFiles\main.dir\src\user\game_object.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\game_object.cpp
 
 CMakeFiles/main.dir/src/user/game_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/game_object.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_object.cpp > CMakeFiles\main.dir\src\user\game_object.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\game_object.cpp > CMakeFiles\main.dir\src\user\game_object.cpp.i
 
 CMakeFiles/main.dir/src/user/game_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/game_object.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\game_object.cpp -o CMakeFiles\main.dir\src\user\game_object.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\game_object.cpp -o CMakeFiles\main.dir\src\user\game_object.cpp.s
 
 CMakeFiles/main.dir/src/user/lives.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/lives.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/lives.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/lives.cpp
+CMakeFiles/main.dir/src/user/lives.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/lives.cpp
 CMakeFiles/main.dir/src/user/lives.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/user/lives.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/lives.cpp.obj -MF CMakeFiles\main.dir\src\user\lives.cpp.obj.d -o CMakeFiles\main.dir\src\user\lives.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\lives.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/user/lives.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/lives.cpp.obj -MF CMakeFiles\main.dir\src\user\lives.cpp.obj.d -o CMakeFiles\main.dir\src\user\lives.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\lives.cpp
 
 CMakeFiles/main.dir/src/user/lives.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/lives.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\lives.cpp > CMakeFiles\main.dir\src\user\lives.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\lives.cpp > CMakeFiles\main.dir\src\user\lives.cpp.i
 
 CMakeFiles/main.dir/src/user/lives.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/lives.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\lives.cpp -o CMakeFiles\main.dir\src\user\lives.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\lives.cpp -o CMakeFiles\main.dir\src\user\lives.cpp.s
 
 CMakeFiles/main.dir/src/user/main.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/main.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/main.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/main.cpp
+CMakeFiles/main.dir/src/user/main.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/main.cpp
 CMakeFiles/main.dir/src/user/main.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/src/user/main.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/main.cpp.obj -MF CMakeFiles\main.dir\src\user\main.cpp.obj.d -o CMakeFiles\main.dir\src\user\main.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/src/user/main.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/main.cpp.obj -MF CMakeFiles\main.dir\src\user\main.cpp.obj.d -o CMakeFiles\main.dir\src\user\main.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\main.cpp
 
 CMakeFiles/main.dir/src/user/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/main.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\main.cpp > CMakeFiles\main.dir\src\user\main.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\main.cpp > CMakeFiles\main.dir\src\user\main.cpp.i
 
 CMakeFiles/main.dir/src/user/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/main.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\main.cpp -o CMakeFiles\main.dir\src\user\main.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\main.cpp -o CMakeFiles\main.dir\src\user\main.cpp.s
 
 CMakeFiles/main.dir/src/user/menu.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/menu.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/menu.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/menu.cpp
+CMakeFiles/main.dir/src/user/menu.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/menu.cpp
 CMakeFiles/main.dir/src/user/menu.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/src/user/menu.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/menu.cpp.obj -MF CMakeFiles\main.dir\src\user\menu.cpp.obj.d -o CMakeFiles\main.dir\src\user\menu.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\menu.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/src/user/menu.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/menu.cpp.obj -MF CMakeFiles\main.dir\src\user\menu.cpp.obj.d -o CMakeFiles\main.dir\src\user\menu.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\menu.cpp
 
 CMakeFiles/main.dir/src/user/menu.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/menu.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\menu.cpp > CMakeFiles\main.dir\src\user\menu.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\menu.cpp > CMakeFiles\main.dir\src\user\menu.cpp.i
 
 CMakeFiles/main.dir/src/user/menu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/menu.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\menu.cpp -o CMakeFiles\main.dir\src\user\menu.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\menu.cpp -o CMakeFiles\main.dir\src\user\menu.cpp.s
 
 CMakeFiles/main.dir/src/user/particle_generator.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/particle_generator.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/particle_generator.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/particle_generator.cpp
+CMakeFiles/main.dir/src/user/particle_generator.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/particle_generator.cpp
 CMakeFiles/main.dir/src/user/particle_generator.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/main.dir/src/user/particle_generator.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/particle_generator.cpp.obj -MF CMakeFiles\main.dir\src\user\particle_generator.cpp.obj.d -o CMakeFiles\main.dir\src\user\particle_generator.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\particle_generator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/main.dir/src/user/particle_generator.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/particle_generator.cpp.obj -MF CMakeFiles\main.dir\src\user\particle_generator.cpp.obj.d -o CMakeFiles\main.dir\src\user\particle_generator.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\particle_generator.cpp
 
 CMakeFiles/main.dir/src/user/particle_generator.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/particle_generator.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\particle_generator.cpp > CMakeFiles\main.dir\src\user\particle_generator.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\particle_generator.cpp > CMakeFiles\main.dir\src\user\particle_generator.cpp.i
 
 CMakeFiles/main.dir/src/user/particle_generator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/particle_generator.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\particle_generator.cpp -o CMakeFiles\main.dir\src\user\particle_generator.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\particle_generator.cpp -o CMakeFiles\main.dir\src\user\particle_generator.cpp.s
 
 CMakeFiles/main.dir/src/user/post_processor.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/post_processor.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/post_processor.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/post_processor.cpp
+CMakeFiles/main.dir/src/user/post_processor.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/post_processor.cpp
 CMakeFiles/main.dir/src/user/post_processor.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/main.dir/src/user/post_processor.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/post_processor.cpp.obj -MF CMakeFiles\main.dir\src\user\post_processor.cpp.obj.d -o CMakeFiles\main.dir\src\user\post_processor.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\post_processor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/main.dir/src/user/post_processor.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/post_processor.cpp.obj -MF CMakeFiles\main.dir\src\user\post_processor.cpp.obj.d -o CMakeFiles\main.dir\src\user\post_processor.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\post_processor.cpp
 
 CMakeFiles/main.dir/src/user/post_processor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/post_processor.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\post_processor.cpp > CMakeFiles\main.dir\src\user\post_processor.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\post_processor.cpp > CMakeFiles\main.dir\src\user\post_processor.cpp.i
 
 CMakeFiles/main.dir/src/user/post_processor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/post_processor.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\post_processor.cpp -o CMakeFiles\main.dir\src\user\post_processor.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\post_processor.cpp -o CMakeFiles\main.dir\src\user\post_processor.cpp.s
 
 CMakeFiles/main.dir/src/user/resource_manager.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/resource_manager.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/resource_manager.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/resource_manager.cpp
+CMakeFiles/main.dir/src/user/resource_manager.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/resource_manager.cpp
 CMakeFiles/main.dir/src/user/resource_manager.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/main.dir/src/user/resource_manager.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/resource_manager.cpp.obj -MF CMakeFiles\main.dir\src\user\resource_manager.cpp.obj.d -o CMakeFiles\main.dir\src\user\resource_manager.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\resource_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/main.dir/src/user/resource_manager.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/resource_manager.cpp.obj -MF CMakeFiles\main.dir\src\user\resource_manager.cpp.obj.d -o CMakeFiles\main.dir\src\user\resource_manager.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\resource_manager.cpp
 
 CMakeFiles/main.dir/src/user/resource_manager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/resource_manager.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\resource_manager.cpp > CMakeFiles\main.dir\src\user\resource_manager.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\resource_manager.cpp > CMakeFiles\main.dir\src\user\resource_manager.cpp.i
 
 CMakeFiles/main.dir/src/user/resource_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/resource_manager.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\resource_manager.cpp -o CMakeFiles\main.dir\src\user\resource_manager.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\resource_manager.cpp -o CMakeFiles\main.dir\src\user\resource_manager.cpp.s
 
 CMakeFiles/main.dir/src/user/shader.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/shader.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/shader.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/shader.cpp
+CMakeFiles/main.dir/src/user/shader.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/shader.cpp
 CMakeFiles/main.dir/src/user/shader.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/main.dir/src/user/shader.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/shader.cpp.obj -MF CMakeFiles\main.dir\src\user\shader.cpp.obj.d -o CMakeFiles\main.dir\src\user\shader.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/main.dir/src/user/shader.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/shader.cpp.obj -MF CMakeFiles\main.dir\src\user\shader.cpp.obj.d -o CMakeFiles\main.dir\src\user\shader.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\shader.cpp
 
 CMakeFiles/main.dir/src/user/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/shader.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\shader.cpp > CMakeFiles\main.dir\src\user\shader.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\shader.cpp > CMakeFiles\main.dir\src\user\shader.cpp.i
 
 CMakeFiles/main.dir/src/user/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/shader.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\shader.cpp -o CMakeFiles\main.dir\src\user\shader.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\shader.cpp -o CMakeFiles\main.dir\src\user\shader.cpp.s
 
 CMakeFiles/main.dir/src/user/sound_manager.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/sound_manager.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/sound_manager.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/sound_manager.cpp
+CMakeFiles/main.dir/src/user/sound_manager.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/sound_manager.cpp
 CMakeFiles/main.dir/src/user/sound_manager.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/main.dir/src/user/sound_manager.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/sound_manager.cpp.obj -MF CMakeFiles\main.dir\src\user\sound_manager.cpp.obj.d -o CMakeFiles\main.dir\src\user\sound_manager.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sound_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/main.dir/src/user/sound_manager.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/sound_manager.cpp.obj -MF CMakeFiles\main.dir\src\user\sound_manager.cpp.obj.d -o CMakeFiles\main.dir\src\user\sound_manager.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\sound_manager.cpp
 
 CMakeFiles/main.dir/src/user/sound_manager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/sound_manager.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sound_manager.cpp > CMakeFiles\main.dir\src\user\sound_manager.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\sound_manager.cpp > CMakeFiles\main.dir\src\user\sound_manager.cpp.i
 
 CMakeFiles/main.dir/src/user/sound_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/sound_manager.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sound_manager.cpp -o CMakeFiles\main.dir\src\user\sound_manager.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\sound_manager.cpp -o CMakeFiles\main.dir\src\user\sound_manager.cpp.s
 
 CMakeFiles/main.dir/src/user/sprite_render.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/sprite_render.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/sprite_render.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/sprite_render.cpp
+CMakeFiles/main.dir/src/user/sprite_render.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/sprite_render.cpp
 CMakeFiles/main.dir/src/user/sprite_render.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/main.dir/src/user/sprite_render.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/sprite_render.cpp.obj -MF CMakeFiles\main.dir\src\user\sprite_render.cpp.obj.d -o CMakeFiles\main.dir\src\user\sprite_render.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sprite_render.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/main.dir/src/user/sprite_render.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/sprite_render.cpp.obj -MF CMakeFiles\main.dir\src\user\sprite_render.cpp.obj.d -o CMakeFiles\main.dir\src\user\sprite_render.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\sprite_render.cpp
 
 CMakeFiles/main.dir/src/user/sprite_render.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/sprite_render.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sprite_render.cpp > CMakeFiles\main.dir\src\user\sprite_render.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\sprite_render.cpp > CMakeFiles\main.dir\src\user\sprite_render.cpp.i
 
 CMakeFiles/main.dir/src/user/sprite_render.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/sprite_render.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\sprite_render.cpp -o CMakeFiles\main.dir\src\user\sprite_render.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\sprite_render.cpp -o CMakeFiles\main.dir\src\user\sprite_render.cpp.s
 
 CMakeFiles/main.dir/src/user/stb_image.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/stb_image.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/stb_image.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/stb_image.cpp
+CMakeFiles/main.dir/src/user/stb_image.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/stb_image.cpp
 CMakeFiles/main.dir/src/user/stb_image.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/main.dir/src/user/stb_image.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/stb_image.cpp.obj -MF CMakeFiles\main.dir\src\user\stb_image.cpp.obj.d -o CMakeFiles\main.dir\src\user\stb_image.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\stb_image.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/main.dir/src/user/stb_image.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/stb_image.cpp.obj -MF CMakeFiles\main.dir\src\user\stb_image.cpp.obj.d -o CMakeFiles\main.dir\src\user\stb_image.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\stb_image.cpp
 
 CMakeFiles/main.dir/src/user/stb_image.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/stb_image.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\stb_image.cpp > CMakeFiles\main.dir\src\user\stb_image.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\stb_image.cpp > CMakeFiles\main.dir\src\user\stb_image.cpp.i
 
 CMakeFiles/main.dir/src/user/stb_image.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/stb_image.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\stb_image.cpp -o CMakeFiles\main.dir\src\user\stb_image.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\stb_image.cpp -o CMakeFiles\main.dir\src\user\stb_image.cpp.s
 
 CMakeFiles/main.dir/src/user/textRender.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/textRender.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/textRender.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/textRender.cpp
+CMakeFiles/main.dir/src/user/textRender.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/textRender.cpp
 CMakeFiles/main.dir/src/user/textRender.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/main.dir/src/user/textRender.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/textRender.cpp.obj -MF CMakeFiles\main.dir\src\user\textRender.cpp.obj.d -o CMakeFiles\main.dir\src\user\textRender.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\textRender.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/main.dir/src/user/textRender.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/textRender.cpp.obj -MF CMakeFiles\main.dir\src\user\textRender.cpp.obj.d -o CMakeFiles\main.dir\src\user\textRender.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\textRender.cpp
 
 CMakeFiles/main.dir/src/user/textRender.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/textRender.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\textRender.cpp > CMakeFiles\main.dir\src\user\textRender.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\textRender.cpp > CMakeFiles\main.dir\src\user\textRender.cpp.i
 
 CMakeFiles/main.dir/src/user/textRender.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/textRender.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\textRender.cpp -o CMakeFiles\main.dir\src\user\textRender.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\textRender.cpp -o CMakeFiles\main.dir\src\user\textRender.cpp.s
 
 CMakeFiles/main.dir/src/user/texture.cpp.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/user/texture.cpp.obj: CMakeFiles/main.dir/includes_CXX.rsp
-CMakeFiles/main.dir/src/user/texture.cpp.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/user/texture.cpp
+CMakeFiles/main.dir/src/user/texture.cpp.obj: C:/Users/34181/Desktop/gitstudy/game/src/user/texture.cpp
 CMakeFiles/main.dir/src/user/texture.cpp.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/main.dir/src/user/texture.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/texture.cpp.obj -MF CMakeFiles\main.dir\src\user\texture.cpp.obj.d -o CMakeFiles\main.dir\src\user\texture.cpp.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/main.dir/src/user/texture.cpp.obj"
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/user/texture.cpp.obj -MF CMakeFiles\main.dir\src\user\texture.cpp.obj.d -o CMakeFiles\main.dir\src\user\texture.cpp.obj -c C:\Users\34181\Desktop\gitstudy\game\src\user\texture.cpp
 
 CMakeFiles/main.dir/src/user/texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/user/texture.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\texture.cpp > CMakeFiles\main.dir\src\user\texture.cpp.i
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\user\texture.cpp > CMakeFiles\main.dir\src\user\texture.cpp.i
 
 CMakeFiles/main.dir/src/user/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/user/texture.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\user\texture.cpp -o CMakeFiles\main.dir\src\user\texture.cpp.s
+	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\user\texture.cpp -o CMakeFiles\main.dir\src\user\texture.cpp.s
 
 CMakeFiles/main.dir/src/tools/glad/glad.c.obj: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/tools/glad/glad.c.obj: CMakeFiles/main.dir/includes_C.rsp
-CMakeFiles/main.dir/src/tools/glad/glad.c.obj: C:/Users/34181/Desktop/code-demo/gitstudy/game/src/tools/glad/glad.c
+CMakeFiles/main.dir/src/tools/glad/glad.c.obj: C:/Users/34181/Desktop/gitstudy/game/src/tools/glad/glad.c
 CMakeFiles/main.dir/src/tools/glad/glad.c.obj: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/main.dir/src/tools/glad/glad.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/tools/glad/glad.c.obj -MF CMakeFiles\main.dir\src\tools\glad\glad.c.obj.d -o CMakeFiles\main.dir\src\tools\glad\glad.c.obj -c C:\Users\34181\Desktop\code-demo\gitstudy\game\src\tools\glad\glad.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/main.dir/src/tools/glad/glad.c.obj"
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/tools/glad/glad.c.obj -MF CMakeFiles\main.dir\src\tools\glad\glad.c.obj.d -o CMakeFiles\main.dir\src\tools\glad\glad.c.obj -c C:\Users\34181\Desktop\gitstudy\game\src\tools\glad\glad.c
 
 CMakeFiles/main.dir/src/tools/glad/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/main.dir/src/tools/glad/glad.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\code-demo\gitstudy\game\src\tools\glad\glad.c > CMakeFiles\main.dir\src\tools\glad\glad.c.i
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\gitstudy\game\src\tools\glad\glad.c > CMakeFiles\main.dir\src\tools\glad\glad.c.i
 
 CMakeFiles/main.dir/src/tools/glad/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/main.dir/src/tools/glad/glad.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\code-demo\gitstudy\game\src\tools\glad\glad.c -o CMakeFiles\main.dir\src\tools\glad\glad.c.s
+	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\gitstudy\game\src\tools\glad\glad.c -o CMakeFiles\main.dir\src\tools\glad\glad.c.s
+
+CMakeFiles/main.dir/version.rc.obj: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/version.rc.obj: version.rc
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building RC object CMakeFiles/main.dir/version.rc.obj"
+	C:\MinGW64\13.2.0\bin\windres.exe -O coff $(RC_DEFINES) $(RC_INCLUDES) $(RC_FLAGS) C:\Users\34181\Desktop\gitstudy\game\build\version.rc CMakeFiles\main.dir\version.rc.obj
 
 # Object files for target main
 main_OBJECTS = \
@@ -357,41 +362,43 @@ main_OBJECTS = \
 "CMakeFiles/main.dir/src/user/stb_image.cpp.obj" \
 "CMakeFiles/main.dir/src/user/textRender.cpp.obj" \
 "CMakeFiles/main.dir/src/user/texture.cpp.obj" \
-"CMakeFiles/main.dir/src/tools/glad/glad.c.obj"
+"CMakeFiles/main.dir/src/tools/glad/glad.c.obj" \
+"CMakeFiles/main.dir/version.rc.obj"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/ball_object.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/button.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game_level.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game_object.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/lives.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/main.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/menu.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/particle_generator.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/post_processor.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/resource_manager.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/shader.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/sound_manager.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/sprite_render.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/stb_image.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/textRender.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/texture.cpp.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/src/tools/glad/glad.c.obj
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/build.make
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/fmodL.dll
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libglfw3.a
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libfreetype.a
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/linkLibs.rsp
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/objects1.rsp
-C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable C:\Users\34181\Desktop\code-demo\gitstudy\game\main.exe"
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/ball_object.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/button.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game_level.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/game_object.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/lives.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/main.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/menu.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/particle_generator.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/post_processor.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/resource_manager.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/shader.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/sound_manager.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/sprite_render.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/stb_image.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/textRender.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/user/texture.cpp.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/src/tools/glad/glad.c.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/version.rc.obj
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/build.make
+C:/Users/34181/Desktop/gitstudy/game/main.exe: C:/Users/34181/Desktop/gitstudy/game/fmod.dll
+C:/Users/34181/Desktop/gitstudy/game/main.exe: C:/Users/34181/Desktop/gitstudy/game/lib/libglfw3.a
+C:/Users/34181/Desktop/gitstudy/game/main.exe: C:/Users/34181/Desktop/gitstudy/game/lib/libfreetype.a
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/linkLibs.rsp
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/objects1.rsp
+C:/Users/34181/Desktop/gitstudy/game/main.exe: CMakeFiles/main.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable C:\Users\34181\Desktop\gitstudy\game\main.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\main.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/main.dir/build: C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe
+CMakeFiles/main.dir/build: C:/Users/34181/Desktop/gitstudy/game/main.exe
 .PHONY : CMakeFiles/main.dir/build
 
 CMakeFiles/main.dir/clean:
@@ -399,6 +406,6 @@ CMakeFiles/main.dir/clean:
 .PHONY : CMakeFiles/main.dir/clean
 
 CMakeFiles/main.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\34181\Desktop\code-demo\gitstudy\game C:\Users\34181\Desktop\code-demo\gitstudy\game C:\Users\34181\Desktop\code-demo\gitstudy\game\build C:\Users\34181\Desktop\code-demo\gitstudy\game\build C:\Users\34181\Desktop\code-demo\gitstudy\game\build\CMakeFiles\main.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\34181\Desktop\gitstudy\game C:\Users\34181\Desktop\gitstudy\game C:\Users\34181\Desktop\gitstudy\game\build C:\Users\34181\Desktop\gitstudy\game\build C:\Users\34181\Desktop\gitstudy\game\build\CMakeFiles\main.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/main.dir/depend
 

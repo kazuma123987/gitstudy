@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/game/main.exe.manifest"
-  "C:/Users/34181/Desktop/code-demo/gitstudy/game/main.pdb"
+  "C:/Users/34181/Desktop/gitstudy/game/main.exe"
+  "C:/Users/34181/Desktop/gitstudy/game/main.exe.manifest"
+  "C:/Users/34181/Desktop/gitstudy/game/main.pdb"
   "CMakeFiles/main.dir/src/tools/glad/glad.c.obj"
   "CMakeFiles/main.dir/src/tools/glad/glad.c.obj.d"
   "CMakeFiles/main.dir/src/user/ball_object.cpp.obj"
@@ -38,10 +38,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/src/user/textRender.cpp.obj.d"
   "CMakeFiles/main.dir/src/user/texture.cpp.obj"
   "CMakeFiles/main.dir/src/user/texture.cpp.obj.d"
+  "CMakeFiles/main.dir/version.rc.obj"
   "libmain.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C CXX)
+foreach(lang C CXX RC)
   include(CMakeFiles/main.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

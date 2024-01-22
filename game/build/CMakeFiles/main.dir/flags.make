@@ -3,15 +3,22 @@
 
 # compile C with C:/MinGW64/13.2.0/bin/gcc.exe
 # compile CXX with C:/MinGW64/13.2.0/bin/g++.exe
+# compile RC with C:/MinGW64/13.2.0/bin/windres.exe
 C_DEFINES = 
 
 C_INCLUDES = @CMakeFiles/main.dir/includes_C.rsp
 
-C_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -std=gnu99
+C_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -mwindows
 
 CXX_DEFINES = 
 
 CXX_INCLUDES = @CMakeFiles/main.dir/includes_CXX.rsp
 
-CXX_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -std=gnu++11
+CXX_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -mwindows
+
+RC_DEFINES = 
+
+RC_INCLUDES = -I C:\Users\34181\Desktop\gitstudy\game\include\tools -I C:\Users\34181\Desktop\gitstudy\game\include\user
+
+RC_FLAGS = 
 

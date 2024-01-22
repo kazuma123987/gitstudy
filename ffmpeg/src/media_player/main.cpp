@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 {
     wchar_t tmpPath[FILENAME_MAX / 2] = {0};
     char customPath[FILENAME_MAX] = {0};
-    // char videoPath[] = "res/gura.mp4";
-    char videoPath[] = "res/360°.mp4";
+    char videoPath[] = "res/gura.mp4";
+    // char videoPath[] = "res/360°.mp4";
     // char videoPath[] = "res/tera.mp4";
     // glfw_init_window();
     if (argc < 2)

@@ -1,1 +1,1 @@
- "C:/Users/34181/Desktop/code-demo/gitstudy/game/fmodL.dll" "C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libglfw3.a" "C:/Users/34181/Desktop/code-demo/gitstudy/game/lib/libfreetype.a" -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+ C:/Users/34181/Desktop/gitstudy/game/fmod.dll C:/Users/34181/Desktop/gitstudy/game/lib/libglfw3.a C:/Users/34181/Desktop/gitstudy/game/lib/libfreetype.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
