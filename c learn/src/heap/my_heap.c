@@ -15,7 +15,7 @@ inline int Heap_parent(int index)
     return (index - 1) / 2;
 }
 // 获取堆顶元素
-inline int Heap_peek(Heap *heap)
+int Heap_peek(Heap *heap)
 {
     return heap->data[0];
 }
@@ -51,6 +51,26 @@ Heap *Heap_create(int capacity)
     heap->size = 0;
     return heap;
 }
+Heap *MaxHeap_create_from_vector(int *array, int arrayNum)
+{
+    Heap *heap = (Heap *)malloc(sizeof(Heap) + sizeof(int) * arrayNum);
+    heap->capacity = arrayNum;
+    heap->size = arrayNum;
+    memcpy(heap->data, array, arrayNum * sizeof(int));
+    for (int i = Heap_parent(heap->size - 1); i >= 0; i--)
+        MaxHeap_siftDown(heap, i);
+    return heap;
+}
+Heap *MinHeap_create_from_vector(int *array, int arrayNum)
+{
+    Heap *heap = (Heap *)malloc(sizeof(Heap) + sizeof(int) * arrayNum);
+    heap->capacity = arrayNum;
+    heap->size = arrayNum;
+    memcpy(heap->data, array, arrayNum * sizeof(int));
+    for (int i = Heap_parent(heap->size - 1); i >= 0; i--)
+        MinHeap_siftDown(heap, i);
+    return heap;
+}
 // 扩容堆
 void Heap_realloc(Heap **heap, int capacity)
 {
@@ -64,7 +84,7 @@ void Heap_realloc(Heap **heap, int capacity)
     }
 }
 // 清理堆空间
-inline void Heap_free(Heap *heap)
+void Heap_free(Heap *heap)
 {
     free(heap);
 }
@@ -169,5 +189,41 @@ void MinHeap_siftUp(Heap *heap, int index)
         else
             break;
         index = parent;
+    }
+}
+
+/*####################堆排序相关####################*/
+void Vector_SiftDown(int *array, int arrayNum, int index)
+{
+    while (1)
+    {
+        int left = index * 2 + 1;
+        int right = left + 1;
+        int max_index = index;
+        if (left < arrayNum && array[max_index] < array[left])
+            max_index = left;
+        if (right < arrayNum && array[max_index] < array[right])
+            max_index = right;
+        if (max_index == index)
+            break;
+        int tmp_val = array[index];
+        array[index] = array[max_index];
+        array[max_index] = tmp_val;
+        index = max_index;
+    }
+}
+void Vector_HeapSort(int *array, int arrayNum)
+{
+    // 建立大顶堆
+    for (int i = (arrayNum - 2) / 2; i >= 0; i--)
+        Vector_SiftDown(array, arrayNum, i);
+    for (int i = arrayNum - 1; i > 0; i--)
+    {
+        // 交换首尾
+        int tmp_val = array[0];
+        array[0] = array[i];
+        array[i] = tmp_val;
+        // 对数量为i的堆进行堆化(这样堆顶又是最大值)
+        Vector_SiftDown(array, i, 0);
     }
 }

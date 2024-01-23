@@ -1,9 +1,9 @@
+#ifndef __STUDENT__H
+#define __STUDENT__H
 #include <stdint.h> 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#ifndef _STUDENT_h_
-#define _STUDENT_h_
 #define NAME_SIZE 20
 typedef struct{
     char name[NAME_SIZE];

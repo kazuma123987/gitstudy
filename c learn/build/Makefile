@@ -194,6 +194,32 @@ heap/fast:
 .PHONY : heap/fast
 
 #=============================================================================
+# Target rules for targets named sort
+
+# Build rule for target.
+sort: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 sort
+.PHONY : sort
+
+# fast build rule for target.
+sort/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/build
+.PHONY : sort/fast
+
+#=============================================================================
+# Target rules for targets named linked_list
+
+# Build rule for target.
+linked_list: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 linked_list
+.PHONY : linked_list
+
+# fast build rule for target.
+linked_list/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/build
+.PHONY : linked_list/fast
+
+#=============================================================================
 # Target rules for targets named test
 
 # Build rule for target.
@@ -325,6 +351,102 @@ src/heap/top-k.s: src/heap/top-k.c.s
 src/heap/top-k.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\heap.dir\build.make CMakeFiles/heap.dir/src/heap/top-k.c.s
 .PHONY : src/heap/top-k.c.s
+
+src/linked_list/main.obj: src/linked_list/main.c.obj
+.PHONY : src/linked_list/main.obj
+
+# target to build an object file
+src/linked_list/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/main.c.obj
+.PHONY : src/linked_list/main.c.obj
+
+src/linked_list/main.i: src/linked_list/main.c.i
+.PHONY : src/linked_list/main.i
+
+# target to preprocess a source file
+src/linked_list/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/main.c.i
+.PHONY : src/linked_list/main.c.i
+
+src/linked_list/main.s: src/linked_list/main.c.s
+.PHONY : src/linked_list/main.s
+
+# target to generate assembly for a file
+src/linked_list/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/main.c.s
+.PHONY : src/linked_list/main.c.s
+
+src/linked_list/my_linked_list.obj: src/linked_list/my_linked_list.c.obj
+.PHONY : src/linked_list/my_linked_list.obj
+
+# target to build an object file
+src/linked_list/my_linked_list.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj
+.PHONY : src/linked_list/my_linked_list.c.obj
+
+src/linked_list/my_linked_list.i: src/linked_list/my_linked_list.c.i
+.PHONY : src/linked_list/my_linked_list.i
+
+# target to preprocess a source file
+src/linked_list/my_linked_list.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.i
+.PHONY : src/linked_list/my_linked_list.c.i
+
+src/linked_list/my_linked_list.s: src/linked_list/my_linked_list.c.s
+.PHONY : src/linked_list/my_linked_list.s
+
+# target to generate assembly for a file
+src/linked_list/my_linked_list.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.s
+.PHONY : src/linked_list/my_linked_list.c.s
+
+src/sort/main.obj: src/sort/main.c.obj
+.PHONY : src/sort/main.obj
+
+# target to build an object file
+src/sort/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.obj
+.PHONY : src/sort/main.c.obj
+
+src/sort/main.i: src/sort/main.c.i
+.PHONY : src/sort/main.i
+
+# target to preprocess a source file
+src/sort/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.i
+.PHONY : src/sort/main.c.i
+
+src/sort/main.s: src/sort/main.c.s
+.PHONY : src/sort/main.s
+
+# target to generate assembly for a file
+src/sort/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.s
+.PHONY : src/sort/main.c.s
+
+src/sort/my_sort.obj: src/sort/my_sort.c.obj
+.PHONY : src/sort/my_sort.obj
+
+# target to build an object file
+src/sort/my_sort.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/my_sort.c.obj
+.PHONY : src/sort/my_sort.c.obj
+
+src/sort/my_sort.i: src/sort/my_sort.c.i
+.PHONY : src/sort/my_sort.i
+
+# target to preprocess a source file
+src/sort/my_sort.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/my_sort.c.i
+.PHONY : src/sort/my_sort.c.i
+
+src/sort/my_sort.s: src/sort/my_sort.c.s
+.PHONY : src/sort/my_sort.s
+
+# target to generate assembly for a file
+src/sort/my_sort.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/my_sort.c.s
+.PHONY : src/sort/my_sort.c.s
 
 src/studentSystem/main.obj: src/studentSystem/main.c.obj
 .PHONY : src/studentSystem/main.obj
@@ -458,6 +580,8 @@ help:
 	@echo ... func_pointer
 	@echo ... guessNumber
 	@echo ... heap
+	@echo ... linked_list
+	@echo ... sort
 	@echo ... studentSystem
 	@echo ... swap
 	@echo ... test
@@ -476,6 +600,18 @@ help:
 	@echo ... src/heap/top-k.obj
 	@echo ... src/heap/top-k.i
 	@echo ... src/heap/top-k.s
+	@echo ... src/linked_list/main.obj
+	@echo ... src/linked_list/main.i
+	@echo ... src/linked_list/main.s
+	@echo ... src/linked_list/my_linked_list.obj
+	@echo ... src/linked_list/my_linked_list.i
+	@echo ... src/linked_list/my_linked_list.s
+	@echo ... src/sort/main.obj
+	@echo ... src/sort/main.i
+	@echo ... src/sort/main.s
+	@echo ... src/sort/my_sort.obj
+	@echo ... src/sort/my_sort.i
+	@echo ... src/sort/my_sort.s
 	@echo ... src/studentSystem/main.obj
 	@echo ... src/studentSystem/main.i
 	@echo ... src/studentSystem/main.s

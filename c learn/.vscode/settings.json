@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "*.c": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "wchar.h": "c",
+        "locale.h": "c",
+        "stdlib.h": "c",
+        "corecrt.h": "c",
+        "time.h": "c"
     }
 }

@@ -17,6 +17,7 @@ CMakeFiles/studentSystem.dir/src/studentSystem/main.c.obj: C:/Users/34181/Deskto
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/crtdefs.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/errno.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/limits.h \
+  C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/locale.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/malloc.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
@@ -101,6 +102,8 @@ C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdlib.h:
 C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/errno.h:
 
 C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/limits.h:
+
+C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/locale.h:
 
 C:/Users/34181/Desktop/gitstudy/c\ learn/src/studentSystem/student.c:
 

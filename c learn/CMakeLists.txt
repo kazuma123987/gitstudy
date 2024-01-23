@@ -1,36 +1,47 @@
 cmake_minimum_required(VERSION 3.12)
-project(demo
-VERSION 0.0.1
-LANGUAGES C CXX)
+project(
+  demo
+  VERSION 0.0.1
+  LANGUAGES C CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-#全局包含目录
+# 全局包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
-#全局包含库目录(指定库的搜索路径)
+# 全局包含库目录(指定库的搜索路径)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
-#源文件
+# 源文件
 file(GLOB chess ${CMAKE_SOURCE_DIR}/src/chess/*.c)
 file(GLOB guessNumber ${CMAKE_SOURCE_DIR}/src/guessNumber/*.c)
 file(GLOB studentSystem ${CMAKE_SOURCE_DIR}/src/studentSystem/*.c)
 file(GLOB swap ${CMAKE_SOURCE_DIR}/src/swap/*.c)
 file(GLOB func_pointer ${CMAKE_SOURCE_DIR}/src/func_pointer/*.c)
 file(GLOB heap ${CMAKE_SOURCE_DIR}/src/heap/*.c)
+file(GLOB sort ${CMAKE_SOURCE_DIR}/src/sort/*.c)
+file(GLOB linked_list ${CMAKE_SOURCE_DIR}/src/linked_list/*.c)
 file(GLOB test ${CMAKE_SOURCE_DIR}/src/test/*.c)
-#可执行文件
+# 可执行文件
 add_executable(chess ${chess})
 
 add_executable(guessNumber ${guessNumber})
 
 add_executable(studentSystem ${studentSystem})
-target_include_directories(studentSystem PUBLIC "${CMAKE_SOURCE_DIR}/src/studentSystem")
+target_include_directories(studentSystem
+                           PUBLIC "${CMAKE_SOURCE_DIR}/src/studentSystem")
 
 add_executable(swap ${swap})
 target_include_directories(swap PUBLIC "${CMAKE_SOURCE_DIR}/src/swap")
 
 add_executable(func_pointer ${func_pointer})
-target_include_directories(func_pointer PUBLIC "${CMAKE_SOURCE_DIR}/src/func_pointer")
+target_include_directories(func_pointer
+                           PUBLIC "${CMAKE_SOURCE_DIR}/src/func_pointer")
 
 add_executable(heap ${heap})
 target_include_directories(heap PUBLIC "${CMAKE_SOURCE_DIR}/src/heap")
+
+add_executable(sort ${sort})
+target_include_directories(sort PUBLIC "${CMAKE_SOURCE_DIR}/src/sort")
+
+add_executable(linked_list ${linked_list})
+target_include_directories(linked_list PUBLIC "${CMAKE_SOURCE_DIR}/src/linked_list")
 
 add_executable(test ${test})
 target_include_directories(test PUBLIC "${CMAKE_SOURCE_DIR}/src/test")
