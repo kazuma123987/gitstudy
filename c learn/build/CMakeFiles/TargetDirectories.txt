@@ -4,6 +4,8 @@ C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/studentSystem.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/swap.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/func_pointer.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/heap.dir
+C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/sort.dir
+C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/linked_list.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/test.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/edit_cache.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/rebuild_cache.dir

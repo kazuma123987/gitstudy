@@ -1,3 +1,3 @@
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\media_player.dir/objects.a
 C:\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\media_player.dir/objects.a @CMakeFiles\media_player.dir\objects1.rsp
-C:\MinGW64\13.2.0\bin\g++.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -mwindows -Wl,--whole-archive CMakeFiles\media_player.dir/objects.a -Wl,--no-whole-archive -o C:\Users\34181\Desktop\gitstudy\ffmpeg\media_player.exe -Wl,--out-implib,libmedia_player.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\media_player.dir\linkLibs.rsp
+C:\MinGW64\13.2.0\bin\g++.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -Wl,--whole-archive CMakeFiles\media_player.dir/objects.a -Wl,--no-whole-archive -o C:\Users\34181\Desktop\gitstudy\ffmpeg\media_player.exe -Wl,--out-implib,libmedia_player.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\media_player.dir\linkLibs.rsp

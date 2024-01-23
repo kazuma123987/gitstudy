@@ -2,14 +2,18 @@
 #include "stdlib.h"
 #include "stdbool.h"
 #include "string.h"
-void myscanf(int *num,int size)
+void myscanf(int *num, int size)
 {
-    if(size>0)size++;
+    if (size > 0)
+        size++;
     char str[size];
-    fgets(str,sizeof(str),stdin);//只读取指定长度的字符串
-    if(str[strcspn(str,"\n")]=='\n')str[strcspn(str,"\n")]='\0';//将读取字符串的换行符去掉
-    else while(getchar()!='\n');//读取缓冲区剩余字符串
-    *num=atoi(str);
+    fgets(str, sizeof(str), stdin); // 只读取指定长度的字符串
+    if (str[strcspn(str, "\n")] == '\n')
+        str[strcspn(str, "\n")] = '\0'; // 将读取字符串的换行符去掉
+    else
+        while (getchar() != '\n')
+            ; // 读取缓冲区剩余字符串
+    *num = atoi(str);
 }
 int find_line(int arrey_len, int arrey[arrey_len][arrey_len], bool x)
 {
@@ -147,7 +151,7 @@ void game()
     printf("请输入棋盘的行数（或列数）N:(1<N<15)\n");
     while (N <= 1 || N >= 15)
     {
-        myscanf(&N,1);
+        myscanf(&N, 1);
         if (N <= 1 || N >= 15)
             printf("invalid number.\n");
     }
@@ -164,7 +168,7 @@ void game()
     printf("请输入1表示O方为先手,或输入0表示X方为先手:\n");
     while (chess_order != 0 && chess_order != 1)
     {
-        myscanf(&chess_order,1);
+        myscanf(&chess_order, 1);
         if (chess_order != 0 && chess_order != 1)
             printf("无效的输入,请输入0或1\n");
     }
@@ -178,8 +182,8 @@ void game()
             printf("请输入O方要下在几行几列\n");
         else
             printf("请输入X方要下在几行几列\n");
-        myscanf(&chess_line,1);
-        myscanf(&chess_row,1);    
+        myscanf(&chess_line, 1);
+        myscanf(&chess_row, 1);
         if (chess_line > 0 && chess_line <= N && chess_row > 0 && chess_row <= N)
         {
             if (arrey[chess_line - 1][chess_row - 1] == 2)
