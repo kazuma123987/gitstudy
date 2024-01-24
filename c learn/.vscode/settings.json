@@ -6,6 +6,10 @@
         "locale.h": "c",
         "stdlib.h": "c",
         "corecrt.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "random": "c"
     }
 }

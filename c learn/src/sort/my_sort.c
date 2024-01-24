@@ -1,4 +1,5 @@
 #include "my_sort.h"
+#include <string.h>
 // 交换索引
 static inline void swap(int *array, int index1, int index2)
 {
@@ -67,8 +68,7 @@ static inline void mergeArray(int *array, int left, int mid, int right)
         tmp[k++] = array[i++];
     while (j <= right) // 如果i在while (i <= mid && j <= right)循环中存放完了则存放j剩余元素
         tmp[k++] = array[j++];
-    for (j = 0; j < tmpNum; j++) // 把排序好的数组复原回去
-        array[left + j] = tmp[j];
+    memcpy(array + left, tmp, tmpNum * sizeof(int)); // 把排序好的数组复原回去
     free(tmp);
 }
 // 选择排序(selection sort)
