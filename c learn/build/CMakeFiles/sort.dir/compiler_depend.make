@@ -49,7 +49,9 @@ CMakeFiles/sort.dir/src/sort/my_sort.c.obj: C:/Users/34181/Desktop/gitstudy/c\ l
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/malloc.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+  C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sec_api/string_s.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdlib.h \
+  C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/string.h \
   C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/vadefs.h \
   C:/Users/34181/Desktop/gitstudy/c\ learn/src/sort/my_sort.h
 
@@ -119,3 +121,7 @@ C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/wchar.h:
 C:/Users/34181/Desktop/gitstudy/c\ learn/src/sort/my_sort.h:
 
 C:/Users/34181/Desktop/gitstudy/c\ learn/src/sort/my_sort.c:
+
+C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/sec_api/string_s.h:
+
+C:/MinGW64/13.2.0/x86_64-w64-mingw32/include/string.h:
