@@ -1,3 +1,3 @@
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\linked_list.dir/objects.a
 C:\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\linked_list.dir/objects.a @CMakeFiles\linked_list.dir\objects1.rsp
-C:\MinGW64\13.2.0\bin\gcc.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -Wl,--whole-archive CMakeFiles\linked_list.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\linked_list.exe" -Wl,--out-implib,liblinked_list.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\linked_list.dir\linkLibs.rsp
+C:\MinGW64\13.2.0\bin\gcc.exe  -Os -g -Wl,--whole-archive CMakeFiles\linked_list.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\linked_list.exe" -Wl,--out-implib,liblinked_list.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\linked_list.dir\linkLibs.rsp

@@ -13,7 +13,7 @@ SEARCH_DIR("=/usr/lib");
 ENTRY(program)
 SECTIONS
 {
-   s1 = 0x20020000;
+   s1 = __section_alignment__;
   /* Make the virtual address and file offset synced if the alignment is
      lower than the target page size. */
   . = SIZEOF_HEADERS;
@@ -75,6 +75,9 @@ SECTIONS
      to include this between __data_start__ and __data_end__, but that
      breaks building the cygwin32 dll.  Instead, we name the section
      ".data_cygwin_nocopy" and explicitly include it after __data_end__. */
+
+     /*使用*(.custom*)可以包含外部定义的section(".custom.data")
+     或section(".custom.func")等,而去掉后面的*号则只能定义section(".custom")*/
     .custom_data BLOCK(__section_alignment__) :
     {
         . = ALIGN(4);
@@ -91,7 +94,17 @@ SECTIONS
         _custom_func_end = . ;
         . = ALIGN(4);
     }
+    .custom BLOCK(__section_alignment__) :
+    {
+        . = ALIGN(4);
+        _custom_start = . ;
+        *(.custom)
+        KEEP(*(.custom*))
+        _custom_end = . ;
+        . = ALIGN(4);
+    }
     _data_load_start = LOADADDR(.data);
+
   .data BLOCK(__section_alignment__) :
   {
     __data_start__ = . ;

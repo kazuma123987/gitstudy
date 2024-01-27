@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = @CMakeFiles/guessNumber.dir/includes_C.rsp
 
-C_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall
+C_FLAGS =  -Os -g
 

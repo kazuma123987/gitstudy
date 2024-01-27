@@ -73,5 +73,20 @@
                 "isDefault": true
             }
         },
+        {
+            "type": "shell",
+            "label": "clean",
+            "command": [
+                "rm -r build/*;",
+                "rm -r bin/*;"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
     ]
 }

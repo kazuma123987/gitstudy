@@ -6,7 +6,7 @@ void myscanf(int *num, int size)
 {
     if (size > 0)
         size++;
-    char str[size];
+    char *str = (char *)malloc(size);
     fgets(str, sizeof(str), stdin); // 只读取指定长度的字符串
     if (str[strcspn(str, "\n")] == '\n')
         str[strcspn(str, "\n")] = '\0'; // 将读取字符串的换行符去掉
@@ -14,8 +14,9 @@ void myscanf(int *num, int size)
         while (getchar() != '\n')
             ; // 读取缓冲区剩余字符串
     *num = atoi(str);
+    free(str);
 }
-int find_line(int arrey_len, int arrey[arrey_len][arrey_len], bool x)
+int find_line(int arrey_len, int **arrey, bool x)
 {
     int ret = 0;
     char str[2];
@@ -120,7 +121,7 @@ Ret:
         printf("%s方获胜!\n", str);
     return ret;
 }
-void print_chess(int N, int arrey[N][N])
+void print_chess(int N, int **arrey)
 {
     printf("棋盘如下图所示：\n");
     printf("--------------------------begin--------------------------\n");
@@ -155,7 +156,9 @@ void game()
         if (N <= 1 || N >= 15)
             printf("invalid number.\n");
     }
-    int arrey[N][N];
+    int **arrey = NULL;
+    for (int i = 0; i < N; i++)
+        arrey[i] = (int *)malloc(sizeof(int) * N);
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -216,6 +219,8 @@ void game()
         if (find_line(N, arrey, !chess_order))
             break;
     }
+    for (int i = 0; i < N; i++)
+        free(arrey[i]);
 }
 
 int main()
