@@ -413,29 +413,29 @@ src/linked_list/my_linked_list.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.s
 .PHONY : src/linked_list/my_linked_list.c.s
 
-src/sort/main.obj: src/sort/main.cpp.obj
+src/sort/main.obj: src/sort/main.c.obj
 .PHONY : src/sort/main.obj
 
 # target to build an object file
-src/sort/main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.obj
-.PHONY : src/sort/main.cpp.obj
+src/sort/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.obj
+.PHONY : src/sort/main.c.obj
 
-src/sort/main.i: src/sort/main.cpp.i
+src/sort/main.i: src/sort/main.c.i
 .PHONY : src/sort/main.i
 
 # target to preprocess a source file
-src/sort/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.i
-.PHONY : src/sort/main.cpp.i
+src/sort/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.i
+.PHONY : src/sort/main.c.i
 
-src/sort/main.s: src/sort/main.cpp.s
+src/sort/main.s: src/sort/main.c.s
 .PHONY : src/sort/main.s
 
 # target to generate assembly for a file
-src/sort/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.s
-.PHONY : src/sort/main.cpp.s
+src/sort/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.s
+.PHONY : src/sort/main.c.s
 
 src/sort/my_sort.obj: src/sort/my_sort.c.obj
 .PHONY : src/sort/my_sort.obj
