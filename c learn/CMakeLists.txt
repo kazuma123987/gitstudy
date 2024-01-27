@@ -4,6 +4,7 @@ project(
   VERSION 0.0.1
   LANGUAGES C CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+option(USE_GCC_A ABC)
 # 全局包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 # 全局包含库目录(指定库的搜索路径)
@@ -17,6 +18,7 @@ file(GLOB func_pointer ${CMAKE_SOURCE_DIR}/src/func_pointer/*.c)
 file(GLOB heap ${CMAKE_SOURCE_DIR}/src/heap/*.c)
 file(GLOB sort ${CMAKE_SOURCE_DIR}/src/sort/*.c)
 file(GLOB linked_list ${CMAKE_SOURCE_DIR}/src/linked_list/*.c)
+file(GLOB vector ${CMAKE_SOURCE_DIR}/src/vector/*.c)
 file(GLOB test ${CMAKE_SOURCE_DIR}/src/test/*.c)
 # 可执行文件
 add_executable(chess ${chess})
@@ -42,6 +44,9 @@ target_include_directories(sort PUBLIC "${CMAKE_SOURCE_DIR}/src/sort")
 
 add_executable(linked_list ${linked_list})
 target_include_directories(linked_list PUBLIC "${CMAKE_SOURCE_DIR}/src/linked_list")
+
+add_executable(vector ${vector})
+target_include_directories(vector PUBLIC "${CMAKE_SOURCE_DIR}/src/vector")
 
 add_executable(test ${test})
 target_include_directories(test PUBLIC "${CMAKE_SOURCE_DIR}/src/test")

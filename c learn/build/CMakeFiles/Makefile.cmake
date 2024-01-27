@@ -58,5 +58,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/heap.dir/DependInfo.cmake"
   "CMakeFiles/sort.dir/DependInfo.cmake"
   "CMakeFiles/linked_list.dir/DependInfo.cmake"
+  "CMakeFiles/vector.dir/DependInfo.cmake"
   "CMakeFiles/test.dir/DependInfo.cmake"
   )

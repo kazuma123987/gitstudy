@@ -15,15 +15,32 @@ extern "C"
         int data[0];
     } Heap;
     // 获取左子节点索引
-    int Heap_left(int index);
+    static inline int Heap_left(int index)
+    {
+        return index * 2 + 1;
+    }
     // 获取右子节点索引
-    int Heap_right(int index);
+    static inline int Heap_right(int index)
+    {
+        return index * 2 + 2;
+    }
     // 获取父节点索引
-    int Heap_parent(int index);
+    static inline int Heap_parent(int index)
+    {
+        return (index - 1) / 2;
+    }
     // 获取堆顶元素
-    int Heap_peek(Heap *heap);
+    static inline int Heap_peek(Heap *heap)
+    {
+        return heap->data[0];
+    }
     // 交换堆的元素
-    void Heap_Swap(Heap *heap, int index1, int index2);
+    static inline void Heap_Swap(Heap *heap, int index1, int index2)
+    {
+        int tmp_val = heap->data[index1];
+        heap->data[index1] = heap->data[index2];
+        heap->data[index2] = tmp_val;
+    }
     // 打印堆
     void Heap_print(Heap *heap);
     // 创建堆

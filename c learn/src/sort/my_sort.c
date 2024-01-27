@@ -1,5 +1,6 @@
 #include "my_sort.h"
-#include <string.h>
+//*################################辅助函数部分################################*//
+//*###########################################################################*//
 // 交换索引
 static inline void swap(int *array, int index1, int index2)
 {
@@ -71,6 +72,44 @@ static inline void mergeArray(int *array, int left, int mid, int right)
     memcpy(array + left, tmp, tmpNum * sizeof(int)); // 把排序好的数组复原回去
     free(tmp);
 }
+int compare_int(const void *a, const void *b)
+{
+    return (*(int *)a > *(int *)b) ? 1 : -1;
+}
+// 获取数data的第k位,这里exp=10^(k-1),data为10进制
+static inline int getBit(int data, int exp)
+{
+    return (data / exp) % 10;
+}
+void counting_sort_radix(int *array, int arrayNum, int exp)
+{
+    //! 一定要用calloc把counter置零
+    int *counter = (int *)calloc(10, sizeof(int)); // 0-9十个数字
+    // 统计第k位0-9出现的次数,exp=10^(k-1)
+    for (int i = 0; i < arrayNum; i++)
+    {
+        int bit = getBit(array[i], exp);
+        counter[bit]++;
+    }
+    // 计算前缀和
+    for (int i = 0; i < 10 - 1; i++)
+        counter[i + 1] += counter[i];
+    // 按前缀倒序排序
+    int *tmp = (int *)malloc(sizeof(int) * arrayNum);
+    for (int i = arrayNum - 1; i >= 0; i--)
+    {
+        int index = getBit(array[i], exp);
+        tmp[--counter[index]] = array[i];
+    }
+    // 复制排序结构到原数组
+    memcpy(array, tmp, sizeof(int) * arrayNum);
+    // 清除空间
+    free(counter);
+    free(tmp);
+}
+//*################################排序函数部分################################*//
+//*###########################################################################*//
+
 // 选择排序(selection sort)
 void selection_sort(int *array, int arrayNum)
 {
@@ -160,4 +199,90 @@ void merge_sort(int *array, int left, int right)
     merge_sort(array, left, mid);
     merge_sort(array, mid + 1, right);
     mergeArray(array, left, mid, right); // 后序遍历进行合并
+}
+// 桶排序(bucket sort)
+void bucket_sort(int *array, int arrayNum, int bucketNum, hashfuncInt function)
+{
+    // 分配空间
+    int *caps = (int *)malloc(bucketNum * sizeof(int));
+    int *size = (int *)calloc(bucketNum, sizeof(int));
+    int **buckets = (int **)malloc(sizeof(int *) * bucketNum);
+    for (int i = 0; i < bucketNum; i++)
+    {
+        caps[i] = 1;
+        buckets[i] = (int *)malloc(sizeof(int));
+    }
+    // 装入桶
+    for (int i = 0; i < arrayNum; i++)
+    {
+        int index = function(array[i]);
+        if (caps[index] <= size[index])
+        {
+            caps[index] *= 2;
+            buckets[index] = (int *)realloc(buckets[index], sizeof(int) * caps[index]);
+        }
+        buckets[index][size[index]++] = array[i];
+    }
+    // 排序
+    for (int i = 0; i < bucketNum; i++)
+        qsort(buckets[i], size[i], sizeof(int), compare_int);
+    // 合并数据
+    int k = 0;
+    for (int i = 0; i < bucketNum; i++)
+    {
+        memcpy(array + k, buckets[i], sizeof(int) * size[i]);
+        k += size[i];
+    }
+    // 清除数据
+    for (int i = 0; i < bucketNum; i++)
+        free(buckets[i]);
+    free(buckets);
+    free(size);
+    free(caps);
+}
+// 计数排序(counting sort)
+void counting_sort(int *array, int arrayNum)
+{
+    // 获取数组最大最小值
+    int max = array[0], min = max;
+    for (int i = 0; i < arrayNum; i++)
+    {
+        if (array[i] > max)
+            max = array[i];
+        if (array[i] < min)
+            min = array[i];
+    }
+    // //! 一定要用calloc把counter置零
+    unsigned int size = max - min + 1;
+    int *counter = (int *)calloc(size, sizeof(int)); // index范围为[min,max]->[0,max-min]
+    // 统计元素的值出现的次数,并放入counter中,因为统计时是按array顺序统计的,所以如果index=counter[array[i]-min]-1,那index=0处存放的就是
+    // array[i],index=1处存放的就是排列在array[i]后面并且与其值相等的元素
+    for (int i = 0; i < arrayNum; i++)
+        counter[array[i] - min]++;
+    // 计算前i个数的和(包括自身)放在counter中
+    for (int i = 0; i < size - 1; i++)
+        counter[i + 1] += counter[i];
+    // 倒叙遍历array数组,通过前缀索引排序到临时数组中
+    int *res = (int *)malloc(sizeof(int) * arrayNum);
+    for (int i = size - 1; i >= 0; i--)
+    {
+        int index = array[i] - min;
+        res[--counter[index]] = array[i];
+    }
+    // 复制排序好的数据到原数组中
+    memcpy(array, res, sizeof(int) * arrayNum);
+    // 清除空间
+    free(counter);
+    free(res);
+}
+// 基数排序(radix sort)
+void radix_sort(int *array, int arrayNum)
+{
+    // 获取最大值,以方便进行移位操作
+    int max = array[0];
+    for (int i = 1; i < arrayNum; i++)
+        if (array[i] > max)
+            max = array[i];
+    for (int exp = 1; exp <= max; exp *= 10)
+        counting_sort_radix(array, arrayNum, exp);
 }

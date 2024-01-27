@@ -1,3 +1,3 @@
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\heap.dir/objects.a
 C:\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\heap.dir/objects.a @CMakeFiles\heap.dir\objects1.rsp
-C:\MinGW64\13.2.0\bin\gcc.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -Wl,--whole-archive CMakeFiles\heap.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\heap.exe" -Wl,--out-implib,libheap.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\heap.dir\linkLibs.rsp
+C:\MinGW64\13.2.0\bin\gcc.exe  -Os -g -Wl,--whole-archive CMakeFiles\heap.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\heap.exe" -Wl,--out-implib,libheap.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\heap.dir\linkLibs.rsp

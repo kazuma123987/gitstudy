@@ -220,6 +220,19 @@ linked_list/fast:
 .PHONY : linked_list/fast
 
 #=============================================================================
+# Target rules for targets named vector
+
+# Build rule for target.
+vector: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 vector
+.PHONY : vector
+
+# fast build rule for target.
+vector/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\vector.dir\build.make CMakeFiles/vector.dir/build
+.PHONY : vector/fast
+
+#=============================================================================
 # Target rules for targets named test
 
 # Build rule for target.
@@ -400,29 +413,29 @@ src/linked_list/my_linked_list.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\linked_list.dir\build.make CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.s
 .PHONY : src/linked_list/my_linked_list.c.s
 
-src/sort/main.obj: src/sort/main.c.obj
+src/sort/main.obj: src/sort/main.cpp.obj
 .PHONY : src/sort/main.obj
 
 # target to build an object file
-src/sort/main.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.obj
-.PHONY : src/sort/main.c.obj
+src/sort/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.obj
+.PHONY : src/sort/main.cpp.obj
 
-src/sort/main.i: src/sort/main.c.i
+src/sort/main.i: src/sort/main.cpp.i
 .PHONY : src/sort/main.i
 
 # target to preprocess a source file
-src/sort/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.i
-.PHONY : src/sort/main.c.i
+src/sort/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.i
+.PHONY : src/sort/main.cpp.i
 
-src/sort/main.s: src/sort/main.c.s
+src/sort/main.s: src/sort/main.cpp.s
 .PHONY : src/sort/main.s
 
 # target to generate assembly for a file
-src/sort/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.c.s
-.PHONY : src/sort/main.c.s
+src/sort/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\sort.dir\build.make CMakeFiles/sort.dir/src/sort/main.cpp.s
+.PHONY : src/sort/main.cpp.s
 
 src/sort/my_sort.obj: src/sort/my_sort.c.obj
 .PHONY : src/sort/my_sort.obj
@@ -568,6 +581,30 @@ src/test/test.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\test.dir\build.make CMakeFiles/test.dir/src/test/test.c.s
 .PHONY : src/test/test.c.s
 
+src/vector/main.obj: src/vector/main.c.obj
+.PHONY : src/vector/main.obj
+
+# target to build an object file
+src/vector/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\vector.dir\build.make CMakeFiles/vector.dir/src/vector/main.c.obj
+.PHONY : src/vector/main.c.obj
+
+src/vector/main.i: src/vector/main.c.i
+.PHONY : src/vector/main.i
+
+# target to preprocess a source file
+src/vector/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\vector.dir\build.make CMakeFiles/vector.dir/src/vector/main.c.i
+.PHONY : src/vector/main.c.i
+
+src/vector/main.s: src/vector/main.c.s
+.PHONY : src/vector/main.s
+
+# target to generate assembly for a file
+src/vector/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\vector.dir\build.make CMakeFiles/vector.dir/src/vector/main.c.s
+.PHONY : src/vector/main.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -585,6 +622,7 @@ help:
 	@echo ... studentSystem
 	@echo ... swap
 	@echo ... test
+	@echo ... vector
 	@echo ... src/chess/chess.obj
 	@echo ... src/chess/chess.i
 	@echo ... src/chess/chess.s
@@ -627,6 +665,9 @@ help:
 	@echo ... src/test/test.obj
 	@echo ... src/test/test.i
 	@echo ... src/test/test.s
+	@echo ... src/vector/main.obj
+	@echo ... src/vector/main.i
+	@echo ... src/vector/main.s
 .PHONY : help
 
 
