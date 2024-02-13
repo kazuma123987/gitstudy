@@ -73,30 +73,30 @@ CMakeFiles/sort.dir/src/sort/main.c.obj: CMakeFiles/sort.dir/includes_C.rsp
 CMakeFiles/sort.dir/src/sort/main.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/sort/main.c
 CMakeFiles/sort.dir/src/sort/main.c.obj: CMakeFiles/sort.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/sort.dir/src/sort/main.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sort.dir/src/sort/main.c.obj -MF CMakeFiles\sort.dir\src\sort\main.c.obj.d -o CMakeFiles\sort.dir\src\sort\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sort.dir/src/sort/main.c.obj -MF CMakeFiles\sort.dir\src\sort\main.c.obj.d -o CMakeFiles\sort.dir\src\sort\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c"
 
 CMakeFiles/sort.dir/src/sort/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/sort.dir/src/sort/main.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c" > CMakeFiles\sort.dir\src\sort\main.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c" > CMakeFiles\sort.dir\src\sort\main.c.i
 
 CMakeFiles/sort.dir/src/sort/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/sort.dir/src/sort/main.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c" -o CMakeFiles\sort.dir\src\sort\main.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\main.c" -o CMakeFiles\sort.dir\src\sort\main.c.s
 
 CMakeFiles/sort.dir/src/sort/my_sort.c.obj: CMakeFiles/sort.dir/flags.make
 CMakeFiles/sort.dir/src/sort/my_sort.c.obj: CMakeFiles/sort.dir/includes_C.rsp
 CMakeFiles/sort.dir/src/sort/my_sort.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/sort/my_sort.c
 CMakeFiles/sort.dir/src/sort/my_sort.c.obj: CMakeFiles/sort.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/sort.dir/src/sort/my_sort.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sort.dir/src/sort/my_sort.c.obj -MF CMakeFiles\sort.dir\src\sort\my_sort.c.obj.d -o CMakeFiles\sort.dir\src\sort\my_sort.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sort.dir/src/sort/my_sort.c.obj -MF CMakeFiles\sort.dir\src\sort\my_sort.c.obj.d -o CMakeFiles\sort.dir\src\sort\my_sort.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c"
 
 CMakeFiles/sort.dir/src/sort/my_sort.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/sort.dir/src/sort/my_sort.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c" > CMakeFiles\sort.dir\src\sort\my_sort.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c" > CMakeFiles\sort.dir\src\sort\my_sort.c.i
 
 CMakeFiles/sort.dir/src/sort/my_sort.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/sort.dir/src/sort/my_sort.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c" -o CMakeFiles\sort.dir\src\sort\my_sort.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\sort\my_sort.c" -o CMakeFiles\sort.dir\src\sort\my_sort.c.s
 
 # Object files for target sort
 sort_OBJECTS = \

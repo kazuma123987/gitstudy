@@ -73,15 +73,15 @@ CMakeFiles/chess.dir/src/chess/chess.c.obj: CMakeFiles/chess.dir/includes_C.rsp
 CMakeFiles/chess.dir/src/chess/chess.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/chess/chess.c
 CMakeFiles/chess.dir/src/chess/chess.c.obj: CMakeFiles/chess.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/chess.dir/src/chess/chess.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/chess.dir/src/chess/chess.c.obj -MF CMakeFiles\chess.dir\src\chess\chess.c.obj.d -o CMakeFiles\chess.dir\src\chess\chess.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/chess.dir/src/chess/chess.c.obj -MF CMakeFiles\chess.dir\src\chess\chess.c.obj.d -o CMakeFiles\chess.dir\src\chess\chess.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c"
 
 CMakeFiles/chess.dir/src/chess/chess.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/chess.dir/src/chess/chess.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c" > CMakeFiles\chess.dir\src\chess\chess.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c" > CMakeFiles\chess.dir\src\chess\chess.c.i
 
 CMakeFiles/chess.dir/src/chess/chess.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/chess.dir/src/chess/chess.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c" -o CMakeFiles\chess.dir\src\chess\chess.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\chess\chess.c" -o CMakeFiles\chess.dir\src\chess\chess.c.s
 
 # Object files for target chess
 chess_OBJECTS = \

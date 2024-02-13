@@ -1,16 +1,25 @@
 #include <stdio.h>
+#include <wchar.h>
+#include <locale.h>
 extern int s1;
-extern int _text_start;
+extern int _text_start; // 存放函数段
 extern int _text_end;
-extern int _data_load_start;
-extern int __data_start__;
-extern int _custom_data_start;
+extern int _custom_data_start; // 自定义段
 extern int _custom_data_end;
-extern int _custom_func_start;
+extern int _custom_func_start; // 自定义段
 extern int _custom_func_end;
-extern int _custom_start;
+extern int _custom_start; // 自定义段
 extern int _custom_end;
-extern int __bss_start__;
+extern int _data_load_start; // 数据段加载地址
+extern int __data_start__;	 // 存放已初始化非0的static变量和global全局变量,否则存放在全局区(bss段)
+extern int __rdata_start;	 // 存放常量(只读)
+extern int __rt_psrelocs_start;
+extern int __rt_psrelocs_end;
+extern int __pdata_start; // pdata
+extern int __pdata_end;
+extern int __xdata_start; // xdata
+extern int __xdata_end;
+extern int __bss_start__; // 存放未初始化或初始化为0的static变量和全局变量
 extern int __bss_end__;
 // 定义段(section)属性
 #define _AT(addr) __attribute__((at(addr)))
@@ -48,39 +57,74 @@ typedef struct PACKED xNode
 	char d : 1;
 } xNode;
 
-int global_init_zero = 0;
-int global_no_init;
+int global_init_zero = 0;				   // bss
+int global_no_init;						   // bss
+int global_init_nozero = 10;			   // data
+static int static_global_init_zero = 0;	   // bss
+static int static_global_no_init;		   // bss
+static int static_global_init_nozero = 10; // data
 int program()
 {
-	int static_no_init;
-	int static_init_zero = 0;
-	printf("s1:%x\n"
-		   "text_start:%x\n"
-		   "text_end:%x\n"
-		   "data_load_start:%x\n"
-		   "data_start:%x\n"
-		   "custom_data_start:%x\n"
-		   "custom_data_end:%x\n"
-		   "custom_func_start:%x\n"
-		   "custom_end_start:%x\n"
-		   "custom_start:%x\n"
-		   "custom_end:%x\n"
-		   "bss_start:%x\n"
-		   "bss_end:%x\n"
-		   "array:%x\n"
-		   "swap:%x\n"
-		   "c:%x\n"
-		   "sizeof(Node):%ld\n"
-		   "sizeof(xNode):%ld\n"
-		   "global_no_init:%x\n"
-		   "global_init_zero:%x\n"
-		   "static_no_init:%x\n"
-		   "static_init_zero:%x\n",
-		   &s1, &_text_start, &_text_end, &_data_load_start, &__data_start__, &_custom_data_start, &_custom_data_end,
-		   &_custom_func_start, &_custom_func_end, &_custom_start, &_custom_end, &__bss_start__, &__bss_end__,
-		   &array, &linker_swap, &c, sizeof(Node), sizeof(xNode), &global_no_init, &global_init_zero, &static_no_init, &static_init_zero);
+	setlocale(LC_CTYPE, "");
+	int stack_no_init;						  // stack
+	int stack_init_zero = 0;				  // stack
+	char *stack_init_with_const = "123456";	  // rodata
+	static int static_stack_init_zero = 0;	  // bss
+	static int static_stack_no_init;		  // bss
+	static int static_stack_init_nozero = 10; // data
+	wprintf(L"段的地址:\n"
+			"s1:0x%x\n"
+			"text_start:0x%x\n"
+			"text_end:0x%x\n"
+			"custom_data_start:0x%x\n"
+			"custom_data_end:0x%x\n"
+			"custom_func_start:0x%x\n"
+			"custom_end_start:0x%x\n"
+			"custom_start:0x%x\n"
+			"custom_end:0x%x\n"
+			"data_load_start:0x%x\n"
+			"data_start:0x%x\n"
+			"rdata_start:0x%x\n"
+			"rdata_end:0x%x\n"
+			"pdata_start:0x%x\n"
+			"pdata_end:0x%x\n"
+			"xdata_start:0x%x\n"
+			"xdata_end:0x%x\n"
+			"bss_start:0x%x\n"
+			"bss_end:0x%x\n"
+			"自定义数据和函数的地址:\n"
+			"array:0x%x\n"
+			"swap:0x%x\n"
+			"c:0x%x\n"
+			"位域的大小计算:\n"
+			"sizeof(Node):%ld\n"
+			"sizeof(xNode):%ld\n"
+			"全局变量的地址:\n"
+			"global_no_init:0x%x\n"
+			"global_init_zero:0x%x\n"
+			"global_init_nozero :0x%x\n"
+			"static全局变量的地址:\n"
+			"static_global_init_zero :0x%x\n"
+			"static_global_no_init:0x%x\n"
+			"static_global_init_nozero :0x%x\n"
+			"局部变量(栈变量)的地址:\n"
+			"stack_no_init:0x%x\n"
+			"stack_init_zero:0x%x\n"
+			"stack_init_with_const:0x%x\n"
+			"static局部变量的地址:\n"
+			"static_stack_init_zero :0x%x\n"
+			"static_stack_no_init:0x%x\n"
+			"static_stack_init_nozero :0x%x\n",
+			&s1, &_text_start, &_text_end, &_custom_data_start, &_custom_data_end, &_custom_func_start, &_custom_func_end,
+			&_custom_start, &_custom_end, &_data_load_start, &__data_start__, &__rdata_start, &__rt_psrelocs_end,
+			&__pdata_start, &__pdata_end, &__xdata_start, &__xdata_end, &__bss_start__, &__bss_end__,
+			&array, &linker_swap, &c, sizeof(Node), sizeof(xNode),
+			&global_no_init, &global_init_zero, &global_init_nozero, &static_global_init_zero, &static_global_no_init,
+			&static_global_init_nozero, &stack_no_init, &stack_init_zero, stack_init_with_const, &static_stack_init_zero,
+			&static_stack_no_init, &static_stack_init_nozero);
 	int a = 2, b = 4;
 	linker_swap(&a, &b);
 	printf("a=%d,b=%d\n", a, b);
+	_wsystem(L"pause");
 	return 0;
 }

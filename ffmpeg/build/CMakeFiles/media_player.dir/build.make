@@ -73,90 +73,90 @@ CMakeFiles/media_player.dir/src/media_player/main.cpp.obj: CMakeFiles/media_play
 CMakeFiles/media_player.dir/src/media_player/main.cpp.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/main.cpp
 CMakeFiles/media_player.dir/src/media_player/main.cpp.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/media_player.dir/src/media_player/main.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/main.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\main.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\main.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/main.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\main.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\main.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp
 
 CMakeFiles/media_player.dir/src/media_player/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/media_player.dir/src/media_player/main.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp > CMakeFiles\media_player.dir\src\media_player\main.cpp.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp > CMakeFiles\media_player.dir\src\media_player\main.cpp.i
 
 CMakeFiles/media_player.dir/src/media_player/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/media_player.dir/src/media_player/main.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp -o CMakeFiles\media_player.dir\src\media_player\main.cpp.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\main.cpp -o CMakeFiles\media_player.dir\src\media_player\main.cpp.s
 
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj: CMakeFiles/media_player.dir/flags.make
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj: CMakeFiles/media_player.dir/includes_CXX.rsp
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/shader.cpp
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\shader.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\shader.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\shader.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\shader.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp
 
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/media_player.dir/src/media_player/shader.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp > CMakeFiles\media_player.dir\src\media_player\shader.cpp.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp > CMakeFiles\media_player.dir\src\media_player\shader.cpp.i
 
 CMakeFiles/media_player.dir/src/media_player/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/media_player.dir/src/media_player/shader.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp -o CMakeFiles\media_player.dir\src\media_player\shader.cpp.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\shader.cpp -o CMakeFiles\media_player.dir\src\media_player\shader.cpp.s
 
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj: CMakeFiles/media_player.dir/flags.make
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj: CMakeFiles/media_player.dir/includes_CXX.rsp
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/sound_manager.cpp
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp
 
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp > CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp > CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.i
 
 CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp -o CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\sound_manager.cpp -o CMakeFiles\media_player.dir\src\media_player\sound_manager.cpp.s
 
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj: CMakeFiles/media_player.dir/flags.make
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj: CMakeFiles/media_player.dir/includes_CXX.rsp
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/stb_image.cpp
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp
 
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp > CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp > CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.i
 
 CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp -o CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\stb_image.cpp -o CMakeFiles\media_player.dir\src\media_player\stb_image.cpp.s
 
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj: CMakeFiles/media_player.dir/flags.make
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj: CMakeFiles/media_player.dir/includes_CXX.rsp
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/texture.cpp
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\texture.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\texture.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj -MF CMakeFiles\media_player.dir\src\media_player\texture.cpp.obj.d -o CMakeFiles\media_player.dir\src\media_player\texture.cpp.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp
 
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/media_player.dir/src/media_player/texture.cpp.i"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp > CMakeFiles\media_player.dir\src\media_player\texture.cpp.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp > CMakeFiles\media_player.dir\src\media_player\texture.cpp.i
 
 CMakeFiles/media_player.dir/src/media_player/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/media_player.dir/src/media_player/texture.cpp.s"
-	C:\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp -o CMakeFiles\media_player.dir\src\media_player\texture.cpp.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\media_player\texture.cpp -o CMakeFiles\media_player.dir\src\media_player\texture.cpp.s
 
 CMakeFiles/media_player.dir/src/glad/glad.c.obj: CMakeFiles/media_player.dir/flags.make
 CMakeFiles/media_player.dir/src/glad/glad.c.obj: CMakeFiles/media_player.dir/includes_C.rsp
 CMakeFiles/media_player.dir/src/glad/glad.c.obj: C:/Users/34181/Desktop/gitstudy/ffmpeg/src/glad/glad.c
 CMakeFiles/media_player.dir/src/glad/glad.c.obj: CMakeFiles/media_player.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\34181\Desktop\gitstudy\ffmpeg\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/media_player.dir/src/glad/glad.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/glad/glad.c.obj -MF CMakeFiles\media_player.dir\src\glad\glad.c.obj.d -o CMakeFiles\media_player.dir\src\glad\glad.c.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/media_player.dir/src/glad/glad.c.obj -MF CMakeFiles\media_player.dir\src\glad\glad.c.obj.d -o CMakeFiles\media_player.dir\src\glad\glad.c.obj -c C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c
 
 CMakeFiles/media_player.dir/src/glad/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/media_player.dir/src/glad/glad.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c > CMakeFiles\media_player.dir\src\glad\glad.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c > CMakeFiles\media_player.dir\src\glad\glad.c.i
 
 CMakeFiles/media_player.dir/src/glad/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/media_player.dir/src/glad/glad.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c -o CMakeFiles\media_player.dir\src\glad\glad.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\34181\Desktop\gitstudy\ffmpeg\src\glad\glad.c -o CMakeFiles\media_player.dir\src\glad\glad.c.s
 
 # Object files for target media_player
 media_player_OBJECTS = \

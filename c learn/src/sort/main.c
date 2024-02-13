@@ -24,8 +24,8 @@ int hashfunc(int input)
     return (input - 1) / DIV_HASH;
 }
 #define sort_check_error(a, b) sort_checkerr((a), (b), (__LINE__))
-#define ARRAR_NUM 500000000
-#define ARRAR_PRIN
+#define ARRAR_NUM 100
+#define ARRAR_PRINT
 void my_sort(int *array, int arrayNum)
 {
     heap_sort(array, arrayNum);

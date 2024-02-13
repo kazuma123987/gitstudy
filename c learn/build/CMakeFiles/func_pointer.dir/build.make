@@ -73,15 +73,15 @@ CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj: CMakeFiles/func_
 CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/func_pointer/fun_pointer.c
 CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj: CMakeFiles/func_pointer.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj -MF CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.obj.d -o CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.obj -MF CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.obj.d -o CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c"
 
 CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c" > CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c" > CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.i
 
 CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c" -o CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\func_pointer\fun_pointer.c" -o CMakeFiles\func_pointer.dir\src\func_pointer\fun_pointer.c.s
 
 # Object files for target func_pointer
 func_pointer_OBJECTS = \
