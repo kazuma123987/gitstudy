@@ -73,15 +73,15 @@ CMakeFiles/vector.dir/src/vector/main.c.obj: CMakeFiles/vector.dir/includes_C.rs
 CMakeFiles/vector.dir/src/vector/main.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/vector/main.c
 CMakeFiles/vector.dir/src/vector/main.c.obj: CMakeFiles/vector.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/vector.dir/src/vector/main.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/vector.dir/src/vector/main.c.obj -MF CMakeFiles\vector.dir\src\vector\main.c.obj.d -o CMakeFiles\vector.dir\src\vector\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/vector.dir/src/vector/main.c.obj -MF CMakeFiles\vector.dir\src\vector\main.c.obj.d -o CMakeFiles\vector.dir\src\vector\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c"
 
 CMakeFiles/vector.dir/src/vector/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/vector.dir/src/vector/main.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c" > CMakeFiles\vector.dir\src\vector\main.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c" > CMakeFiles\vector.dir\src\vector\main.c.i
 
 CMakeFiles/vector.dir/src/vector/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/vector.dir/src/vector/main.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c" -o CMakeFiles\vector.dir\src\vector\main.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\vector\main.c" -o CMakeFiles\vector.dir\src\vector\main.c.s
 
 # Object files for target vector
 vector_OBJECTS = \

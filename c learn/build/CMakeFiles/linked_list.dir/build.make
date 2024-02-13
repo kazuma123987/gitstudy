@@ -73,30 +73,30 @@ CMakeFiles/linked_list.dir/src/linked_list/main.c.obj: CMakeFiles/linked_list.di
 CMakeFiles/linked_list.dir/src/linked_list/main.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/linked_list/main.c
 CMakeFiles/linked_list.dir/src/linked_list/main.c.obj: CMakeFiles/linked_list.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/linked_list.dir/src/linked_list/main.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/linked_list.dir/src/linked_list/main.c.obj -MF CMakeFiles\linked_list.dir\src\linked_list\main.c.obj.d -o CMakeFiles\linked_list.dir\src\linked_list\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/linked_list.dir/src/linked_list/main.c.obj -MF CMakeFiles\linked_list.dir\src\linked_list\main.c.obj.d -o CMakeFiles\linked_list.dir\src\linked_list\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c"
 
 CMakeFiles/linked_list.dir/src/linked_list/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/linked_list.dir/src/linked_list/main.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c" > CMakeFiles\linked_list.dir\src\linked_list\main.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c" > CMakeFiles\linked_list.dir\src\linked_list\main.c.i
 
 CMakeFiles/linked_list.dir/src/linked_list/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/linked_list.dir/src/linked_list/main.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c" -o CMakeFiles\linked_list.dir\src\linked_list\main.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\main.c" -o CMakeFiles\linked_list.dir\src\linked_list\main.c.s
 
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj: CMakeFiles/linked_list.dir/flags.make
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj: CMakeFiles/linked_list.dir/includes_C.rsp
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/linked_list/my_linked_list.c
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj: CMakeFiles/linked_list.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj -MF CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.obj.d -o CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.obj -MF CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.obj.d -o CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c"
 
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c" > CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c" > CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.i
 
 CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/linked_list.dir/src/linked_list/my_linked_list.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c" -o CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\linked_list\my_linked_list.c" -o CMakeFiles\linked_list.dir\src\linked_list\my_linked_list.c.s
 
 # Object files for target linked_list
 linked_list_OBJECTS = \

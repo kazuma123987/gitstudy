@@ -73,30 +73,30 @@ CMakeFiles/heap.dir/src/heap/my_heap.c.obj: CMakeFiles/heap.dir/includes_C.rsp
 CMakeFiles/heap.dir/src/heap/my_heap.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/heap/my_heap.c
 CMakeFiles/heap.dir/src/heap/my_heap.c.obj: CMakeFiles/heap.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/heap.dir/src/heap/my_heap.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/heap.dir/src/heap/my_heap.c.obj -MF CMakeFiles\heap.dir\src\heap\my_heap.c.obj.d -o CMakeFiles\heap.dir\src\heap\my_heap.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/heap.dir/src/heap/my_heap.c.obj -MF CMakeFiles\heap.dir\src\heap\my_heap.c.obj.d -o CMakeFiles\heap.dir\src\heap\my_heap.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c"
 
 CMakeFiles/heap.dir/src/heap/my_heap.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/heap.dir/src/heap/my_heap.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c" > CMakeFiles\heap.dir\src\heap\my_heap.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c" > CMakeFiles\heap.dir\src\heap\my_heap.c.i
 
 CMakeFiles/heap.dir/src/heap/my_heap.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/heap.dir/src/heap/my_heap.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c" -o CMakeFiles\heap.dir\src\heap\my_heap.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\my_heap.c" -o CMakeFiles\heap.dir\src\heap\my_heap.c.s
 
 CMakeFiles/heap.dir/src/heap/top-k.c.obj: CMakeFiles/heap.dir/flags.make
 CMakeFiles/heap.dir/src/heap/top-k.c.obj: CMakeFiles/heap.dir/includes_C.rsp
 CMakeFiles/heap.dir/src/heap/top-k.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/heap/top-k.c
 CMakeFiles/heap.dir/src/heap/top-k.c.obj: CMakeFiles/heap.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/heap.dir/src/heap/top-k.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/heap.dir/src/heap/top-k.c.obj -MF CMakeFiles\heap.dir\src\heap\top-k.c.obj.d -o CMakeFiles\heap.dir\src\heap\top-k.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/heap.dir/src/heap/top-k.c.obj -MF CMakeFiles\heap.dir\src\heap\top-k.c.obj.d -o CMakeFiles\heap.dir\src\heap\top-k.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c"
 
 CMakeFiles/heap.dir/src/heap/top-k.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/heap.dir/src/heap/top-k.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c" > CMakeFiles\heap.dir\src\heap\top-k.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c" > CMakeFiles\heap.dir\src\heap\top-k.c.i
 
 CMakeFiles/heap.dir/src/heap/top-k.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/heap.dir/src/heap/top-k.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c" -o CMakeFiles\heap.dir\src\heap\top-k.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\heap\top-k.c" -o CMakeFiles\heap.dir\src\heap\top-k.c.s
 
 # Object files for target heap
 heap_OBJECTS = \

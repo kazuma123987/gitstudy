@@ -26,27 +26,17 @@ add_executable(chess ${chess})
 add_executable(guessNumber ${guessNumber})
 
 add_executable(studentSystem ${studentSystem})
-target_include_directories(studentSystem
-                           PUBLIC "${CMAKE_SOURCE_DIR}/src/studentSystem")
 
 add_executable(swap ${swap})
-target_include_directories(swap PUBLIC "${CMAKE_SOURCE_DIR}/src/swap")
 
 add_executable(func_pointer ${func_pointer})
-target_include_directories(func_pointer
-                           PUBLIC "${CMAKE_SOURCE_DIR}/src/func_pointer")
 
 add_executable(heap ${heap})
-target_include_directories(heap PUBLIC "${CMAKE_SOURCE_DIR}/src/heap")
 
 add_executable(sort ${sort})
-target_include_directories(sort PUBLIC "${CMAKE_SOURCE_DIR}/src/sort")
 
 add_executable(linked_list ${linked_list})
-target_include_directories(linked_list PUBLIC "${CMAKE_SOURCE_DIR}/src/linked_list")
 
 add_executable(vector ${vector})
-target_include_directories(vector PUBLIC "${CMAKE_SOURCE_DIR}/src/vector")
 
 add_executable(test ${test})
-target_include_directories(test PUBLIC "${CMAKE_SOURCE_DIR}/src/test")

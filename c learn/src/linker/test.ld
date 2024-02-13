@@ -117,6 +117,7 @@ SECTIONS
   }
   .rdata BLOCK(__section_alignment__) :
   {
+	__rdata_start = .;
     *(.rdata)
     *(SORT(.rdata$*))
     . = ALIGN(4);
@@ -135,11 +136,15 @@ SECTIONS
   }
   .pdata BLOCK(__section_alignment__) :
   {
+    __pdata_start = .;
     KEEP(*(.pdata*))
+    __pdata_end = . ;
   }
   .xdata BLOCK(__section_alignment__) :
   {
+    __xdata_start = .;
     KEEP(*(.xdata*))
+    __xdata_end = .;
   }
   .bss BLOCK(__section_alignment__) :
   {

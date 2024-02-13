@@ -1,6 +1,6 @@
 #设置编译器路径
-set(CMAKE_C_COMPILER C:/MinGW64/13.2.0/bin/gcc.exe)
-set(CMAKE_CXX_COMPILER C:/MinGW64/13.2.0/bin/g++.exe)
+set(CMAKE_C_COMPILER gcc.exe)
+set(CMAKE_CXX_COMPILER g++.exe)
 #设置C/C++版本
 set(C_STANDARD 99)
 set(CXX_STANDARD 11)

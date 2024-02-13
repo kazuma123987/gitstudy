@@ -73,15 +73,15 @@ CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj: CMakeFiles/guessNu
 CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/guessNumber/guessNumber.c
 CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj: CMakeFiles/guessNumber.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj -MF CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.obj.d -o CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.obj -MF CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.obj.d -o CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c"
 
 CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c" > CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c" > CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.i
 
 CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/guessNumber.dir/src/guessNumber/guessNumber.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c" -o CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\guessNumber\guessNumber.c" -o CMakeFiles\guessNumber.dir\src\guessNumber\guessNumber.c.s
 
 # Object files for target guessNumber
 guessNumber_OBJECTS = \

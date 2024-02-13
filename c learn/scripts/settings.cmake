@@ -16,6 +16,7 @@ set(CXX_STANDARD 11)
 # -ffunction-sections&&-fdata-sections:函数和数据放在单独的节(section)上
 # -fno-exceptions:g++专用编译选项,不会对异常进行处理,直接打印错误信息 -mwindows:隐藏控制台 set(COMMON_FLAG
 # "-fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions")
+set(COMMON_FLAG "-fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions")
 if(USE_GCC)
   set(CMAKE_CXX_FLAGS_RELEASE "${COMMON_FLAG} -Os -mwindows")
   set(CMAKE_CXX_FLAGS_DEBUG "${COMMON_FLAG} -O0 -g -Wall")

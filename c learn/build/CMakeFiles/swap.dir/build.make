@@ -73,30 +73,30 @@ CMakeFiles/swap.dir/src/swap/main.c.obj: CMakeFiles/swap.dir/includes_C.rsp
 CMakeFiles/swap.dir/src/swap/main.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/swap/main.c
 CMakeFiles/swap.dir/src/swap/main.c.obj: CMakeFiles/swap.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/swap.dir/src/swap/main.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/swap.dir/src/swap/main.c.obj -MF CMakeFiles\swap.dir\src\swap\main.c.obj.d -o CMakeFiles\swap.dir\src\swap\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/swap.dir/src/swap/main.c.obj -MF CMakeFiles\swap.dir\src\swap\main.c.obj.d -o CMakeFiles\swap.dir\src\swap\main.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c"
 
 CMakeFiles/swap.dir/src/swap/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/swap.dir/src/swap/main.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c" > CMakeFiles\swap.dir\src\swap\main.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c" > CMakeFiles\swap.dir\src\swap\main.c.i
 
 CMakeFiles/swap.dir/src/swap/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/swap.dir/src/swap/main.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c" -o CMakeFiles\swap.dir\src\swap\main.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\main.c" -o CMakeFiles\swap.dir\src\swap\main.c.s
 
 CMakeFiles/swap.dir/src/swap/swap.c.obj: CMakeFiles/swap.dir/flags.make
 CMakeFiles/swap.dir/src/swap/swap.c.obj: CMakeFiles/swap.dir/includes_C.rsp
 CMakeFiles/swap.dir/src/swap/swap.c.obj: C:/Users/34181/Desktop/gitstudy/c\ learn/src/swap/swap.c
 CMakeFiles/swap.dir/src/swap/swap.c.obj: CMakeFiles/swap.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\34181\Desktop\gitstudy\c learn\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/swap.dir/src/swap/swap.c.obj"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/swap.dir/src/swap/swap.c.obj -MF CMakeFiles\swap.dir\src\swap\swap.c.obj.d -o CMakeFiles\swap.dir\src\swap\swap.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c"
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/swap.dir/src/swap/swap.c.obj -MF CMakeFiles\swap.dir\src\swap\swap.c.obj.d -o CMakeFiles\swap.dir\src\swap\swap.c.obj -c "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c"
 
 CMakeFiles/swap.dir/src/swap/swap.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/swap.dir/src/swap/swap.c.i"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c" > CMakeFiles\swap.dir\src\swap\swap.c.i
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c" > CMakeFiles\swap.dir\src\swap\swap.c.i
 
 CMakeFiles/swap.dir/src/swap/swap.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/swap.dir/src/swap/swap.c.s"
-	C:\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c" -o CMakeFiles\swap.dir\src\swap\swap.c.s
+	C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\34181\Desktop\gitstudy\c learn\src\swap\swap.c" -o CMakeFiles\swap.dir\src\swap\swap.c.s
 
 # Object files for target swap
 swap_OBJECTS = \
