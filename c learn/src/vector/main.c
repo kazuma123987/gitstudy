@@ -1,7 +1,7 @@
 #include "my_vector.h"
 #include <stdio.h>
 int main(int argc, char *argv[])
-{
+{  
     Vector *v = vector_create(1);
     for (int i = 0; i < 100; i++)
         vector_pushback(v, i);

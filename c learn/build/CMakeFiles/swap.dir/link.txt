@@ -1,3 +1,3 @@
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\swap.dir/objects.a
 C:\A_TOOLS\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\swap.dir/objects.a @CMakeFiles\swap.dir\objects1.rsp
-C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -Os -g -Wl,--whole-archive CMakeFiles\swap.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\swap.exe" -Wl,--out-implib,libswap.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\swap.dir\linkLibs.rsp
+C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -Wl,--whole-archive CMakeFiles\swap.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\swap.exe" -Wl,--out-implib,libswap.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\swap.dir\linkLibs.rsp

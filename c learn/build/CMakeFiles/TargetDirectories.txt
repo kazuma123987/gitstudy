@@ -8,5 +8,7 @@ C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/sort.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/linked_list.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/vector.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/test.dir
+C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/c_merge.dir
+C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/open_file_and_folder.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/edit_cache.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/rebuild_cache.dir

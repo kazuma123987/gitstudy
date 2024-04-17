@@ -22,6 +22,7 @@ set(CMAKE_RC_TARGET_INCLUDE_PATH
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/34181/Desktop/gitstudy/glLearn/src/glad.c" "CMakeFiles/main.dir/src/glad.c.obj" "gcc" "CMakeFiles/main.dir/src/glad.c.obj.d"
   "C:/Users/34181/Desktop/gitstudy/glLearn/src/camera.cpp" "CMakeFiles/main.dir/src/camera.cpp.obj" "gcc" "CMakeFiles/main.dir/src/camera.cpp.obj.d"
+  "C:/Users/34181/Desktop/gitstudy/glLearn/src/game.cpp" "CMakeFiles/main.dir/src/game.cpp.obj" "gcc" "CMakeFiles/main.dir/src/game.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/glLearn/src/global.cpp" "CMakeFiles/main.dir/src/global.cpp.obj" "gcc" "CMakeFiles/main.dir/src/global.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/glLearn/src/imgui/imgui.cpp" "CMakeFiles/main.dir/src/imgui/imgui.cpp.obj" "gcc" "CMakeFiles/main.dir/src/imgui/imgui.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/glLearn/src/imgui/imgui_demo.cpp" "CMakeFiles/main.dir/src/imgui/imgui_demo.cpp.obj" "gcc" "CMakeFiles/main.dir/src/imgui/imgui_demo.cpp.obj.d"
@@ -40,6 +41,10 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
 
 # Targets to which this target links which contain Fortran sources.
 set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

@@ -4,6 +4,8 @@ file(REMOVE_RECURSE
   "C:/Users/34181/Desktop/gitstudy/glLearn/main.pdb"
   "CMakeFiles/main.dir/src/camera.cpp.obj"
   "CMakeFiles/main.dir/src/camera.cpp.obj.d"
+  "CMakeFiles/main.dir/src/game.cpp.obj"
+  "CMakeFiles/main.dir/src/game.cpp.obj.d"
   "CMakeFiles/main.dir/src/glad.c.obj"
   "CMakeFiles/main.dir/src/glad.c.obj.d"
   "CMakeFiles/main.dir/src/global.cpp.obj"

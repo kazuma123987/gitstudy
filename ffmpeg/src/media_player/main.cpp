@@ -30,7 +30,8 @@ extern "C"
 }
 #endif
 // N卡使用独显运行
-extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+extern "C" __declspec(dllexport) DWORD NvOptimusEnablement;
+__declspec(dllexport) DWORD NvOptimusEnablement = 1;
 // 函数声明
 static enum AVPixelFormat custom_get_format(AVCodecContext *vCodecCtx, const enum AVPixelFormat *pix_fmt);
 void render(Shader &shader);
@@ -43,9 +44,9 @@ FMOD_RESULT F_CALLBACK fmod_read_data(FMOD_SOUND * /*sound*/, void *data, unsign
 void au_decode(const char *path);
 void framesizecallback(GLFWwindow *window, int width, int height);
 // 静态全局变量
-static Uint8 *audio_chunk; // 指向PCM数据的头部
-static Uint32 audio_len;   // PCM数据的总长度
-static Uint8 *audio_pos;   // 指向PCM数据已经被读取到的位置
+static uint8_t *audio_chunk; // 指向PCM数据的头部
+static uint32_t audio_len;   // PCM数据的总长度
+static uint8_t *audio_pos;   // 指向PCM数据已经被读取到的位置
 // 非静态全局变量
 const int SCREEN_WIDTH = 1600;
 const int SCREEN_HEIGHT = 900;
@@ -474,14 +475,19 @@ void sdl_init_window(int width, int height)
     }
     // SDL_Renderer *renderer = SDL_CreateRenderer(sdl_window, -1, 0);
 }
-// 音频设备需要更多数据的时候会调用该回调函数
-void read_audio_data(void *udata, Uint8 *stream, int len) // udata就是spec.userdata
+/**
+ * @brief 音频设备需要更多数据的时候会调用该回调函数
+ * @param udata:用户数据,即spec.userdata
+ * @param stream:数据缓冲区,用于写入音频数据
+ * @param len:写入数据缓冲区的数据大小
+ */
+void read_audio_data(void *udata, Uint8 *stream, int len)
 {
     // 首先使用SDL_memset()将stream中的数据设置为0
     SDL_memset(stream, 0, len);
     if (audio_len == 0)
         return;
-    len = (len > audio_len ? audio_len : len);
+    len = (len > (int)audio_len ? audio_len : len);
 
     SDL_MixAudio(stream, audio_pos, len, SDL_MIX_MAXVOLUME);
     audio_pos += len;
@@ -497,6 +503,11 @@ FMOD_RESULT F_CALLBACK fmod_read_data(FMOD_SOUND * /*sound*/, void *data, unsign
     audio_len -= datalen;
     return FMOD_OK;
 }
+/**
+ * @brief 音频解码线程
+ * @param path 音视频的utf-8路径
+ * @retval none
+ */
 void au_decode(const char *path)
 {
     // avformat

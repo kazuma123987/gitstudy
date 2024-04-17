@@ -8,7 +8,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/chess.exe",
+            "program": "${workspaceFolder}/bin/c_merge.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

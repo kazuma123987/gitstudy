@@ -38,11 +38,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/src/user/textRender.cpp.obj.d"
   "CMakeFiles/main.dir/src/user/texture.cpp.obj"
   "CMakeFiles/main.dir/src/user/texture.cpp.obj.d"
-  "CMakeFiles/main.dir/version.rc.obj"
   "libmain.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C CXX RC)
+foreach(lang C CXX)
   include(CMakeFiles/main.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()
