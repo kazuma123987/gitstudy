@@ -18,4 +18,7 @@ extern size_t arrFloor_N;
 extern size_t arrWall_N;
 extern glm::vec3 offsetModel[10];
 extern std::vector<std::string> cubePaths;
+
+extern GLFWwindow *window;
+extern Camera *camera;
 #endif

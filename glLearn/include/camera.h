@@ -5,7 +5,7 @@
 class Camera
 {
 public:
-	Camera();
+	Camera(GLfloat near_point,GLfloat far_point);
 	~Camera()
 	{
 		destroyCamera();
@@ -78,6 +78,8 @@ private:
 	float curTime;
 	float pitch;
 	float yaw;
+	GLfloat near_point;
+	GLfloat far_point;
 	glm::quat qua;//四元数,本质为绕着任意轴旋转一个角度,不同于欧拉角绕x,y,z角旋转,避免万向节死锁问题
 	glm::vec3 cameraFront;
 	glm::vec3 cameraPos;

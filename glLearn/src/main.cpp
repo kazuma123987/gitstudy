@@ -1,10 +1,19 @@
-#include <main.h>
+#include "main.h"
+
+// N卡使用独显运行
+extern "C" __declspec(dllexport) DWORD NvOptimusEnablement;
+__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+// main函数全局变量
+static bool isShowCursor = true;
+// 初始化类的static变量
+GLuint FrameBuffer::VAO = 0;
+GLuint FrameBuffer::VBO = 0;
+
 int main(int argc, char *argv[])
 {
 	Game *game = new Game();
-	if (game->gameInit() == -1)
+	if (game->init() == -1)
 		fputs("\nfailed to init the game", stderr);
-	/*--------------------音频设置--------------------*/
 	// fmod
 	s1 = InitSound();
 	s2 = InitSound();
@@ -34,13 +43,13 @@ int main(int argc, char *argv[])
 			camera->keyboardInput(window);
 			camera->curseInput(window);
 		}
-		camera->update();
-		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
 
 		//*LOGIC
-		game->gameLogic();
+		camera->update();
+		camera->updateUBO(); // 直接通过UBO把view和proj矩阵以全局变量(块)的形式发送
+		game->update();
 
-		//*Rend
+		//*Render
 		// 渲染GUI界面
 		game->rendGUI();
 		/*------第一阶段处理(生成阴影贴图)------*/
@@ -52,14 +61,12 @@ int main(int argc, char *argv[])
 		game->rendGBuffer();
 		game->deferredRend();
 		// game->rendScene();
+
 		/*------第三阶段处理(后期处理)------*/
 		game->postRend();
-
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		// 设置标题
-		rendFPS(window);
+		game->rendFPS(window); // 设置标题
 
 		//* EVENTS && DISPLAY
 		glfwSwapBuffers(window);
@@ -69,4 +76,60 @@ int main(int argc, char *argv[])
 	/*--------------------释放内存--------------------*/
 	delete game;
 	return 0;
+}
+
+void press_close_window(GLFWwindow *window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, TRUE);
+}
+
+void frame_size_callback(GLFWwindow *window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+void keyboardInput(GLFWwindow *window)
+{
+	static bool isPressP = false;
+	static bool isPressN = false;
+	if (!isPressP && glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		static bool f = FALSE;
+		music.playMusic(s2);
+		FMOD_Channel_SetPaused(s1->channel, (f = !f));
+		isPressP = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+		isPressP = false;
+	if (!isPressN && glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+	{
+		music.playMusic(s2);
+		FMOD_Channel_Stop(s1->channel);
+		isPressN = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+		isPressN = false;
+}
+
+void mouse_button_input(GLFWwindow *window)
+{
+	static bool isPress = false;
+	if (!isPress && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+	{
+		if (isShowCursor)
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		isShowCursor = !isShowCursor;
+		isPress = true;
+	}
+	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		isPress = false;
+}
+
+void scrollCallback(GLFWwindow *window, double xoffset, double yoffset)
+{
+	if (!isShowCursor)
+		camera->scrollCallback(yoffset);
 }

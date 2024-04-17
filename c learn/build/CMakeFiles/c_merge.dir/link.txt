@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\c_merge.dir/objects.a
+C:\A_TOOLS\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\c_merge.dir/objects.a @CMakeFiles\c_merge.dir\objects1.rsp
+C:\A_TOOLS\MinGW64\13.2.0\bin\g++.exe -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall -Wl,--whole-archive CMakeFiles\c_merge.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\c_merge.exe" -Wl,--out-implib,libc_merge.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\c_merge.dir\linkLibs.rsp
