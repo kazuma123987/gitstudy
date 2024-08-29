@@ -9,7 +9,16 @@ SpriteRender::~SpriteRender()
     glDeleteBuffers(1, &quadVBO);
     glDeleteVertexArrays(1, &quadVAO);
 }
-//位置以左下角计算,缩放以图片左下角为中心,旋转角度正数为逆时针
+/**
+ * @brief 绘制精灵/纹理
+ * 
+ * @param texture 纹理引用
+ * @param position 位置以左下角计算,缩放以图片左下角为中心,旋转角度正数为逆时针
+ * @param size 纹理大小
+ * @param rotate 旋转角度
+ * @param spriteColor 纹理颜色
+ * @param darker 纹理颜色加深程度,1.0为正常颜色
+ */
 void SpriteRender::DrawSprite(Texture &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 spriteColor,float darker)
 {
     this->shader.Use();

@@ -6,56 +6,8 @@
 #include <dirent.h>
 #include <stdio.h>
 
-std::vector<std::string> get_files_from_extension(const char *path, const char *extension)
-{
-    std::vector<std::string> c_files_vector;
-    DIR *directory = opendir(path);
-    if (directory == NULL)
-    {
-        printf("无法打开目录: %s\n", path);
-        return c_files_vector;
-    }
-    std::string fullDir = path;
-    fullDir += "\\";
-    struct dirent *entry; // dirent结构体:char d_name[260]存放文件路径名,d_namelen存放路径长度
-    // 每次调用readdir会把指针指向下一个文件
-    while ((entry = readdir(directory)) != NULL)
-    {
-        // 找到文件拓展 ".xx"
-        char *tmp = entry->d_name, *ex_pointer = NULL;
-        do
-        {
-            tmp = strchr(tmp, '.');
-            if (tmp)
-            {
-                ex_pointer = tmp;
-                tmp++;
-            }
-        } while (tmp);
-        // 判断后缀是否正确
-        if (ex_pointer != NULL && strcmp(ex_pointer, extension) == 0)
-        {
-            std::string fullPath = fullDir + entry->d_name;
-            c_files_vector.emplace_back(fullPath);
-        }
-    }
-
-    closedir(directory);
-    return c_files_vector;
-}
-
-size_t find_char_index(const char *string, char ch)
-{
-    size_t i = 0;
-    while (string != NULL)
-    {
-        if (*string == ch)
-            return i;
-        i++;
-        string++;
-    }
-    return SIZE_MAX;
-}
+std::vector<std::string> get_files_from_extension(const char *path, const char *extension);
+size_t find_char_index(const char *string, char ch);
 
 int main(int argc, char *argv[])
 {
@@ -113,7 +65,7 @@ int main(int argc, char *argv[])
                 tmp = strchr(tmp, '[');
                 index = find_char_index(tmp, '=');
                 fwrite(tmp, sizeof(char), index + 1, merge_file);
-                fputc('\n', merge_file);
+                fputs(" {\n", merge_file);
                 free(save_tmp);
             }
             else
@@ -138,7 +90,7 @@ int main(int argc, char *argv[])
     // 循环遍历当前目录下的文件
     for (size_t i = 0; i < c_file_paths.size(); i++)
     {
-        printf("%d:%s\n", i, c_file_paths[i].c_str());
+        printf("%llu:%s\n", i, c_file_paths[i].c_str());
         fopen_s(&fp, c_file_paths[i].c_str(), "r");
         if (fp)
         {
@@ -151,16 +103,18 @@ int main(int argc, char *argv[])
             // 返回文件头并把文件所有数据写入tmp
             rewind(fp);
             fread(tmp, sizeof(char), file_length, fp);
+            if (strstr(tmp, "const unsigned char") == NULL) // 查找开头是否正确
+                continue;
             tmp[file_length] = '\0';
             // 写入数据到merge_file的文件
-            fputs("{ /* ", merge_file);              // 先写入'{ /*'
-            tmp = strstr(tmp, "_");                  // 找到'_'
-            tmp++;                                   // 跳过'_'
-            index = find_char_index(tmp, '[');       // 找到[索引,目的是写注释时区分名字(gImage_WIFI[128]可提取‘WIFI’)
-            tmp[index] = '\0';                       // 字符串结束
-            fprintf(merge_file, "%s */\n", tmp);     // 写注释结束,准备写数据
-            tmp += (index + 1);                      // 跳过'\0'
-            tmp += (find_char_index(tmp, '\n') + 1); // 跳过第一行
+            fputs("{ /* ", merge_file);                  // 先写入'{ /*'
+            tmp = strstr(tmp, "_");                      // 找到'_'
+            tmp++;                                       // 跳过'_'
+            index = find_char_index(tmp, '[');           // 找到[索引,目的是写注释时区分名字(gImage_WIFI[128]可提取‘WIFI’)
+            tmp[index] = '\0';                           // 字符串结束
+            fprintf(merge_file, "%s %llu */\n", tmp, i); // 写注释结束,准备写数据
+            tmp += (index + 1);                          // 跳过'\0'
+            tmp += (find_char_index(tmp, '\n') + 1);     // 跳过第一行
             while (tmp)
             {
                 index = find_char_index(tmp, '\n'); // index也是'\n'之前的字符数量
@@ -187,4 +141,55 @@ int main(int argc, char *argv[])
     fclose(merge_file);
     printf("success!\n");
     return 0;
+}
+
+std::vector<std::string> get_files_from_extension(const char *path, const char *extension)
+{
+    std::vector<std::string> c_files_vector;
+    DIR *directory = opendir(path);
+    if (directory == NULL)
+    {
+        printf("无法打开目录: %s\n", path);
+        return c_files_vector;
+    }
+    std::string fullDir = path;
+    fullDir += "\\";
+    struct dirent *entry; // dirent结构体:char d_name[260]存放文件路径名,d_namelen存放路径长度
+    // 每次调用readdir会把指针指向下一个文件
+    while ((entry = readdir(directory)) != NULL)
+    {
+        // 找到文件拓展 ".xx"
+        char *tmp = entry->d_name, *ex_pointer = NULL;
+        do
+        {
+            tmp = strchr(tmp, '.');
+            if (tmp)
+            {
+                ex_pointer = tmp;
+                tmp++;
+            }
+        } while (tmp);
+        // 判断后缀是否正确
+        if (ex_pointer != NULL && strcmp(ex_pointer, extension) == 0)
+        {
+            std::string fullPath = fullDir + entry->d_name;
+            c_files_vector.emplace_back(fullPath);
+        }
+    }
+
+    closedir(directory);
+    return c_files_vector;
+}
+
+size_t find_char_index(const char *string, char ch)
+{
+    size_t i = 0;
+    while (string != NULL)
+    {
+        if (*string == ch)
+            return i;
+        i++;
+        string++;
+    }
+    return SIZE_MAX;
 }

@@ -271,6 +271,32 @@ open_file_and_folder/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\open_file_and_folder.dir\build.make CMakeFiles/open_file_and_folder.dir/build
 .PHONY : open_file_and_folder/fast
 
+#=============================================================================
+# Target rules for targets named get_encode_bytes
+
+# Build rule for target.
+get_encode_bytes: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 get_encode_bytes
+.PHONY : get_encode_bytes
+
+# fast build rule for target.
+get_encode_bytes/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\get_encode_bytes.dir\build.make CMakeFiles/get_encode_bytes.dir/build
+.PHONY : get_encode_bytes/fast
+
+#=============================================================================
+# Target rules for targets named find_string_index
+
+# Build rule for target.
+find_string_index: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 find_string_index
+.PHONY : find_string_index
+
+# fast build rule for target.
+find_string_index/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/build
+.PHONY : find_string_index/fast
+
 src/c_merge/main.obj: src/c_merge/main.cpp.obj
 .PHONY : src/c_merge/main.obj
 
@@ -319,6 +345,54 @@ src/chess/chess.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/chess/chess.c.s
 .PHONY : src/chess/chess.c.s
 
+src/find_string_index/main.obj: src/find_string_index/main.c.obj
+.PHONY : src/find_string_index/main.obj
+
+# target to build an object file
+src/find_string_index/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/main.c.obj
+.PHONY : src/find_string_index/main.c.obj
+
+src/find_string_index/main.i: src/find_string_index/main.c.i
+.PHONY : src/find_string_index/main.i
+
+# target to preprocess a source file
+src/find_string_index/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/main.c.i
+.PHONY : src/find_string_index/main.c.i
+
+src/find_string_index/main.s: src/find_string_index/main.c.s
+.PHONY : src/find_string_index/main.s
+
+# target to generate assembly for a file
+src/find_string_index/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/main.c.s
+.PHONY : src/find_string_index/main.c.s
+
+src/find_string_index/oled_font.obj: src/find_string_index/oled_font.c.obj
+.PHONY : src/find_string_index/oled_font.obj
+
+# target to build an object file
+src/find_string_index/oled_font.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/oled_font.c.obj
+.PHONY : src/find_string_index/oled_font.c.obj
+
+src/find_string_index/oled_font.i: src/find_string_index/oled_font.c.i
+.PHONY : src/find_string_index/oled_font.i
+
+# target to preprocess a source file
+src/find_string_index/oled_font.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/oled_font.c.i
+.PHONY : src/find_string_index/oled_font.c.i
+
+src/find_string_index/oled_font.s: src/find_string_index/oled_font.c.s
+.PHONY : src/find_string_index/oled_font.s
+
+# target to generate assembly for a file
+src/find_string_index/oled_font.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/src/find_string_index/oled_font.c.s
+.PHONY : src/find_string_index/oled_font.c.s
+
 src/func_pointer/fun_pointer.obj: src/func_pointer/fun_pointer.c.obj
 .PHONY : src/func_pointer/fun_pointer.obj
 
@@ -342,6 +416,30 @@ src/func_pointer/fun_pointer.s: src/func_pointer/fun_pointer.c.s
 src/func_pointer/fun_pointer.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\func_pointer.dir\build.make CMakeFiles/func_pointer.dir/src/func_pointer/fun_pointer.c.s
 .PHONY : src/func_pointer/fun_pointer.c.s
+
+src/get_encode_bytes/main.obj: src/get_encode_bytes/main.c.obj
+.PHONY : src/get_encode_bytes/main.obj
+
+# target to build an object file
+src/get_encode_bytes/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\get_encode_bytes.dir\build.make CMakeFiles/get_encode_bytes.dir/src/get_encode_bytes/main.c.obj
+.PHONY : src/get_encode_bytes/main.c.obj
+
+src/get_encode_bytes/main.i: src/get_encode_bytes/main.c.i
+.PHONY : src/get_encode_bytes/main.i
+
+# target to preprocess a source file
+src/get_encode_bytes/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\get_encode_bytes.dir\build.make CMakeFiles/get_encode_bytes.dir/src/get_encode_bytes/main.c.i
+.PHONY : src/get_encode_bytes/main.c.i
+
+src/get_encode_bytes/main.s: src/get_encode_bytes/main.c.s
+.PHONY : src/get_encode_bytes/main.s
+
+# target to generate assembly for a file
+src/get_encode_bytes/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\get_encode_bytes.dir\build.make CMakeFiles/get_encode_bytes.dir/src/get_encode_bytes/main.c.s
+.PHONY : src/get_encode_bytes/main.c.s
 
 src/guessNumber/guessNumber.obj: src/guessNumber/guessNumber.c.obj
 .PHONY : src/guessNumber/guessNumber.obj
@@ -689,7 +787,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... c_merge
 	@echo ... chess
+	@echo ... find_string_index
 	@echo ... func_pointer
+	@echo ... get_encode_bytes
 	@echo ... guessNumber
 	@echo ... heap
 	@echo ... linked_list
@@ -705,9 +805,18 @@ help:
 	@echo ... src/chess/chess.obj
 	@echo ... src/chess/chess.i
 	@echo ... src/chess/chess.s
+	@echo ... src/find_string_index/main.obj
+	@echo ... src/find_string_index/main.i
+	@echo ... src/find_string_index/main.s
+	@echo ... src/find_string_index/oled_font.obj
+	@echo ... src/find_string_index/oled_font.i
+	@echo ... src/find_string_index/oled_font.s
 	@echo ... src/func_pointer/fun_pointer.obj
 	@echo ... src/func_pointer/fun_pointer.i
 	@echo ... src/func_pointer/fun_pointer.s
+	@echo ... src/get_encode_bytes/main.obj
+	@echo ... src/get_encode_bytes/main.i
+	@echo ... src/get_encode_bytes/main.s
 	@echo ... src/guessNumber/guessNumber.obj
 	@echo ... src/guessNumber/guessNumber.i
 	@echo ... src/guessNumber/guessNumber.s

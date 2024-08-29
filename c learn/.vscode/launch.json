@@ -8,7 +8,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/c_merge.exe",
+            "program": "${workspaceFolder}/bin/find_string_index.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

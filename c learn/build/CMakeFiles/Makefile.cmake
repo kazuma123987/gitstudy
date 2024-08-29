@@ -62,4 +62,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test.dir/DependInfo.cmake"
   "CMakeFiles/c_merge.dir/DependInfo.cmake"
   "CMakeFiles/open_file_and_folder.dir/DependInfo.cmake"
+  "CMakeFiles/get_encode_bytes.dir/DependInfo.cmake"
+  "CMakeFiles/find_string_index.dir/DependInfo.cmake"
   )
