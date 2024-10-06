@@ -49,7 +49,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/backward/binders.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bit
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/alloc_traits.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/allocated_ptr.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/allocator.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/basic_ios.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/basic_ios.tcc
@@ -57,8 +56,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/basic_string.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/char_traits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/charconv.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/chrono.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/codecvt.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/concept_check.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/cpp_type_traits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/cxxabi_forced.h
@@ -66,10 +63,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/exception.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/exception_defines.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/exception_ptr.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/fs_dir.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/fs_fwd.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/fs_ops.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/fs_path.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/functexcept.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/functional_hash.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/hash_bytes.h
@@ -78,30 +71,21 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/istream.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_classes.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_classes.tcc
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_conv.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_facets.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_facets.tcc
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_facets_nonio.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/locale_facets_nonio.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/localefwd.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/memory_resource.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/memoryfwd.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/move.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/nested_exception.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/new_allocator.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/ostream.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/ostream_insert.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/parse_numbers.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/postypes.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/predefined_ops.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/ptr_traits.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/quoted_string.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/range_access.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/refwrap.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/requires_hosted.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/shared_ptr.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/shared_ptr_base.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/sstream.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/std_abs.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/stl_algobase.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/stl_construct.h
@@ -112,54 +96,36 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/stl_pair.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/streambuf.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/streambuf_iterator.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/string_view.tcc
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/stringfwd.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/unique_ptr.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/uses_allocator.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/uses_allocator_args.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/bits/utility.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cctype
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cerrno
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/clocale
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/codecvt
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cstddef
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cstdint
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cstdio
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cstdlib
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ctime
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cwchar
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/cwctype
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/debug/assertions.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/debug/debug.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/exception
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/aligned_buffer.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/alloc_traits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/atomicity.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/concurrence.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/numeric_traits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/string_conversions.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ext/type_traits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/filesystem
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/initializer_list
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/iomanip
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ios
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/iosfwd
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/iostream
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/istream
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/limits
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/locale
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/new
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ostream
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/pstl/pstl_config.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/ratio
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/sstream
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/stdexcept
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/stdlib.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/streambuf
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/string
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/string_view
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/system_error
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/tuple
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/type_traits
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/typeinfo
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/atomic_word.h
@@ -172,9 +138,7 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/error_constants.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/gthr-default.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/gthr.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/messages_members.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32/bits/time_members.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/cetintrin.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/cldemoteintrin.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/clflushoptintrin.h
@@ -216,7 +180,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/smmintrin.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdarg.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stddef.h
- C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdint.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/tbmintrin.h
  C:/A_TOOLS/MinGW64/13.2.0/lib/gcc/x86_64-w64-mingw32/13.2.0/include/tmmintrin.h
@@ -340,7 +303,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/pshpack2.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/pshpack4.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/pshpack8.h
- C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/pthread_time.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/realtimeapiset.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/reason.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/rpc.h
@@ -374,7 +336,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/specstrings.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdarg.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stddef.h
- C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdint.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdio.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stdlib.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/stralign.h
@@ -388,7 +349,6 @@ CMakeFiles/open_file_and_folder.dir/src/open_file_and_folder/main.cpp.obj
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/systemtopologyapi.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/threadpoolapiset.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/threadpoollegacyapiset.h
- C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/time.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/timeapi.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/timezoneapi.h
  C:/A_TOOLS/MinGW64/13.2.0/x86_64-w64-mingw32/include/tvout.h

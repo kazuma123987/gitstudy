@@ -139,4 +139,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/util.dir/DependInfo.cmake"
   "CMakeFiles/media_player.dir/DependInfo.cmake"
+  "CMakeFiles/minimp3.dir/DependInfo.cmake"
   )

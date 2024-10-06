@@ -12,5 +12,6 @@ C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/c_merge.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/open_file_and_folder.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/get_encode_bytes.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/find_string_index.dir
+C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/worktime.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/edit_cache.dir
 C:/Users/34181/Desktop/gitstudy/c learn/build/CMakeFiles/rebuild_cache.dir

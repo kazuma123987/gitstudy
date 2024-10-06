@@ -1,0 +1,3 @@
+option3=android_log
+option4=gles_draw
+option5=hello_world

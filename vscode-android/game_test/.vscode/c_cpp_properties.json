@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\A_TEMPS\\Android_Studio\\SDK\\ndk\\24.0.8215888\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\include",
+                "C:\\A_TEMPS\\Android_Studio\\SDK\\ndk\\24.0.8215888\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\include\\c++\\v1",
+                "C:\\A_TEMPS\\Android_Studio\\SDK\\ndk\\24.0.8215888\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\include\\aarch64-linux-android",
+                "C:\\A_TEMPS\\Android_Studio\\Gradle\\caches\\transforms-3\\b9527020a2c0ae99e618aeaf967ecb23\\transformed\\games-activity-1.2.2\\prefab\\modules\\game-activity\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "compilerPath": "C:/A_TOOLS/LLVM/bin/clang++.exe"
+        }
+    ],
+    "version": 4
+}
