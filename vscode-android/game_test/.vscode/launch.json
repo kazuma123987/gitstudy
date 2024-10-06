@@ -1,0 +1,64 @@
+{
+    "configurations": [  
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Android Launch",
+            "appSrcRoot": "${workspaceRoot}/app/src/main",
+            "apkFile": "${workspaceRoot}/app/build/outputs/apk/debug/app-debug.apk",
+            "manifestFile": "${workspaceRoot}/app/src/main/AndroidManifest.xml",
+            "amStartArgs": [
+                "-D",
+                "--activity-brought-to-front",
+                "-a android.intent.action.MAIN",
+                "-c android.intent.category.LAUNCHER",
+                "-n com.example.game_test/.MainActivity"
+            ],
+            // "launchActivity": ".MainActivity",
+            "autoStartADB": true,
+            "adbPort": 5037
+        },
+        {
+            "type": "lldb",
+            "request": "attach",
+            "name": "Attach",
+            "program": "app_process64",
+            "waitFor": true,
+            "initCommands": [
+                "platform select remote-android",
+                "settings set target.exec-search-paths ${workspaceFolder}/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86_64",
+                "platform connect unix-abstract-connect:///data/local/tmp/debug.sock",
+                "settings set target.inherit-env false",
+                "shell '${workspaceFolder}/scripts/jdb_start.bat'",
+                "platform process list"
+            ],
+            "postRunCommands": [
+                // "add-dsym ${workspaceFolder}/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/x86_64/libgame_test.so",
+                "settings append target.exec-search-paths ${workspaceFolder}",
+                "pro hand -p true -s false -n false SIGXCPU",
+                "pro hand -p true -s false -n false SIGPWR"
+            ],
+            "preLaunchTask": "start",
+        }
+    ],
+    "inputs": [
+        {
+            //https://cloud.tencent.com/developer/ask/sof/106851890
+            "type": "command",
+            "id": "pid",
+            "command": "extension.commandvariable.pickStringRemember",
+            "args": {
+                "description": "pick the pid name",
+                "options": [],
+                "default": "",
+                "fileName": "${workspaceFolder}/tmp/get-pid.txt",
+                "pattern": {
+                    "regexp": "^\\s*(?!#)([^=]+?)\\s*=\\s*(?:(\\{.+\\})|(.+))$",
+                    "label": "$1",
+                    "json": "$2",
+                    "value": "$3"
+                }
+            }
+        }
+    ]
+}

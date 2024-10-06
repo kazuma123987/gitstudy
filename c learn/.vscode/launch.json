@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) 启动",
+            "name": "debug server",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/find_string_index.exe",
+            "program": "${workspaceFolder}/bin/worktime.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -30,6 +30,5 @@
             ],
             "preLaunchTask": "debug"
         }
-
     ]
 }

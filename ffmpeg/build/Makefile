@@ -141,6 +141,19 @@ media_player/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/build
 .PHONY : media_player/fast
 
+#=============================================================================
+# Target rules for targets named minimp3
+
+# Build rule for target.
+minimp3: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 minimp3
+.PHONY : minimp3
+
+# fast build rule for target.
+minimp3/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\minimp3.dir\build.make CMakeFiles/minimp3.dir/build
+.PHONY : minimp3/fast
+
 src/glad/glad.obj: src/glad/glad.c.obj
 .PHONY : src/glad/glad.obj
 
@@ -285,6 +298,30 @@ src/media_player/texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\media_player.dir\build.make CMakeFiles/media_player.dir/src/media_player/texture.cpp.s
 .PHONY : src/media_player/texture.cpp.s
 
+src/minimp3/minimp3_test.obj: src/minimp3/minimp3_test.c.obj
+.PHONY : src/minimp3/minimp3_test.obj
+
+# target to build an object file
+src/minimp3/minimp3_test.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\minimp3.dir\build.make CMakeFiles/minimp3.dir/src/minimp3/minimp3_test.c.obj
+.PHONY : src/minimp3/minimp3_test.c.obj
+
+src/minimp3/minimp3_test.i: src/minimp3/minimp3_test.c.i
+.PHONY : src/minimp3/minimp3_test.i
+
+# target to preprocess a source file
+src/minimp3/minimp3_test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\minimp3.dir\build.make CMakeFiles/minimp3.dir/src/minimp3/minimp3_test.c.i
+.PHONY : src/minimp3/minimp3_test.c.i
+
+src/minimp3/minimp3_test.s: src/minimp3/minimp3_test.c.s
+.PHONY : src/minimp3/minimp3_test.s
+
+# target to generate assembly for a file
+src/minimp3/minimp3_test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\minimp3.dir\build.make CMakeFiles/minimp3.dir/src/minimp3/minimp3_test.c.s
+.PHONY : src/minimp3/minimp3_test.c.s
+
 src/utils/util.obj: src/utils/util.c.obj
 .PHONY : src/utils/util.obj
 
@@ -318,6 +355,7 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... media_player
+	@echo ... minimp3
 	@echo ... util
 	@echo ... src/glad/glad.obj
 	@echo ... src/glad/glad.i
@@ -337,6 +375,9 @@ help:
 	@echo ... src/media_player/texture.obj
 	@echo ... src/media_player/texture.i
 	@echo ... src/media_player/texture.s
+	@echo ... src/minimp3/minimp3_test.obj
+	@echo ... src/minimp3/minimp3_test.i
+	@echo ... src/minimp3/minimp3_test.s
 	@echo ... src/utils/util.obj
 	@echo ... src/utils/util.i
 	@echo ... src/utils/util.s

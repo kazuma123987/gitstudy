@@ -1,0 +1,1 @@
+adb shell am start -a android.intent.action.MAIN -D -n com.example.game_test/.MainActivity

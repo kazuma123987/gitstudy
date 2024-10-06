@@ -26,6 +26,7 @@ file(GLOB open_file_and_folder ${CMAKE_SOURCE_DIR}/src/open_file_and_folder/*.cp
 file(GLOB c_merge ${CMAKE_SOURCE_DIR}/src/c_merge/*.cpp)
 file(GLOB get_encode_bytes ${CMAKE_SOURCE_DIR}/src/get_encode_bytes/*.c)
 file(GLOB find_string_index ${CMAKE_SOURCE_DIR}/src/find_string_index/*.c)
+file(GLOB worktime ${CMAKE_SOURCE_DIR}/src/worktime/*.c)
 
 # 可执行文件
 add_executable(chess ${chess})
@@ -55,3 +56,5 @@ add_executable(open_file_and_folder ${open_file_and_folder})
 add_executable(get_encode_bytes ${get_encode_bytes})
 
 add_executable(find_string_index ${find_string_index})
+
+add_executable(worktime ${worktime})

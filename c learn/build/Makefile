@@ -297,6 +297,19 @@ find_string_index/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\find_string_index.dir\build.make CMakeFiles/find_string_index.dir/build
 .PHONY : find_string_index/fast
 
+#=============================================================================
+# Target rules for targets named worktime
+
+# Build rule for target.
+worktime: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 worktime
+.PHONY : worktime
+
+# fast build rule for target.
+worktime/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\worktime.dir\build.make CMakeFiles/worktime.dir/build
+.PHONY : worktime/fast
+
 src/c_merge/main.obj: src/c_merge/main.cpp.obj
 .PHONY : src/c_merge/main.obj
 
@@ -777,6 +790,30 @@ src/vector/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\vector.dir\build.make CMakeFiles/vector.dir/src/vector/main.c.s
 .PHONY : src/vector/main.c.s
 
+src/worktime/worktime.obj: src/worktime/worktime.c.obj
+.PHONY : src/worktime/worktime.obj
+
+# target to build an object file
+src/worktime/worktime.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\worktime.dir\build.make CMakeFiles/worktime.dir/src/worktime/worktime.c.obj
+.PHONY : src/worktime/worktime.c.obj
+
+src/worktime/worktime.i: src/worktime/worktime.c.i
+.PHONY : src/worktime/worktime.i
+
+# target to preprocess a source file
+src/worktime/worktime.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\worktime.dir\build.make CMakeFiles/worktime.dir/src/worktime/worktime.c.i
+.PHONY : src/worktime/worktime.c.i
+
+src/worktime/worktime.s: src/worktime/worktime.c.s
+.PHONY : src/worktime/worktime.s
+
+# target to generate assembly for a file
+src/worktime/worktime.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\worktime.dir\build.make CMakeFiles/worktime.dir/src/worktime/worktime.c.s
+.PHONY : src/worktime/worktime.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -799,6 +836,7 @@ help:
 	@echo ... swap
 	@echo ... test
 	@echo ... vector
+	@echo ... worktime
 	@echo ... src/c_merge/main.obj
 	@echo ... src/c_merge/main.i
 	@echo ... src/c_merge/main.s
@@ -859,6 +897,9 @@ help:
 	@echo ... src/vector/main.obj
 	@echo ... src/vector/main.i
 	@echo ... src/vector/main.s
+	@echo ... src/worktime/worktime.obj
+	@echo ... src/worktime/worktime.i
+	@echo ... src/worktime/worktime.s
 .PHONY : help
 
 

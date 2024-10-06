@@ -115,7 +115,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.29.0-rc1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.29.0-rc1/CMakeRCCompiler.cmake"
   "CMakeFiles/3.29.0-rc1/CMakeSystem.cmake"
-  "C:/Users/34181/Desktop/gitstudy/glLearn/res/icon/version.rc.in"
   )
 
 # The corresponding makefile is:
@@ -132,7 +131,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.29.0-rc1/CMakeRCCompiler.cmake"
   "CMakeFiles/3.29.0-rc1/CMakeCCompiler.cmake"
   "CMakeFiles/3.29.0-rc1/CMakeCXXCompiler.cmake"
-  "version.rc"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = @CMakeFiles/open_file_and_folder.dir/includes_CXX.rsp
 
-CXX_FLAGS = -fmessage-length=0 -ffunction-sections -fdata-sections -fno-exceptions -O0 -g -Wall
+CXX_FLAGS = -std=c++17  -g
 

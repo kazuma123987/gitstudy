@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "include"
             ],
             "defines": [
                 "_DEBUG",
@@ -13,9 +13,10 @@
             "windowsSdkVersion": "10.0.19041.0",
             "cStandard": "c99",
             "cppStandard": "c++17",
-            "compilerPath": "C:/A_TOOLS/MinGW64/13.2.0/bin/g++.exe",
-            "intelliSenseMode": "windows-gcc-x64",
-            "compilerArgs": []
+            "compilerPath": "C:/A_TOOLS/LLVM/bin/clang++.exe",
+            "compilerArgs": [
+                "ASIO_STANDALON"
+            ]
         }
     ],
     "version": 4

@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "third_parts/asio"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "cStandard": "c99",
+            "cppStandard": "c++14",
+            "compilerPath": "C:/A_TOOLS/LLVM/bin/clang++.exe",
+            "compilerArgs": [
+                "ASIO_STANDALON"
+            ]
+        }
+    ],
+    "version": 4
+}
