@@ -44,4 +44,4 @@ dkms.conf
 *.mp4
 *.fbx
 code_docs/*
-*build*
+build/
