@@ -1,18 +1,9 @@
 #include "renderer.h"
 #include "resource_manager.h"
 #include <vector>
-extern int winWidth;
-extern int winHeight;
 const int numSegments = 100;
 Renderer::Renderer()
 {
-    glm::mat4 proj = glm::ortho(0.0f, static_cast<float>(winWidth), 0.0f, static_cast<float>(winHeight), -1.0f, 1.0f);
-    this->solidShader = ResourceManager::getShader("solid").Use();
-    this->solidShader.unfmat4("proj", proj);
-    this->spriteShader = ResourceManager::getShader("sprite").Use();
-    this->spriteShader.unfmat4("proj", proj);
-    this->s_vertices = new glm::vec2[numSegments + 2];
-    initRender();
 }
 Renderer::~Renderer()
 {
@@ -25,6 +16,81 @@ Renderer::~Renderer()
     glDeleteBuffers(1, &colorVBO);
     delete this->s_vertices;
 }
+
+bool Renderer::initGraph(int width, int height)
+{
+    // 初始化 GLFW
+    if (!glfwInit())
+    {
+        return false;
+    }
+
+    // 创建窗口
+    this->window = glfwCreateWindow(width, height, "Particle System", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return false;
+    }
+
+    // 设置 OpenGL 上下文
+    glfwMakeContextCurrent(window);
+
+    // 初始化 GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        return false;
+    }
+
+    glViewport(0, 0, width, height); // 设置视口
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#if 0
+    glMatrixMode(GL_PROJECTION);               // 选择投影矩阵堆栈
+    glLoadIdentity();                          // 将当前矩阵堆栈的顶部矩阵重置为单位矩阵
+    glOrtho(0, width, height, 0, -1, 1); // 设置正交投影的长、宽
+    glMatrixMode(GL_MODELVIEW);                // 选择模型视图矩阵堆栈
+    glLoadIdentity();                          // 将当前矩阵堆栈(模型变换)的顶部矩阵重置为单位矩阵,即清空上次的(位置、选择、缩放)变换
+#endif
+
+    // 加载着色器
+    // SetCurrentDirectoryA("C:\\Users\\34181\\Desktop\\gitstudy\\c learn\\src\\firework");
+    ResourceManager::loadShader("./shader/solid.vert", "./shader/solid.frag", NULL, "solid");
+    ResourceManager::loadShader("./shader/sprite.vert", "./shader/sprite.frag", NULL, "sprite");
+    glm::mat4 proj = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
+    this->solidShader = ResourceManager::getShader("solid").Use();
+    this->solidShader.unfmat4("proj", proj);
+    this->spriteShader = ResourceManager::getShader("sprite").Use();
+    this->spriteShader.unfmat4("proj", proj);
+    this->s_vertices = new glm::vec2[numSegments + 2];
+
+    initRender();
+    return true;
+}
+
+void Renderer::closeGraph(void)
+{
+    glfwTerminate();
+}
+
+bool Renderer::isRun(void)
+{
+    return glfwWindowShouldClose(this->window);
+}
+
+void Renderer::flush(void)
+{
+    glfwSwapBuffers(this->window);
+}
+void Renderer::clear(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+void Renderer::update(void)
+{
+    glfwPollEvents();
+}
+
 /**
  * @brief 绘制精灵/纹理
  *

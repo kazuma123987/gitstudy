@@ -26,7 +26,7 @@ void Particle::update(float deltaTime)
         if (this->initialLife > 0)
         {
             this->color.a -= deltaTime / this->initialLife;
-            this->size -= deltaTime / this->initialLife;
+            this->size -= (deltaTime / this->initialLife) * this->initialSize;
         }
     }
 }
