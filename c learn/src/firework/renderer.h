@@ -19,6 +19,7 @@ private:
     GLuint quadVAO,quadVBO;
     GLuint circleVAO,circleVBO;
     GLuint offsetVBO, scaleVBO, colorVBO; // 实例化VBO
+    glm::vec2 *s_vertices = NULL; // 圆形顶点数据
     void initRender();
 };
 

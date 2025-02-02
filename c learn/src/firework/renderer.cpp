@@ -4,7 +4,6 @@
 extern int winWidth;
 extern int winHeight;
 const int numSegments = 100;
-std::vector<glm::vec2> s_vertices;
 Renderer::Renderer()
 {
     glm::mat4 proj = glm::ortho(0.0f, static_cast<float>(winWidth), 0.0f, static_cast<float>(winHeight), -1.0f, 1.0f);
@@ -12,6 +11,7 @@ Renderer::Renderer()
     this->solidShader.unfmat4("proj", proj);
     this->spriteShader = ResourceManager::getShader("sprite").Use();
     this->spriteShader.unfmat4("proj", proj);
+    this->s_vertices = new glm::vec2[numSegments + 2];
     initRender();
 }
 Renderer::~Renderer()
@@ -23,6 +23,7 @@ Renderer::~Renderer()
     glDeleteBuffers(1, &offsetVBO);
     glDeleteBuffers(1, &scaleVBO);
     glDeleteBuffers(1, &colorVBO);
+    delete this->s_vertices;
 }
 /**
  * @brief 绘制精灵/纹理
@@ -132,19 +133,21 @@ void Renderer::initRender()
 
     {
         // 生成单位圆顶点数据
-        s_vertices.push_back(glm::vec2(0.0f, 0.0f)); // 圆心
-        for (int i = 0; i <= numSegments + 1; ++i)
+        // s_vertices.push_back(glm::vec2(0.0f, 0.0f)); // 圆心
+        this->s_vertices[0] = glm::vec2(0.0f, 0.0f);
+        for (int i = 0; i <= numSegments; ++i)
         {
             float angle = i * 2.0f * 3.1415926f / numSegments;
             float dx = cosf(angle);
             float dy = sinf(angle);
-            s_vertices.push_back(glm::vec2(dx, dy));
+            // s_vertices.push_back(glm::vec2(dx, dy));
+            this->s_vertices[i + 1] = glm::vec2(dx, dy);
         }
         glGenVertexArrays(1, &circleVAO);
         glGenBuffers(1, &circleVBO);
         glBindVertexArray(circleVAO);
         glBindBuffer(GL_ARRAY_BUFFER, circleVBO);
-        glBufferData(GL_ARRAY_BUFFER, s_vertices.size() * sizeof(glm::vec2), s_vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (numSegments + 2) * sizeof(glm::vec2), this->s_vertices, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
         glEnableVertexAttribArray(0);
         // glVertexAttribDivisor(0, 0); // 每次绘制非实例时更新属性0
