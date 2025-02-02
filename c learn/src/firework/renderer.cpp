@@ -4,6 +4,7 @@
 extern int winWidth;
 extern int winHeight;
 const int numSegments = 100;
+std::vector<glm::vec2> s_vertices;
 Renderer::Renderer()
 {
     glm::mat4 proj = glm::ortho(0.0f, static_cast<float>(winWidth), 0.0f, static_cast<float>(winHeight), -1.0f, 1.0f);
@@ -131,14 +132,13 @@ void Renderer::initRender()
 
     {
         // 生成单位圆顶点数据
-        static std::vector<glm::vec2> s_vertices(numSegments + 2);
-        s_vertices[0] = glm::vec2(0.0f, 0.0f); // 圆心
+        s_vertices.push_back(glm::vec2(0.0f, 0.0f)); // 圆心
         for (int i = 0; i <= numSegments + 1; ++i)
         {
             float angle = i * 2.0f * 3.1415926f / numSegments;
             float dx = cosf(angle);
             float dy = sinf(angle);
-            s_vertices[i + 1] = glm::vec2(dx, dy);
+            s_vertices.push_back(glm::vec2(dx, dy));
         }
         glGenVertexArrays(1, &circleVAO);
         glGenBuffers(1, &circleVBO);

@@ -10,11 +10,11 @@
 #include "resource_manager.h"
 #include "windows.h"
 
-const int frameRate = 144;
-int winWidth = 1600;
-int winHeight = 900;
+const int frameRate = 120;
+int winWidth = 3840;
+int winHeight = 2160;
 
-std::list<ParticleEmitter> emitters;
+std::list<ParticleEmitter> *emitters = new std::list<ParticleEmitter>;
 
 int main()
 {
@@ -47,6 +47,7 @@ int main()
     glViewport(0, 0, winWidth, winHeight); // 设置视口
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClear(GL_COLOR_BUFFER_BIT); // 清除屏幕
 #if 0
     glMatrixMode(GL_PROJECTION);               // 选择投影矩阵堆栈
     glLoadIdentity();                          // 将当前矩阵堆栈的顶部矩阵重置为单位矩阵
@@ -64,17 +65,17 @@ int main()
     Renderer *renderer = new Renderer();
 
     // 初始化粒子发射器
-    for (size_t i = 0; i < 2; i++)
+    for (size_t i = 0; i < 100; i++)
     {
         ParticleEmitter emitter;
-        emitter.setPosition(glm::vec2(winWidth / 2 * i, 0)); // 发射器位置
+        emitter.setPosition(glm::vec2(winWidth / 100 * i, 0)); // 发射器位置
         emitter.setVelocity(glm::vec2(0.0f, 100.0f));          // 发射器速度
-        emitter.setParPerSecond(100000);                          // 发射器生成粒子速度
+        emitter.setParPerSecond(1000);                         // 发射器生成粒子速度
         emitter.setParInitSize(2.0f);                          // 粒子初始尺寸
         emitter.setParInitSpeed(10.0f);                        // 粒子初始速度大小
         emitter.setParInitLife(3.0f);                          // 粒子生命
         emitter.setEmitterLife(20.0f);                         // 发射器生命
-        emitters.push_back(emitter);
+        (*emitters).push_back(emitter);
     }
 
     auto lastTime = std::chrono::system_clock::now();
@@ -83,20 +84,20 @@ int main()
     // 主循环
     while (!glfwWindowShouldClose(window))
     {
-        // 清除屏幕
-        glClear(GL_COLOR_BUFFER_BIT);
+        // // 清除屏幕
+        // glClear(GL_COLOR_BUFFER_BIT);
 
         float deltaTime = std::chrono::duration<float>(std::chrono::system_clock::now() - lastTime).count();
         lastTime = std::chrono::system_clock::now();
 
         // 更新粒子发射器
-        for (auto it = emitters.begin(); it != emitters.end();)
+        for (auto it = (*emitters).begin(); it != (*emitters).end();)
         {
             it->update(deltaTime);
             it->draw(*renderer);
             if (!it->isAlive())
             {
-                it = emitters.erase(it);
+                it = (*emitters).erase(it);
             }
             else
             {
@@ -108,6 +109,7 @@ int main()
         if (std::chrono::duration<float>(std::chrono::system_clock::now() - frameTime).count() >= 1.0f / frameRate)
         {
             glfwSwapBuffers(window);
+            glClear(GL_COLOR_BUFFER_BIT); // 清除屏幕
             frameTime = std::chrono::system_clock::now();
         }
 
@@ -115,6 +117,7 @@ int main()
         glfwPollEvents();
     }
     delete renderer;
+    delete emitters;
     ResourceManager::Clear();
     glfwTerminate();
     return 0;
