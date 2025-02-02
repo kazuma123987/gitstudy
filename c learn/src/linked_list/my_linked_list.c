@@ -1,4 +1,5 @@
 #include "my_linked_list.h"
+#ifdef __GNUC__
 // 归并排序合并函数
 static inline ListNode *linked_list_merge(ListNode *left, ListNode *right)
 {
@@ -103,3 +104,4 @@ void linked_list_merge_sort(LinkedList *list)
         list->tail = list->tail->next;
     }
 }
+#endif

@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\sort.dir/objects.a
-C:\A_TOOLS\MinGW64\13.2.0\bin\ar.exe qc CMakeFiles\sort.dir/objects.a @CMakeFiles\sort.dir\objects1.rsp
-C:\A_TOOLS\MinGW64\13.2.0\bin\gcc.exe -std=c99  -g -Wl,--whole-archive CMakeFiles\sort.dir/objects.a -Wl,--no-whole-archive -o "C:\Users\34181\Desktop\gitstudy\c learn\bin\sort.exe" -Wl,--out-implib,libsort.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\sort.dir\linkLibs.rsp

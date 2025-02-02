@@ -34,7 +34,14 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/A_TOOLS/MinGW64/13.2.0/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/A_TOOLS/MinGW64/x86_64-14.2.0-release-posix-seh-msvcrt-rt_v12-rev1/mingw64/bin/objdump.exe")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("C:/Users/34181/Desktop/gitstudy/c learn/build/src/midi_player/rtmidi/cmake_install.cmake")
+  include("C:/Users/34181/Desktop/gitstudy/c learn/build/src/midi_player/midifile/cmake_install.cmake")
+
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

@@ -412,8 +412,8 @@ const ChineseCell_t OLED_CF16x16[] = {
 	0xFF, 0x01, 0x01, 0x01, 0x31, 0x09, 0x09, 0x09, 0x09, 0x89, 0x71, 0x01, 0x01, 0x01, 0x01, 0xFF,
 	0xFF, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x96, 0x81, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0xFF, ""};
 
-const uint16_t Oled_CF_Size = sizeof(OLED_CF16x16) / sizeof(ChineseCell_t) - 1; // 最后一个不算
-uint16_t OLED_CF_Tree[sizeof(OLED_CF16x16) / sizeof(ChineseCell_t) - 1];		// OLED的中文字符索引树
+#define Oled_CF_Size ((sizeof(OLED_CF16x16) / sizeof(ChineseCell_t) - 1))	 // 最后一个不算
+uint16_t OLED_CF_Tree[sizeof(OLED_CF16x16) / sizeof(ChineseCell_t) - 1]; // OLED的中文字符索引树
 
 static inline uint16_t parent(uint16_t index)
 {

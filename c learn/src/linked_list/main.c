@@ -5,6 +5,7 @@
 #define TEST_NUMBER 5000000
 int main(int argc, char *argv[])
 {
+#ifdef __GNUC__
     setlocale(LC_CTYPE, "");
     LinkedList *list = linked_list_create();
     // 往链表尾部添加数据
@@ -31,5 +32,6 @@ int main(int argc, char *argv[])
     wprintf(L"list中有值为%d的节点:%s", TEST_NUMBER + 1, (linked_list_find_by_data(list->head, TEST_NUMBER) != NULL) ? L"true" : L"false");
     linked_list_free(list);
     system("pause");
+#endif
     return 0;
 }

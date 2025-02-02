@@ -8,14 +8,18 @@
             "name": "debug server",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/worktime.exe",
+            // "program": "${workspaceFolder}/bin/midi_extract.exe",
+            // "program": "${workspaceFolder}/bin/midi_player.exe",
+            // "program": "${workspaceFolder}/bin/test.exe",
+            "program": "${workspaceFolder}/bin/firework.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            // "cwd": "${workspaceFolder}/src/test",
+            "cwd": "${workspaceFolder}/src/firework",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb.exe",
+            "miDebuggerPath": "gdb",
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",
@@ -29,6 +33,18 @@
                 }
             ],
             "preLaunchTask": "debug"
-        }
+        },
+        {
+            "name": "MSVC Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/worktime.exe",
+            "preLaunchTask": "debug",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+        },
     ]
 }

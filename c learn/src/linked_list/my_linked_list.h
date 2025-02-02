@@ -1,5 +1,6 @@
 #ifndef __MY__LINKED__LIST__H
 #define __MY__LINKED__LIST__H
+#ifdef __GNUC__
 #include <malloc.h>
 #include <stdio.h>
 typedef struct __attribute__((__packed__)) ListNode
@@ -101,5 +102,6 @@ extern "C"
     void linked_list_merge_sort(LinkedList *list);
 #ifdef __cplusplus
 }
+#endif
 #endif
 #endif
