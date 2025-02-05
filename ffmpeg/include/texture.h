@@ -12,7 +12,7 @@ public:
     int minFilter,magFilter;
     Texture();
     Texture(int interFmt,int imageFmt);
-    void Generate(int width,int height,void *data,int dataType=GL_UNSIGNED_BYTE);
+    void Generate(int width,int height,void *data,int dataType=GL_UNSIGNED_BYTE,bool changeable=true);
     void Bind()const;
     void setFormat(int internalFormat,int imageFormat);
 };

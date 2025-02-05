@@ -69,6 +69,8 @@ else()
   add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI})# 添加可执行文件
 endif()
 
+link_directories(${CMAKE_SOURCE_DIR}/include/lib)
+
 # 链接 FMOD 和 GLFW 库（根据需要修改库文件的路径）
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/fmodL.dll)
@@ -77,4 +79,4 @@ else()
 endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw3.a)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libassimp.dll.a)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libfreetype.a)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/x64_mingw_posix_seh_msvcrt/libfreetype.a)

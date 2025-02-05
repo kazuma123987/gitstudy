@@ -24,6 +24,7 @@ public:
     float getSize() const;
 
     void setAlpha(float alpha);
+    void setVelocity(glm::vec2 velocity);
 
 private:
     glm::vec2 position;

@@ -30,6 +30,7 @@ public:
     void unfvec4N(const char *str,float *ptr,int count=1);
     void unfmat3(const char *str, glm::mat3 mat3);
     void unfmat4(const char *str, glm::mat4 mat4);
+    // 
 
 private:
     int getUniformLocation(const char *str);

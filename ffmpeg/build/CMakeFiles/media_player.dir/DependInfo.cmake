@@ -10,10 +10,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/glad/glad.c" "CMakeFiles/media_player.dir/src/glad/glad.c.obj" "gcc" "CMakeFiles/media_player.dir/src/glad/glad.c.obj.d"
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/main.cpp" "CMakeFiles/media_player.dir/src/media_player/main.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/main.cpp.obj.d"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/resource_manager.cpp" "CMakeFiles/media_player.dir/src/media_player/resource_manager.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/resource_manager.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/shader.cpp" "CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/shader.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/sound_manager.cpp" "CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/sound_manager.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/stb_image.cpp" "CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/stb_image.cpp.obj.d"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/test.cpp" "CMakeFiles/media_player.dir/src/media_player/test.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/test.cpp.obj.d"
   "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/texture.cpp" "CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/texture.cpp.obj.d"
+  "C:/Users/34181/Desktop/gitstudy/ffmpeg/src/media_player/video_player.cpp" "CMakeFiles/media_player.dir/src/media_player/video_player.cpp.obj" "gcc" "CMakeFiles/media_player.dir/src/media_player/video_player.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

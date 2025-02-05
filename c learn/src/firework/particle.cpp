@@ -108,3 +108,8 @@ void Particle::setAlpha(float alpha)
 {
     this->color.a = alpha;
 }
+
+void Particle::setVelocity(glm::vec2 velocity)
+{
+    this->velocity = velocity;
+}

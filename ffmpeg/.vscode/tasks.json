@@ -9,7 +9,7 @@
                 "Debug"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/scripts"
             },
             "problemMatcher": [
                 "$gcc"
@@ -27,7 +27,7 @@
                 "Release"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/scripts"
             },
             "problemMatcher": [
                 "$gcc"
@@ -45,7 +45,7 @@
                 "RelWithDebInfo"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/scripts"
             },
             "problemMatcher": [
                 "$gcc"
@@ -63,7 +63,7 @@
                 "MinSizeRel"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/scripts"
             },
             "problemMatcher": [
                 "$gcc"
@@ -73,5 +73,29 @@
                 "isDefault": true
             }
         },
+        {
+            "type": "shell",
+            "label": "clean",
+            "command": ["./clean.bat"],
+            "options": {
+                "cwd": "${workspaceFolder}/scripts"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "run",
+            "command":["./run.bat"],
+            "options": {
+                "cwd": "${workspaceFolder}/scripts"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
     ]
 }
