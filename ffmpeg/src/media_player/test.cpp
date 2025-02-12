@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         std::cerr << "Usage: " << argv[0] << " <video_file>" << std::endl;
-        video_path = "../res/gura.mp4"; 
+        video_path = "../res/tera.mp4"; 
     }
     else
     {

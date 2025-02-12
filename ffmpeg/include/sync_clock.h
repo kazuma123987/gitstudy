@@ -106,7 +106,7 @@ public:
     }
     void update_audio(double pts, int64_t system_time_ns)
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        // std::lock_guard<std::mutex> lock(mutex_);
         this->last_audio_pts_ = pts;
     }
     double get_master_clock() const

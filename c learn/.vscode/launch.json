@@ -5,17 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch",
+            "program": "${workspaceFolder}/bin/test.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/test",
+            "preLaunchTask": "debug"
+        },
+        {
             "name": "debug server",
             "type": "cppdbg",
             "request": "launch",
             // "program": "${workspaceFolder}/bin/midi_extract.exe",
             // "program": "${workspaceFolder}/bin/midi_player.exe",
-            // "program": "${workspaceFolder}/bin/test.exe",
-            "program": "${workspaceFolder}/bin/firework.exe",
+            "program": "${workspaceFolder}/bin/test.exe",
+            // "program": "${workspaceFolder}/bin/firework.exe",
             "args": [],
             "stopAtEntry": false,
-            // "cwd": "${workspaceFolder}/src/test",
-            "cwd": "${workspaceFolder}/src/firework",
+            "cwd": "${workspaceFolder}/src/test",
+            // "cwd": "${workspaceFolder}/src/firework",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -34,6 +43,7 @@
             ],
             "preLaunchTask": "debug"
         },
+        
         {
             "name": "MSVC Launch",
             "type": "cppvsdbg",

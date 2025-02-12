@@ -7,6 +7,8 @@ static AVPixelFormat hw_pix_fmt = AV_PIX_FMT_NONE;
 
 std::mutex decode_mux;
 
+static bool hwDecode = true;
+
 // 用于编解码上下文的get_format回调函数
 static enum AVPixelFormat custom_get_format(AVCodecContext *vCodecCtx, const enum AVPixelFormat *pix_fmt)
 {
@@ -111,8 +113,6 @@ void VideoPlayer::init_ffmpeg(const char *customPath)
     video_codec_ctx->thread_count = 8; // 线程数
 
     //*############################开启硬件加速############################
-    AVBufferRef *hwCtx = NULL;
-    bool hwDecode = false;
     // 1.查找设备
     const char *hwtypename = "d3d11va";
     AVHWDeviceType hwType = av_hwdevice_find_type_by_name(hwtypename);
@@ -143,9 +143,9 @@ void VideoPlayer::init_ffmpeg(const char *customPath)
         // 3设置编解码器获取硬件像素格式的回调函数
         video_codec_ctx->get_format = custom_get_format;
         // 4.创建硬件上下文
-        if (av_hwdevice_ctx_create(&hwCtx, hwType, NULL, NULL, 0) < 0)
+        if (av_hwdevice_ctx_create(&this->hwCtx, hwType, NULL, NULL, 0) < 0)
             printf("failed to create device context\n");
-        video_codec_ctx->hw_device_ctx = av_buffer_ref(hwCtx);
+        video_codec_ctx->hw_device_ctx = av_buffer_ref(this->hwCtx);
     }
     else
     {
@@ -208,7 +208,7 @@ void VideoPlayer::upload_frame(AVFrame *frame)
     upload_plane(image_Y, GL_RED, upload_frame->data[0],
                  upload_frame->linesize[0],
                  frame->width, frame->height,
-                 pbo_ids[next_pbo], 0, 1);
+                 pbo_ids[next_pbo], 0);
 
     // 上传UV分量（处理不同格式）
     switch (upload_frame->format)
@@ -219,11 +219,11 @@ void VideoPlayer::upload_frame(AVFrame *frame)
         upload_plane(image_U, GL_RED, upload_frame->data[1],
                      upload_frame->linesize[1],
                      frame->width / 2, frame->height / 2,
-                     pbo_ids[next_pbo], 1, 1);
+                     pbo_ids[next_pbo], 1);
         upload_plane(image_V, GL_RED, upload_frame->data[2],
                      upload_frame->linesize[2],
                      frame->width / 2, frame->height / 2,
-                     pbo_ids[next_pbo], 2, 1);
+                     pbo_ids[next_pbo], 2);
         break;
     case AV_PIX_FMT_NV12:
         nv12Shader.Use();
@@ -231,7 +231,7 @@ void VideoPlayer::upload_frame(AVFrame *frame)
         upload_plane(image_UV, GL_RG, upload_frame->data[1],
                      upload_frame->linesize[1],
                      frame->width / 2, frame->height / 2,
-                     pbo_ids[next_pbo], 1, 2);
+                     pbo_ids[next_pbo], 1);
         break;
     default:
         throw std::runtime_error("Unsupported pixel format");
@@ -251,16 +251,16 @@ void VideoPlayer::upload_frame(AVFrame *frame)
 void VideoPlayer::upload_plane(Texture &tex, GLenum format,
                                uint8_t *data, int line_size,
                                int width, int height,
-                               GLuint pbo, GLuint texID_in_shader, int scale)
+                               GLuint pbo, GLuint texID_in_shader)
 {
     glActiveTexture(GL_TEXTURE0 + texID_in_shader);
     tex.Bind();
 
     // 映射PBO内存
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
-    uint8_t *pbo_ptr = static_cast<uint8_t *>(glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, width * height * scale, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT));
+    uint8_t *pbo_ptr = static_cast<uint8_t *>(glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, line_size * height, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT));
 
-    memcpy(pbo_ptr, data, width * height * scale);
+    memcpy(pbo_ptr, data, line_size * height);
 
     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
 
@@ -279,40 +279,29 @@ void VideoPlayer::audio_callback(void *userdata, Uint8 *stream, int len)
 
     // 清空目标缓冲区
     SDL_memset(stream, 0, len);
-    // 从队列获取音频包
-    ScopedAVFrame frame(av_frame_alloc());
-    AVPacket *pkt = nullptr;
-    if (!player->audio_packet_queue.pop(pkt, 5))
+    // 从队列获取音频帧
+    AVFrame *frame = nullptr;
+    if (!player->audio_frame_quene.pop(frame, 5))
     { // 5ms超时
         return;
     }
 
-    // // 解码音频帧
-    // std::lock_guard<std::mutex> lock(decode_mux);
-    int ret = avcodec_send_packet(player->audio_codec_ctx, pkt);
-    while (ret >= 0)
-    {
-        ret = avcodec_receive_frame(player->audio_codec_ctx, frame.get());
-        if (ret == AVERROR(EAGAIN))
-            break;
-        // 重采样音频
-        uint8_t *out_data[1] = {ac.buffer.data()};
-        // 更新缓冲区
-        ac.buffer.resize(ac.buffer.capacity());
-        swr_convert(ac.swr_ctx, out_data, player->audio_ctx_.out_nb_samples,
-                    const_cast<const uint8_t **>(frame->data),
-                    frame->nb_samples);
-        // 更新同步时钟（加权平均）
-        const double frame_pts = frame->pts * av_q2d(player->audio_time_base) - len / (float)player->audio_ctx_.buffer.size();
-        // 获取当前时间点
-        auto now = std::chrono::high_resolution_clock::now();
-        // 将时间点转换为自纪元（epoch）以来的纳秒数
-        const int64_t now_ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(now).time_since_epoch().count();
-        player->sync_clock.update_audio(frame_pts, now_ns); // 平滑系数0.2
-    }
+    uint8_t *out_data[1] = {ac.buffer.data()};
+    ac.buffer.resize(ac.buffer.capacity());
+    swr_convert(ac.swr_ctx, out_data, player->audio_ctx_.out_nb_samples,
+                const_cast<const uint8_t **>(frame->data),
+                frame->nb_samples);
+    // 更新同步时钟（加权平均）
+    static int64_t lastframepts = 0;
+    double frame_pts = lastframepts * av_q2d(player->audio_time_base);
+    lastframepts = frame->pts;
+    // 获取当前时间点
+    auto now = std::chrono::high_resolution_clock::now();
+    // 将时间点转换为自纪元（epoch）以来的纳秒数
+    const int64_t now_ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(now).time_since_epoch().count();
+    player->sync_clock.update_audio(frame_pts, now_ns); // 平滑系数0.2
 
-    av_packet_unref(pkt);
-    av_packet_free(&pkt);
+    av_frame_free(&frame);
     // 计算可拷贝数据量
     const int copy_bytes = (ac.buffer.size() < len ? ac.buffer.size() : len);
     if (copy_bytes > 0)
@@ -330,29 +319,9 @@ void VideoPlayer::audio_callback(void *userdata, Uint8 *stream, int len)
 
 void VideoPlayer::present_frame()
 {
-    // 确保在OpenGL上下文线程
-    SDL_GL_MakeCurrent(window, gl_context);
-
-    // 使用同步对象避免过早交换
-    static GLsync sync_objects[3] = {0};
-    static int sync_index = 0;
-
-    if (sync_objects[sync_index])
-    {
-        glClientWaitSync(sync_objects[sync_index], 0, GL_TIMEOUT_IGNORED);
-        glDeleteSync(sync_objects[sync_index]);
-    }
-
     // 执行实际绘制命令
     if (rendererShader)
         renderer(*this->rendererShader);
-
-    // 插入新的同步对象
-    sync_objects[sync_index] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-    sync_index = (sync_index + 1) % 3;
-
-    // 交换缓冲区（带垂直同步）
-    SDL_GL_SwapWindow(window);
 
     // 错误检查
     GLenum err = glGetError();
@@ -451,179 +420,240 @@ void VideoPlayer::render_video_frame()
     constexpr double MAX_BEHIND = 0.100;     // 最大允许落后100ms
     constexpr double SYNC_THRESHOLD = 0.020; // 同步阈值20ms
 
-    while (true)
+    double audio_clock = sync_clock.get_master_clock();
+    double diff = last_video_pts_ - audio_clock;
+
+    // 动态调整阈值（基于最近10帧的渲染性能）
+    double avg_render_time = calculate_avg_render_time();
+    double dynamic_threshold = std::clamp(
+        SYNC_THRESHOLD + avg_render_time * 2.0,
+        0.005, // 最小5ms
+        0.050  // 最大50ms
+    );
+
+    if (diff > MAX_AHEAD)
     {
-        ScopedAVFrame frame;
-        if (!video_frame_queue.pop(frame, 10))
-        {
-            continue;
-        }
-
-        double audio_clock = sync_clock.get_master_clock();
-        double video_clock = frame->pts * av_q2d(video_time_base);
-        double diff = video_clock - audio_clock;
-
-        // 动态调整阈值（基于最近10帧的渲染性能）
-        double avg_render_time = calculate_avg_render_time();
-        double dynamic_threshold = std::clamp(
-            SYNC_THRESHOLD + avg_render_time * 2.0,
-            0.005, // 最小5ms
-            0.050  // 最大50ms
-        );
-
-        if (diff < -MAX_BEHIND)
-        {
-            // 严重落后：直接丢弃
-            stats_.dropped_frames++;
-            continue;
-        }
-        else if (diff < -dynamic_threshold)
-        {
-            // 轻微落后：显示但记录
-            stats_.late_frames++;
-            upload_frame(&(*frame));
-            present_frame();
-        }
-        else if (diff > MAX_AHEAD)
-        {
-            // 超前过多：精确等待
-            double sleep_time = diff - dynamic_threshold;
-            precise_sleep(sleep_time);
-            upload_frame(&(*frame));
-            present_frame();
-            continue;
-        }
-        else
-        {
-            // 在同步范围内：立即显示
-            upload_frame(&(*frame));
-            present_frame();
-        }
-
-        // 更新时钟预测模型
-        update_clock_prediction(diff);
-        break;
+        // 超前过多：精确等待
+        double sleep_time = diff;
+        precise_sleep(sleep_time);
+        return;
     }
+
+    AVFrame *frame = nullptr;
+    if (!video_frame_queue.pop(frame, 1000))
+    {
+        return;
+    }
+
+    if (diff < -MAX_BEHIND)
+    {
+        // 严重落后：直接丢弃
+        stats_.dropped_frames++;
+        // av_frame_free(&frame);
+        // return;
+    }
+    else if (diff < -dynamic_threshold)
+    {
+        // 轻微落后：显示但记录
+        stats_.late_frames++;
+        upload_frame(&(*frame));
+        present_frame();
+    }
+    else
+    {
+        // 在同步范围内：立即显示
+        upload_frame(&(*frame));
+        present_frame();
+    }
+
+    // // 更新时钟预测模型
+    // update_clock_prediction(diff);
+    last_video_pts_ = frame->pts * av_q2d(video_time_base);
+    av_frame_free(&frame);
 }
 
 //=== 解复用线程实现 ===
 void VideoPlayer::demux_loop()
 {
+    AVPacket *packet = av_packet_alloc();
+    AVFrame *vframe = av_frame_alloc();
+    AVFrame *hw_vFrame = av_frame_alloc();
+    AVFrame *aFrame = av_frame_alloc();
+    AVFrame *dstFrame = NULL;
     while (running)
     {
-        ScopedAVPacket pkt;
-        {
-            // std::lock_guard<std::mutex> lock(decode_mux);
-            if (av_read_frame(fmt_ctx, pkt.get()) < 0)
-                break;
-        }
+        if (av_read_frame(fmt_ctx, packet) < 0)
+            break;
 
         // 分支处理前克隆数据包
-        if (pkt.get()->stream_index == vIndex)
+        if (packet->stream_index == vIndex)
         {
-            // 深拷贝数据包（避免后续覆盖）
-            // AVPacket *video_pkt = av_packet_clone(pkt.get());
-            AVPacket *video_pkt = av_packet_clone(pkt.get());
-            video_packet_queue.push(std::move(video_pkt));
-        }
-        else if (pkt.get()->stream_index == aIndex)
-        {
-            AVPacket *audio_pkt = av_packet_clone(pkt.get());
-            audio_packet_queue.push(std::move(audio_pkt));
-        }
-
-        // pkt在此自动释放原数据包
-    }
-}
-
-void VideoPlayer::video_decode_loop()
-{
-    AVPacket *raw_pkt = av_packet_alloc();
-    AVFrame *hw_frame = av_frame_alloc();
-    AVFrame *sw_frame = av_frame_alloc();
-    int ret = 0;
-
-    while (running)
-    {
-        // 带超时的包获取（防止无限阻塞）
-        AVPacket *pkt = nullptr;
-        if (!video_packet_queue.pop(pkt, 5))
-        { // 50ms超时
-            continue;
-        }
-
-        // 发送数据包到解码器
-        // std::lock_guard<std::mutex> lock(decode_mux);
-        ret = avcodec_send_packet(video_codec_ctx, pkt);
-        if (ret < 0)
-        {
-            handle_decode_error(ret);
-            continue;
-        }
-
-        // 接收解码后的帧
-        while (ret >= 0)
-        {
-            ret = avcodec_receive_frame(video_codec_ctx, hw_frame);
-            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-            {
-                break;
-            }
-            else if (ret < 0)
+            int ret = avcodec_send_packet(video_codec_ctx, packet);
+            if (ret < 0)
             {
                 handle_decode_error(ret);
-                break;
+                continue;
             }
 
-            // 处理硬件加速表面
-            if (hw_frame->format == hw_pix_fmt)
+            // 接收解码后的帧
+            while (ret >= 0)
             {
-                // 从GPU显存复制到CPU内存
-                if (av_hwframe_transfer_data(sw_frame, hw_frame, 0) < 0)
+                ret = avcodec_receive_frame(video_codec_ctx, vframe);
+                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
                 {
-                    std::cerr << "硬件帧转换失败" << std::endl;
-                    continue;
+                    break;
                 }
-                sw_frame->pts = hw_frame->pts;
-            }
-            else
-            {
-                sw_frame = av_frame_clone(hw_frame);
-            }
+                else if (ret < 0)
+                {
+                    handle_decode_error(ret);
+                    break;
+                }
 
-            // 将帧放入渲染队列
-            if (sw_frame && this->video_codec_ctx->width == sw_frame->width && !video_frame_queue.push(ScopedAVFrame(sw_frame)))
-            {
-                // ++m_stats.dropped_frames_queue_full;
-                av_frame_unref(sw_frame);
-            }
+                // 处理硬件加速表面
+                if (hwDecode)
+                {
+                    // 从GPU显存复制到CPU内存
+                    if (av_hwframe_transfer_data(hw_vFrame, vframe, 0) < 0)
+                    {
+                        std::cerr << "硬件帧转换失败" << std::endl;
+                        continue;
+                    }
+                    dstFrame = av_frame_clone(hw_vFrame);
+                    dstFrame->pts = vframe->pts;
+                }
+                else
+                {
+                    dstFrame = av_frame_clone(vframe);
+                }
 
-            av_frame_unref(hw_frame);
+                video_frame_queue.push(std::move(dstFrame));
+            }
         }
+        else if (packet->stream_index == aIndex)
+        {
+            int ret = avcodec_send_packet(this->audio_codec_ctx, packet);
 
-        // // 定期更新解码器状态
-        // if (++m_decode_counter % 100 == 0)
-        // {
-        //     check_decoder_health();
-        // }
+            if (ret < 0)
+            {
+                handle_decode_error(ret);
+                continue;
+            }
+
+            // 接收解码后的帧
+            while (ret >= 0)
+            {
+                ret = avcodec_receive_frame(this->audio_codec_ctx, aFrame);
+                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+                {
+                    break;
+                }
+                else if (ret < 0)
+                {
+                    handle_decode_error(ret);
+                    break;
+                }
+
+                dstFrame = av_frame_clone(aFrame);
+
+                audio_frame_quene.push(std::move(dstFrame));
+            }
+        }
+        av_packet_unref(packet);
     }
-
-    // 刷新解码器
-    avcodec_send_packet(video_codec_ctx, nullptr);
-    while (ret >= 0)
-    {
-        ret = avcodec_receive_frame(video_codec_ctx, hw_frame);
-        if (ret == AVERROR_EOF)
-            break;
-        // 处理剩余帧...
-    }
-
-    // 清理资源
-    av_packet_free(&raw_pkt);
-    av_frame_free(&hw_frame);
-    av_frame_free(&sw_frame);
-    av_buffer_unref(&video_codec_ctx->hw_device_ctx);
+    av_packet_free(&packet);
+    av_frame_free(&vframe);
+    av_frame_free(&hw_vFrame);
+    av_frame_free(&aFrame);
 }
+
+// void VideoPlayer::video_decode_loop()
+// {
+//     AVPacket *raw_pkt = av_packet_alloc();
+//     AVFrame *hw_frame = av_frame_alloc();
+//     AVFrame *sw_frame = av_frame_alloc();
+//     int ret = 0;
+
+//     while (running)
+//     {
+//         // 带超时的包获取（防止无限阻塞）
+//         AVPacket *pkt = nullptr;
+//         if (!video_packet_queue.pop(pkt, 5))
+//         { // 50ms超时
+//             continue;
+//         }
+
+//         // 发送数据包到解码器
+//         // std::lock_guard<std::mutex> lock(decode_mux);
+//         ret = avcodec_send_packet(video_codec_ctx, pkt);
+//         if (ret < 0)
+//         {
+//             handle_decode_error(ret);
+//             continue;
+//         }
+
+//         // 接收解码后的帧
+//         while (ret >= 0)
+//         {
+//             ret = avcodec_receive_frame(video_codec_ctx, hw_frame);
+//             if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+//             {
+//                 break;
+//             }
+//             else if (ret < 0)
+//             {
+//                 handle_decode_error(ret);
+//                 break;
+//             }
+
+//             // 处理硬件加速表面
+//             if (hw_frame->format == hw_pix_fmt)
+//             {
+//                 // 从GPU显存复制到CPU内存
+//                 if (av_hwframe_transfer_data(sw_frame, hw_frame, 0) < 0)
+//                 {
+//                     std::cerr << "硬件帧转换失败" << std::endl;
+//                     continue;
+//                 }
+//                 sw_frame->pts = hw_frame->pts;
+//             }
+//             else
+//             {
+//                 sw_frame = av_frame_clone(hw_frame);
+//             }
+
+//             // 将帧放入渲染队列
+//             if (sw_frame && this->video_codec_ctx->width == sw_frame->width && !video_frame_queue.push(ScopedAVFrame(sw_frame)))
+//             {
+//                 // ++m_stats.dropped_frames_queue_full;
+//                 av_frame_unref(sw_frame);
+//             }
+
+//             av_frame_unref(hw_frame);
+//         }
+
+//         // // 定期更新解码器状态
+//         // if (++m_decode_counter % 100 == 0)
+//         // {
+//         //     check_decoder_health();
+//         // }
+//     }
+
+//     // 刷新解码器
+//     avcodec_send_packet(video_codec_ctx, nullptr);
+//     while (ret >= 0)
+//     {
+//         ret = avcodec_receive_frame(video_codec_ctx, hw_frame);
+//         if (ret == AVERROR_EOF)
+//             break;
+//         // 处理剩余帧...
+//     }
+
+//     // 清理资源
+//     av_packet_free(&raw_pkt);
+//     av_frame_free(&hw_frame);
+//     av_frame_free(&sw_frame);
+//     av_buffer_unref(&video_codec_ctx->hw_device_ctx);
+// }
 
 void VideoPlayer::handle_decode_error(int err)
 {
@@ -639,6 +669,20 @@ void VideoPlayer::handle_decode_error(int err)
 // 渲染
 void VideoPlayer::renderer(Shader &shader)
 {
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // // 确保在OpenGL上下文线程
+    // SDL_GL_MakeCurrent(window, gl_context);
+
+    // // 使用同步对象避免过早交换
+    // static GLsync sync_objects[3] = {0};
+    // static int sync_index = 0;
+
+    // if (sync_objects[sync_index])
+    // {
+    //     glClientWaitSync(sync_objects[sync_index], 0, GL_TIMEOUT_IGNORED);
+    //     glDeleteSync(sync_objects[sync_index]);
+    // }
+    shader.Use();
     static int isFirst = 1;
     if (isFirst)
     {
@@ -656,13 +700,18 @@ void VideoPlayer::renderer(Shader &shader)
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
-        glBindVertexArray(0);
         isFirst = 0;
     }
-    shader.Use();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
+
+    // // 插入新的同步对象
+    // sync_objects[sync_index] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    // sync_index = (sync_index + 1) % 3;
+
+    // 交换缓冲区（带垂直同步）
+    SDL_GL_SwapWindow(window);
 }
 
 //=============== 主事件循环 ===============
@@ -710,12 +759,12 @@ void VideoPlayer::run()
     // 创建工作线程
     std::thread demux_thread([this]
                              { demux_loop(); });
-    std::thread video_thread([this]
-                             { video_decode_loop(); });
+    // std::thread video_thread([this]
+    //                          { video_decode_loop(); });
 
     // SDL音频参数
     SDL_AudioSpec spec;
-    spec.freq = audio_codec_ctx->sample_rate;
+    spec.freq = this->audio_ctx_.out_sample_rate;
     spec.channels = audio_codec_ctx->ch_layout.nb_channels;
     spec.silence = 0;
     spec.samples = this->audio_ctx_.out_nb_samples;
@@ -750,19 +799,18 @@ void VideoPlayer::run()
     while (running)
     {
         // 处理窗口事件
-        while (SDL_PollEvent(&event))
+        SDL_PollEvent(&event);
+        // {
+        if (event.type == SDL_QUIT)
         {
-            if (event.type == SDL_QUIT)
-            {
-                running = false;
-                break;
-            }
-            else if (event.type == SDL_WINDOWEVENT)
-            {
-                if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                    glViewport(0, 0, event.window.data1, event.window.data2);
-            }
+            running = false;
         }
+        else if (event.type == SDL_WINDOWEVENT)
+        {
+            if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                glViewport(0, 0, event.window.data1, event.window.data2);
+        }
+        // }
 
         // 执行视频渲染
         render_video_frame();
@@ -771,7 +819,7 @@ void VideoPlayer::run()
     // 等待线程结束
     running = false;
     demux_thread.join();
-    video_thread.join();
+    // video_thread.join();
     SDL_CloseAudio();
     SDL_Quit();
 }

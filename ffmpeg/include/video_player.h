@@ -76,7 +76,7 @@ public:
     void upload_plane(Texture &tex, GLenum format,
                       uint8_t *data, int line_size,
                       int width, int height,
-                      GLuint pbo, GLuint texID_in_shader, int scale);
+                      GLuint pbo, GLuint texID_in_shader);
     void present_frame();
     void update_sync_stats(double diff, double render_time);
     void update_clock_prediction(double last_diff);
@@ -88,14 +88,10 @@ public:
     void renderer(Shader &shader);
     void run();
     // 队列
-    SafeQueue<AVPacket *> video_packet_queue{30}; // 最多缓存30个视频包
-    // SafeQueue<ScopedAVPacket> audio_packet_queue{100}; // 最多缓存100个音频包
-    SafeQueue<AVPacket *> audio_packet_queue{100};   // 最多缓存100个音频包
-    SafeQueue<ScopedAVFrame> video_frame_queue{100}; // 最多缓存100帧视频
-    SafeQueue<ScopedAVFrame> buffered_frame_{10};
-    // PacketQueue video_packet_queue;
-    // FrameQueue video_frame_queue;
-    // PacketQueue audio_packet_queue;
+    // SafeQueue<AVPacket *> video_packet_queue{30}; // 最多缓存30个视频包
+    // SafeQueue<AVPacket *> audio_packet_queue{100};   // 最多缓存100个音频包
+    SafeQueue<AVFrame *> video_frame_queue{100}; // 最多缓存100帧视频
+    SafeQueue<AVFrame *> audio_frame_quene{100}; // 
 
     // 线程控制
     std::atomic<bool> running{true};
@@ -115,6 +111,7 @@ private:
     AVFormatContext *fmt_ctx = nullptr;
     AVCodecContext *video_codec_ctx = nullptr;
     AVCodecContext *audio_codec_ctx = nullptr;
+    AVBufferRef *hwCtx = nullptr;
     AVRational video_time_base, audio_time_base;
     SDL_Window *window = nullptr;
     SDL_GLContext gl_context = nullptr;
@@ -132,6 +129,7 @@ private:
     const char *filename;
     int vIndex, aIndex;
     struct SyncStats stats_;
+    double last_video_pts_;
 };
 #endif
 #endif

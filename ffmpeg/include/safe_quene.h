@@ -10,7 +10,7 @@ class SafeQueue
 public:
     SafeQueue(size_t max_size = 1024) : max_size_(max_size) {}
 
-    bool push(T &&item, int timeout_ms = 0)
+   bool push(T &&item, int timeout_ms = 0)
     {
         std::unique_lock<std::mutex> lock(mutex_);
         if (timeout_ms > 0)

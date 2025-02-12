@@ -12,11 +12,6 @@
 *.map
 *.exp
 
-# Precompiled Headers
-*.gch
-*.pch
-
-
 # Executables
 *.exe
 *.out
@@ -26,24 +21,11 @@
 *.hex
 
 # Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+/build/
 
 # big files
 *.mp4
 *.fbx
 code_docs/*
-**/build/
 *.ipch
 .vs/*
