@@ -29,3 +29,5 @@
 code_docs/*
 *.ipch
 .vs/*
+fmod_api/core/examples/vs2019/.vs/
+fmod_api/studio/examples/vs2019/.vs/examples/v16/Browse.VC.db
