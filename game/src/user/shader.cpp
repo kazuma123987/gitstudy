@@ -97,6 +97,7 @@ void Shader::unfmat4(const char *str, glm::mat4 mat4)
 {
     glUniformMatrix4fv(getUniformLocation(str), 1, GL_FALSE, glm::value_ptr(mat4));
 }
+
 int Shader::getUniformLocation(const char *str)
 {
     if (uniformCache.find(str) != uniformCache.end())
@@ -109,7 +110,7 @@ void Shader::checkShaderErrors(GLuint obj, const char *type)
 {
     GLint success;
     char infoLog[1024];
-    if (strcmp(type, "PROGRAME") != 0)
+    if (strcmp(type, "PROGRAM") != 0)
     {
         glGetShaderiv(obj, GL_COMPILE_STATUS, &success);
         if (!success)
@@ -127,4 +128,45 @@ void Shader::checkShaderErrors(GLuint obj, const char *type)
             printf("ERROR::PROGRAM %s:\n%s\n", type, infoLog);
         }
     }
+}
+
+static const char *getGLErrorString(GLenum err)
+{
+    switch (err)
+    {
+    case GL_NO_ERROR:
+        return "无错误";
+    case GL_INVALID_ENUM:
+        return "GL无效枚举";
+    case GL_INVALID_VALUE:
+        return "GL无效值";
+    case GL_INVALID_OPERATION:
+        return "GL无效操作";
+    case GL_STACK_OVERFLOW:
+        return "GL_STACK_OVERFLOW";
+    case GL_STACK_UNDERFLOW:
+        return "GL_STACK_UNDERFLOW";
+    case GL_OUT_OF_MEMORY:
+        return "GL内存越界";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+        return "GL无效帧缓冲操作";
+    default:
+        return "未知 OpenGL 错误";
+    }
+}
+
+int checkGLError(void)
+{
+    int ret = 0;
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR)
+    {
+        std::cerr << "OpenGL错误: " << getGLErrorString(err) << std::endl;
+        ret = -1;
+    }
+    else
+    {
+        ret = (int)err;
+    }
+    return ret;
 }

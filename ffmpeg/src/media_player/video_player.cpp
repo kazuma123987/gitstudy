@@ -22,31 +22,6 @@ static enum AVPixelFormat custom_get_format(AVCodecContext *vCodecCtx, const enu
     return AV_PIX_FMT_NONE;
 }
 
-static const char *getGLErrorString(GLenum err)
-{
-    switch (err)
-    {
-    case GL_NO_ERROR:
-        return "无错误";
-    case GL_INVALID_ENUM:
-        return "GL无效枚举";
-    case GL_INVALID_VALUE:
-        return "GL无效值";
-    case GL_INVALID_OPERATION:
-        return "GL无效操作";
-    case GL_STACK_OVERFLOW:
-        return "GL_STACK_OVERFLOW";
-    case GL_STACK_UNDERFLOW:
-        return "GL_STACK_UNDERFLOW";
-    case GL_OUT_OF_MEMORY:
-        return "GL内存越界";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-        return "GL无效帧缓冲操作";
-    default:
-        return "未知 OpenGL 错误";
-    }
-}
-
 VideoPlayer::VideoPlayer(const char *_filename)
 {
     this->filename = _filename;
@@ -324,11 +299,7 @@ void VideoPlayer::present_frame()
         renderer(*this->rendererShader);
 
     // 错误检查
-    GLenum err = glGetError();
-    if (err != GL_NO_ERROR)
-    {
-        std::cerr << "OpenGL错误: " << getGLErrorString(err) << std::endl;
-    }
+    checkGLError();
 }
 
 void VideoPlayer::update_sync_stats(double diff, double render_time)

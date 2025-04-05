@@ -13,7 +13,7 @@
             "windowsSdkVersion": "10.0.19041.0",
             "cStandard": "c11",
             "cppStandard": "c++11",
-            "compilerPath": "C:/A_TOOLS/MinGW64/13.2.0/bin/g++.exe",
+            "compilerPath": "C:/A_TOOLS/MinGW64/x86_64-14.2.0-release-posix-seh-msvcrt-rt_v12-rev1/mingw64/bin/g++.exe",
             "intelliSenseMode": "windows-gcc-x64"
         }
     ],

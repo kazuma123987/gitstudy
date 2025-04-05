@@ -120,7 +120,7 @@ void Game::imgui_init()
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGui::StyleColorsDark();
+    ImGui::StyleColorsLight();
     ImGuiStyle &style = ImGui::GetStyle();
     style.WindowRounding = 10.0f;
     style.FrameRounding = 5.0f;

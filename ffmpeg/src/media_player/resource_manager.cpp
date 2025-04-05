@@ -32,7 +32,9 @@ Shader ResourceManager::loadShaderFromFile(const char *vpath, const char *fpath,
     vcode = loadText(vpath);
     fcode = loadText(fpath);
     if (gpath)
+    {
         gcode = loadText(gpath);
+    }
     Shader shader;
     shader.compile(vcode, fcode, gpath ? gcode : nullptr);
     free(vcode);

@@ -7,15 +7,15 @@
 #include <thread>
 #include <atomic>
 
-static inline int max(int a, int b)
-{
-    return a > b ? a : b;
-}
+// static inline int max(int a, int b)
+// {
+//     return a > b ? a : b;
+// }
 
-static inline int min(int a, int b)
-{
-    return a < b ? a : b;
-}
+// static inline int min(int a, int b)
+// {
+//     return a < b ? a : b;
+// }
 
 // 全局变量
 int windowWidth = 800;

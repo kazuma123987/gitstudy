@@ -1,2 +1,2 @@
 @echo off
-./build_clang.bat %1
+./build_gcc.bat %1

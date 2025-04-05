@@ -31,8 +31,8 @@ file(GLOB midi_player ${CMAKE_SOURCE_DIR}/src/midi_player/*.cpp)
 file(GLOB midi_extract ${CMAKE_SOURCE_DIR}/src/midi_player/midi_extract.cpp)
 file(GLOB firework ${CMAKE_SOURCE_DIR}/src/firework/*.c*)
 
-# add_subdirectory(${CMAKE_SOURCE_DIR}/src/midi_player/rtmidi)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/src/midi_player/midifile)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/midi_player/rtmidi)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/midi_player/midifile)
 
 
 # 可执行文件
@@ -54,7 +54,7 @@ file(GLOB firework ${CMAKE_SOURCE_DIR}/src/firework/*.c*)
 
 # add_executable(vector ${vector})
 
-add_executable(test ${test})
+# add_executable(test ${test})
 
 # add_executable(c_merge ${c_merge})
 
@@ -66,18 +66,20 @@ add_executable(test ${test})
 
 # add_executable(worktime ${worktime})
 
-# add_executable(midi_player ${midi_player})
+add_executable(midi_player ${midi_player})
 
-# add_executable(firework ${firework})
+add_executable(firework ${firework})
 
 
 
-# # 链接头文件
-# target_include_directories(firework PRIVATE ${CMAKE_SOURCE_DIR}/include/easyx)
+# 链接头文件
+target_include_directories(firework PRIVATE ${CMAKE_SOURCE_DIR}/include/easyx)
 
-# # 链接库目录
-# target_link_directories(firework PRIVATE ${CMAKE_SOURCE_DIR}/lib/easyx/lib64)
+# 链接库目录
+target_link_directories(firework PRIVATE ${CMAKE_SOURCE_DIR}/lib/lib64/easyx)
+target_link_directories(firework PRIVATE ${CMAKE_SOURCE_DIR}/lib/lib64/glfw)
+target_link_directories(midi_player PRIVATE ${CMAKE_SOURCE_DIR}/lib/lib64/glfw)
 
-# # 链接库
-# target_link_libraries(midi_player PRIVATE rtmidi midifile)
-# target_link_libraries(firework PRIVATE glfw3)
+# 链接库
+target_link_libraries(midi_player PRIVATE rtmidi midifile)
+target_link_libraries(firework PRIVATE glfw3)

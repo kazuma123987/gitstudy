@@ -95,9 +95,9 @@ public:
 
     // 线程控制
     std::atomic<bool> running{true};
-    std::thread demux_thread;
-    std::thread video_decode_thread;
-    std::thread audio_play_thread;
+    // std::thread demux_thread;
+    // std::thread video_decode_thread;
+    // std::thread audio_play_thread;
 
     // 同步对象
     std::mutex audio_mutex;

@@ -9,6 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/media_player.exe",
+            // "program": "${workspaceFolder}/bin/ffplay.exe",
             "args": [
             ],
             "stopAtEntry": false,
